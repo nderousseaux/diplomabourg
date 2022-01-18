@@ -3,4 +3,4 @@
 Projet Intégrateur de l'université de strasbourg année 2022
 
 Discord Du Groupe :
-https://discord.gg/9CvmujABxm 
+https://discord.gg/5EBC9eTXeF
