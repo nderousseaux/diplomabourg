@@ -1,0 +1,1431 @@
+{
+	"info": {
+		"_postman_id": "a038fd1d-33b3-46d2-ba89-2b6c7c710921",
+		"name": "Hapi",
+		"description": "Api du projet intégrateur.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "maps",
+			"item": [
+				{
+					"name": "get_all_maps",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"const idMap = pm.collectionVariables.get(\"idMap\")",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is list\", () => {",
+									"    pm.expect(r).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r.length > 0){",
+									"    pm.test(\"Response contain all properties\", () => {",
+									"        pm.expect(r[0]).to.have.all.keys('id', 'name')",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/maps",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"maps"
+							]
+						},
+						"description": "Récupère toutes les cartes du jeu"
+					},
+					"response": [
+						{
+							"name": "get_all_maps",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "X-Requested-With, authorization"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 09:59:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 15,\n        \"name\": \"carte-test\"\n    },\n    {\n        \"id\": 14,\n        \"name\": \"Europe\"\n    }\n]"
+						},
+						{
+							"name": "get_all_maps_empty",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "X-Requested-With, authorization"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:00:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					]
+				},
+				{
+					"name": "add_map",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r).to.have.all.keys('id', 'name')",
+									"});",
+									"",
+									"pm.collectionVariables.set(\"idMap\", r.id);",
+									"pm.collectionVariables.set(\"nameMap\", r.name);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"nameMap\", \"test-map-\"+ Date.now());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{nameMap}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/maps",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"maps"
+							]
+						},
+						"description": "Crée une nouvelle carte."
+					},
+					"response": [
+						{
+							"name": "add_map",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Europe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "X-Requested-With, authorization"
+								},
+								{
+									"key": "Content-Length",
+									"value": "25"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:03:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 17,\n    \"name\": \"Europe\"\n}"
+						},
+						{
+							"name": "add_map_name_already_exist",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Europe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "88"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:09:27 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"The given value 'Europe' is already used.\"\n    }\n}"
+						},
+						{
+							"name": "add_map_no_body",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "X-Requested-With, authorization"
+								},
+								{
+									"key": "Content-Length",
+									"value": "88"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:04:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting value: line 1 column 1 (char 0)\"\n    }\n}"
+						},
+						{
+							"name": "add_map_no_name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "X-Requested-With, authorization"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:05:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": [\n            {\n                \"name\": [\n                    \"This field is mandatory.\"\n                ]\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "add_map_bad_body",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":Europe\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "X-Requested-With, authorization"
+								},
+								{
+									"key": "Content-Length",
+									"value": "124"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:01:58 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting property name enclosed in double quotes: line 2 column 13 (char 14)\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get_map",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"const idMap = pm.collectionVariables.get(\"idMap\")",
+									"const nameMap = pm.collectionVariables.get(\"nameMap\")",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is object\", () => {",
+									"    pm.expect(r).to.be.an('object')",
+									"});",
+									"",
+									"pm.test(\"Id is correct\", () => {",
+									"    pm.expect(r.id == idMap)",
+									"});",
+									"",
+									"pm.test(\"Name is correct\", () => {",
+									"    pm.expect(r.name == nameMap)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/maps/:id",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"maps",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idMap}}",
+									"description": "Id de la carte à récupérer "
+								}
+							]
+						},
+						"description": "Récupère une carte par son id"
+					},
+					"response": [
+						{
+							"name": "get_map",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "19",
+											"description": "Id de la carte à récupérer "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "25"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:18:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 19,\n    \"name\": \"Europe\"\n}"
+						},
+						{
+							"name": "get_map_not_found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "120",
+											"description": "Id de la carte à récupérer "
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:17:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "get_map_invalid_id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-1",
+											"description": "Id de la carte à récupérer "
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:18:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "update_map",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"nameMap\", \"test-map-\"+ Date.now());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{nameMap}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/maps/:id",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"maps",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idMap}}",
+									"description": "Id de la carte à modifier"
+								}
+							]
+						},
+						"description": "Modifie une carte spécifique"
+					},
+					"response": [
+						{
+							"name": "update_map",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Strasbourg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "21",
+											"description": "Id de la carte à modifier"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:30:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "update_map_not_found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Europe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "100",
+											"description": "Id de la carte à modifier"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:25:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "update_map_invalid_id",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"{{nameMap}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-1",
+											"description": "Id de la carte à modifier"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:25:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "update_map_name_already_exist",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Europe\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "10",
+											"description": "Id de la carte à modifier"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:24:39 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"The given value 'Europe' is already used.\"\n    }\n}"
+						},
+						{
+							"name": "update_map_no_body",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "21",
+											"description": "Id de la carte à modifier"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "88"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:28:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting value: line 1 column 1 (char 0)\"\n    }\n}"
+						},
+						{
+							"name": "update_map_no_name",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "21",
+											"description": "Id de la carte à modifier"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:29:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": [\n            {\n                \"name\": [\n                    \"This field is mandatory.\"\n                ]\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "delete_map",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/maps/:id",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"maps",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idMap}}",
+									"description": "Id de la carte à supprimer"
+								}
+							]
+						},
+						"description": "Supprime une carte spécifique"
+					},
+					"response": [
+						{
+							"name": "delete_map",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "22",
+											"description": "Id de la carte à supprimer"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:38:42 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "delete_map_not_found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "100",
+											"description": "Id de la carte à supprimer"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:37:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "delete_map_invalid_id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/maps/:id",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"maps",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-1",
+											"description": "Id de la carte à supprimer"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "authorization, X-Requested-With"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 10:37:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Modélise les différentes cartes dans le jeu."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "nameMap",
+			"value": "Europe"
+		},
+		{
+			"key": "idMap",
+			"value": "1"
+		}
+	]
+}
