@@ -7,54 +7,19 @@
 	},
 	"item": [
 		{
-			"name": "maps",
+			"name": "Game",
 			"item": [
 				{
-					"name": "get_all_maps",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const r = pm.response.json();",
-									"const idMap = pm.collectionVariables.get(\"idMap\")",
-									"",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response is list\", () => {",
-									"    pm.expect(r).to.be.an('array').but.not.an('object')",
-									"});",
-									"",
-									"if(r.length > 0){",
-									"    pm.test(\"Response contain all properties\", () => {",
-									"        pm.expect(r[0]).to.have.all.keys('id', 'name')",
-									"    });",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Create game",
 					"request": {
-						"method": "GET",
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"username\": \"{{username}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -62,27 +27,1114 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/maps",
+							"raw": "{{serverUrl}}/games",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
-								"maps"
+								"games"
 							]
 						},
-						"description": "Récupère toutes les cartes du jeu"
+						"description": "Créer une partie."
 					},
 					"response": [
 						{
-							"name": "get_all_maps",
+							"name": "201 CREATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Poutine\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:6543/games",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"token\":\"eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9\",\n    \"game\": {\n        \"id\": 22,\n        \"name\": \"Game n°22\",\n        \"password\": \"dzZ193\",\n        \"map\": {\n            \"id\": 1,\n            \"name\": \"Europe\"\n        },\n        \"duration\": 100,\n        \"nbMaxPlayers\": 7,\n        \"state\": \"CREATING\",\n        \"players\": [\n            {\n                \"username\":\"Poutine\",\n                \"isAdmin\":true\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Configure game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{nameGame}}\",\n    \"password\": \"{{password}}\",\n    \"idMap\": {{idMap}},\n    \"duration\": {{duration}},\n    \"nbMaxPlayers\": {{nbMaxPlayers}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/games/{{idGame}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								"{{idGame}}"
+							]
+						},
+						"description": "Permet de changer les paramètres de la partie. Chaque paramètre est optionnel.\n\nCette route est accessible uniquement par l'administrateur de la partie."
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:6543/games/22",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games",
+										"22"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"id\": 22,\n    \"name\": \"Notre super partie\",\n    \"password\": \"dzZ193\",\n    \"map\": {\n        \"id\": 4,\n        \"name\": \"Strasbourg\"\n    },\n    \"duration\": 100,\n    \"nbMaxPlayers\": 7,\n    \"state\": \"CREATING\",\n    \"players\": [\n        {\n            \"username\":\"Poutine\",\n            \"isAdmin\":true\n        },\n        {\n            \"username\":\"Erdogan\",\n            \"isAdmin\":false\n        }\n    ]\n}"
+						},
+						{
+							"name": "400 BAD REQUEST",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": \"22\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": [\n            {\n                \"name\": [\n                    \"The name provided is already use.\"\n                ],\n                \"idMap\": [\n                    \"Map not found.\"\n                ]\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "403 FORBIDDEN",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"UNAUTHORIZED\",\n        \"message\": \"You do not have permission to perform this action using the credentials that you supplied.\"\n    }\n}"
+						},
+						{
+							"name": "404 NOT FOUND",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/193219",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"193219"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "410 GAME IS FINISHED",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": \"22\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22"
+									]
+								}
+							},
+							"status": "Gone",
+							"code": 410,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"GONE\",\n        \"message\": \"The requested game is finished.\" \n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Join game",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/games/:id/join",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								":id",
+								"join"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idGame}}"
+								}
+							]
+						},
+						"description": "Se connecter au moment de rejoindre une partie."
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:6543/games/22/join",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games",
+										"22",
+										"join"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"token\":\"eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9\",\n    \"game\": {\n        \"id\": 22,\n        \"name\": \"Game n°22\",\n        \"password\": \"dzZ193\",\n        \"map\": {\n            \"id\": 1,\n            \"name\": \"Europe\"\n        },\n        \"duration\": 100,\n        \"nbMaxPlayers\": 7,\n        \"state\": \"CREATING\",\n        \"players\": [\n            {\n                \"username\":\"Poutine\",\n                \"isAdmin\":true\n            },\n            {\n                \"username\":\"Erdogan\",\n                \"isAdmin\":false\n            }\n        ]\n\n    }\n}"
+						},
+						{
+							"name": "401 UNAUTHORIZED",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/124291/join",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"124291",
+										"join"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"error\": {\n        \"status\": \"UNAUTHORIZED\",\n        \"message\": \"Bad credentials.\"\n    }\n}"
+						},
+						{
+							"name": "404 ID NOT FOUND",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/123929191/join",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"123929191",
+										"join"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "404 INVALID ID",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/skaiai/join",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"skaiai",
+										"join"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "409 USERNAME ALREADY USE",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22/join",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22",
+										"join"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"error\": {\n        \"status\": \"CONFLICT\",\n        \"message\": \"The username provided is already use.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/games/:id",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idGame}}"
+								}
+							]
+						},
+						"description": "Renvoie les infos de la partie"
+					},
+					"response": [
+						{
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverUrl}}/maps",
+									"raw": "localhost:6543/games/:id",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "22"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"id\": 22,\n    \"name\": \"Notre super partie\",\n    \"map\": {\n        \"id\": 4,\n        \"name\": \"Strasbourg\"\n    },\n    \"duration\": 100,\n    \"nbMaxPlayers\": 7,\n    \"state\": \"IN_GAME\",\n    \"players\": [\n        {\n            \"username\":\"Poutine\",\n            \"isAdmin\":true\n        },\n        {\n            \"username\":\"Erdogan\",\n            \"isAdmin\":false\n        },\n        ....\n    ]\n}"
+						},
+						{
+							"name": "403 FORBIDDEN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22",
 									"host": [
 										"{{serverUrl}}"
 									],
+									"path": [
+										"games",
+										"22"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"UNAUTHORIZED\",\n        \"message\": \"You do not have permission to perform this action using the credentials that you supplied.\"\n    }\n}"
+						},
+						{
+							"name": "404 NOT FOUND",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/193219",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"193219"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Start Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/games/:id/start",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								":id",
+								"start"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idGame}}"
+								}
+							]
+						},
+						"description": "Demande le départ de la partie. (Le joueur est considéré comme \"prêt\"). Si le joueur modifie son choix de pays, il est de nouveau considéré comme en cours de décision."
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:6543/games/:id/start",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games",
+										":id",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "22"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "403 FORBIDDEN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22/start",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22",
+										"start"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"UNAUTHORIZED\",\n        \"message\": \"You do not have permission to perform this action using the credentials that you supplied.\"\n    }\n}"
+						},
+						{
+							"name": "404 NOT FOUND",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/193219/start",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"193219",
+										"start"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get countries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/games/:id/countries",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								":id",
+								"countries"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idMap}}"
+								}
+							]
+						},
+						"description": "Affiche la liste de tout les pays disponibles (en fonction du nombre de joueur dans la partie).\n\nLe champ isSelectionnable indique si le pays peut-être sélectionné. Si il est déjà pris, le champ idJoueur indique quel joueur l'a pris."
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:6543/games/:id/countries",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games",
+										":id",
+										"countries"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "22"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 21,\n        \"couleur\": \"red\",\n        \"name\": \"Italie\",\n        \"regions\": [\n            {\n                \"id\": 12,\n                \"name\": \"Toscane\",\n                \"type\": \"COTIERE\",\n                \"hasCentre\": true\n            },\n            ...\n        ],\n        \"isSelectionnable\": true\n    },\n    {\n        \"id\": 22,\n        \"couleur\": \"black\",\n        \"name\": \"Royaume-uni\",\n        \"regions\": [\n            {\n                \"id\": 11,\n                \"name\": \"Londre\",\n                \"type\": \"COTIERE\",\n                \"hasCentre\": true\n            },\n            ...\n        ],\n        \"isSelectionnable\": false,\n        \"idJoueur\": 12\n    },\n]"
+						},
+						{
+							"name": "403 FORBIDDEN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22/countries",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22",
+										"countries"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"UNAUTHORIZED\",\n        \"message\": \"You do not have permission to perform this action using the credentials that you supplied.\"\n    }\n}"
+						},
+						{
+							"name": "404 NOT FOUND",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/193219/countries",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"193219",
+										"countries"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "SelectCountry",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/games/:id/countries/:idCountry",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								":id",
+								"countries",
+								":idCountry"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{idMap}}"
+								},
+								{
+									"key": "idCountry",
+									"value": "{{idCountry}}"
+								}
+							]
+						},
+						"description": "Permet de sélectionner une puissance en début de partie"
+					},
+					"response": [
+						{
+							"name": "200 Ok",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:6543/games/:id/countries/:idCountry",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games",
+										":id",
+										"countries",
+										":idCountry"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "idCountry",
+											"value": "22"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "403 FORBIDDEN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22/countries/2",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22",
+										"countries",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"UNAUTHORIZED\",\n        \"message\": \"You do not have permission to perform this action using the credentials that you supplied.\"\n    }\n}"
+						},
+						{
+							"name": "404 NOT FOUND",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Notre super partie\",\n    \"idMap\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/193219/countries/2",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"193219",
+										"countries",
+										"2"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+						},
+						{
+							"name": "406 COUNTRY IS NOT AVAILABLE",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22/countries/2",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22",
+										"countries",
+										"2"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT ACCEPTABLE\",\n        \"message\": \"This country is not available\" \n    }\n}"
+						},
+						{
+							"name": "410 GAME IS FINISHED/STARTED",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Erdogan\",\n    \"password\": \"dzZ193\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games/22/countries/2",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games",
+										"22",
+										"countries",
+										"2"
+									]
+								}
+							},
+							"status": "Gone",
+							"code": 410,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\n    \"error\": {\n        \"status\": \"GONE\",\n        \"message\": \"The requested game is finished.\" \n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Toutes le routes en rapport avec la gestion d'une partie"
+		},
+		{
+			"name": "Maps",
+			"item": [
+				{
+					"name": "Get All maps",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/maps/",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"maps",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:6543/maps",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
 									"path": [
 										"maps"
 									]
@@ -118,389 +1170,12 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"id\": 15,\n        \"name\": \"carte-test\"\n    },\n    {\n        \"id\": 14,\n        \"name\": \"Europe\"\n    }\n]"
-						},
-						{
-							"name": "get_all_maps_empty",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{serverUrl}}/maps",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "X-Requested-With, authorization"
-								},
-								{
-									"key": "Content-Length",
-									"value": "2"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:00:22 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "[]"
+							"body": "[\n    {\n        \"id\": 15,\n        \"name\": \"carte-test\",\n        \"geojson\": {\n            \"type\": \"FeatureCollection\",\n            \"features\": [\n                {\n                    \"type\": \"Feature\",\n                    \"geometry\": {\n                        \"type\": \"Point\",\n                        \"coordinates\": [102.0, 0.5]\n                    },\n                    \"properties\": {\n                        \"prop0\": \"value0\"\n                    }\n                },\n                {\n                    \"type\": \"Feature\",\n                    \"geometry\": {\n                        \"type\": \"LineString\",\n                        \"coordinates\": [\n                            [102.0, 0.0], [103.0, 1.0], [104.0, 0.0], [105.0, 1.0]\n                        ]\n                    },\n                    \"properties\": {\n                        \"prop0\": \"value0\",\n                        \"prop1\": 0.0\n                    }\n                },\n                {\n                    \"type\": \"Feature\",\n                    \"geometry\": {\n                        \"type\": \"Polygon\",\n                        \"coordinates\": [\n                            [\n                                [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],\n                                [100.0, 1.0], [100.0, 0.0]\n                            ]\n                        ]\n                    },\n                    \"properties\": {\n                        \"prop0\": \"value0\",\n                        \"prop1\": { \"this\": \"that\" }\n                    }\n                }\n            ]\n        }\n    },\n    {\n        \"id\": 14,\n        \"name\": \"Europe\"\n    }\n]"
 						}
 					]
 				},
 				{
-					"name": "add_map",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const r = pm.response.json();",
-									"",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response contain all properties\", () => {",
-									"    pm.expect(r).to.have.all.keys('id', 'name')",
-									"});",
-									"",
-									"pm.collectionVariables.set(\"idMap\", r.id);",
-									"pm.collectionVariables.set(\"nameMap\", r.name);"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"nameMap\", \"test-map-\"+ Date.now());"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\":\"{{nameMap}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{serverUrl}}/maps",
-							"host": [
-								"{{serverUrl}}"
-							],
-							"path": [
-								"maps"
-							]
-						},
-						"description": "Crée une nouvelle carte."
-					},
-					"response": [
-						{
-							"name": "add_map",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":\"Europe\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "X-Requested-With, authorization"
-								},
-								{
-									"key": "Content-Length",
-									"value": "25"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:03:49 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"id\": 17,\n    \"name\": \"Europe\"\n}"
-						},
-						{
-							"name": "add_map_name_already_exist",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":\"Europe\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Content-Length",
-									"value": "88"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:09:27 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"The given value 'Europe' is already used.\"\n    }\n}"
-						},
-						{
-							"name": "add_map_no_body",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{serverUrl}}/maps",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "X-Requested-With, authorization"
-								},
-								{
-									"key": "Content-Length",
-									"value": "88"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:04:14 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting value: line 1 column 1 (char 0)\"\n    }\n}"
-						},
-						{
-							"name": "add_map_no_name",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "X-Requested-With, authorization"
-								},
-								{
-									"key": "Content-Length",
-									"value": "84"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:05:48 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": [\n            {\n                \"name\": [\n                    \"This field is mandatory.\"\n                ]\n            }\n        ]\n    }\n}"
-						},
-						{
-							"name": "add_map_bad_body",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":Europe\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "X-Requested-With, authorization"
-								},
-								{
-									"key": "Content-Length",
-									"value": "124"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:01:58 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting property name enclosed in double quotes: line 2 column 13 (char 14)\"\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "get_map",
+					"name": "Get Map by ID",
 					"event": [
 						{
 							"listen": "test",
@@ -566,15 +1241,16 @@
 					},
 					"response": [
 						{
-							"name": "get_map",
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
+									"raw": "localhost:6543/maps/:id",
 									"host": [
-										"{{serverUrl}}"
+										"localhost"
 									],
+									"port": "6543",
 									"path": [
 										"maps",
 										":id"
@@ -621,7 +1297,7 @@
 							"body": "{\n    \"id\": 19,\n    \"name\": \"Europe\"\n}"
 						},
 						{
-							"name": "get_map_not_found",
+							"name": "404 Not Found",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -676,7 +1352,7 @@
 							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
 						},
 						{
-							"name": "get_map_invalid_id",
+							"name": "404 Invalid Id",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -727,675 +1403,363 @@
 							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
 						}
 					]
-				},
+				}
+			],
+			"description": "Récupérer les cartes"
+		},
+		{
+			"name": "Orders",
+			"item": [
 				{
-					"name": "update_map",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 204\", () => {",
-									"    pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"nameMap\", \"test-map-\"+ Date.now());"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "GET STATE",
 					"request": {
-						"method": "PUT",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\":\"{{nameMap}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{serverUrl}}/maps/:id",
+							"raw": "{{serverUrl}}/games/:id/order",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
-								"maps",
-								":id"
+								"games",
+								":id",
+								"order"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "{{idMap}}",
-									"description": "Id de la carte à modifier"
+									"value": null
 								}
 							]
 						},
-						"description": "Modifie une carte spécifique"
+						"description": "*   L'état d'une partie\n*   la liste des joueurs.\n*   L'emplacement de chaque pion"
 					},
 					"response": [
 						{
-							"name": "update_map",
+							"name": "GET STATE",
 							"originalRequest": {
-								"method": "PUT",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":\"Strasbourg\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
+									"raw": "localhost:6543/games/:id/state",
 									"host": [
-										"{{serverUrl}}"
+										"localhost"
 									],
+									"port": "6543",
 									"path": [
-										"maps",
-										":id"
+										"games",
+										":id",
+										"state"
 									],
 									"variable": [
 										{
 											"key": "id",
-											"value": "21",
-											"description": "Id de la carte à modifier"
+											"value": null
 										}
 									]
 								}
 							},
-							"status": "No Content",
-							"code": 204,
 							"_postman_previewlanguage": "json",
 							"header": [
+								{}
+							],
+							"cookie": [
 								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:30:57 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
+									"expires": "Invalid Date"
 								}
 							],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "update_map_not_found",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":\"Europe\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "100",
-											"description": "Id de la carte à modifier"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Length",
-									"value": "77"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:25:18 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
-						},
-						{
-							"name": "update_map_invalid_id",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":\"{{nameMap}}\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "-1",
-											"description": "Id de la carte à modifier"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Length",
-									"value": "77"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:25:18 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
-						},
-						{
-							"name": "update_map_name_already_exist",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\":\"Europe\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "10",
-											"description": "Id de la carte à modifier"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Content-Length",
-									"value": "83"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:24:39 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"The given value 'Europe' is already used.\"\n    }\n}"
-						},
-						{
-							"name": "update_map_no_body",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "21",
-											"description": "Id de la carte à modifier"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Content-Length",
-									"value": "88"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:28:28 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting value: line 1 column 1 (char 0)\"\n    }\n}"
-						},
-						{
-							"name": "update_map_no_name",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
-									"host": [
-										"{{serverUrl}}"
-									],
-									"path": [
-										"maps",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "21",
-											"description": "Id de la carte à modifier"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Content-Length",
-									"value": "84"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:29:18 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": [\n            {\n                \"name\": [\n                    \"This field is mandatory.\"\n                ]\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"partie\": {\n        \"id\": 22,\n        \"name\": \"Notre super partie\",\n        \"map\": {\n            \"id\": 4,\n            \"name\": \"Strasbourg\"\n        },\n        \"duration\": 100,\n        \"nbMaxPlayers\": 7,\n        \"state\": \"IN_GAME\",\n        \"players\": [\n            {\n                \"username\":\"Poutine\",\n                \"isAdmin\":true\n            },\n            {\n                \"username\":\"Erdogan\",\n                \"isAdmin\":false\n            },\n            ....\n        ]\n    },\n    Liste des joeurs\n\n}"
 						}
 					]
 				},
 				{
-					"name": "delete_map",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 204\", () => {",
-									"    pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
+					"name": "ORDER",
 					"request": {
-						"method": "DELETE",
+						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{serverUrl}}/maps/:id",
+							"raw": "{{serverUrl}}/games/:id/state",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
-								"maps",
-								":id"
+								"games",
+								":id",
+								"state"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "{{idMap}}",
-									"description": "Id de la carte à supprimer"
+									"value": null
 								}
 							]
 						},
-						"description": "Supprime une carte spécifique"
+						"description": "*   Demande d'éxecuter un ordre"
 					},
 					"response": [
 						{
-							"name": "delete_map",
+							"name": "200 OK",
 							"originalRequest": {
-								"method": "DELETE",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
+									"raw": "localhost:6543/games/:id/state",
 									"host": [
-										"{{serverUrl}}"
+										"localhost"
 									],
+									"port": "6543",
 									"path": [
-										"maps",
-										":id"
+										"games",
+										":id",
+										"state"
 									],
 									"variable": [
 										{
 											"key": "id",
-											"value": "22",
-											"description": "Id de la carte à supprimer"
+											"value": null
 										}
 									]
 								}
 							},
-							"status": "No Content",
-							"code": 204,
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "json",
 							"header": [
+								{}
+							],
+							"cookie": [
 								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:38:42 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
+									"expires": "Invalid Date"
 								}
 							],
-							"cookie": [],
 							"body": ""
 						},
 						{
-							"name": "delete_map_not_found",
+							"name": "Ordre invalide",
 							"originalRequest": {
-								"method": "DELETE",
+								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
+									"raw": "{{serverUrl}}/games/:id/state",
 									"host": [
 										"{{serverUrl}}"
 									],
 									"path": [
-										"maps",
-										":id"
+										"games",
+										":id",
+										"state"
 									],
 									"variable": [
 										{
 											"key": "id",
-											"value": "100",
-											"description": "Id de la carte à supprimer"
+											"value": null
 										}
 									]
 								}
 							},
-							"status": "Not Found",
-							"code": 404,
+							"status": "Not Acceptable",
+							"code": 406,
 							"_postman_previewlanguage": "json",
 							"header": [
+								{}
+							],
+							"cookie": [
 								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Content-Length",
-									"value": "77"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:37:48 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
+									"expires": "Invalid Date"
 								}
 							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+							"body": "{\n    \"error\": {\n        \"status\": \"NOT ACCEPTABLE\",\n        \"message\": \"Order cannot be executed\" \n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "VALIDATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/games/:id/valid",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"games",
+								":id",
+								"valid"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
 						},
+						"description": "Valide le tour. Si une modification est faite sur les ordres, le tour n'est plus validé."
+					},
+					"response": [
 						{
-							"name": "delete_map_invalid_id",
+							"name": "200 OK",
 							"originalRequest": {
-								"method": "DELETE",
+								"method": "POST",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{serverUrl}}/maps/:id",
+									"raw": "localhost:6543/games/:id/valid",
 									"host": [
-										"{{serverUrl}}"
+										"localhost"
 									],
+									"port": "6543",
 									"path": [
-										"maps",
-										":id"
+										"games",
+										":id",
+										"valid"
 									],
 									"variable": [
 										{
 											"key": "id",
-											"value": "-1",
-											"description": "Id de la carte à supprimer"
+											"value": null
 										}
 									]
 								}
 							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "json",
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
 							"header": [
+								{}
+							],
+							"cookie": [
 								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "authorization, X-Requested-With"
-								},
-								{
-									"key": "Content-Length",
-									"value": "77"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 07 Feb 2022 10:37:48 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
+									"expires": "Invalid Date"
 								}
 							],
-							"cookie": [],
-							"body": "{\n    \"error\": {\n        \"status\": \"NOT FOUND\",\n        \"message\": \"Requested resource is not found.\"\n    }\n}"
+							"body": ""
 						}
 					]
 				}
 			],
-			"description": "Modélise les différentes cartes dans le jeu."
+			"description": "Toutes les routes utiles durant une partie"
+		},
+		{
+			"name": "Exemples d'erreurs generiques",
+			"item": [
+				{
+					"name": "Create object",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"objectName\": \"{{objectName}}\",\n    \"objectAttribute\": \"{{objectAttribute}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/objects",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"objects"
+							]
+						},
+						"description": "Créer un objet"
+					},
+					"response": [
+						{
+							"name": "400 NO BODY",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:6543/games",
+									"host": [
+										"localhost"
+									],
+									"port": "6543",
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting value: line 1 column 1 (char 0)\"\n    }\n}"
+						},
+						{
+							"name": "400 ATTRIBUTE MISSING",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"objectAttribute\": \"Je suis un attribut\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": [\n            {\n                \"objectName\": [\n                    \"This field is mandatory.\"\n                ]\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "400 BAD BODY",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"objectName\": \"nom\",\n    \"objectAttribute\": attribute\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{serverUrl}}/games",
+									"host": [
+										"{{serverUrl}}"
+									],
+									"path": [
+										"games"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": \"BAD REQUEST\",\n        \"message\": \"Expecting property objectAttribute enclosed in double quotes: line 3 column 23 (char 24)\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Des exemples d'erreurs qui peuvent survenir sur toutes les routes."
 		}
 	],
 	"event": [
@@ -1426,6 +1790,11 @@
 		{
 			"key": "idMap",
 			"value": "1"
+		},
+		{
+			"key": "bearerToken",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

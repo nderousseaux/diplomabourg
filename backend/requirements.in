@@ -1,0 +1,12 @@
+pyramid
+waitress
+alembic
+pyramid_retry
+pyramid_tm
+SQLAlchemy
+transaction
+zope.sqlalchemy
+cornice
+marshmallow
+mysqlclient
+python-dotenv
