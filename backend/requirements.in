@@ -8,5 +8,4 @@ transaction
 zope.sqlalchemy
 cornice
 marshmallow
-mysqlclient
 python-dotenv
