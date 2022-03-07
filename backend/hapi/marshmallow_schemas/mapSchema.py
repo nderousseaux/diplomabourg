@@ -10,7 +10,8 @@ from hapi.models import MapModel, DBSession
 
 class MapSchema(Schema):
     id = fields.Int(dump_only=True)
-    name = fields.Str(
+    geojson = fields.Str()
+    name = fields.Str
         required=True,
         validate=validate.NoneOf("", error="Invalid value"),
         error_messages={
@@ -37,3 +38,14 @@ class MapSchema(Schema):
                 raise ValueError("The given value '" + data["name"] + "' is already used.")
 
         return data
+
+
+
+
+
+
+
+
+
+
+
