@@ -11,7 +11,7 @@ from hapi.models import MapModel, DBSession
 class MapSchema(Schema):
     id = fields.Int(dump_only=True)
     geojson = fields.Str()
-    name = fields.Str
+    name = fields.Str(
         required=True,
         validate=validate.NoneOf("", error="Invalid value"),
         error_messages={

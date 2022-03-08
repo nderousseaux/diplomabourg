@@ -6,7 +6,8 @@ from marshmallow import (
     pre_load,
     EXCLUDE
 )
+from hapi.marshmallow_schemas.GameSchema import GameSchema
 
 class JoinGameSchema(Schema):
-    token = field.Str()
-    game =field.Nested(GameSchema)
+    token = fields.Str()
+    game =fields.Nested(GameSchema)

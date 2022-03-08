@@ -9,7 +9,7 @@ from marshmallow import (
 )
 
 class RegionsSchema(Schema):
-    id=field.Int(dump_only=True)
-    name=field.Str()
-    typeRegion=field.Str()
+    id=fields.Int(dump_only=True)
+    name=fields.Str()
+    typeRegion=fields.Str()
     hasCentre=fields.Boolean()

@@ -6,13 +6,15 @@ from marshmallow import (
     pre_load,
     EXCLUDE
 )
+from hapi.marshmallow_schemas.mapSchema import MapSchema
+from hapi.marshmallow_schemas.PlayersSchema import PlayersSchema
 
 class GameSchema(Schema):
-    id=field.Int(dump_only=True)
-    name=field.Str()
-    password = field.Str()
-    map=field.Nested(MapSchema)
-    duration = field.Int()
-    nbMaxPlayers = field.Int()
-    state = field.Str()
-    players=field.Nested(PlayersSchema)
+    id=fields.Int(dump_only=True)
+    name=fields.Str()
+    password = fields.Str()
+    map=fields.Nested(MapSchema)
+    duration = fields.Int()
+    nbMaxPlayers = fields.Int()
+    state = fields.Str()
+    players=fields.Nested(PlayersSchema)

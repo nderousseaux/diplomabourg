@@ -7,9 +7,11 @@ from marshmallow import (
     EXCLUDE
 )
 
+from hapi.marshmallow_schemas.RegionsSchema import RegionsSchema
+
 
 class ContiesSchema(Schema):
-    id=field.Int(dump_only=True)
-    couleur=field.Str()
-    name=field.Str()
-    region=field.Nested(RegionsSchema)
+    id=fields.Int(dump_only=True)
+    couleur=fields.Str()
+    name=fields.Str()
+    region=fields.Nested(RegionsSchema)

@@ -9,5 +9,5 @@ from marshmallow import (
 
 
 class PlayersSchema(Schema):
-    name = field.Str()
-    isAdmin = field.Boolean()
+    name = fields.Str()
+    isAdmin = fields.Boolean()
