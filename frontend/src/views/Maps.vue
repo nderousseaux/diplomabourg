@@ -14,7 +14,7 @@
 			name="North Sea"/>
 
 			<path
-			fill="#fcf2d4"
+			fill="grey"
 			d="M209 363 L208 367 L194 382 L197 385 L203 379 L207 386 L213 387 L221 385 L227 390 L229 385 L243 388 L245 384 L241 378 L234 374 L234 366 L232 363 L225 362 L222 365Z"
 			type="impassable"
 			name="Switzerland"/>
