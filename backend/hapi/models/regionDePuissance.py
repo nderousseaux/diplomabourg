@@ -8,7 +8,7 @@ regionDePuissance=Table(
     Base.metadata,
     Column('idPuissance',ForeignKey('puissance_c.idPuissance')),
     Column('idRegion',ForeignKey('region_c.idRegion')),
-    Column('typeUnite',String(255)),
+    Column('Unite',String(255)),
     Column('hasCenter',String(255)),
     
 )

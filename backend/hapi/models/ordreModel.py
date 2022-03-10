@@ -9,13 +9,11 @@ class OrdreModel(Base):
     
     __tablename__ = "ordre"
     idOrdre = Column(Integer, primary_key=True)
-    typeUnite = Column(String(255))
-    typeOrdre=Column(String(255))
-    regionSource=Column(String(255))
-    regionDestinanation=Column(String(255))
+    typeOrdre=Column(Integer,ForeignKey('typeOrdre.idTypeOrdre'))
+    idUnite=Column(INTEGER,nullable=False)
+    idregionSource=Column(Integer)
+    regionDestinanation=Column(Integer)
     
-    joueur=relationship(
-        'Joueur',
-        secondary='ordreJoueur',
-        back_populates='ordre'
-                      )
+    joueur=Column(Integer,ForeignKey('joueur.idJoueur'))
+    
+   
