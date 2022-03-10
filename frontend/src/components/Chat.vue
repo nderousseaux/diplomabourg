@@ -38,16 +38,16 @@ export default {
     },
     mounted(){
         
-        var chat = document.querySelector(".chat-container")
-        chat.style.height = `${window.innerHeight}px` 
-        document.querySelector(".chat-container").style.height = `${window.innerHeight}px`;
-        document.addEventListener("resize", function () {
-            document.querySelector(".chat-container").style.height = `${window.innerHeight}px`;
-        })
-        // console.log('Chat', this)
-        setTimeout(this.Show, 2000)
-        setTimeout(this.Hide, 6000)
-        this.message = ""
+        // var chat = document.querySelector(".chat-container")
+        // chat.style.height = `${window.innerHeight}px` 
+        // document.querySelector(".chat-container").style.height = `${window.innerHeight}px`;
+        // document.addEventListener("resize", function () {
+        //     document.querySelector(".chat-container").style.height = `${window.innerHeight}px`;
+        // })
+        // // console.log('Chat', this)
+        // setTimeout(this.Show, 2000)
+        // setTimeout(this.Hide, 6000)
+        // this.message = ""
 
     }
 
