@@ -7,7 +7,7 @@ class PuissanceModel(Base):
     __tablename__= "puissance_c"
     idPuissance = Column(Integer, primary_key=True )
     nomPuissance=Column(String(255), unique=True, nullable=False)
-    couleurPuissance=Column(String(255), nullable=False)
+    idCouleur=Column(Integer, ForeignKey('couleur.idCouleur'))
     
     region_c=relationship('RegionModel',
                           secondary='regionDePuissance',
@@ -27,3 +27,4 @@ class PuissanceModel(Base):
         secondary='puissanceEtCarte',
         back_populates='puissance_c'
                       )
+    unite=disposition=relationship('UniteModel')

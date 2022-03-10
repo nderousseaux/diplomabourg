@@ -18,7 +18,11 @@ class Joueur(Base):
     puissance_c=relationship('PuissanceModel',
                           secondary='puissanceJoueur',
                           back_populates='joueur')
-    ordre=relationship('OrdreModel',
-                          secondary='ordreJoueur',
+    ordre=relationship('OrdreModel')
+    
+    uniteJoueur=relationship('UniteJoueur')
+    
+    region=relationship('RegionModel',
+                          secondary='regionDeJoueur',
                           back_populates='joueur')
     
