@@ -1,0 +1,651 @@
+openapi: 3.0.0
+info:
+  description: "API du projet intégrateur. \n 
+    Cette première version ne permet de jouer qu'a 7 joueurs. En effet, une seule puissance pourra être sélectionnée par joueur. On ne peut donc jouer qu'avec toutes les puissances sélectionnées, soit les 7. \n
+    Elle ne permet pas non plus à l'administrateur de forcer le début de la partie ou le passage au tour suivant."
+  version: '0.1'
+  title: 'Hapi'
+  license:
+    name: MIT
+servers:
+- url: http://localhost:6543
+  description: Development server
+
+paths:
+    /maps/:
+        get:
+            summary: "ALL MAPS"
+            description: "Retourne toutes les cartes disponibles au jeu."
+            responses:
+                '200':
+                    $ref: '#/components/responses/MapList'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /maps/{map_id}:
+        get:
+            summary: "ONE MAP"
+            description: "Retourne la carte demandée en paramètre."
+            parameters:
+                - name: map_id
+                  description: 'ID de la carte'
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    default: '{{map_id}}'
+            responses:
+                '200':
+                    $ref: '#/components/responses/Map'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /games/:
+        post:
+            summary: "CREATE GAME"
+            description: "Créer une partie. Renvoie l'objet partie ainsi crée, ainsi que le token d'authenfication. Le créateur est automatiquement créateur de la partie."
+            requestBody:
+                description: "Nom du joueur et détail de la partie à créer. Tout les paramètres sont optionnels. Si ils ne sont pas renseignés, des valeurs aléatoires ou par défaut seront utilisés."
+                required: true
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                        example:
+                            username: "{{player_name}}"
+                            game:
+                                name: "{{game_name}}"
+                                password: "{{game_password}}"
+                                map_id: "{{map_id}}"
+            responses:
+                '201':
+                    $ref: '#/components/responses/GameAndToken'
+                '400':
+                    $ref: '#/components/responses/GameAndToken400'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /games/{game_id}:
+        parameters:
+            - name: game_id
+              description: 'ID de la partie'
+              in: path
+              required: true
+              schema:
+                  type: string
+                  default: '{{game_id}}'
+        
+        get:
+            summary: "ONE GAME"
+            description: "Retourne la partir demandée en paramètre. Demande d'être au préalable un joueur dans la partie"
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    $ref: '#/components/responses/Game'
+                '401':
+                    $ref: '#/components/responses/Unauthorized'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+        put:
+            summary: UPDATE GAME
+            description: "Mettre à jour les paramètres de la partie. Réservé à l'administrateur de la partie"
+            requestBody:
+                description: Détails à modifier dans la partie. Tout les champs sont optionnels.
+                required: true
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                        example:
+                            name: "{{game_name}}"
+                            password: "{{game_password}}"
+                            map_id: "{{map_id}}"
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    $ref: '#/components/responses/Game'
+                '400':
+                    $ref: '#/components/responses/Game400'
+                '401':
+                    $ref: '#/components/responses/Unauthorized'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /games/{game_id}/players:
+        parameters:
+            - name: game_id
+              description: 'ID de la partie'
+              in: path
+              required: true
+              schema:
+                  type: string
+                  default: '{{game_id}}'  
+        get:
+            summary: "ALL USERS"
+            description: "Récupérer tout les utilisateur de la partie. Lors de la phase de sélection, ou de jeu, cela permet de savoir qui est le gérant de quelle puissance"
+            security:
+                - bearerAuth: []
+            responses:
+                '201':
+                    $ref: '#/components/responses/Players'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'               
+        post:
+            summary: "JOIN GAME"
+            description: "Rejoindre une partie. Renvoie l'objet partie, ainsi que le token d'authenfication."
+            requestBody:
+                description: Username du joueur
+                required: true
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                        example:
+                            username: "{{player_name}}"
+            responses:
+                '201':
+                    $ref: '#/components/responses/GameAndToken'
+                '400':
+                    $ref: '#/components/responses/Player400'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '410':
+                    $ref: '#/components/responses/Game410'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /games/{game_id}/players/{player_id}:
+        parameters:
+            - name: game_id
+              description: 'ID de la partie'
+              in: path
+              required: true
+              schema:
+                  type: string
+                  default: '{{game_id}}'  
+            - name: player_id
+              description: 'ID du joueur'
+              in: path
+              required: true
+              schema:
+                  type: string
+                  default: '{{player_id}}'  
+        put:
+            summary: "UPDATE PLAYER"
+            description: "Mettre à jour un joueur. Changer son pseudo, la puissance controllée ou se déclarer près. (On ne peut modifier que son propre joueur)"
+            requestBody:
+                description: Nouvelles valeurs du joueur
+                required: true
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                        example:
+                            username: "{{player_name}}"
+                            power_id: "{{power_id}}"
+                            ready: "{{player_ready}}"
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    $ref: '#/components/responses/Player'
+                '400':
+                    $ref: '#/components/responses/Player400'
+                '401':
+                    $ref: '#/components/responses/Unauthorized'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '410':
+                    $ref: '#/components/responses/Game410'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /games/{game_id}/units/:
+        parameters:
+            - name: game_id
+              description: 'ID de la partie'
+              in: path
+              required: true
+              schema:
+                  type: string
+                  default: '{{game_id}}'  
+        get:
+            summary: 'ALL UNITS'
+            description: "Récupère la liste de toutes les unités"
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    $ref: '#/components/responses/Units'
+                '401':
+                    $ref: '#/components/responses/Unauthorized'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+    /games/{game_id}/orders/:
+        parameters:
+            - name: game_id
+              description: 'ID de la partie'
+              in: path
+              required: true
+              schema:
+                  type: string
+                  default: '{{game_id}}'  
+        get:
+            summary: 'ALL ORDERS'
+            description: "Récupère la liste des ordres données pour ce tour par le joueur connecté"
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    $ref: '#/components/responses/Orders'
+                '401':
+                    $ref: '#/components/responses/Unauthorized'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+
+        post:
+            summary: 'CREATE ORDER'
+            description: "Enregistre un ordre. Si un ordre à déjà été enregistré pour la même unitée, alors il sera écrasé par le nouvel ordre."
+            security:
+                - bearerAuth: []
+            requestBody:
+                description: "Détails de l'ordre à créer"
+                required: true
+                content:
+                    'application/json':
+                        schema:
+                            type: object
+                        example:
+                            type: "{{player_name}}"
+                            region_id: "{{region_id}}"
+                            unit_id: "{{unit_id}}"
+            responses:
+                '201':
+                    $ref: '#/components/responses/Order'
+                '400':
+                    $ref: '#/components/responses/Order400'
+                '401':
+                    $ref: '#/components/responses/Unauthorized'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                '500':
+                    $ref: '#/components/responses/InternalServerError'
+
+
+
+components:
+    responses:
+        Map:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        id: 2
+                        name: "Europe"
+                        geojson: "...geojson de la carte"
+                        powers:
+                            - id: 1
+                              name: "Allemagne"
+                              regions:
+                                - name: "kiel"
+                                  has_centre: true
+                                  type: 'MARITIME'
+                                - name: "berlin"
+                                  has_centre: false
+                                  type: 'TERRESTRE'
+                                - name: "munich"
+                                  has_centre: false
+                                  type: 'COTIERE'
+                            - id: 2
+                              name: "France"
+                              regions:
+                                - name: "brest"
+                                  has_centre: true
+                                  type: 'MARITIME'
+                                - name: "toulon"
+                                  has_centre: false
+                                  type: 'TERRESTRE'
+                                - name: "paris"
+                                  has_centre: false
+                                  type: 'COTIERE'
+        MapList:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        - id: 2
+                          name: "Europe"
+                          geojson: "...geojson de la carte"
+                          powers:
+                            - id: 1
+                              name: "Allemagne"
+                              regions:
+                                - name: "kiel"
+                                  has_centre: true
+                                  type: 'MARITIME'
+                                - name: "berlin"
+                                  has_centre: false
+                                  type: 'TERRESTRE'
+                                - name: "munich"
+                                  has_centre: false
+                                  type: 'COTIERE'
+                            - id: 2
+                              name: "France"
+                              regions:
+                                - name: "brest"
+                                  has_centre: true
+                                  type: 'MARITIME'
+                                - name: "toulon"
+                                  has_centre: false
+                                  type: 'TERRESTRE'
+                                - name: "paris"
+                                  has_centre: false
+                                  type: 'COTIERE'
+        Game:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        id: 12
+                        name: "Super partie entre potes"
+                        password: "Zsf13s"
+                        map: 
+                            id: 2
+                            name: "Europe"
+                            geojson: "...geojson de la carte"
+                            powers:
+                                - id: 1
+                                  name: "Allemagne"
+                                  regions:
+                                    - name: "kiel"
+                                      has_centre: true
+                                      type: 'MARITIME'
+                                    - name: "berlin"
+                                      has_centre: false
+                                      type: 'TERRESTRE'
+                                    - name: "munich"
+                                      has_centre: false
+                                      type: 'COTIERE'
+                                - id: 2
+                                  name: "France"
+                                  regions:
+                                    - name: "brest"
+                                      has_centre: true
+                                      type: 'MARITIME'
+                                    - name: "toulon"
+                                      has_centre: false
+                                      type: 'TERRESTRE'
+                                    - name: "paris"
+                                      has_centre: false
+                                      type: 'COTIERE'
+                        state: "CONFIGURATION"
+                        players:
+                            - id: 400
+                              name: "Poutine"
+                              isAdmin: true
+                              isYou: true
+                            - id: 402
+                              name: "Erdogan"
+                              isAdmin: false
+                              isYou: false
+        GameAndToken:
+            description: '201 Created'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                        game:
+                            id: 12
+                            name: "Super partie entre potes"
+                            password: "Zsf13s"
+                            map: 
+                                id: 2
+                                name: "Europe"
+                                geojson: "...geojson de la carte"
+                                powers:
+                                    - id: 1
+                                      name: "Allemagne"
+                                      regions:
+                                        - name: "kiel"
+                                          has_centre: true
+                                          type: 'MARITIME'
+                                        - name: "berlin"
+                                          has_centre: false
+                                          type: 'TERRESTRE'
+                                        - name: "munich"
+                                          has_centre: false
+                                          type: 'COTIERE'
+                                    - id: 2
+                                      name: "France"
+                                      regions:
+                                        - name: "brest"
+                                          has_centre: true
+                                          type: 'MARITIME'
+                                        - name: "toulon"
+                                          has_centre: false
+                                          type: 'TERRESTRE'
+                                        - name: "paris"
+                                          has_centre: false
+                                          type: 'COTIERE'
+                            state: "CONFIGURATION"
+                            players:
+                                - id: 402
+                                  name: "Erdogan"
+                                  isAdmin: true
+                                  isYou: true
+        GameAndToken400:
+            description: '400 Bad request'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        error:
+                            status: 'BAD REQUEST'
+                            message:
+                                - username:
+                                  - "The username provided is already use."
+                                  - "The len of username should be between 3 and 15"
+                                  name: 
+                                  - "The name provided is already use."
+                                  - "The len of name should be between 5 and 15"
+                                  map_id:
+                                  - "Map not found"
+                                  password:
+                                  - "The len of the password should be between 5 and 15"
+        Game400:
+            description: '400 Bad request'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        error:
+                            status: 'BAD REQUEST'
+                            message:
+                                - name: 
+                                  - "The name provided is already use."
+                                  - "The len of name should be between 5 and 15"
+                                  map_id:
+                                  - "Map not found"
+                                  password:
+                                  - "The len of the password should be between 5 and 15"
+        Game410:
+            description: '410 Gone'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        error:
+                            status: 'GONE'
+                            message: 'The game requested has already start.'
+        Players:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        - id: 400
+                          name: "Poutine"
+                          isAdmin: true
+                          isYou: true
+                          power_id: 4
+                          ready: false 
+                        - id: 402
+                          name: "Erdogan"
+                          isAdmin: false
+                          isYou: false
+                          power_id: 1
+                          ready: true
+        Player:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        id: 400
+                        name: "Poutine"
+                        isAdmin: true
+                        isYou: true
+                        ready: false
+                        power_id: 4 
+
+
+        Player400:
+            description: '400 Bad request'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        error:
+                            status: 'BAD REQUEST'
+                            message:
+                                - username:
+                                  - "The username provided is already use."
+                                  - "The len of username should be between 3 and 15"            
+                                - power_id:
+                                  - "Power not found"
+                                  - "Power already selected"
+
+        Units:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        - id: 2
+                          type: "FLOTTE"
+                          power_id: 1
+                          region_id: 21
+                        - id: 2
+                          type: "TERRESTRE"
+                          power_id: 2
+                          region_id: 12
+                    
+        Orders:
+            description: '200 Ok'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        - id: 1
+                          type: "ATTAQUE"
+                          unite_id: 23
+                          region_id: 1
+                          isValid: true
+                        - id: 3
+                          type: "SOUTIENT"
+                          unite_id: 12
+                          region_id: 5
+                          isValid: true
+        
+        Order:
+            description: '201 Created'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        id: 1
+                        type: "ATTAQUE"
+                        unite_id: 23
+                        region_id: 1
+                        isValid: true
+
+        Order400:
+            description: '400 Bad Request'
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    example:
+                        error:
+                            status: 'BAD REQUEST'
+                            message:
+                                - type:
+                                  - "Type not found"
+                                - unite_id:
+                                  - "Unite not found"
+                                  - "Region not found"
+
+        Unauthorized:
+            description: '401 Unauthorized'
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+                    example:
+                        error:
+                            status: 'UNAUTHORIZED'
+                            message: 'Bad credentials.'
+        NotFound:
+            description: '404 Not Found'
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+                    example:
+                        error:
+                            status: 'NOT FOUND'
+                            message: 'Requested resource is not found.'
+        InternalServerError:
+            description: '500 Internal Server Error'
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/Error'
+                    example:
+                        error:
+                            status: 'INTERNAL SERVER ERROR'
+                            message: 'The server encountred an internal error and was unable to complete your request.'
+
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+
+security:
+    - bearerAuth: []
