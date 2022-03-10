@@ -393,108 +393,109 @@
 			d="M163 226 L163 239 L168 246 L170 252 L169 265 L166 269 L153 271 L150 264 L151 248 L155 239 L155 228Z"
 			name="Yorkshire"/>
 
-			</svg>
-			<circle cx="291" cy="392" r="2" fill="green" stroke="none" stroke-width="0"/>
-			<circle cx="291" cy="392" r="4" fill="none" stroke="purple" stroke-width="1"/>
+			<circle cx="291" cy="392" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="291" cy="392" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="311" cy="402" r="2" fill="red" stroke="none" stroke-width="0"/>
-			// <circle cx="311" cy="402" r="4" fill="none" stroke="purple" stroke-width="1"/>
+			<circle cx="311" cy="402" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="311" cy="402" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="278" cy="417" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="278" cy="417" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="278" cy="417" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="278" cy="417" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="166" cy="256" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="166" cy="256" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="166" cy="256" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="166" cy="256" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="159" cy="288" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="159" cy="288" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="159" cy="288" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="159" cy="288" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="169" cy="313" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="169" cy="313" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="169" cy="313" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="169" cy="313" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="127" cy="348" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="127" cy="348" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="127" cy="348" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="127" cy="348" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="181" cy="366" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="181" cy="366" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="181" cy="366" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="181" cy="366" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="183" cy="426" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="183" cy="426" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="183" cy="426" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="183" cy="426" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="246" cy="308" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="246" cy="308" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="246" cy="308" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="246" cy="308" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="272" cy="317" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="272" cy="317" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="272" cy="317" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="272" cy="317" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="250" cy="373" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="250" cy="373" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="250" cy="373" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="250" cy="373" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="248" cy="412" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="248" cy="412" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="248" cy="412" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="248" cy="412" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="254" cy="465" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="254" cy="465" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="254" cy="465" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="254" cy="465" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="276" cy="484" r="2" fill="red" stroke="none" stroke-width="0"/>
-			// <circle cx="276" cy="484" r="4" fill="none" stroke="blue" stroke-width="1"/>
+			<circle cx="276" cy="484" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="276" cy="484" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="395" cy="231" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="395" cy="231" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="395" cy="231" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="395" cy="231" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="466" cy="282" r="2" fill="red" stroke="none" stroke-width="0"/>
-			// <circle cx="466" cy="282" r="4" fill="none" stroke="blue" stroke-width="1"/>
+			<circle cx="466" cy="282" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="466" cy="282" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="327" cy="333" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="327" cy="333" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="327" cy="333" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="327" cy="333" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="436" cy="382" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="436" cy="382" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="436" cy="382" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="436" cy="382" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="398" cy="472" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="398" cy="472" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="398" cy="472" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="398" cy="472" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="471" cy="475" r="2" fill="red" stroke="none" stroke-width="0"/>
-			// <circle cx="471" cy="475" r="4" fill="none" stroke="blue" stroke-width="1"/>
+			<circle cx="471" cy="475" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="471" cy="475" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="402" cy="518" r="2" fill="green" stroke="none" stroke-width="0"/>
-			// <circle cx="402" cy="518" r="4" fill="none" stroke="purple" stroke-width="1"/>
+			<circle cx="402" cy="518" r="2" fill="green" stroke="none" stroke-width="0"/>
+			<circle cx="402" cy="518" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="265" cy="219" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="265" cy="219" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="265" cy="219" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="265" cy="219" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="309" cy="227" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="309" cy="227" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="309" cy="227" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="309" cy="227" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="265" cy="285" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="265" cy="285" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="265" cy="285" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="265" cy="285" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="208" cy="320" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="208" cy="320" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="208" cy="320" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="208" cy="320" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="197" cy="333" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="197" cy="333" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="197" cy="333" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="197" cy="333" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="35" cy="442" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="35" cy="442" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="35" cy="442" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="35" cy="442" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="87" cy="445" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="87" cy="445" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="87" cy="445" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="87" cy="445" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="376" cy="433" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="376" cy="433" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="376" cy="433" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="376" cy="433" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="328" cy="443" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="328" cy="443" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="328" cy="443" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="328" cy="443" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="354" cy="455" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="354" cy="455" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="354" cy="455" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="354" cy="455" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="339" cy="508" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="339" cy="508" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="339" cy="508" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="339" cy="508" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			// <circle cx="212" cy="531" r="2" fill="black" stroke="none" stroke-width="0"/>
-			// <circle cx="212" cy="531" r="4" fill="none" stroke="black" stroke-width="1"/>
+			<circle cx="212" cy="531" r="2" fill="black" stroke="none" stroke-width="0"/>
+			<circle cx="212" cy="531" r="4" fill="none" stroke="black" stroke-width="1"/>
+
+	</svg>
 	</div>
 
 </template>
