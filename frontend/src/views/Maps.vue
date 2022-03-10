@@ -1,6 +1,6 @@
 <template>
 	<div id="map-container">
-		<svg width="100%" height="100%">
+		<svg width="40%" height="100%">
 			<path
 			fill="#b4b6cc"
 			d="M362 33 L357 39 L343 44 L324 54 L320 64 L310 75 L309 84 L303 86 L292 111 L277 132 L269 134 L264 142 L258 141 L236 154 L198 154 L171 181 L171 197 L158 193 L152 194 L154 188 L161 185 L162 181 L148 177 L148 0 L362 0Z"
@@ -190,7 +190,7 @@
 			name="Kiel"/>
 
 			<path
-			fill="#b4b6cc"
+			fill="#fcf2d4"
 			d="M244 270 L244 273 L256 266 L256 263Z"/>
 
 			<path
@@ -456,7 +456,7 @@
 			<circle cx="471" cy="475" r="2" fill="black" stroke="none" stroke-width="0"/>
 			<circle cx="471" cy="475" r="4" fill="none" stroke="black" stroke-width="1"/>
 
-			<circle cx="402" cy="518" r="2" fill="green" stroke="none" stroke-width="0"/>
+			<circle cx="402" cy="518" r="2" fill="black" stroke="none" stroke-width="0"/>
 			<circle cx="402" cy="518" r="4" fill="none" stroke="black" stroke-width="1"/>
 
 			<circle cx="265" cy="219" r="2" fill="black" stroke="none" stroke-width="0"/>
@@ -494,135 +494,41 @@
 
 			<circle cx="212" cy="531" r="2" fill="black" stroke="none" stroke-width="0"/>
 			<circle cx="212" cy="531" r="4" fill="none" stroke="black" stroke-width="1"/>
-
 	</svg>
 	</div>
 
 </template>
 
 <script>
-
-// import * as d3 from 'd3'
-// import * as topojson from 'topojson'
-// import data from '@/assets/json/maps-unminfy.json'
-
 export default {
 	name: 'Maps',
-	props: [],
-	component: {},
-	computed: {
-	},
-	methods: {
-
-
-	},
 	data() {
 		return {
 			width: window.innerWidth,
 			height: window.innerHeight
-			// width: "900",
-			// height: "600"
 		}
 	},
-	mounted() {
-
-			// var svg = d3.select("#map-container").append("svg").attr("width", this.width).attr("height", this.height-150);
-
-			// // const projection = d3.geoMercator().scale(240).translate([this.width/5, this.height-150]);
-			// const projection = d3.geoMercator().scale(280).translate([this.width/5, this.height]);
-			// const path =  d3.geoPath(projection);
-			// const g = svg.append('g');
-
-			// /* Avec l'importation des données */
-			// const maps = topojson.feature(data,
-			//     data.objects.maps);
-			// g.selectAll('path').data(maps.features).enter().append('path').attr('class', 'country').attr('d', path)
-			// .on('mouseover', mouseover).on('mouseout', mouseout).on("click", clicked);
-
-			// function mouseover() {
-			//     // Highlight hovered province
-			//     d3.select(this).style('fill', '#1483ce');
-			// }
-
-			// function mouseout (){
-			//     // Reset province color
-			//     const g = d3.select("g")
-			//     g.selectAll('path').style('fill', '#000')
-			//     // console.log('g', g)
-			// }
-
-			// function clicked (){
-			//     // Highlight hovered province
-			//     d3.select(this).style('fill', '#0f0');
-			//     console.log("cliqué", d3.select(this))
-			// }
-
-			// console.log("data", data)
-			// // console.log("land", data["objects"]["land"]["geometries"][0]["arcs"])
-			// console.log("land", data["objects"]["land"])
-			// // console.log("maps", data["objects"]["maps"]["geometries"])
-
-			// findIndice("France")
-			// getID("France")
-			// getCoord(getID("France"))
-
-			// function findIndice(countryName){
-			//     let indice = 0;
-			//     for(let i = 0; i < data["objects"]["maps"]["geometries"].length; i++){
-			//         if(data["objects"]["maps"]["geometries"][i]["properties"]["name"] == countryName){
-			//             indice = i;
-			//             console.log('indice', i)
-			//             i = data["objects"]["maps"]["geometries"].length
-			//         }
-			//     }
-			//     return indice;
-			// }
-
-			// function getID(countryName){
-			//     let indice = 0;
-			//     for(let i = 0; i < data["objects"]["maps"]["geometries"].length; i++){
-			//         if(data["objects"]["maps"]["geometries"][i]["properties"]["name"] == countryName){
-			//             indice = data["objects"]["maps"]["geometries"][i]["id"];
-			//             console.log('ID', data["objects"]["maps"]["geometries"][i]["id"] )
-			//             i = data["objects"]["maps"]["geometries"].length
-			//         }
-			//     }
-			//     return indice;
-			// }
-
-			// function getCoord(ID){
-			//     console.log("Coord", data["arcs"][ID])
-			//     return data["arcs"][ID]
-			// }
-
-
-			// function exploit(i){
-			// 	const paths = document.querySelectorAll("path")
-			// 	const coordsZ = paths[i].attributes['d'].value.toString().split("z")
-			// 	const coordsM = paths[i].attributes['d'].value.toString().split("M")
-
-			// 	console.log("Split by Z", coordsZ)
-			// 	console.log("Split by M", coordsM)
-			// }
-
-
-	}
-
-
 }
-
 </script>
-
 <style scoped>
 	#map-container{
-		width: 70%;
-		height: 600px;
-		background-color: red; /* Remove this after */
+		display: flex;
+		width: 100vw;
+		height: 85vh;
+		background-color: lightgray;
 	}
-
+	#map-container::before{
+	width: 30%;
+	visibility: hidden;
+	content: "Pseudo élément temporaire";
+	}
+	#map-container::after{
+	width: 30%;
+	visibility: hidden;
+	content: "Pseudo élément temporaire";
+	}
 	path:hover{
 		cursor: pointer;
-		fill: greenyellow;
+		fill: lightgreen;
 	}
-
 </style>
