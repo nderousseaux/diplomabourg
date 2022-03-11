@@ -1,4 +1,3 @@
-
 from marshmallow import (
     Schema,
     fields,
@@ -8,12 +7,13 @@ from marshmallow import (
     EXCLUDE
 )
 
-from hapi.models import RegionModel
+from hapi.marshmallow_schemas.RegionsSchema import RegionsSchema
+from hapi.models import puissanceModel,DBSession()
 
-
-class RegionsSchema(Schema):
+class ContriesSchema(Schema):
     id=fields.Int(dump_only=True)
-    name = fields.Str(
+    couleur=fields.Str()
+    name=fields.Str(
         required=True,
         validate=validate.NoneOf("", error="Invalid value"),
         error_messages={
@@ -21,29 +21,25 @@ class RegionsSchema(Schema):
             "null": "Field must not be null.",
         },
     )
-    typeRegion=fields.Str()
-    hasCentre=fields.Boolean()
+    region=fields.Nested(RegionsSchema)
 
-    
+
     class Meta:
         ordered = True
         unknown = EXCLUDE
 
-
-
     @post_load
     def post_load(self, data, **kwargs):
-        return RegionModel(**data)
+        return puissanceModel(**data)
 
     @pre_load
     def pre_load(self, data, many, **kwargs):
 
         if "name" in data:
-            region_l = DBSession().query(RegionModel).filter_by(name=data["name"]).first()
+            contrie = DBSession().query(puissanceModel).filter_by(name=data["name"]).first()
 
-            if region_l!= None:
+            if contrie != None:
                 raise ValueError("The given value '" + data["name"] + "' is already used.")
 
         return data
-
 

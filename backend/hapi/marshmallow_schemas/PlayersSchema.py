@@ -11,3 +11,9 @@ from marshmallow import (
 class PlayersSchema(Schema):
     name = fields.Str()
     isAdmin = fields.Boolean()
+
+
+
+    class Meta:
+        ordered = True
+        unknown = EXCLUDE
