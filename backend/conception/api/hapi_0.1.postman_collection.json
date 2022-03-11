@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "609ff277-cdd4-4cb3-a6a7-b1e43d7aade3",
+		"_postman_id": "61f544f0-1d7d-4a2b-9148-9b1d9258a32d",
 		"name": "Hapi v0.1",
 		"description": "API du projet intégrateur. \n  Cette première version ne permet de jouer qu'a 7 joueurs. En effet, une seule puissance pourra être sélectionnée par joueur. On ne peut donc jouer qu'avec toutes les puissances sélectionnées, soit les 7. \n Elle ne permet pas non plus à l'administrateur de forcer le début de la partie ou le passage au tour suivant.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -349,7 +349,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "[\n  {\n    \"id\": 400,\n    \"name\": \"Poutine\",\n    \"isAdmin\": true,\n    \"isYou\": true,\n    \"power_id\": 4,\n    \"ready\": false\n  },\n  {\n    \"id\": 402,\n    \"name\": \"Erdogan\",\n    \"isAdmin\": false,\n    \"isYou\": false,\n    \"power_id\": 1,\n    \"ready\": true\n  }\n]"
+											"body": "[\n  {\n    \"id\": 400,\n    \"name\": \"Poutine\",\n    \"isAdmin\": true,\n    \"isYou\": true,\n    \"powers_id\": [\n      4\n    ],\n    \"ready\": false\n  },\n  {\n    \"id\": 402,\n    \"name\": \"Erdogan\",\n    \"isAdmin\": false,\n    \"isYou\": false,\n    \"powers_id\": [\n      1\n    ],\n    \"ready\": true\n  }\n]"
 										},
 										{
 											"name": "404 Not Found",
@@ -764,7 +764,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+											"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -811,7 +811,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -853,7 +853,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": 400,\n  \"name\": \"Poutine\",\n  \"isAdmin\": true,\n  \"isYou\": true,\n  \"ready\": false,\n  \"power_id\": 4\n}"
+											"body": "{\n  \"id\": 400,\n  \"name\": \"Poutine\",\n  \"isAdmin\": true,\n  \"isYou\": true,\n  \"ready\": false,\n  \"powers_id\": [\n    4\n  ]\n}"
 										},
 										{
 											"name": "400 Bad request",
@@ -868,7 +868,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -925,7 +925,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -982,7 +982,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -1039,7 +1039,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -1096,7 +1096,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": \"{{power_id}}\",\n  \"ready\": \"{{player_ready}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"ready\": \"{{player_ready}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -2276,7 +2276,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"id\": 2,\n    \"type\": \"FLOTTE\",\n    \"power_id\": 1,\n    \"region_id\": 21\n  },\n  {\n    \"id\": 2,\n    \"type\": \"TERRESTRE\",\n    \"power_id\": 2,\n    \"region_id\": 12\n  }\n]"
+									"body": "[\n  {\n    \"id\": 2,\n    \"type\": \"FLOTTE\",\n    \"power_id\": 1,\n    \"src_region_id\": 21,\n    \"curr_region_id\": 12\n  },\n  {\n    \"id\": 2,\n    \"type\": \"TERRESTRE\",\n    \"power_id\": 2,\n    \"src_region_id\": 1,\n    \"curr_region_id\": 34\n  }\n]"
 								},
 								{
 									"name": "401 Unauthorized",

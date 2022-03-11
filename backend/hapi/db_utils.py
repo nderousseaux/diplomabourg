@@ -28,13 +28,14 @@ def usage(argv):
 
 def load_engine(settings):
     load_dotenv(settings['environment_file'])
-    engine = create_engine('mysql://{}:{}@{}:{}/{}'.format(
+    uri = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(
         os.getenv('MYSQL_USER'),
         os.getenv('MYSQL_PASSWORD'),
         os.getenv('MYSQL_HOST'),
         os.getenv('MYSQL_TCP_PORT'),
         os.getenv('MYSQL_DATABASE'),
-    ))
+    )
+    engine = create_engine(uri)
 
     return engine
 

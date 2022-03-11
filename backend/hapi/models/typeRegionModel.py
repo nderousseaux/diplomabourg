@@ -5,11 +5,11 @@ from hapi.models import Base
 
 
 class TypeRegionModel(Base):
-    __tablename__ = "typeRegion"
+    __tablename__ = "type_region"
     
-    idTypeRegion = Column(Integer, primary_key=True)
-    typeRegion = Column(String(255), unique=True, nullable=False)
+    #Attributes
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), unique=True, nullable=False)
     
-    region=relationship('RegionModel',
-                          secondary='regionEtTypeRegion',
-                          back_populates='typeRegion')
+    #Relationships
+    regions=relationship('RegionModel', back_populates='type_region')

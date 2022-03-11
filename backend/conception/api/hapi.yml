@@ -187,7 +187,8 @@ paths:
                             type: object
                         example:
                             username: "{{player_name}}"
-                            power_id: "{{power_id}}"
+                            power_id: 
+                                - "{{power_id_1}}"
                             ready: "{{player_ready}}"
             security:
                 - bearerAuth: []
@@ -507,13 +508,15 @@ components:
                           name: "Poutine"
                           isAdmin: true
                           isYou: true
-                          power_id: 4
+                          powers_id: 
+                              - 4
                           ready: false 
                         - id: 402
                           name: "Erdogan"
                           isAdmin: false
                           isYou: false
-                          power_id: 1
+                          powers_id: 
+                              - 1
                           ready: true
         Player:
             description: '200 Ok'
@@ -527,7 +530,8 @@ components:
                         isAdmin: true
                         isYou: true
                         ready: false
-                        power_id: 4 
+                        powers_id: 
+                            - 4
 
 
         Player400:
@@ -557,11 +561,13 @@ components:
                         - id: 2
                           type: "FLOTTE"
                           power_id: 1
-                          region_id: 21
+                          src_region_id: 21
+                          curr_region_id: 12
                         - id: 2
                           type: "TERRESTRE"
                           power_id: 2
-                          region_id: 12
+                          src_region_id: 1
+                          curr_region_id: 34
                     
         Orders:
             description: '200 Ok'

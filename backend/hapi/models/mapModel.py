@@ -6,13 +6,11 @@ from hapi.models import Base
 
 class MapModel(Base):
     __tablename__ = "map"
+    
+    #Attributes
     id = Column(Integer, primary_key=True)
     name = Column(String(255), unique=True, nullable=False)
-    region_c=relationship('RegionModel',
-                          secondary='regionDecarte',
-                          back_populates='map')
-    puissance_c=relationship('PuissanceModel',
-                          secondary='puissanceETCarte',
-                          back_populates='map')
-    disposition=relationship('Disposition')
-    partie=relationship('Partie')
+
+    #Relationships
+    powers=relationship("PowerModel", back_populates="map") 
+    games=relationship("GameModel", back_populates="map")
