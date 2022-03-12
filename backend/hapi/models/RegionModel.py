@@ -16,11 +16,13 @@ class RegionModel(Base):
     id = Column(Integer, primary_key=True )    
     name=Column(String(45), nullable=False)
     power_id=Column(Integer, ForeignKey('power.id'))
-    type_region_id=Column(Integer, ForeignKey('type_region.id'))
+    hasCenter=Column(String(45))
+
     
     #Relationships
     power = relationship('PowerModel', backref="regions")
-    type = relationship('TypeRegionModel', backref="regions")
+    type = relationship('TypeRegionModel',secondary='regionEtTypeRegion',  backref="regions")
+    dispositionUnite=relationship('dispositionUnite',backref="region")  
 
     units_src_region = relationship('UnitModel', back_populates="src_region")
     units_cur_region = relationship('UnitModel', back_populates="cur_region")
