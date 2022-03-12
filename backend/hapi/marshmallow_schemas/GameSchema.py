@@ -14,20 +14,16 @@ class GameSchema(Schema):
     id=fields.Int(dump_only=True)
     name=fields.Str(
         required=True,
-        validate=validate.NoneOf("",error="Invalid value"),
-        error_messages={
-            "required": "This field is mandatory.",
-            "null": "Field must not be null.",
-        },
-        validate=validate.Length(min=2, max=40)
+        validate=[validate.NoneOf("",error="Invalid value"),
+        validate.Length(min=2, max=40)]
     )
     password = fields.Str()
     map=fields.Nested(MapSchema)
     duration = fields.Int(
-        validete=validate.Length(max=100),error="max is 100")
+        validete=validate.range(max=100),error="max is 100")
     nbMaxPlayers = fields.Int(
-        validete=validate.Length(min=2,max=7)),error="max  players is 7")
-    )
+        validete=validate.range(min=2,max=7),error="max  players is 7")
+    
     state = fields.Str()
     players=fields.Nested(PlayersSchema)
 

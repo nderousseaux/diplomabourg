@@ -32,7 +32,7 @@ class MapSchema(Schema):
     def pre_load(self, data, many, **kwargs):
 
         if "name" in data:
-            map = DBSession().query(MapModel).filter_by(name=data["name"]).first()
+            map = DBSession().query(mapModel).filter_by(name=data["name"]).first()
 
             if map != None:
                 raise ValueError("The given value '" + data["name"] + "' is already used.")

@@ -8,7 +8,7 @@ from marshmallow import (
     EXCLUDE
 )
 
-from hapi.models import RegionModel
+from hapi.models import RegionModel,DBSession
 
 
 class RegionsSchema(Schema):

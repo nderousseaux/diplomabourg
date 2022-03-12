@@ -8,7 +8,7 @@ from marshmallow import (
 )
 
 from hapi.marshmallow_schemas.RegionsSchema import RegionsSchema
-from hapi.models import puissanceModel,DBSession()
+from hapi.models import puissanceModel,DBSession
 
 class ContriesSchema(Schema):
     id=fields.Int(dump_only=True)
