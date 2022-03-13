@@ -12,4 +12,4 @@ class TypeRegionModel(Base):
     name = Column(String(255), unique=True, nullable=False)
     
     #Relationships
-    regions=relationship('RegionModel',secondary='regionEtTypeRegion',back_populates='type_region')
+    regions=relationship('RegionModel',secondary='typeRegionRegion',back_populates='types')

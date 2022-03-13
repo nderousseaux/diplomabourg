@@ -18,12 +18,12 @@ from .playerModel import PlayerModel
 from .powerModel import PowerModel
 from .typeRegionModel import TypeRegionModel
 from .regionModel import RegionModel
-from .regionETtypeRegion import regionEtTypeRegion
+from .typeRegionRegion import TypeRegionRegion
 from .stateModel import StateModel
 from .typeOrderModel import TypeOrderModel
 from .typeRegionModel import TypeRegionModel
 from .typeUnitModel import TypeUnitModel
-from .dipositionUnite import DispositionUniteModel
+from .dipositionUnitModel import DispositionUnitModel
 from .unitModel import UnitModel
 
 #TODO: Changer tout les "" en ''

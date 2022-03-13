@@ -3,8 +3,8 @@ from sqlalchemy.orm import relationship
 
 from hapi.models import Base
 
-regionEtTypeRegion=Table(
-    'regionEtTypeRegion',
+typeRegionRegion=Table(
+    'type_region_region',
     Base.metadata,
     Column('idRegion',ForeignKey('region.id')),
     Column('idTypeRegion',ForeignKey('type_region.id')),

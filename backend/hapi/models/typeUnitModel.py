@@ -13,3 +13,4 @@ class TypeUnitModel(Base):
     
     #Relationships
     units=relationship('UnitModel', back_populates='type_unit')
+    dispositionsUnit=relationship('DispositionUnitModel', back_populates='type_unit')

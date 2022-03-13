@@ -17,13 +17,13 @@ class RegionModel(Base):
     name=Column(String(45), nullable=False)
     abreviation=Column(String(10), nullable=False)
     power_id=Column(Integer, ForeignKey('power.id'))
-    hasCenter=Column(String(45))
+    hasCenter=Column(Boolean)
 
     
     #Relationships
     power = relationship('PowerModel', backref="regions")
-    type = relationship('TypeRegionModel',secondary='regionEtTypeRegion',  backref="regions")
-    dispositionUnite=relationship('dispositionUnite',backref="region")  
+    types = relationship('TypeRegionModel',secondary='typeRegionRegion',  back_populates="regions")
+    dispositionsUnit=relationship('dispositionUnitModel',backref="region")   
 
     units_src_region = relationship('UnitModel', back_populates="src_region")
     units_cur_region = relationship('UnitModel', back_populates="cur_region")
@@ -36,7 +36,7 @@ class RegionModel(Base):
                            secondaryjoin=id==adjoining.c.dst_region_id)
 
 
-    def beNeigbours(self, neighbour): #TODO: Dire à amadou
+    def beNeigbours(self, neighbour):
         if neighbour not in self.neighbours:
             self.neighbours.append(neighbours)
             neighbour.neighbours.append(self)
