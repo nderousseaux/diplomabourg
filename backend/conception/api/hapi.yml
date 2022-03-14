@@ -626,12 +626,12 @@ components:
                     example:
                         - id: 1
                           type: "ATTAQUE"
-                          unite_id: 23
+                          unit_id: 23
                           region_id: 1
                           is_valid: true
                         - id: 3
                           type: "SOUTIENT"
-                          unite_id: 12
+                          unit_id: 12
                           region_id: 5
                           is_valid: true
         
@@ -644,7 +644,7 @@ components:
                     example:
                         id: 1
                         type: "ATTAQUE"
-                        unite_id: 23
+                        unit_id: 23
                         region_id: 1
                         is_valid: true
 
@@ -660,8 +660,9 @@ components:
                             message:
                                 - type:
                                   - "Type not found"
-                                - unite_id:
-                                  - "Unite not found"
+                                - unit_id:
+                                  - "Unit not found"
+                                - region_id:
                                   - "Region not found"
 
         Unauthorized:

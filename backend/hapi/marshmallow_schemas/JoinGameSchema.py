@@ -1,18 +1,18 @@
 from marshmallow import (
     Schema,
     fields,
-    validate,
-    post_load,
-    pre_load,
-    EXCLUDE
+    validate
 )
-from hapi.marshmallow_schemas.GameSchema import GameSchema
+from hapi.marshmallow_schemas import GameSchema
 
 class JoinGameSchema(Schema):
-    token = fields.Str()
+    username = fields.Str(
+        validate=[
+            validate.Length(min=3, max=15, error="The len of username should be between 3 and 15")
+        ]
+    )
     game =fields.Nested(GameSchema)
 
 
     class Meta:
         ordered = True
-        unknown = EXCLUDE
