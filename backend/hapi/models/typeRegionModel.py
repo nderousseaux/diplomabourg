@@ -2,7 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
 from hapi.models import Base
-
+from hapi.models.typeRegionRegion import typeRegionRegion
 
 class TypeRegionModel(Base):
     __tablename__ = "type_region"
@@ -12,4 +12,6 @@ class TypeRegionModel(Base):
     name = Column(String(255), unique=True, nullable=False)
     
     #Relationships
-    regions=relationship('RegionModel',secondary='typeRegionRegion',back_populates='types')
+    regions=relationship('RegionModel',
+        secondary=typeRegionRegion,
+        back_populates='types')

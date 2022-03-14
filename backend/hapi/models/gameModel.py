@@ -14,6 +14,6 @@ class GameModel(Base):
     state_id = Column(Integer, ForeignKey('state.id'))
 
     #Relationships
-    map = relationship('MapModel', backref='games')
-    state = relationship('StateModel', backref='games')
-    players = relationship('PlayerModel', back_populates='game')
+    map = relationship('MapModel', back_populates='games')
+    state = relationship('StateModel', back_populates='games')
+    players = relationship('PlayerModel',  back_populates='game')

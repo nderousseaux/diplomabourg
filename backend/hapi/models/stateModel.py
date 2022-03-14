@@ -11,4 +11,4 @@ class StateModel(Base):
     name = Column(String(45), nullable=False)
 
     #Relationships
-    games = relationship('GameModel', back_populates='state')
+    games = relationship('GameModel',  back_populates='state')

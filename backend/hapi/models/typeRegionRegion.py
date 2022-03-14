@@ -3,9 +3,9 @@ from sqlalchemy.orm import relationship
 
 from hapi.models import Base
 
-typeRegionRegion=Table(
+typeRegionRegion = Table(
     'type_region_region',
     Base.metadata,
-    Column('idRegion',ForeignKey('region.id')),
-    Column('idTypeRegion',ForeignKey('type_region.id')),
+    Column('region_id', Integer, ForeignKey('region.id')),
+    Column('type_region_id',Integer, ForeignKey('type_region.id')),
 )

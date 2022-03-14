@@ -13,6 +13,6 @@ class DispositionUnitModel(Base):
     region_id = Column(Integer,ForeignKey('region.id'),primary_key=True)
 
     #Relationships
-    type_unit = relationship("typeUniteModel",backref='dispositionsUnit')
-    region = relationship("regionModel", backref='dispositionsUnit')
+    type_unit = relationship("TypeUnitModel", back_populates='dispositions_unit')
+    region = relationship("RegionModel", back_populates='dispositions_unit')
     

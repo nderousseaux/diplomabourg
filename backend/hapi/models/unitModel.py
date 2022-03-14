@@ -16,16 +16,22 @@ class UnitModel(Base):
     player_power_player_id = Column(Integer, ForeignKey('player_power.player_id'))
     
     #Relationships
-    type_unit = relationship('TypeUnitModel', backref='units')
-    src_region=relationship('RegionModel', backref="units_src_region")
-    cur_region=relationship('RegionModel', backref="units_cur_region")
+    type_unit = relationship('TypeUnitModel',  back_populates='units')
+    src_region=relationship('RegionModel', 
+        primaryjoin="UnitModel.src_region_id == RegionModel.id",
+        back_populates="units_src_region")
+    cur_region=relationship('RegionModel', 
+        primaryjoin="UnitModel.cur_region_id == RegionModel.id",
+        back_populates="units_cur_region")
     player=relationship(
-        'player',
-        primaryjoin='unit.player_power_player_id == player.id',
-        backref="units"
+        'PlayerModel',
+        primaryjoin='foreign(UnitModel.player_power_player_id) == PlayerModel.id',
+        back_populates="units"
     )
     power=relationship(
-        'power',
-        primaryjoin='unit.player_power_power_id == power.id'
+        'PowerModel',
+        primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
+        back_populates='units'   
     )
+    order=relationship('OrderModel', back_populates='unit')
 

@@ -9,7 +9,7 @@ class ColorModel(Base):
 
     #Attributes
     id = Column(Integer, primary_key=True)
-    rgb= Column(String(45), unique=True, nullable=False)
+    rgb= Column(String(45), nullable=False)
     
     #Relationships
     powers=relationship('PowerModel', back_populates="color")

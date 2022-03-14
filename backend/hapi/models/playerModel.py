@@ -3,7 +3,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
 from hapi.models import Base
-from hapi.models.playerPowerModel import playerPowerModel
+from hapi.models.playerPower import playerPower
 
 
 class PlayerModel(Base):
@@ -16,13 +16,13 @@ class PlayerModel(Base):
     game_id=Column(Integer ,ForeignKey('game.id'))
     
     #Relationships
-    game = relationship('GameModel', backref='players')
+    game = relationship('GameModel', back_populates='players')
     powers=relationship("PowerModel",
-        secondary=playerPowerModel,
+        secondary=playerPower,
         back_populates="players"
     )
     units=relationship(
-        "UnitsModel",
-        primaryjoin='unit.player_power_player_id == player.id',
+        "UnitModel",
+        primaryjoin='foreign(UnitModel.player_power_player_id) == PlayerModel.id',
         back_populates='player'    
     )
