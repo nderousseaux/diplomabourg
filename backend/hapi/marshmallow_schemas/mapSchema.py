@@ -6,7 +6,7 @@ from marshmallow import (
     pre_load,
     EXCLUDE
 )
-from hapi.models import MapModel, DBSession
+from hapi.models import mapModel, DBSession
 
 class MapSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -26,13 +26,13 @@ class MapSchema(Schema):
 
     @post_load
     def post_load(self, data, **kwargs):
-        return MapModel(**data)
+        return mapModel(**data)
 
     @pre_load
     def pre_load(self, data, many, **kwargs):
 
         if "name" in data:
-            map = DBSession().query(MapModel).filter_by(name=data["name"]).first()
+            map = DBSession().query(mapModel).filter_by(name=data["name"]).first()
 
             if map != None:
                 raise ValueError("The given value '" + data["name"] + "' is already used.")
