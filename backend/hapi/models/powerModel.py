@@ -2,7 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
 from hapi.models import Base
-from hapi.models.playerPowerModel import playerPowerModel
+from hapi.models.playerPower import playerPower
 
 class PowerModel(Base):
     __tablename__= "power"
@@ -14,11 +14,18 @@ class PowerModel(Base):
     map_id=Column(Integer, ForeignKey('map.id'))
 
     #Relationships
-    color=relationship('ColorModel', backref="powers")
-    map=relationship('MapModel', backref="powers")
+    color=relationship('ColorModel', back_populates="powers")
+    map=relationship('MapModel', back_populates="powers")
     regions=relationship('RegionModel', back_populates="power")
-    dispositions=relationship('DispositionModel', back_populates="power")
+    dispositions=relationship('DispositionModel', 
+        primaryjoin="DispositionModel.power_id==PowerModel.id",
+        back_populates="power")
+
     players=relationship("PlayerModel",
-        secondary=playerPowerModel,
+        secondary=playerPower,
         back_populates="powers"
+    )
+    units=relationship("UnitModel", 
+        primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
+        back_populates="power"
     )
