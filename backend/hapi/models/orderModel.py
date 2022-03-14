@@ -12,6 +12,7 @@ class OrderModel(Base):
     src_region_id = Column(Integer, ForeignKey('region.id'))
     dst_region_id = Column(Integer, ForeignKey('region.id'))
     unit_id = Column(Integer, ForeignKey('unit.id'))
+    is_valid= Column(Boolean)
     
     #Relationships
     type_order=relationship('TypeOrderModel',  back_populates='orders')

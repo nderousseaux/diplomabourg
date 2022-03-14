@@ -298,27 +298,41 @@ components:
                             - id: 1
                               name: "Allemagne"
                               regions:
-                                - name: "kiel"
+                                - id: 23
+                                  name: "kiel"
                                   has_centre: true
-                                  type: 'MARITIME'
-                                - name: "berlin"
+                                  type: 
+                                      - 'MARITIME'
+                                - id: 12
+                                  name: "berlin"
                                   has_centre: false
-                                  type: 'TERRESTRE'
-                                - name: "munich"
+                                  type: 
+                                      - 'TERRESTRE'
+                                - id: 1
+                                  name: "munich"
                                   has_centre: false
-                                  type: 'COTIERE'
+                                  type: 
+                                    - 'COTIERE'
+                                    - 'TERRESTRE'
                             - id: 2
                               name: "France"
                               regions:
-                                - name: "brest"
+                                - id: 2
+                                  name: "brest"
                                   has_centre: true
-                                  type: 'MARITIME'
-                                - name: "toulon"
+                                  type: 
+                                      - 'MARITIME'
+                                - id: 3
+                                  name: "toulon"
                                   has_centre: false
-                                  type: 'TERRESTRE'
-                                - name: "paris"
+                                  type: 
+                                      - 'TERRESTRE'
+                                - id: 4
+                                  name: "paris"
                                   has_centre: false
-                                  type: 'COTIERE'
+                                  type: 
+                                    - 'COTIERE'
+                                    - 'TERRESTRE'
         MapList:
             description: '200 Ok'
             content:
@@ -333,27 +347,41 @@ components:
                             - id: 1
                               name: "Allemagne"
                               regions:
-                                - name: "kiel"
+                                - id: 23
+                                  name: "kiel"
                                   has_centre: true
-                                  type: 'MARITIME'
-                                - name: "berlin"
+                                  type: 
+                                      - 'MARITIME'
+                                - id: 12
+                                  name: "berlin"
                                   has_centre: false
-                                  type: 'TERRESTRE'
-                                - name: "munich"
+                                  type: 
+                                      - 'TERRESTRE'
+                                - id: 1
+                                  name: "munich"
                                   has_centre: false
-                                  type: 'COTIERE'
+                                  type: 
+                                    - 'COTIERE'
+                                    - 'TERRESTRE'
                             - id: 2
                               name: "France"
                               regions:
-                                - name: "brest"
+                                - id: 2
+                                  name: "brest"
                                   has_centre: true
-                                  type: 'MARITIME'
-                                - name: "toulon"
+                                  type: 
+                                        - 'MARITIME'
+                                - id: 3
+                                  name: "toulon"
                                   has_centre: false
-                                  type: 'TERRESTRE'
-                                - name: "paris"
+                                  type: 
+                                      - 'TERRESTRE'
+                                - id: 4
+                                  name: "paris"
                                   has_centre: false
-                                  type: 'COTIERE'
+                                  type: 
+                                    - 'COTIERE'
+                                    - 'TERRESTRE'
         Game:
             description: '200 Ok'
             content:
@@ -372,37 +400,47 @@ components:
                                 - id: 1
                                   name: "Allemagne"
                                   regions:
-                                    - name: "kiel"
+                                    - id: 23
+                                      name: "kiel"
                                       has_centre: true
                                       type: 'MARITIME'
-                                    - name: "berlin"
+                                    - id: 12
+                                      name: "berlin"
                                       has_centre: false
                                       type: 'TERRESTRE'
-                                    - name: "munich"
+                                    - id: 1
+                                      name: "munich"
                                       has_centre: false
-                                      type: 'COTIERE'
+                                      type: 
+                                        - 'COTIERE'
+                                        - 'TERRESTRE'
                                 - id: 2
                                   name: "France"
                                   regions:
-                                    - name: "brest"
+                                    - id: 2
+                                      name: "brest"
                                       has_centre: true
                                       type: 'MARITIME'
-                                    - name: "toulon"
+                                    - id: 3
+                                      name: "toulon"
                                       has_centre: false
                                       type: 'TERRESTRE'
-                                    - name: "paris"
+                                    - id: 4
+                                      name: "paris"
                                       has_centre: false
-                                      type: 'COTIERE'
+                                      type: 
+                                        - 'COTIERE'
+                                        - 'TERRESTRE'
                         state: "CONFIGURATION"
                         players:
                             - id: 400
                               name: "Poutine"
-                              isAdmin: true
-                              isYou: true
+                              is_admin: true
+                              is_you: true
                             - id: 402
                               name: "Erdogan"
-                              isAdmin: false
-                              isYou: false
+                              is_admin: false
+                              is_you: false
         GameAndToken:
             description: '201 Created'
             content:
@@ -423,33 +461,43 @@ components:
                                     - id: 1
                                       name: "Allemagne"
                                       regions:
-                                        - name: "kiel"
+                                        - id: 23
+                                          name: "kiel"
                                           has_centre: true
                                           type: 'MARITIME'
-                                        - name: "berlin"
+                                        - id: 12
+                                          name: "berlin"
                                           has_centre: false
                                           type: 'TERRESTRE'
-                                        - name: "munich"
+                                        - id: 1
+                                          name: "munich"
                                           has_centre: false
-                                          type: 'COTIERE'
+                                          type: 
+                                            - 'COTIERE'
+                                            - 'TERRESTRE'
                                     - id: 2
                                       name: "France"
                                       regions:
-                                        - name: "brest"
+                                        - id: 2
+                                          name: "brest"
                                           has_centre: true
                                           type: 'MARITIME'
-                                        - name: "toulon"
+                                        - id: 3
+                                          name: "toulon"
                                           has_centre: false
                                           type: 'TERRESTRE'
-                                        - name: "paris"
+                                        - id: 4
+                                          name: "paris"
                                           has_centre: false
-                                          type: 'COTIERE'
+                                          type: 
+                                            - 'COTIERE'
+                                            - 'TERRESTRE'
                             state: "CONFIGURATION"
                             players:
                                 - id: 402
                                   name: "Erdogan"
-                                  isAdmin: true
-                                  isYou: true
+                                  is_admin: true
+                                  is_you: true
         GameAndToken400:
             description: '400 Bad request'
             content:
@@ -506,15 +554,15 @@ components:
                     example:
                         - id: 400
                           name: "Poutine"
-                          isAdmin: true
-                          isYou: true
+                          is_admin: true
+                          is_you: true
                           powers_id: 
                               - 4
                           ready: false 
                         - id: 402
                           name: "Erdogan"
-                          isAdmin: false
-                          isYou: false
+                          is_admin: false
+                          is_you: false
                           powers_id: 
                               - 1
                           ready: true
@@ -527,8 +575,8 @@ components:
                     example:
                         id: 400
                         name: "Poutine"
-                        isAdmin: true
-                        isYou: true
+                        is_admin: true
+                        is_you: true
                         ready: false
                         powers_id: 
                             - 4
@@ -580,12 +628,12 @@ components:
                           type: "ATTAQUE"
                           unite_id: 23
                           region_id: 1
-                          isValid: true
+                          is_valid: true
                         - id: 3
                           type: "SOUTIENT"
                           unite_id: 12
                           region_id: 5
-                          isValid: true
+                          is_valid: true
         
         Order:
             description: '201 Created'
@@ -598,7 +646,7 @@ components:
                         type: "ATTAQUE"
                         unite_id: 23
                         region_id: 1
-                        isValid: true
+                        is_valid: true
 
         Order400:
             description: '400 Bad Request'

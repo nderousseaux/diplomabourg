@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "61f544f0-1d7d-4a2b-9148-9b1d9258a32d",
+		"_postman_id": "051d5d17-e9da-489e-804d-18645a3309d5",
 		"name": "Hapi v0.1",
 		"description": "API du projet intégrateur. \n  Cette première version ne permet de jouer qu'a 7 joueurs. En effet, une seule puissance pourra être sélectionnée par joueur. On ne peut donc jouer qu'avec toutes les puissances sélectionnées, soit les 7. \n Elle ne permet pas non plus à l'administrateur de forcer le début de la partie ou le passage au tour suivant.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"

@@ -14,6 +14,7 @@ class PlayerModel(Base):
     pseudo=Column(String(255), nullable=False)
     is_admin=Column(Boolean, nullable=False)
     game_id=Column(Integer ,ForeignKey('game.id'))
+    is_ready=Column(Boolean)
     
     #Relationships
     game = relationship('GameModel', back_populates='players')
