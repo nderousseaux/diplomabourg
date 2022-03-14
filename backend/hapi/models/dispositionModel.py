@@ -3,13 +3,13 @@ from sqlalchemy.orm import relationship
 
 from hapi.models import Base
 
-class Disposition(Base):
-    
+class DispositionModel(Base):
     __tablename__="disposition"
     
-    idDisposition=Column(Integer, primary_key=True)
-    idCarte=Column(Integer,ForeignKey('map.id'))
-    nbJoueur=Column(Integer,nullable=False,unique=True)
-    puissance_c=relationship('PuissanceModel',
-                          secondary='categoriePuissance',
-                          back_populates='disposition')
+    #Attributes
+    nbPlayer=Column(Integer, primary_key=True)
+    power_id=Column(Integer, ForeignKey('power.id'), primary_key=True)
+    player_index=Column(Integer, nullable=False)
+
+    #Relationship
+    power=relationship('PowerModel', backref='dispositions')

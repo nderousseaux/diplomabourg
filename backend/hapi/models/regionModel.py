@@ -3,30 +3,40 @@ from sqlalchemy.orm import relationship
 
 from hapi.models import Base
 
+adjoining = Table(
+    'adjoining', Base.metadata,
+    Column('dst_region_id', Integer, ForeignKey('region.id')),
+    Column('src_region_id', Integer, ForeignKey('region.id')),
+    UniqueConstraint('dst_region_id', 'src_region_id', name='unique_adjoining'))
+
 class RegionModel(Base):
-    __tablename__= "region_c"
-    idRegion = Column(Integer, primary_key=True )
+    __tablename__= "region"
+
+    #Attributes
+    id = Column(Integer, primary_key=True )    
+    name=Column(String(45), nullable=False)
+    abreviation=Column(String(10), nullable=False)
+    power_id=Column(Integer, ForeignKey('power.id'))
+    hasCenter=Column(Boolean)
+
     
-    nomRegion=Column(String(255), nullable=False ,unique=True)
-    
-    typeRegion=relationship(
-        'TypeRegionModel',
-         secondary='regionEtTypeRegion',
-         back_populates='region_c'
-    )
-    
-    map=relationship(
-        'MapModel',
-         secondary='regionDecarte',
-         back_populates='region_c'
-    )
-    puissance_c=relationship('PuissanceModel',
-                          secondary='regionDePuissance',
-                          back_populates='region_c')
-    voisin = relationship('RegionModel', remote_side=['idRegion'], backref='voisinRegion')
-    
-    unite=disposition=relationship('UniteModel')
-    
-    joueur=relationship('JoueurModel',
-                          secondary='regionDeJoueur',
-                          back_populates='region_c')
+    #Relationships
+    power = relationship('PowerModel', backref="regions")
+    types = relationship('TypeRegionModel',secondary='typeRegionRegion',  back_populates="regions")
+    dispositionsUnit=relationship('dispositionUnitModel',backref="region")   
+
+    units_src_region = relationship('UnitModel', back_populates="src_region")
+    units_cur_region = relationship('UnitModel', back_populates="cur_region")
+    orders_src_region = relationship('OrderModel', back_populates="src_region")
+    orders_dst_region = relationship('OrderModel', back_populates="dst_region")
+
+
+    neighbours = relationship("RegionModel", secondary=adjoining, 
+                           primaryjoin=id==adjoining.c.src_region_id,
+                           secondaryjoin=id==adjoining.c.dst_region_id)
+
+
+    def beNeigbours(self, neighbour):
+        if neighbour not in self.neighbours:
+            self.neighbours.append(neighbours)
+            neighbour.neighbours.append(self)
