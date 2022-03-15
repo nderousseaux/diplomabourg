@@ -19,6 +19,8 @@ from .models import (
 
 from .models import *
 
+from .models.data import *
+
 from dotenv import load_dotenv
 
 def usage(argv):
@@ -45,7 +47,8 @@ def pre(argv):
     os.system("env/bin/python setup.py develop && env/bin/python setup.py install")
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
-    engine = load_engine(settings)
+    #engine = load_engine(settings)
+    engine =create_engine("mysql+pymysql://root:Amadou0899@127.0.0.1:3306/diplomacyDataBases")
 
     return engine
 
@@ -61,6 +64,13 @@ def fill(argv=sys.argv):
     engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
-    color = ColorModel(rgb="aaaaa")
-    session.add(color)
-    session.commit()
+    
+    insertMaps(maps,session,MapModel)
+    insertColor(colors,session,ColorModel)
+    insertPower(powers,session,PowerModel)
+    insertTypeRegion(typeRegion,session,TypeRegionModel)
+    insertTypeUnite(typeUnite,session,TypeUnitModel)
+    
+
+    
+   
