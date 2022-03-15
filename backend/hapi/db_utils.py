@@ -17,7 +17,7 @@ from .models import (
     Base,
 )
 
-from .models.mapModel import MapModel
+from .models import *
 
 from dotenv import load_dotenv
 
@@ -28,20 +28,21 @@ def usage(argv):
 
 def load_engine(settings):
     load_dotenv(settings['environment_file'])
-    engine = create_engine('mysql://{}:{}@{}:{}/{}'.format(
+    uri = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(
         os.getenv('MYSQL_USER'),
         os.getenv('MYSQL_PASSWORD'),
         os.getenv('MYSQL_HOST'),
         os.getenv('MYSQL_TCP_PORT'),
         os.getenv('MYSQL_DATABASE'),
-    ))
+    )
+    engine = create_engine(uri)
 
     return engine
 
 def pre(argv):
     if len(argv) != 2:
         usage(argv)
-    os.system("python setup.py develop && python setup.py install")
+    os.system("env/bin/python setup.py develop && env/bin/python setup.py install")
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
     engine = load_engine(settings)
@@ -60,6 +61,6 @@ def fill(argv=sys.argv):
     engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
-    map1 = MapModel(name="Europe")
-    session.add(map1)
+    color = ColorModel(rgb="aaaaa")
+    session.add(color)
     session.commit()
