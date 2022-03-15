@@ -36,7 +36,7 @@ class GameSchema(Schema):
     
     @post_load
     def post_load(self, data, **kwargs):
-        return gameModel(**data)
+        return GameModel(**data)
 
     @pre_load
     def pre_load(self, data, **kwargs):
@@ -48,6 +48,6 @@ class GameSchema(Schema):
             else:
                 data["map"] = map
 
-        return gameModel(**data)
+        return GameModel(**data)
 
 
