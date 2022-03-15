@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b4aae792-3bcc-4f3d-b946-170165986c81",
+		"_postman_id": "a23961ae-8db4-4682-a636-fd5b9da8921f",
 		"name": "Hapi v0.1",
 		"description": "API du projet intégrateur. \n  Cette première version ne permet de jouer qu'a 7 joueurs. En effet, une seule puissance pourra être sélectionnée par joueur. On ne peut donc jouer qu'avec toutes les puissances sélectionnées, soit les 7. \n Elle ne permet pas non plus à l'administrateur de forcer le début de la partie ou le passage au tour suivant.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -453,7 +453,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+											"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"password\": \"{{game_password}}\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -494,7 +494,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"password\": \"{{game_password}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -545,7 +545,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"password\": \"{{game_password}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -596,7 +596,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"password\": \"{{game_password}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -647,7 +647,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"password\": \"{{game_password}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -698,7 +698,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+													"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"power_id\": [\n    \"{{power_id_1}}\"\n  ],\n  \"password\": \"{{game_password}}\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"

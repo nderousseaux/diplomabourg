@@ -148,6 +148,9 @@ paths:
                             type: object
                         example:
                             username: "{{player_name}}"
+                            "power_id":
+                              - "{{power_id_1}}"
+                            password: "{{game_password}}"
             responses:
                 '201':
                     $ref: '#/components/responses/GameAndToken'
