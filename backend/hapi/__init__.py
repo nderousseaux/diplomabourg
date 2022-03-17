@@ -1,6 +1,8 @@
 import pyramid.httpexceptions as exception
 from pyramid.config import Configurator
 from pyramid.view import exception_view_config, notfound_view_config
+from pyramid.authorization import ACLAuthorizationPolicy
+
 from sqlalchemy import engine_from_config
 from pyramid.renderers import JSON
 from hapi.models import DBSession, Base
@@ -28,4 +30,11 @@ def main(global_config, **settings):
     config.include("cornice")
     config.include('.routes')
     config.scan()
+
+    config.set_authorization_policy(ACLAuthorizationPolicy())
+    # Enable JWT authentication.
+    config.include("pyramid_jwt")
+    config.set_jwt_authentication_policy("secret", auth_type="Bearer", expiration=21600)
+
+
     return config.make_wsgi_app()

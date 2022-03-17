@@ -1,10 +1,13 @@
 from marshmallow import (
     Schema,
     fields,
+    EXCLUDE,
+    post_load,
+    pre_load
 )
 
-from hapi.marshmallow_schemas import UnitSchema
-from hapi.marshmallow_schemas import RegionSchema
+from hapi.marshmallow_schemas.unitSchema import UnitSchema
+from hapi.marshmallow_schemas.regionSchema import RegionSchema
 
 from hapi.models import DBSession, OrderModel, UnitModel, RegionModel
 
@@ -31,7 +34,7 @@ class OrderSchema(Schema):
             unit = DBSession().query(UnitModel).get(data["unit_id"])
 
             if unit == None:
-                raise ValidationError("Unit not found", ["unit_id"])
+                raise ValidationError("Unit not found", "unit_id")
             else:
                 data["unit"] = unit
 
@@ -39,7 +42,7 @@ class OrderSchema(Schema):
             region = DBSession().query(RegionModel).get(data["region_id"])
 
             if region == None:
-                raise ValidationError("region not found", ["region_id"])
+                raise ValidationError("region not found", "region_id")
             else:
                 data["region"] = region
 

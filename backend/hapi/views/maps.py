@@ -2,7 +2,7 @@ from cornice.resource import resource
 from hapi.cors import cors_policy
 import pyramid.httpexceptions as exception
 
-from hapi.marshmallow_schemas import MapSchema
+from hapi.marshmallow_schemas.mapSchema import MapSchema
 from hapi.models import MapModel, DBSession
 from hapi.service_informations import ServiceInformations
 

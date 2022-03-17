@@ -3,7 +3,7 @@ from marshmallow import (
     fields
 )
 from hapi.models import mapModel, DBSession
-from hapi.marshmallow_schemas import PowerSchema
+from hapi.marshmallow_schemas.powerSchema import PowerSchema
 
 class MapSchema(Schema):
     id = fields.Int(dump_only=True)

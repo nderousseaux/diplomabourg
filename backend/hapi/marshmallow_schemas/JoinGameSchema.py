@@ -3,7 +3,7 @@ from marshmallow import (
     fields,
     validate
 )
-from hapi.marshmallow_schemas import GameSchema
+from hapi.marshmallow_schemas.gameSchema import GameSchema
 
 class JoinGameSchema(Schema):
     username = fields.Str(
@@ -11,7 +11,7 @@ class JoinGameSchema(Schema):
             validate.Length(min=3, max=15, error="The len of username should be between 3 and 15")
         ]
     )
-    game =fields.Nested(GameSchema)
+    game =fields.Nested(GameSchema())
 
 
     class Meta:
