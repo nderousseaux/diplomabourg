@@ -18,6 +18,7 @@ from .models import (
 )
 
 from .models import *
+from .models.regionModel import adjoining
 
 from .models.data import *
 
@@ -70,6 +71,11 @@ def fill(argv=sys.argv):
     insertPower(powers,session,PowerModel)
     insertTypeRegion(typeRegion,session,TypeRegionModel)
     insertTypeUnite(typeUnite,session,TypeUnitModel)
+    insertRegion(regions,session,RegionModel)
+    insertRegion(regionsToulouse,session,RegionModel)
+    insertion_voisin(voisinage,engine,adjoining)
+    insert_disposition_unite(dispositionUnite,session,DispositionUnitModel)
+    
     
 
     
