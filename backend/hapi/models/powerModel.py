@@ -14,9 +14,9 @@ class PowerModel(Base):
     map_id=Column(Integer, ForeignKey('map.id'))
 
     #Relationships
+    disposition_unit=relationship('DispositionUnitModel', back_populates="power")
     color=relationship('ColorModel', back_populates="powers")
     map=relationship('MapModel', back_populates="powers")
-    regions=relationship('RegionModel', back_populates="power")
     dispositions=relationship('DispositionModel', 
         primaryjoin="DispositionModel.power_id==PowerModel.id",
         back_populates="power")
@@ -29,3 +29,4 @@ class PowerModel(Base):
         primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
         back_populates="power"
     )
+    

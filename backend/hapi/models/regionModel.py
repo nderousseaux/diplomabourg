@@ -16,18 +16,18 @@ class RegionModel(Base):
     #Attributes
     id = Column(Integer, primary_key=True )    
     name=Column(String(45), nullable=False)
-    abreviation=Column(String(10), nullable=False)
-    power_id=Column(Integer, ForeignKey('power.id'))
-    hasCenter=Column(Boolean)
+    map_id=Column(Integer, ForeignKey('map.id'))
+   
+    hasCenter=Column(Boolean, nullable=False)
 
     
     #Relationships
-    power = relationship('PowerModel',  back_populates="regions")
+    map=relationship('MapModel', back_populates="regions")
     types = relationship('TypeRegionModel',
         secondary=typeRegionRegion,
         back_populates="regions"
     )
-    dispositions_unit=relationship('DispositionUnitModel', back_populates="region")   
+    disposition_unit=relationship('DispositionUnitModel', back_populates="region")   
 
     units_src_region = relationship('UnitModel',
         primaryjoin="UnitModel.src_region_id == RegionModel.id",
