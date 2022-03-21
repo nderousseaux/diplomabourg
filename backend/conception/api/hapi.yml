@@ -52,7 +52,8 @@ paths:
                         schema:
                             type: object
                         example:
-                            username: "{{player_name}}"
+                            player:
+                                username: "{{player_name}}"
                             game:
                                 name: "{{game_name}}"
                                 password: "{{game_password}}"
@@ -139,6 +140,12 @@ paths:
         post:
             summary: "JOIN GAME"
             description: "Rejoindre une partie. Renvoie l'objet partie, ainsi que le token d'authenfication."
+            parameters:
+              - in: query
+                name: password
+                schema:
+                    type: string
+                    default: "{{game_password}}"
             requestBody:
                 description: Username du joueur
                 required: true
@@ -148,14 +155,12 @@ paths:
                             type: object
                         example:
                             username: "{{player_name}}"
-                            "power_id":
-                              - "{{power_id_1}}"
-                            password: "{{game_password}}"
+
             responses:
                 '201':
                     $ref: '#/components/responses/GameAndToken'
                 '400':
-                    $ref: '#/components/responses/Player400'
+                    $ref: '#/components/responses/Player400' #Pas de problème de sélection lors du post
                 '404':
                     $ref: '#/components/responses/NotFound'
                 '410':

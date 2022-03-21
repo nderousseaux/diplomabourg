@@ -12,7 +12,7 @@ class PlayerModel(Base):
     #Attributes
     id = Column(Integer, primary_key=True)
     username=Column(String(45), nullable=False)
-    is_admin=Column(Boolean, nullable=False)
+    is_admin=Column(Boolean, nullable=False, default=False)
     game_id=Column(Integer ,ForeignKey('game.id'))
     is_ready=Column(Boolean, default=False)
     

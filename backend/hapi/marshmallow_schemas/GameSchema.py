@@ -4,6 +4,7 @@ from marshmallow import (
     validate,
     post_load,
     pre_load,
+    pre_dump,
     ValidationError,
     EXCLUDE
 )
@@ -53,4 +54,7 @@ class GameSchema(Schema):
 
         return data
 
-
+    def add_is_you(self, game, player):
+        player = [p for p in game["players"] if p["id"] == player.id][0]
+        player["is_you"] = True
+        return game

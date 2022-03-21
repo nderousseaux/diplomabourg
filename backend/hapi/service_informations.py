@@ -84,8 +84,9 @@ class ServiceInformations:
         switcher = {
             400: "Bad Request.",
             401: "Bad credentials.",
-            403: "You do not have permission to perform this action using the credentials that you supplied.",
+            403: "You do not have permission to perform this action.",
             404: "Requested resource is not found.",
+            410: "Requested resource is no longer available",
             415: "Unsupported media type.",
             500: "The server encountred an internal error and was unable to complete your request.",
         }
