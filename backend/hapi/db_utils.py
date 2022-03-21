@@ -72,9 +72,9 @@ def fill(argv=sys.argv):
     insertTypeRegion(typeRegion,session,TypeRegionModel)
     insertTypeUnite(typeUnite,session,TypeUnitModel)
     insertRegion(regions,session,RegionModel)
-    insertRegion(regionsToulouse,session,RegionModel)
-    insertion_voisin(voisinage,engine,adjoining)
     insert_disposition_unite(dispositionUnite,session,DispositionUnitModel)
+    insertion_voisin(voisinage,engine,adjoining)
+    insertRegTypeReg(reg_type_reg,engine,typeRegionRegion)
     
     
 
