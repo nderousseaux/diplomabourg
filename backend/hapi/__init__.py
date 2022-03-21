@@ -5,7 +5,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 
 from sqlalchemy import engine_from_config
 from pyramid.renderers import JSON
-from hapi.models import DBSession, Base
+from hapi.models import DBSession, Base, PlayerModel
 from hapi.db_utils import load_engine
 from hapi.service_informations import ServiceInformations
 
@@ -16,6 +16,16 @@ def notfound_view(request):
 @exception_view_config(Exception)
 def exception_view(request):
     return request.si.catch_error(request.exception)
+
+def get_user(request):
+    id = request.authenticated_userid
+    if id is not None:
+        try:
+            user = DBSession().query(PlayerModel).\
+                filter_by(id=id).one()
+            return user
+        except NoResultFound:
+            return None
 
 def main(global_config, **settings):
     config = Configurator(settings=settings)
@@ -35,6 +45,8 @@ def main(global_config, **settings):
     # Enable JWT authentication.
     config.include("pyramid_jwt")
     config.set_jwt_authentication_policy("secret", auth_type="Bearer", expiration=21600)
+
+    config.add_request_method(get_user, "user", reify=True)
 
 
     return config.make_wsgi_app()

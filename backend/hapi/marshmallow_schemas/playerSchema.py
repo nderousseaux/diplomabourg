@@ -39,3 +39,8 @@ class PlayerSchema(Schema):
             raise ValidationError("The username provided is already use.", "username")
 
         return player
+
+    def add_is_you(self, players, user):
+        player = [p for p in players if p["id"] == user.id][0]
+        player["is_you"] = True
+        return players

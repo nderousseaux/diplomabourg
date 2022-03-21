@@ -22,6 +22,19 @@ class Players():
         if self.game == None:
             raise exception.HTTPNotFound()
 
+
+    def collection_get(self):
+        #On vérifie que l'user connecté à bien accès à cette game
+        if self.request.user == None or self.request.user.game != self.game:
+            return self.request.si.build_response(
+                exception.HTTPUnauthorized())
+
+        players = PlayerSchema().dump(self.game.players, many=True)
+
+        return self.request.si.build_response(
+            exception.HTTPOk(),
+            PlayerSchema().add_is_you(players, self.request.user))
+
     def collection_post(self):
         #On charge le body
         data = PlayerSchema().load(self.request.json)
