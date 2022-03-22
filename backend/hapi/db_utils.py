@@ -73,6 +73,7 @@ def fill(argv=sys.argv):
     insert_disposition_unite(dispositionUnite,session,DispositionUnitModel)
     insertion_voisin(voisinage,engine,adjoining)
     insertRegTypeReg(reg_type_reg,engine,typeRegionRegion)
+    insertState(states,session,StateModel)
     
     
 

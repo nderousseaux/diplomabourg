@@ -91,26 +91,26 @@ powers=[
 
 typeRegion=[
     {
-        "name":"Land"
+        "name":"LAND"
     },
     {
-        "name":"Sea"
+        "name":"SEA"
     },
     {
-        "name":"Coast"
+        "name":"COAST"
     },
 ]
 
 typeUnite=[
     {
-        "name":"Army"
+        "name":"ARMY"
     },
     {
-        "name":"Fleet"
+        "name":"FLEET"
     },
     
     {
-        "name": "Center"
+        "name": "CENTER"
     }
    
 ]
@@ -521,6 +521,10 @@ reg_type_reg=[
     {"region_id" : 75, "type_region_id" : [0,2]}
     ]
 
+states=[
+    {"id":1, "name":"CONFIGURATION"}
+]
+
 
 
 
@@ -589,3 +593,9 @@ def insertRegTypeReg(reg_type_reg,engine,table):
             for dest in type_list:
                 new_line=table.insert().values(region_id=r["region_id"]+1,type_region_id=dest+1);
                 engine.execute(new_line) 
+
+def insertState(state,session,table):
+    for st in state:
+        new_state=table(id=st["id"], name=st["name"])
+        session.add(new_state)
+        session.commit() 

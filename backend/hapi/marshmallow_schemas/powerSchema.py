@@ -9,7 +9,6 @@ from hapi.marshmallow_schemas.regionSchema import RegionSchema
 class PowerSchema(Schema):
     id = fields.Int()
     name = fields.Str()
-    regions=fields.List(fields.Nested(RegionSchema))
 
     
     class Meta:

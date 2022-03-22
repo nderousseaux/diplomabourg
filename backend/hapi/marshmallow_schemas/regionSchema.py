@@ -1,6 +1,7 @@
 from marshmallow import (
     Schema,
     fields,
+    pre_dump
 )
 
 class RegionSchema(Schema):
