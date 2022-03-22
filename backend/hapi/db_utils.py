@@ -48,9 +48,7 @@ def pre(argv):
     os.system("env/bin/python setup.py develop && env/bin/python setup.py install")
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
-    #engine = load_engine(settings)
-    engine =create_engine("mysql+pymysql://root:Amadou0899@127.0.0.1:3306/diplomacyDataBases")
-
+    engine = load_engine(settings)
     return engine
 
 
