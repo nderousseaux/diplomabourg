@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b4aae792-3bcc-4f3d-b946-170165986c81",
+		"_postman_id": "7d1c1159-4ab9-4176-89fb-87411839a14a",
 		"name": "Hapi v0.1",
 		"description": "API du projet intégrateur. \n  Cette première version ne permet de jouer qu'a 7 joueurs. En effet, une seule puissance pourra être sélectionnée par joueur. On ne peut donc jouer qu'avec toutes les puissances sélectionnées, soit les 7. \n Elle ne permet pas non plus à l'administrateur de forcer le début de la partie ou le passage au tour suivant.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -461,7 +461,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/games/:game_id/players",
+											"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -469,6 +469,12 @@
 												"games",
 												":game_id",
 												"players"
+											],
+											"query": [
+												{
+													"key": "password",
+													"value": "{{game_password}}"
+												}
 											],
 											"variable": [
 												{
@@ -502,7 +508,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -510,6 +516,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -553,7 +565,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -561,6 +573,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -604,7 +622,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -612,6 +630,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -655,7 +679,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -663,6 +687,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -706,7 +736,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -714,6 +744,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -2427,7 +2463,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+							"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2460,7 +2496,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+									"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2503,7 +2539,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+									"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2546,7 +2582,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+									"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"

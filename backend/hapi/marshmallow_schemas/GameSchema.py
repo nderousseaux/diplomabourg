@@ -4,17 +4,17 @@ from marshmallow import (
     validate,
     post_load,
     pre_load,
+    pre_dump,
     ValidationError,
     EXCLUDE
 )
 from hapi.marshmallow_schemas.mapSchema import MapSchema
-from hapi.marshmallow_schemas import PlayerSchema
+from hapi.marshmallow_schemas.playerSchema import PlayerSchema
 from hapi.models import DBSession, MapModel, GameModel
 
 class GameSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(
-        required=True,
         validate=[
             validate.Length(min=5, max=15, error="The len of name should be between 5 and 15")
         ]
@@ -27,13 +27,13 @@ class GameSchema(Schema):
     map=fields.Nested(MapSchema)
     map_id=fields.Int()
     state = fields.Str()
-    players=fields.Nested(PlayerSchema)
+    players=fields.List(fields.Nested(PlayerSchema))
 
     class Meta:
         ordered = True
         unknown = EXCLUDE
 
-    
+
     @post_load
     def post_load(self, data, **kwargs):
         return GameModel(**data)
@@ -44,10 +44,17 @@ class GameSchema(Schema):
             map = DBSession().query(MapModel).get(data["map_id"])
 
             if map == None:
-                raise ValidationError("Map not found", ["map_id"])
-            else:
-                data["map"] = map
+                raise ValidationError("Map not found", "map_id")
 
-        return GameModel(**data)
+        if "name" in data:
+            game = DBSession().query(GameModel).filter_by(name=data["name"]).first()
 
+            if game != None:
+                raise ValidationError("The name provided is already use.", "name")
 
+        return data
+
+    def add_is_you(self, game, player):
+        player = [p for p in game["players"] if p["id"] == player.id][0]
+        player["is_you"] = True
+        return game

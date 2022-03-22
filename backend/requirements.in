@@ -10,3 +10,4 @@ cornice
 marshmallow
 python-dotenv
 cryptography
+pyramid_jwt
