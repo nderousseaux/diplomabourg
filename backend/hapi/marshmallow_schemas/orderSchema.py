@@ -43,4 +43,15 @@ class OrderSchema(Schema):
             else:
                 data["region"] = region
 
+
+        if "type" in data:
+            unit = DBSession().query(UnitModel).filter(UnitModel.type_unit==data["type"]).first()
+
+
+            if unit == None:
+                raise ValidationError("Type not found", ["type"])
+            else:
+                data["type"] = unit
+
+
         return OrderModel(**data)

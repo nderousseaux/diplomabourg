@@ -1,5 +1,5 @@
-from .gameSchema import GameSchema
-from .joinGameSchema import JoinGameSchema
+from .GameSchema import GameSchema
+from .JoinGameSchema import JoinGameSchema
 from .mapSchema import MapSchema
 from .orderSchema import OrderSchema
 from .playerSchema import PlayerSchema

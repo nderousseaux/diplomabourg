@@ -6,7 +6,7 @@ from hapi.marshmallow_schemas import MapSchema
 from hapi.models import MapModel, DBSession
 from hapi.service_informations import ServiceInformations
 
-@resource(collection_path='/maps', path='/maps/{id:\d+}', cors_policy=cors_policy)
+@resource(collection_path='/maps', path='/maps/{id:\d+}', cors_policy=cors_policy) #le chemin
 class Maps():
     def __init__(self, request, context=None):
         self.request = request
