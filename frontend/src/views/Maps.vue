@@ -1,6 +1,6 @@
 <template>
 	<div id="map-container">
-		<svg width="634px" height="560px">
+		<svg>
 			<path
 			fill="#b4b6cc"
 			d="M362 33 L357 39 L343 44 L324 54 L320 64 L310 75 L309 84 L303 86 L292 111 L277 132 L269 134 L264 142 L258 141 L236 154 L198 154 L171 181 L171 197 L158 193 L152 194 L154 188 L161 185 L162 181 L148 177 L148 0 L362 0Z"
@@ -572,17 +572,17 @@ export default {
 	}
 	#map-container{
 		display: flex;
-		width: 100vw;
-		height: 85vh;
+		width: 80vw;
+		height: 90vh;
 		background-color: lightgray;
 	}
 	#map-container::before{
-	width: 30%;
+	width: 20vw;
 	visibility: hidden;
 	content: "Pseudo élément temporaire";
 	}
 	#map-container::after{
-	width: 30%;
+	width: 20vw;
 	visibility: hidden;
 	content: "Pseudo élément temporaire";
 	}
@@ -591,6 +591,11 @@ export default {
 		fill: lightgreen;
 	}
 	svg{
-		background-color:  #575757;
+		background-color: #575757;
+		width: 634px;
+		height: 560px;
+	}
+	text{
+		pointer-events: none;
 	}
 </style>
