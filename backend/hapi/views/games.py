@@ -30,16 +30,17 @@ class Games():
         DBSession.add(data["game"])
 
         #On ajoute un joueur
-        data["player"].is_admin = True
-        data["player"].game = data["game"]
-        DBSession.add(data["player"])
+        player = PlayerModel(**data["player"])
+        player.is_admin = True
+        data["game"].players.append(player)
+        DBSession.add(player)
         DBSession.flush()
 
         #On renvoie les infos
-        game = GameSchema().dump(data["game"])
+        game = GameSchema().dump(data['game'])
         res = {
-            "token": self.request.create_jwt_token(data["player"].id),
-            "game": GameSchema().add_is_you(game, data["player"])
+            "token": self.request.create_jwt_token(player.id),
+            "game": GameSchema().add_is_you(game, player)
         }
 
         return self.request.si.build_response(exception.HTTPCreated(), res)

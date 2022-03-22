@@ -21,7 +21,19 @@ class Players():
 
         if self.game == None:
             raise exception.HTTPNotFound()
+        
+        #On vérifie que le player existe
+        idPlayer = self.request.matchdict.get('idPlayer')
+        if idPlayer != None:
+            # On cherche le player en db
+            self.player = DBSession.query(PlayerModel).get(idPlayer)
 
+            #On vérifie que l'user appartient bien à cette carte
+            if self.player.game != self.game:
+                raise exception.HTTPNotFound()
+
+            if self.player == None:
+                raise exception.HTTPNotFound()
 
     def collection_get(self):
         #On vérifie que l'user connecté à bien accès à cette game
@@ -39,7 +51,6 @@ class Players():
         #On charge le body
         data = PlayerSchema().load(self.request.json)
 
-
         #On vérifie que la partie est toujours ouverte
         if self.game.state.name != "CONFIGURATION":
             return self.request.si.build_response(exception.HTTPGone())
@@ -56,15 +67,50 @@ class Players():
         PlayerSchema().check_username(data, self.game)
         
         #On ajoute un joueur
-        data.game = self.game
-        DBSession.add(data)
+        player = PlayerModel(**data)
+        player.game = self.game
+        DBSession.add(player)
         DBSession.flush()
 
         #On renvoie les infos
         game = GameSchema().dump(self.game)
         res = {
-            "token": self.request.create_jwt_token(data.id),
-            "game": GameSchema().add_is_you(game, data)
+            "token": self.request.create_jwt_token(player.id),
+            "game": GameSchema().add_is_you(game, player)
         }
 
         return self.request.si.build_response(exception.HTTPCreated(), res)
+
+    def put(self):
+        #On vérifie que l'user connecté à bien accès à cette game
+        if self.request.user == None or self.request.user.game != self.game:
+            return self.request.si.build_response(
+                exception.HTTPUnauthorized())
+
+        #On vérifie que l'user connecté à le droit de modier le player
+        if self.request.user != self.player and not self.request.user.is_admin:
+            return self.request.si.build_response(
+                exception.HTTPUnauthorized())
+
+        newPlayer = PlayerSchema(
+            only=["username", "powers", "is_ready"]
+        ).load(self.request.json)
+        
+        #On vérifie que les powers appartiennent à la carte et sont disponible à la sélection
+        PlayerSchema().check_powers(self.player, newPlayer)
+
+        #On vérifie l'intégrité de l'username
+        PlayerSchema().check_username(newPlayer, self.game, self.player)
+
+        #On modifie l'objet player
+        #On ajoute les powers
+        if "powers" in newPlayer:
+            powers = newPlayer.pop("powers")
+            self.player.powers = powers
+        DBSession.query(PlayerModel)\
+            .filter_by(id=self.player.id)\
+            .update(newPlayer)
+        DBSession.flush()
+
+        
+        return self.request.si.build_response(exception.HTTPNoContent())

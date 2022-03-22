@@ -29,3 +29,13 @@ class PowerModel(Base):
         primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
         back_populates="power"
     )
+
+    #Vérifie qu'une puissance est disponible
+    def check_is_available(self, player):
+        #On regarde qui à pris cette puissance dans la partie
+        p = [p for p in self.players if p.game == player.game]
+
+        #Si il y a personne ou lui même, alors la puissance est dispo
+        if len(p) == 0 or p[0] == player:
+            return True
+        return False

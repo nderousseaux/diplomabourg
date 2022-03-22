@@ -9,7 +9,7 @@ class MapSchema(Schema):
     id = fields.Int(dump_only=True)
     geojson = fields.Str()
     name = fields.Str()
-    powers = fields.Nested(PowerSchema)
+    powers = fields.List(fields.Nested(PowerSchema))
 
     class Meta:
         ordered = True
