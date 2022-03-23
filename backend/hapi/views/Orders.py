@@ -3,7 +3,8 @@ from cornice.resource import resource
 from hapi.cors import cors_policy
 import pyramid.httpexceptions as exception
 
-from hapi.marshmallow_schemas import OrderSchema,GameSchema
+from hapi.marshmallow_schemas.orderSchema import OrderSchema
+from hapi.marshmallow_schemas.gameSchema import GameSchema
 from hapi.models import OrderModel,GameModel,PlayerModel,UnitModel,DBSession
 from hapi.service_informations import ServiceInformations
 
@@ -25,46 +26,45 @@ class Order():
         if(self.game==None):
             raise exception.HTTPNotFound()
 
-            
-        #je crée un joueur pour le test
-        player = PlayerModel(username='joueur1', is_admin=False, game=self.game)
-        DBSession.add(player)
+        #je crée un joueur pour le test #FIXME: Vérifier user
+        
+    def collection_get(self):
+        #On vérifie que l'user connecté à bien accès à cette game
+        if self.request.user == None or self.request.user.game != self.game:
+            return self.request.si.build_response(
+                exception.HTTPUnauthorized())
+
+        #On récupère tous les ordres du joueur
+        orders = self.request.user.orders()
+
+        # Transformer les données en json
+        data = OrderSchema(many=True).dump(orders)
+
+        #On envoie la réponse
+        return self.request.si.build_response(exception.HTTPOk, data)
+
+
+    def collection_post(self):
+        #On recupère les données
+        newOrder = OrderSchema(
+            only=["type_order", "src_region_id", "unit_id", "is_valid"]
+        ).load(self.request.json)
+
+        #On récupère l'ordre si il existe
+        order = DBSession.query(OrderModel)\
+            .filter_by(unit_id=newOrder["unit_id"])\
+            .first()
+
+        if(order!=None):
+            DBSession.query(OrderModel)\
+                .filter_by(id=order.id)\
+                .delete()
+
+        #On crée un ordre
+        order=OrderModel(**newOrder)
+        DBSession.add(order)
         DBSession.flush()
 
+        #On renvoie l'objet crée
+        return self.request.si.build_response(exception.HTTPOk, OrderSchema().dump(order))
         
-        def collection_get(self):
-
-            
-            #la requet pour recuperer tous les ordres du joueur actuel
-
-            Ordre=DBSession.query(OrderModel).join(UnitModel)\
-                .filter(UnitModel.player_power_player_id==player)\
-                    .all()
-
-            # Transformer les donnée en json
-            data = OrderSchema(many=True).dump(Order)
-
-            #On envoie la réponse
-            return self.request.si.build_response(exception.HTTPOk, data)
-
-
-        def collection_post(sef):
-            
-            #on recupère les données
-            data = OrderSchema().load(self.request.json)
-
-            unit=DBSession.query(OrderModel).filter(OrderModel.unit_id==data["unit_id"]).first()
-
-            if(unit!=None):
-                unit.update(data)
-
-            else:
-
-                #On crée un ordre
-                order=OrderModel(data)
-                DBSession.add(order)
-            #On renvoie l'objet crée
-
-            DBSession.flush()
-            return self.request.si.build_response(exception.HTTPOk, OrderSchema().dump(order))
-           

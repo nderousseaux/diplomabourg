@@ -27,3 +27,10 @@ class PlayerModel(Base):
         primaryjoin='foreign(UnitModel.player_power_player_id) == PlayerModel.id',
         back_populates='player'    
     )
+
+    def orders(self): #TODO: Get seulement les ordres du tour courrant (du coup unit.order est un seul ordre)
+        orders = []
+        for unit in self.units:
+            orders += unit.order
+        
+        return orders

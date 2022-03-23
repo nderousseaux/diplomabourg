@@ -21,6 +21,7 @@ class ServiceInformations:
         #On ajoute le body si il existe
         try:
             data_log['body'] = self.request.json_body
+            
         except:
             pass
 
