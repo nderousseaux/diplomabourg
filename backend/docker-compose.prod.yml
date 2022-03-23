@@ -16,6 +16,7 @@ services:
     environment:
       - MYSQL_HOST=hapi-db
     build: 
+      context: .
       dockerfile: ./Dockerfile.prod
     ports:
       - 6543:6543
