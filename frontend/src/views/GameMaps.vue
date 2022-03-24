@@ -673,8 +673,8 @@
 
 @media (prefers-color-scheme: dark){
 	#app > div > div:first-child{
-		background-color: #0a0830;
-		box-shadow: 0px 0px 15px 5px  #141063;
+		background-color: #232224;
+		box-shadow: 0px 0px 15px 5px #131313;
 	}
 	#app > div > div > div > img{
 		filter: grayscale(1) invert(1);
