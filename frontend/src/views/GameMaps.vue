@@ -2,18 +2,18 @@
 	<div>
 		<div>
 			<div>
-				<img alt="Paramètres" src="../assets/img/settings.png"/>
+				<img alt="Paramètres" title="Paramètres" src="../assets/img/rouage.png"/>
 				<p>5:30</p>
 			</div>
 			<div id="flags">
 				<h1>Pays</h1>
 				<div>
-					<img alt="Drapeau Français" src="../assets/img/france.png"/>
-					<img alt="Drapeau Allemand" src="../assets/img/germany.png"/>
-					<img alt="Drapeau Italien" src="../assets/img/italy.png"/>
-					<img alt="Drapeau Russe" src="../assets/img/russia.png"/>
-					<img alt="Drapeau Turque" src="../assets/img/turkey.png"/>
-					<img alt="Drapeau Anglais" src="../assets/img/uk.png"/>
+					<img alt="Drapeau Français" title="France" src="../assets/img/france.png"/>
+					<img alt="Drapeau Allemand" title="Allemagne" src="../assets/img/germany.png"/>
+					<img alt="Drapeau Italien" title="Italie" src="../assets/img/italy.png"/>
+					<img alt="Drapeau Russe" title="Russie" src="../assets/img/russia.png"/>
+					<img alt="Drapeau Turque" title="Turquie" src="../assets/img/turkey.png"/>
+					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/uk.png"/>
 				</div>
 			</div>
 			<div id="chat">
@@ -582,6 +582,11 @@
 	#app > div{
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	img{
+		cursor: pointer;
 	}
 
 	/* Carte */
@@ -595,7 +600,7 @@
 		fill: lightgreen;
 	}
 	svg{
-		width: 100%;
+		background-color: #535353;
 		height: 100%;
 	}
 	text{
@@ -604,16 +609,15 @@
 
 	/* Colonne de gauche */
 	#app > div > div:first-child{
-		background-color: #0d0b35;
-		box-shadow: 0px 0px 15px 5px  #1c1779;
+		width: 30vw;
+		height: 94vh;
+		background-color: #FFFFFF;
+		box-shadow: 0px 0px 15px 5px  #CECECE;
 		border-radius: 10px;
 		margin-top: 3vh;
 		margin-left: 20px;
-		height: 94vh;
-		max-height: 100%;
 	}
 	#app > div > div:first-child > div{
-		color: lightgrey;
 		font-weight: bold;
 		font-size: 12px;
 	}
@@ -645,8 +649,7 @@
 	#flags{
 		display: flex;
 		flex-direction: column;
-		width: 30vw;
-		height: 30vh;
+		height: 30%;
 		margin-bottom: 30px;
 	}
 	#flags > div{
@@ -664,6 +667,17 @@
 	#chat{
 		visibility: hidden; /* Placeholder pour plus tard */
 		width: 30vw;
-		height: 60vh;
+		height: calc(60% - 48px);
+		border-radius: 10px;
 	}
+
+@media (prefers-color-scheme: dark){
+	#app > div > div:first-child{
+		background-color: #0a0830;
+		box-shadow: 0px 0px 15px 5px  #141063;
+	}
+	#app > div > div > div > img{
+		filter: grayscale(1) invert(1);
+	}
+}
 </style>
