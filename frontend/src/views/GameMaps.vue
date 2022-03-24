@@ -1,8 +1,12 @@
 <template>
 	<div>
 		<div>
+			<div>
+				<img alt="Paramètres" src="../assets/img/settings.png"/>
+				<p>5:30</p>
+			</div>
 			<div id="flags">
-				<h1>Flags</h1>
+				<h1>Pays</h1>
 				<div>
 					<img alt="Drapeau Français" src="../assets/img/france.png"/>
 					<img alt="Drapeau Allemand" src="../assets/img/germany.png"/>
@@ -599,20 +603,48 @@
 	}
 
 	/* Colonne de gauche */
-	#app > div > div{
-		padding-left: 10px;
-		height: 100vh;
+	#app > div > div:first-child{
+		background-color: #0d0b35;
+		box-shadow: 0px 0px 15px 5px  #1c1779;
+		border-radius: 10px;
+		margin-top: 3vh;
+		margin-left: 20px;
+		height: 94vh;
 		max-height: 100%;
 	}
-	#app > div > div > div{
-		background-color: #100d46;
-		box-shadow: 0px 0px 15px 5px  #2821a7;
-		border-radius: 10px;
-		color: red;
+	#app > div > div:first-child > div{
+		color: lightgrey;
 		font-weight: bold;
 		font-size: 12px;
 	}
+
+	/* Minuteur */
+	#app > div > div > div:first-child{
+		display: flex;
+		justify-content: space-between;
+		border-bottom: grey 3px solid;
+	}
+	#app > div > div > div > img{
+		padding: 20px 0 20px 20px;
+		width: 48px;
+		height: 48px;
+	}
+	#app > div > div > div > p{
+		font-size: 30px;
+		line-height: 88px;
+		margin: 0;
+		text-align: center;
+	}
+	#app > div > div > div:first-child:after{
+		content:"";
+		width: 48px;
+		padding-right: 20px;
+	}
+
+	/* Drapeaux */
 	#flags{
+		display: flex;
+		flex-direction: column;
 		width: 30vw;
 		height: 30vh;
 		margin-bottom: 30px;
@@ -623,13 +655,15 @@
 		align-items: center;
 		justify-content: center;
 	}
-	div > img{
+	#flags > div > img{
 		width: 17%;
 		margin: 0 10px;
 	}
+
+	/* Chat (masqué pendant l'alpha) */
 	#chat{
+		visibility: hidden; /* Placeholder pour plus tard */
 		width: 30vw;
 		height: 60vh;
 	}
-	
 </style>
