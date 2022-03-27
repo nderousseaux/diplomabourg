@@ -695,42 +695,6 @@
 			254
 			],
 			"name": "Yorkshire"
-		},
-		"Bul(ec)": {
-			"coords": [
-			410,
-			440
-			]
-		},
-		"Bul(sc)": {
-			"coords": [
-			399,
-			462
-			]
-		},
-		"Spa(nc)": {
-			"coords": [
-			80,
-			404
-			]
-		},
-		"Spa(sc)": {
-			"coords": [
-			52,
-			475
-			]
-		},
-		"StP(nc)": {
-			"coords": [
-			472,
-			122
-			]
-		},
-		"StP(sc)": {
-			"coords": [
-			418,
-			205
-			]
 		}
 	},
 	"powers": {

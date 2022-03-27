@@ -33,9 +33,7 @@ export default {
 	mounted() {
 		let ns = "http://www.w3.org/2000/svg"
 		let svg = document.querySelector("svg")
-
-		const map = require("../assets/json/map.json");
-		console.log("Ici", map);
+		const map = require("../assets/json/map.json")
 
 		for (var i in map)
 		{
@@ -46,19 +44,29 @@ export default {
 					let path = document.createElementNS(ns, "path")
 					if (map[i][j].type == "land")
 					{
-						path.setAttributeNS(null, "fill", "#fcf2d4")
+						path.setAttribute("fill", "#fcf2d4")
 					}
 					else if (map[i][j].type == "impassable")
 					{
-						path.setAttributeNS(null, "fill", "grey")
+						path.setAttribute("fill", "grey")
 					}
 					else
 					{
-						path.setAttributeNS(null, "fill", "#b4b6cc")
+						path.setAttribute("fill", "#b4b6cc")
 					}
-					path.setAttributeNS(null, "d", map[i][j].path)
-					path.setAttributeNS(null, "name", map[i][j].name)
+					path.setAttribute("d", map[i][j].path)
+					path.setAttribute("name", map[i][j].name)
 					svg.appendChild(path)
+
+					if (typeof map[i][j].coords != "undefined")
+					{
+						let point = document.createElementNS(ns, "text")
+						var text = document.createTextNode(j)
+						point.setAttribute("x", map[i][j].coords[0])
+						point.setAttribute("y", map[i][j].coords[1])
+						point.appendChild(text)
+						svg.appendChild(point)
+					}
 				}
 			}
 		}
