@@ -35,39 +35,98 @@ export default {
 		let svg = document.querySelector("svg")
 		const map = require("../assets/json/map.json")
 
-		for (var i in map)
+		for (var j in map["areas"])
 		{
-			for (var j in map[i])
+			// Zone de terre
+			let path = document.createElementNS(ns, "path")
+			if (map["areas"][j].type == "land")
 			{
-				if (typeof map[i][j].path != "undefined")
-				{
-					let path = document.createElementNS(ns, "path")
-					if (map[i][j].type == "land")
-					{
-						path.setAttribute("fill", "#fcf2d4")
-					}
-					else if (map[i][j].type == "impassable")
-					{
-						path.setAttribute("fill", "grey")
-					}
-					else
-					{
-						path.setAttribute("fill", "#b4b6cc")
-					}
-					path.setAttribute("d", map[i][j].path)
-					path.setAttribute("name", map[i][j].name)
-					svg.appendChild(path)
+				path.setAttribute("fill", "#fcf2d4")
 
-					if (typeof map[i][j].coords != "undefined")
-					{
-						let point = document.createElementNS(ns, "text")
-						var text = document.createTextNode(j)
-						point.setAttribute("x", map[i][j].coords[0])
-						point.setAttribute("y", map[i][j].coords[1])
-						point.appendChild(text)
-						svg.appendChild(point)
-					}
-				}
+				// Couleur lors du passage de souris
+				path.addEventListener("mouseover", function () {
+					this.style.cursor =  "pointer"
+					this.style.fill = "lightgreen"
+				})
+				path.addEventListener("mouseout", function () {
+					this.style.cursor =  "pointer"
+					this.style.fill = "#fcf2d4"
+				})
+			}
+
+			// Zone neutre
+			else if (map["areas"][j].type == "impassable")
+			{
+				path.setAttribute("fill", "grey")
+			}
+
+			// Zone maritime
+			else
+			{
+				path.setAttribute("fill", "#b4b6cc")
+
+				// Couleur lors du passage de souris
+				path.addEventListener("mouseover", function () {
+					this.style.cursor =  "pointer"
+					this.style.fill = "lightblue"
+				})
+				path.addEventListener("mouseout", function () {
+					this.style.cursor =  "pointer"
+					this.style.fill = "#b4b6cc"
+				})
+			}
+
+			path.setAttribute("d", map["areas"][j].path)
+			path.setAttribute("name", map["areas"][j].name)
+			svg.appendChild(path)
+		}
+
+		for (var k in map["infos"])
+		{
+			// Labels
+			let point = document.createElementNS(ns, "text")
+			var text = document.createTextNode(k)
+			point.setAttribute("x", map["infos"][k].coords[0])
+			point.setAttribute("y", map["infos"][k].coords[1])
+			point.appendChild(text)
+
+			// Empêche la selection du label
+			point.addEventListener("mouseover", function () {
+				this.style.pointerEvents = "none"
+			})
+			svg.appendChild(point)
+
+			// Points de ravitaillement
+			if (typeof map["infos"][k].coordsRav != "undefined")
+			{
+				let circleIn = document.createElementNS(ns, "circle")
+				let circleOut = document.createElementNS(ns, "circle")
+			
+				circleIn.setAttribute("cx", map["infos"][k].coordsRav[0])
+				circleIn.setAttribute("cy", map["infos"][k].coordsRav[1])
+				circleIn.setAttribute("r", 2)
+				circleIn.setAttribute("fill", "black")
+				circleIn.setAttribute("stroke", "none")
+				circleIn.setAttribute("stroke-width", 0)
+
+				circleOut.setAttribute("cx", map["infos"][k].coordsRav[0])
+				circleOut.setAttribute("cy", map["infos"][k].coordsRav[1])
+				circleOut.setAttribute("r", 4)
+				circleOut.setAttribute("fill", "none")
+				circleOut.setAttribute("stroke", "black")
+
+				// Couleur lors du passage de souris
+				circleOut.addEventListener("mouseover", function () {
+					this.style.cursor = "pointer"
+					this.style.fill = "lightcoral"
+				})
+				circleOut.addEventListener("mouseout", function () {
+					this.style.cursor =  "pointer"
+					this.style.fill = "none"
+				})
+
+				svg.appendChild(circleIn)
+				svg.appendChild(circleOut)
 			}
 		}
 	}
@@ -80,7 +139,6 @@ export default {
 		flex-direction: row;
 		justify-content: space-between;
 	}
-
 	img{
 		cursor: pointer;
 	}
@@ -91,16 +149,9 @@ export default {
 		height: 100vh;
 		font-size: 11px;
 	}
-	path:hover{
-		cursor: pointer;
-		fill: lightgreen;
-	}
 	svg{
 		background-color: #535353;
 		height: 100%;
-	}
-	text{
-		pointer-events: none;
 	}
 
 	/* Colonne de gauche */
