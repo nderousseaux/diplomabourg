@@ -44,13 +44,14 @@ export default {
 			{
 				path.setAttribute("fill", "#fcf2d4")
 
-				// Couleur lors du passage de souris
-				path.addEventListener("mouseover", function () {
+				// Couleur et changement du curseur lors du passage de souris
+				path.addEventListener("mouseover", function ()
+				{
 					this.style.cursor =  "pointer"
 					this.style.fill = "lightgreen"
 				})
-				path.addEventListener("mouseout", function () {
-					this.style.cursor =  "pointer"
+				path.addEventListener("mouseout", function ()
+				{
 					this.style.fill = "#fcf2d4"
 				})
 			}
@@ -59,6 +60,16 @@ export default {
 			else if (carte["areas"][j].type == "impassable")
 			{
 				path.setAttribute("fill", "grey")
+
+				// Changement du curseur
+				path.addEventListener("mouseover", function ()
+				{
+					this.style.cursor =  "not-allowed"
+				})
+				path.addEventListener("mouseout", function ()
+				{
+					this.style.cursor =  "pointer"
+				})
 			}
 
 			// Zone maritime
@@ -66,13 +77,14 @@ export default {
 			{
 				path.setAttribute("fill", "#b4b6cc")
 
-				// Couleur lors du passage de souris
-				path.addEventListener("mouseover", function () {
+				// Couleur et changement du curseur lors du passage de souris
+				path.addEventListener("mouseover", function ()
+				{
 					this.style.cursor =  "pointer"
 					this.style.fill = "lightblue"
 				})
-				path.addEventListener("mouseout", function () {
-					this.style.cursor =  "pointer"
+				path.addEventListener("mouseout", function ()
+				{
 					this.style.fill = "#b4b6cc"
 				})
 			}
