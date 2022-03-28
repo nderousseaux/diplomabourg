@@ -8,6 +8,7 @@ body{
 	padding: 0;
 }
 
+/* Thème sombre */
 @media (prefers-color-scheme: dark){
 	*{
 		color: white;

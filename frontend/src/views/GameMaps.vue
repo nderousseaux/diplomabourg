@@ -5,7 +5,7 @@
 				<img alt="Paramètres" title="Paramètres" src="../assets/img/rouage.png"/>
 				<p>5:30</p>
 			</div>
-			<div id="flags">
+			<div id="drapeaux">
 				<h1>Pays</h1>
 				<div>
 					<img alt="Drapeau Français" title="France" src="../assets/img/france.png"/>
@@ -20,7 +20,7 @@
 				<h1>Chat</h1>
 			</div>
 		</div>
-		<div id="map">
+		<div id="carte">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
 				
 			</svg>
@@ -33,13 +33,13 @@ export default {
 	mounted() {
 		let ns = "http://www.w3.org/2000/svg"
 		let svg = document.querySelector("svg")
-		const map = require("../assets/json/map.json")
+		const carte = require("../assets/json/map.json")
 
-		for (var j in map["areas"])
+		for (var j in carte["areas"])
 		{
 			// Zone de terre
 			let path = document.createElementNS(ns, "path")
-			if (map["areas"][j].type == "land")
+			if (carte["areas"][j].type == "land")
 			{
 				path.setAttribute("fill", "#fcf2d4")
 
@@ -55,7 +55,7 @@ export default {
 			}
 
 			// Zone neutre
-			else if (map["areas"][j].type == "impassable")
+			else if (carte["areas"][j].type == "impassable")
 			{
 				path.setAttribute("fill", "grey")
 			}
@@ -76,18 +76,18 @@ export default {
 				})
 			}
 
-			path.setAttribute("d", map["areas"][j].path)
-			path.setAttribute("name", map["areas"][j].name)
+			path.setAttribute("d", carte["areas"][j].path)
+			path.setAttribute("name", carte["areas"][j].name)
 			svg.appendChild(path)
 		}
 
-		for (var k in map["infos"])
+		for (var k in carte["infos"])
 		{
 			// Labels
 			let point = document.createElementNS(ns, "text")
 			var text = document.createTextNode(k)
-			point.setAttribute("x", map["infos"][k].coords[0])
-			point.setAttribute("y", map["infos"][k].coords[1])
+			point.setAttribute("x", carte["infos"][k].coords[0])
+			point.setAttribute("y", carte["infos"][k].coords[1])
 			point.appendChild(text)
 
 			// Empêche la selection du label
@@ -97,20 +97,20 @@ export default {
 			svg.appendChild(point)
 
 			// Points de ravitaillement
-			if (typeof map["infos"][k].coordsRav != "undefined")
+			if (typeof carte["infos"][k].coordsRav != "undefined")
 			{
 				let circleIn = document.createElementNS(ns, "circle")
 				let circleOut = document.createElementNS(ns, "circle")
 			
-				circleIn.setAttribute("cx", map["infos"][k].coordsRav[0])
-				circleIn.setAttribute("cy", map["infos"][k].coordsRav[1])
+				circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0])
+				circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1])
 				circleIn.setAttribute("r", 2)
 				circleIn.setAttribute("fill", "black")
 				circleIn.setAttribute("stroke", "none")
 				circleIn.setAttribute("stroke-width", 0)
 
-				circleOut.setAttribute("cx", map["infos"][k].coordsRav[0])
-				circleOut.setAttribute("cy", map["infos"][k].coordsRav[1])
+				circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0])
+				circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1])
 				circleOut.setAttribute("r", 4)
 				circleOut.setAttribute("fill", "none")
 				circleOut.setAttribute("stroke", "black")
@@ -144,14 +144,18 @@ export default {
 	}
 
 	/* Carte */
-	#map{
+	#carte{
 		width: 70vw;
-		height: 100vh;
+		height: 98vh;
+		margin: 1vh 2vw 1vh 2vw;
+		overflow-x: auto;
+		overflow-y: hidden;
 		font-size: 11px;
 	}
 	svg{
 		background-color: #535353;
 		height: 100%;
+		border-radius: 10px;
 	}
 
 	/* Colonne de gauche */
@@ -161,8 +165,7 @@ export default {
 		background-color: #FFFFFF;
 		box-shadow: 0px 0px 15px 5px  #CECECE;
 		border-radius: 10px;
-		margin-top: 3vh;
-		margin-left: 20px;
+		margin: 3vh 2vw 3vh 2vw;
 	}
 	#app > div > div:first-child > div{
 		font-weight: bold;
@@ -176,7 +179,7 @@ export default {
 		border-bottom: grey 3px solid;
 	}
 	#app > div > div > div > img{
-		padding: 20px 0 20px 20px;
+		margin: 20px 0 20px 20px;
 		width: 48px;
 		height: 48px;
 	}
@@ -187,37 +190,131 @@ export default {
 		text-align: center;
 	}
 	#app > div > div > div:first-child:after{
-		content:"";
+		content: "";
 		width: 48px;
 		padding-right: 20px;
 	}
 
 	/* Drapeaux */
-	#flags{
+	#drapeaux{
 		display: flex;
 		flex-direction: column;
 		height: 30%;
-		margin-bottom: 30px;
 	}
-	#flags > div{
+	#drapeaux > div{
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 	}
-	#flags > div > img{
+	#drapeaux > div > img{
 		width: 17%;
 		margin: 0 10px;
+	}
+	h1{
+		font-size: 30px;
+		margin: 20px 0;
 	}
 
 	/* Chat (masqué pendant l'alpha) */
 	#chat{
-		visibility: hidden; /* Placeholder pour plus tard */
+		display: none; /* Placeholder pour plus tard */
 		width: 30vw;
 		height: calc(60% - 48px);
 		border-radius: 10px;
 	}
 
+/* Version tablette */
+@media screen and (min-width:770px) and (max-width:1370px){
+	/* Carte */
+	#carte{
+		margin: 1vh 1vw 1vh 0;
+	}
+
+	/* Colonne de gauche */
+	#app > div > div:first-child{
+		height: 98vh;
+		margin: 1vh 1vw 1vh 1vw;
+	}
+
+	/* Minuteur */
+	#app > div > div > div:first-child{
+		border-bottom: grey 2px solid;
+	}
+	#app > div > div > div > img{
+		width: 36px;
+		height: 36px;
+	}
+	#app > div > div > div > p{
+		font-size: 25px;
+		line-height: 76px;
+	}
+	#app > div > div > div:first-child:after{
+		width: 36px;
+	}
+
+	/* Drapeaux */
+	h1{
+		font-size: 25px;
+	}
+	#drapeaux > div > img{
+		width: 30%;
+	}
+	#drapeaux > div:last-child{
+		margin-bottom: 20px;
+	}
+}
+
+/* Version mobile */
+@media screen and (max-width:769px){
+	/* Div principale */
+	#app > div{
+		flex-direction: column;
+	}
+
+	/* Carte */
+	#carte{
+		width: unset;
+		height: 99vh;
+		margin: 0 2vw 1vh 2vw;
+	}
+
+	/* Colonne de gauche */
+	#app > div > div:first-child{
+		width: 96vw;
+		margin: 1vh 2vw 1vh 2vw;
+		height: max-content;
+	}
+
+	/* Minuteur */
+	#app > div > div > div:first-child{
+		border-bottom: grey 2px solid;
+	}
+	#app > div > div > div > img{
+		width: 36px;
+		height: 36px;
+	}
+	#app > div > div > div > p{
+		font-size: 25px;
+		line-height: 76px;
+	}
+	#app > div > div > div:first-child:after{
+		width: 36px;
+	}
+
+	/* Drapeaux */
+	h1{
+		font-size: 25px;
+	}
+	#drapeaux > div > img{
+		width: 15%;
+	}
+	#drapeaux > div:last-child{
+		margin-bottom: 20px;
+	}
+}
+
+/* Thème sombre */
 @media (prefers-color-scheme: dark){
 	#app > div > div:first-child{
 		background-color: #232224;
