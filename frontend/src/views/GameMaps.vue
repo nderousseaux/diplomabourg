@@ -229,6 +229,7 @@ export default {
 	/* Carte */
 	#carte{
 		margin: 1vh 1vw 1vh 0;
+		font-size: 7px;
 	}
 
 	/* Colonne de gauche */
