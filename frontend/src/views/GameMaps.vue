@@ -14,6 +14,7 @@
 					<img alt="Drapeau Russe" title="Russie" src="../assets/img/russia.png"/>
 					<img alt="Drapeau Turque" title="Turquie" src="../assets/img/turkey.png"/>
 					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/uk.png"/>
+					<img alt="Drapeau Autrichien" title="Autriche" src="../assets/img/austria.png"/>
 				</div>
 			</div>
 			<div id="chat">
@@ -209,7 +210,7 @@ export default {
 	}
 	#drapeaux > div > img{
 		width: 17%;
-		margin: 0 10px;
+		margin: 10px;
 	}
 	h1{
 		font-size: 30px;
