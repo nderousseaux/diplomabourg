@@ -2,7 +2,7 @@
 	<div>
 		<div>
 			<div>
-				<img alt="Paramètres" title="Paramètres" src="../assets/img/rouage.png"/>
+				<img alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
 				<p>5:30</p>
 			</div>
 			<div id="drapeaux">
