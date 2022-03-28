@@ -66,10 +66,6 @@ export default {
 				{
 					this.style.cursor =  "not-allowed"
 				})
-				path.addEventListener("mouseout", function ()
-				{
-					this.style.cursor =  "pointer"
-				})
 			}
 
 			// Zone maritime
@@ -104,7 +100,8 @@ export default {
 			point.appendChild(text)
 
 			// Empêche la selection du label
-			point.addEventListener("mouseover", function () {
+			point.addEventListener("mouseover", function ()
+			{
 				this.style.pointerEvents = "none"
 			})
 			svg.appendChild(point)
@@ -128,13 +125,14 @@ export default {
 				circleOut.setAttribute("fill", "none")
 				circleOut.setAttribute("stroke", "black")
 
-				// Couleur lors du passage de souris
-				circleOut.addEventListener("mouseover", function () {
+				// Couleur et changement du curseur lors du passage de souris
+				circleOut.addEventListener("mouseover", function ()
+				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightcoral"
 				})
-				circleOut.addEventListener("mouseout", function () {
-					this.style.cursor =  "pointer"
+				circleOut.addEventListener("mouseout", function ()
+				{
 					this.style.fill = "none"
 				})
 
