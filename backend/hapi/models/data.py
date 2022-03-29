@@ -65,7 +65,7 @@ powers=[
     },
     
     {
-        "name": "Great Britain",  
+        "name": "Great-Britain",  
         "color_id":4,
         "map_id" : 1
     },
@@ -319,7 +319,7 @@ dispositionUnite=[
     {
         "type_unit_id": 2, 
         
-        "region_id":1,  # ODESSA à revoir
+        "region_id":57,  # ODESSA à revoir
         
         "power_id" : 6
     },
@@ -334,7 +334,7 @@ dispositionUnite=[
     {
         "type_unit_id": 1,
         
-        "region_id":2, #VARSOVIE # à revoir
+        "region_id":74, #VARSOVIE
         
         "power_id" : 6
     },
