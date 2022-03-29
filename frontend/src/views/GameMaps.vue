@@ -179,6 +179,11 @@ export default {
 		overflow-x: auto;
 		overflow-y: hidden;
 		font-size: 13px;
+
+		/* Style pour blocage de la carte */
+		/* cursor: not-allowed;
+		pointer-events: none;
+		filter: grayscale(1) invert(0.1); */
 	}
 	svg{
 		background-color: #535353;
