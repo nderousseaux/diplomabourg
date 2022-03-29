@@ -1,0 +1,19 @@
+*{
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	color: black;
+}
+body{
+	background-color: #F0F0F0;
+	margin: 0;
+	padding: 0;
+}
+
+/* Thème sombre */
+@media (prefers-color-scheme: dark){
+	*{
+		color: white;
+	}
+	body{
+		background-color: #333333;
+	}
+}
