@@ -24,12 +24,6 @@
 		<div id="carte">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
 			</svg>
-			<div>
-				<h1>
-					Choisissez votre ordre
-				</h1>
-				<button></button>
-			</div>
 		</div>
 	</div>
 </template>
@@ -173,16 +167,14 @@ export default {
 
 	/* Carte */
 	#carte{
-		width: 70vw;
+		width: fit-content;
 		height: 98vh;
 		margin: 1vh 2vw 1vh 2vw;
 		overflow-x: auto;
 		overflow-y: hidden;
 		font-size: 13px;
-
-		/* Style pour le blocage de la carte */
-		/* cursor: not-allowed;
-		user-select: none;  */
+		user-select: none;
+		cursor: not-allowed;
 	}
 	svg{
 		background-color: #535353;
@@ -243,6 +235,7 @@ export default {
 	#drapeaux > div > img{
 		width: 17%;
 		margin: 10px;
+		user-select: none;
 	}
 	h1{
 		font-size: 35px;
