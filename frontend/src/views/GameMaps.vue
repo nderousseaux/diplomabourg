@@ -13,8 +13,8 @@
 					<img alt="Drapeau Italien" title="Italie" src="../assets/img/italy.png"/>
 					<img alt="Drapeau Russe" title="Russie" src="../assets/img/russia.png"/>
 					<img alt="Drapeau Turque" title="Turquie" src="../assets/img/turkey.png"/>
-					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/uk.png"/>
-					<img alt="Drapeau Autrichien" title="Autriche" src="../assets/img/austria.png"/>
+					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/great-britain.png"/>
+					<img alt="Drapeau Autrichien" title="Autriche" src="../assets/img/austria-hungary.png"/>
 				</div>
 			</div>
 			<div id="chat">
@@ -23,8 +23,13 @@
 		</div>
 		<div id="carte">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
-				
 			</svg>
+			<div>
+				<h1>
+					Choisissez votre ordre
+				</h1>
+				<button></button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -54,6 +59,10 @@ export default {
 				{
 					this.style.fill = "#fcf2d4"
 				})
+				path.addEventListener("click", function ()
+				{
+					alert("Clic terrestre")
+				})
 			}
 
 			// Zone neutre
@@ -82,6 +91,10 @@ export default {
 				path.addEventListener("mouseout", function ()
 				{
 					this.style.fill = "#b4b6cc"
+				})
+				path.addEventListener("click", function ()
+				{
+					alert("Clic maritime")
 				})
 			}
 
@@ -135,6 +148,10 @@ export default {
 				{
 					this.style.fill = "none"
 				})
+				circleOut.addEventListener("click", function ()
+				{
+					alert("Clic ravitaillement")
+				})
 
 				svg.appendChild(circleIn)
 				svg.appendChild(circleOut)
@@ -161,7 +178,7 @@ export default {
 		margin: 1vh 2vw 1vh 2vw;
 		overflow-x: auto;
 		overflow-y: hidden;
-		font-size: 11px;
+		font-size: 13px;
 	}
 	svg{
 		background-color: #535353;
@@ -178,10 +195,6 @@ export default {
 		border-radius: 10px;
 		margin: 3vh 2vw 3vh 2vw;
 	}
-	#app > div > div:first-child > div{
-		font-weight: bold;
-		font-size: 12px;
-	}
 
 	/* Minuteur */
 	#app > div > div > div:first-child{
@@ -195,7 +208,8 @@ export default {
 		height: 48px;
 	}
 	#app > div > div > div > p{
-		font-size: 30px;
+		font-size: 40px;
+		font-weight: bold;
 		line-height: 88px;
 		margin: 0;
 		text-align: center;
@@ -223,7 +237,8 @@ export default {
 		margin: 10px;
 	}
 	h1{
-		font-size: 30px;
+		font-size: 35px;
+		font-weight: bold;
 		margin: 20px 0;
 	}
 
@@ -240,7 +255,7 @@ export default {
 	/* Carte */
 	#carte{
 		margin: 1vh 1vw 1vh 0;
-		font-size: 7px;
+		font-size: 10px;
 	}
 
 	/* Colonne de gauche */
@@ -258,7 +273,7 @@ export default {
 		height: 36px;
 	}
 	#app > div > div > div > p{
-		font-size: 25px;
+		font-size:40px;
 		line-height: 76px;
 	}
 	#app > div > div > div:first-child:after{
@@ -267,7 +282,7 @@ export default {
 
 	/* Drapeaux */
 	h1{
-		font-size: 25px;
+		font-size: 35px;
 	}
 	#drapeaux > div > img{
 		width: 30%;
@@ -289,6 +304,7 @@ export default {
 		width: unset;
 		height: 99vh;
 		margin: 0 2vw 1vh 2vw;
+		font-size: 11px;
 	}
 
 	/* Colonne de gauche */
@@ -307,7 +323,7 @@ export default {
 		height: 36px;
 	}
 	#app > div > div > div > p{
-		font-size: 25px;
+		font-size: 40px;
 		line-height: 76px;
 	}
 	#app > div > div > div:first-child:after{
@@ -316,7 +332,7 @@ export default {
 
 	/* Drapeaux */
 	h1{
-		font-size: 25px;
+		font-size: 35px;
 	}
 	#drapeaux > div > img{
 		width: 15%;
