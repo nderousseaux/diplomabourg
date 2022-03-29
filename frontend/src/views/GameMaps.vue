@@ -180,15 +180,18 @@ export default {
 		overflow-y: hidden;
 		font-size: 13px;
 
-		/* Style pour blocage de la carte */
+		/* Style pour le blocage de la carte */
 		/* cursor: not-allowed;
-		pointer-events: none;
-		filter: grayscale(1) invert(0.1); */
+		user-select: none;  */
 	}
 	svg{
 		background-color: #535353;
 		height: 100%;
 		border-radius: 10px;
+
+		/* Style pour le blocage de la carte */
+		/* pointer-events: none;
+		filter: grayscale(1) invert(0.1); */
 	}
 
 	/* Colonne de gauche */
