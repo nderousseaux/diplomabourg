@@ -22,6 +22,7 @@ from .models.regionModel import adjoining
 
 from .models.data import *
 
+
 from dotenv import load_dotenv
 
 def usage(argv):
@@ -74,6 +75,7 @@ def fill(argv=sys.argv):
     insertion_voisin(voisinage,engine,adjoining)
     insertRegTypeReg(reg_type_reg,engine,typeRegionRegion)
     insertState(states,session,StateModel)
+    insertTypeOrder(typeOders,session,TypeOrderModel)
     
     
 

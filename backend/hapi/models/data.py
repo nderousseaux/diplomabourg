@@ -524,6 +524,21 @@ reg_type_reg=[
 states=[
     {"id":1, "name":"CONFIGURATION"}
 ]
+typeOders=[
+    
+    {
+        "name":"ATTACK"
+    },
+    {
+        "name":"HOLD"
+    },
+    {
+        "name":"SUPPORT"
+    },
+    {
+        "name":"CONVOY"
+    }
+]
 
 
 
@@ -598,4 +613,9 @@ def insertState(state,session,table):
     for st in state:
         new_state=table(id=st["id"], name=st["name"])
         session.add(new_state)
+        session.commit() 
+def insertTypeOrder(typeOrder,session,table)   :
+    for tO in typeOrder :
+        new_typeOrder=table(name=tO["name"])
+        session.add(new_typeOrder)
         session.commit() 

@@ -12,7 +12,7 @@ class OrderModel(Base):
     src_region_id = Column(Integer, ForeignKey('region.id'))
     dst_region_id = Column(Integer, ForeignKey('region.id'))
     unit_id = Column(Integer, ForeignKey('unit.id'))
-    other_unit_id=Column(Integer, ForeignKey('unit.id'))
+    other_unit_id= Column(Integer, ForeignKey('unit.id'))
     is_valid= Column(Boolean)
     
     #Relationships
@@ -26,7 +26,7 @@ class OrderModel(Base):
     unit=relationship("UnitModel", 
                     primaryjoin="OrderModel.unit_id==UnitModel.id",
                       back_populates='orders_unit')
-    other_unit_id=relationship("UnitModel",
+    other_unit=relationship("UnitModel",
                       primaryjoin="OrderModel.other_unit_id==UnitModel.id",
                       back_populates='orders_other_unit')
                       

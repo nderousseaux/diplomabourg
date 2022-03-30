@@ -35,7 +35,7 @@ class UnitModel(Base):
     )
     orders_unit=relationship('OrderModel',
                             primaryjoin="OrderModel.unit_id==UnitModel.id",
-                            back_populates='unit_orders')
+                            back_populates='unit')
     orders_other_unit=relationship('OrderModel',
                             primaryjoin="OrderModel.other_unit_id==UnitModel.id",
-                            back_populates='other_unit_orders')
+                            back_populates='other_unit')
