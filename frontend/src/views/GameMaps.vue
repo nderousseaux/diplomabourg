@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>
-			<div>
+			<div id="minuteur">
 				<img alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
 				<p>5:30</p>
 			</div>
@@ -24,6 +24,19 @@
 		<div id="carte">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
 			</svg>
+		</div>
+		<div>
+			<h1>Informations</h1>
+			<div id="ordres">
+				<p>Ordre 1</p>
+				<p>Ordre 2</p>
+				<p>Ordre 3</p>
+				<p>Ordre 4</p>
+				<p>Valider</p>
+			</div>
+			<div id="infos">
+				<p>Sélectionnez une région pour voir les ordres</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -48,6 +61,7 @@ export default {
 				{
 					this.style.cursor =  "pointer"
 					this.style.fill = "lightgreen"
+					this.style.transition = "0.2s"
 				})
 				path.addEventListener("mouseout", function ()
 				{
@@ -55,7 +69,9 @@ export default {
 				})
 				path.addEventListener("click", function ()
 				{
-					alert("Clic terrestre")
+					document.querySelector("#app > div > div:nth-child(3) > h1").innerHTML = "Ordres"
+					document.querySelector("#infos").style.display = "none"
+					document.querySelector("#ordres").style.display = "flex"
 				})
 			}
 
@@ -81,6 +97,7 @@ export default {
 				{
 					this.style.cursor =  "pointer"
 					this.style.fill = "lightblue"
+					this.style.transition = "0.2s"
 				})
 				path.addEventListener("mouseout", function ()
 				{
@@ -88,7 +105,9 @@ export default {
 				})
 				path.addEventListener("click", function ()
 				{
-					alert("Clic maritime")
+					document.querySelector("#app > div > div:nth-child(3) > h1").innerHTML = "Ordres"
+					document.querySelector("#infos").style.display = "none"
+					document.querySelector("#ordres").style.display = "flex"
 				})
 			}
 
@@ -167,9 +186,11 @@ export default {
 
 	/* Carte */
 	#carte{
+		border-radius: 10px;
+		box-shadow: 0px 0px 15px 5px  #CECECE;
 		width: fit-content;
 		height: 98vh;
-		margin: 1vh 2vw 1vh 2vw;
+		margin: 1vh 0 1vh 0;
 		overflow-x: auto;
 		overflow-y: hidden;
 		font-size: 13px;
@@ -179,7 +200,6 @@ export default {
 	svg{
 		background-color: #535353;
 		height: 100%;
-		border-radius: 10px;
 
 		/* Style pour le blocage de la carte */
 		/* pointer-events: none;
@@ -187,34 +207,35 @@ export default {
 	}
 
 	/* Colonne de gauche */
-	#app > div > div:first-child{
-		width: 30vw;
-		height: 94vh;
+	#app > div > div:first-child,
+	#app > div > div:nth-child(3){
+		width: 25vw;
+		height: 98vh;
 		background-color: #FFFFFF;
 		box-shadow: 0px 0px 15px 5px  #CECECE;
 		border-radius: 10px;
-		margin: 3vh 2vw 3vh 2vw;
+		margin: 1vh 1vw 1vh 1vw;
 	}
 
 	/* Minuteur */
-	#app > div > div > div:first-child{
+	#minuteur{
 		display: flex;
 		justify-content: space-between;
 		border-bottom: grey 3px solid;
 	}
-	#app > div > div > div > img{
+	#minuteur > img{
 		margin: 20px 0 20px 20px;
 		width: 48px;
 		height: 48px;
 	}
-	#app > div > div > div > p{
+	#minuteur > p{
 		font-size: 40px;
 		font-weight: bold;
 		line-height: 88px;
 		margin: 0;
 		text-align: center;
 	}
-	#app > div > div > div:first-child:after{
+	#minuteur:first-child:after{
 		content: "";
 		width: 48px;
 		padding-right: 20px;
@@ -237,7 +258,7 @@ export default {
 		margin: 10px;
 		user-select: none;
 	}
-	h1{
+	#drapeaux > h1{
 		font-size: 35px;
 		font-weight: bold;
 		margin: 20px 0;
@@ -249,6 +270,60 @@ export default {
 		width: 30vw;
 		height: calc(60% - 48px);
 		border-radius: 10px;
+	}
+
+	/* Colonne d'ordres */
+	#app > div > div:nth-child(3){
+		width: 18vw;
+		height: 98vh;
+	}
+	#app > div > div:nth-child(3) > h1{
+		line-height: 88px;
+		margin: 0;
+		border-bottom: grey 3px solid;
+	}
+	#infos,
+	#ordres{
+		display: flex;
+		height: calc(100% - 88px);
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+	#infos > p{
+		margin: 0;
+		font-size: 25px;
+	}
+	#ordres{
+		display: none;
+	}
+	#ordres > p{
+		background-color: #F0F0F0;
+		padding: 0 10% 0 10%;
+		line-height: 55px;
+		font-size: 25px;
+		border-radius: 10px;
+		border-style: grey 3px solid;
+		cursor: pointer;
+		transition: 0.3s;
+		font-weight: bold;
+	}
+	#ordres > p:hover{
+		background-color: #e4e4e4;
+	}
+	#ordres > p:active{
+		background-color: #d6d6d6;
+	}
+	#ordres > p:last-child{
+		background-color: grey;
+		color: white;
+		padding: 0 20% 0 20%;
+	}
+	#ordres > p:last-child:hover{
+		background-color: #686868;
+	}
+	#ordres > p:last-child:active{
+		background-color: #535353;
 	}
 
 /* Version tablette */
