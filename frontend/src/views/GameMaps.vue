@@ -420,12 +420,26 @@ export default {
 
 /* Thème sombre */
 @media (prefers-color-scheme: dark){
-	#app > div > div:first-child{
+	/* Colonnes */
+	#app > div > div:first-child,
+	#app > div > div:last-child,
+	#carte{
 		background-color: #232224;
 		box-shadow: 0px 0px 15px 5px #131313;
 	}
-	#app > div > div > div > img{
+	#minuteur > img{
 		filter: grayscale(1) invert(1);
+	}
+
+	/* Boutons */
+	#ordres > p{
+		background-color: #bbbbbb;
+	}
+	#ordres > p:hover{
+		background-color: #a0a0a0;
+	}
+	#ordres > p:active{
+		background-color: #868686;
 	}
 }
 </style>
