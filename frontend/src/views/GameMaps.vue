@@ -2,7 +2,7 @@
 	<div>
 		<div>
 			<div id="minuteur">
-				<img alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
+				<img id="params" alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
 				<p>5:30</p>
 			</div>
 			<div id="drapeaux">
@@ -39,6 +39,14 @@
 			</div>
 		</div>
 	</div>
+	<!-- Boîte de dialogue contextuelle simple contenant un formulaire -->
+	<dialog id="quitter">
+		<p>Voulez-vous quitter la partie ?</p>
+		<form method="dialog">
+			<button value="annuler">Annuler</button>
+			<button value="confirmer">Quitter</button>
+		</form>
+	</dialog>
 </template>
 
 <script>
@@ -69,7 +77,7 @@ export default {
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#app > div > div:nth-child(3) > h1").innerHTML = "Ordres"
+					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
 				})
@@ -105,7 +113,7 @@ export default {
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#app > div > div:nth-child(3) > h1").innerHTML = "Ordres"
+					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
 				})
@@ -170,6 +178,20 @@ export default {
 				svg.appendChild(circleOut)
 			}
 		}
+		let paramBtn = document.getElementById("params");
+		let quitDialog = document.getElementById("quitter");
+
+		// Le bouton "Mettre à jour les détails" ouvre le <dialogue> ; modulaire
+			paramBtn.addEventListener("click", function onOpen() {
+		if (typeof quitDialog.showModal === "function") {
+			quitDialog.showModal();
+		}
+		})
+
+		// Action effectuée lors de l'appuie sur l'un des boutons
+		quitDialog.addEventListener("close", function onClose() {
+			console.log(quitDialog.returnValue)
+		})
 	}
 }
 </script>
@@ -208,11 +230,11 @@ export default {
 
 	/* Colonne de gauche */
 	#app > div > div:first-child,
-	#app > div > div:nth-child(3){
+	#app > div > div:last-child{
 		width: 25vw;
 		height: 98vh;
-		background-color: #FFFFFF;
-		box-shadow: 0px 0px 15px 5px  #CECECE;
+		background-color: white;
+		box-shadow: 0px 0px 15px 5px #CECECE;
 		border-radius: 10px;
 		margin: 1vh 1vw 1vh 1vw;
 	}
@@ -273,11 +295,11 @@ export default {
 	}
 
 	/* Colonne d'ordres */
-	#app > div > div:nth-child(3){
+	#app > div > div:last-child{
 		width: 18vw;
 		height: 98vh;
 	}
-	#app > div > div:nth-child(3) > h1{
+	#app > div > div:last-child > h1{
 		line-height: 88px;
 		margin: 0;
 		border-bottom: grey 3px solid;
@@ -297,7 +319,8 @@ export default {
 	#ordres{
 		display: none;
 	}
-	#ordres > p{
+	#ordres > p,
+	#quitter > form > button{
 		background-color: #F0F0F0;
 		padding: 0 10% 0 10%;
 		line-height: 55px;
@@ -308,10 +331,12 @@ export default {
 		transition: 0.3s;
 		font-weight: bold;
 	}
-	#ordres > p:hover{
+	#ordres > p:hover,
+	#quitter > form > button:hover{
 		background-color: #e4e4e4;
 	}
-	#ordres > p:active{
+	#ordres > p:active,
+	#quitter > form > button:active{
 		background-color: #d6d6d6;
 	}
 	#ordres > p:last-child{
@@ -326,6 +351,29 @@ export default {
 		background-color: #535353;
 	}
 
+	/* Boîte de dialogue pour quitter */
+	#quitter{
+		background-color: white;
+		border-radius: 10px;
+		border-style: none;
+		box-shadow: 0px 0px 15px 5px #5b5b5b;
+	}
+	#quitter > p{
+		font-size: 25px;
+		padding: 0 30px;
+	}
+	#quitter > form{
+		display: flex;
+		justify-content: space-evenly;
+	}
+	#quitter > form > button{
+		border: none;
+		line-height: 40px;
+		margin: 0 10px;
+		outline: inherit;
+		flex-basis: 50%;
+	}
+
 /* Version tablette */
 @media screen and (min-width:770px) and (max-width:1370px){
 	/* Carte */
@@ -335,29 +383,27 @@ export default {
 	}
 
 	/* Colonne de gauche */
-	#app > div > div:first-child{
+	#app > div > div:first-child,
+	#app > div > div:last-child{
 		height: 98vh;
 		margin: 1vh 1vw 1vh 1vw;
 	}
 
 	/* Minuteur */
-	#app > div > div > div:first-child{
-		border-bottom: grey 2px solid;
-	}
-	#app > div > div > div > img{
+	#minuteur > img{
 		width: 36px;
 		height: 36px;
 	}
-	#app > div > div > div > p{
+	#minuteur > p{
 		font-size:40px;
 		line-height: 76px;
 	}
-	#app > div > div > div:first-child:after{
+	#minuteur:first-child:after{
 		width: 36px;
 	}
 
 	/* Drapeaux */
-	h1{
+	#drapeaux > h1{
 		font-size: 35px;
 	}
 	#drapeaux > div > img{
@@ -365,6 +411,16 @@ export default {
 	}
 	#drapeaux > div:last-child{
 		margin-bottom: 20px;
+	}
+
+	/* Colonne d'ordres */
+	#infos > p{
+		font-size: 32px;
+	}
+	#ordres > p,
+	#quitter > form > button{
+		line-height: 55px;
+		font-size: 22px;
 	}
 }
 
@@ -385,29 +441,30 @@ export default {
 
 	/* Colonne de gauche */
 	#app > div > div:first-child{
+		background-color: red !;
 		width: 96vw;
 		margin: 1vh 2vw 1vh 2vw;
 		height: max-content;
 	}
 
 	/* Minuteur */
-	#app > div > div > div:first-child{
+	#minuteur{
 		border-bottom: grey 2px solid;
 	}
-	#app > div > div > div > img{
+	#minuteur > img{
 		width: 36px;
 		height: 36px;
 	}
-	#app > div > div > div > p{
+	#minuteur > p{
 		font-size: 40px;
 		line-height: 76px;
 	}
-	#app > div > div > div:first-child:after{
+	#minuteur:first-child:after{
 		width: 36px;
 	}
 
 	/* Drapeaux */
-	h1{
+	#drapeaux > h1{
 		font-size: 35px;
 	}
 	#drapeaux > div > img{
@@ -416,6 +473,22 @@ export default {
 	#drapeaux > div:last-child{
 		margin-bottom: 20px;
 	}
+
+	/* Colonne d'ordres */
+	#app > div > div:last-child{
+		width: 96vw;
+		margin: 1vh 2vw 1vh 2vw;
+		height: max-content;
+	}
+	#infos > p{
+		font-size: 32px;
+		margin: 30px 0;
+	}
+	#ordres > p,
+	#quitter > form > button{
+		line-height: 55px;
+		font-size: 22px;
+	}
 }
 
 /* Thème sombre */
@@ -423,7 +496,8 @@ export default {
 	/* Colonnes */
 	#app > div > div:first-child,
 	#app > div > div:last-child,
-	#carte{
+	#carte,
+	#quitter{
 		background-color: #232224;
 		box-shadow: 0px 0px 15px 5px #131313;
 	}
@@ -432,14 +506,22 @@ export default {
 	}
 
 	/* Boutons */
-	#ordres > p{
+	#ordres > p,
+	#quitter > form > button{
 		background-color: #bbbbbb;
 	}
-	#ordres > p:hover{
+	#ordres > p:hover,
+	#quitter > form > button:hover{
 		background-color: #a0a0a0;
 	}
-	#ordres > p:active{
+	#ordres > p:active,
+	#quitter > form > button:active{
 		background-color: #868686;
+	}
+
+	/* Boîte de dialogue pour quitter */
+	#quitter{
+		box-shadow: 0px 0px 15px 5px #424242;
 	}
 }
 </style>
