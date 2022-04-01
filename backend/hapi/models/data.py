@@ -540,7 +540,118 @@ typeOders=[
     }
 ]
 
+state=[
+    
+    {
+        "name": "START"
+    }
+    
+]
+games=[
+    {
+        "name" : "Amdadou",
+        "password":"cool",
+        "map_id" : 1,
+        "state_id": 1,
+        "nbtour" :0
+    }
+    
+]
 
+players =[
+    {
+        "username":"Ladislav",
+         "is_admin":True,
+          "game_id": 1
+              
+    },
+    {
+        "username":"Emmanuel",
+        "is_admin":False,
+        "game_id": 1
+        
+              
+    },
+    {
+        "username":"Emmanuel",
+        "is_admin":False,
+        "game_id": 1
+               
+    },
+    {
+        "username":"Mariame",
+        "is_admin":False,
+        "game_id": 1    
+    },
+    {
+        "username":"Intissar",
+        "is_admin":False,
+        "game_id": 1    
+    },
+    {
+        "username":"Melissa",
+        "is_admin":False,
+        "game_id": 1    
+    },
+    {
+        "username":"Loic",
+        "is_admin":False,
+        "game_id": 1    
+    },
+]
+playersPowers=[
+    {
+        "power_id":1,
+        "player_id":1
+    },
+    {
+        "power_id":2,
+        "player_id":2
+    },
+    {
+        "power_id":3,
+        "player_id":3
+    },
+    {
+        "power_id":4,
+        "player_id":4
+    },
+    {
+        "power_id":5,
+        "player_id":5
+    },
+    {
+        "power_id":6,
+        "player_id":6
+    },
+    {
+        "power_id":7,
+        "player_id":7
+    },
+]
+unites=[
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":36, #kiel
+        "cur_region_id":36,
+        "player_power_power_id":1,
+        "player_power_player_id":1
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":13, #berlin
+        "cur_region_id":13,
+        "player_power_power_id":1,
+        "player_power_player_id":1
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":43, #munich
+        "cur_region_id":43,
+        "player_power_power_id":1,
+        "player_power_player_id":1
+    }
+]
 
 
 def fillTableMap(data):
@@ -619,3 +730,28 @@ def insertTypeOrder(typeOrder,session,table)   :
         new_typeOrder=table(name=tO["name"])
         session.add(new_typeOrder)
         session.commit() 
+        
+def insertState(states,session,table)   :
+    for s in states :
+        new_states=table(name=s["name"])
+        session.add(new_states)
+        session.commit()
+def insertGame(games,session,table):
+    for g in games :
+        new_games=table(name=g["name"],password=g["password"],map_id=g["map_id"],state_id=g["state_id"],nbtour=g["nbtour"])
+        session.add(new_games)
+        session.commit() 
+def insertPlayer(players,session,table):
+    for p in players :
+        new_players=table(username=p["username"],is_admin=p["is_admin"],game_id=p["game_id"])
+        session.add(new_players)
+        session.commit()
+def insertPlayerPower(playersPowers,engine,table):
+        for p in playersPowers:
+                new_line=table.insert().values(power_id=p["power_id"],player_id=p["player_id"]);
+                engine.execute(new_line) 
+def insertUnite(unite,session,table):
+     for u in unite:
+        new_unite=table(type_unit_id=u["type_unit_id"],src_region_id=u["src_region_id"],cur_region_id=u["cur_region_id"],player_power_power_id=u["player_power_power_id"],player_power_player_id=u["player_power_player_id"])
+        session.add(new_unite)
+        session.commit()
