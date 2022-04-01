@@ -35,11 +35,10 @@
 				<p>Valider</p>
 			</div>
 			<div id="infos">
-				<p>Sélectionnez une région pour voir les ordres</p>
+				<p>Sélectionnez une région pour choisir les ordres</p>
 			</div>
 		</div>
 	</div>
-	<!-- Boîte de dialogue contextuelle simple contenant un formulaire -->
 	<dialog id="quitter">
 		<p>Voulez-vous quitter la partie ?</p>
 		<form method="dialog">
@@ -178,14 +177,15 @@ export default {
 				svg.appendChild(circleOut)
 			}
 		}
+
+		// Pour quitter la partie
 		let paramBtn = document.getElementById("params");
 		let quitDialog = document.getElementById("quitter");
 
-		// Le bouton "Mettre à jour les détails" ouvre le <dialogue> ; modulaire
-			paramBtn.addEventListener("click", function onOpen() {
-		if (typeof quitDialog.showModal === "function") {
-			quitDialog.showModal();
-		}
+		paramBtn.addEventListener("click", function onOpen() {
+			if (typeof quitDialog.showModal === "function") {
+				quitDialog.showModal();
+			}
 		})
 
 		// Action effectuée lors de l'appuie sur l'un des boutons
