@@ -57,6 +57,9 @@ export default {
 
 		for (var j in carte["areas"])
 		{
+
+			let zoneName = carte["areas"][j].name
+
 			// Zone de terre
 			let path = document.createElementNS(ns, "path")
 			if (carte["areas"][j].type == "land")
@@ -79,6 +82,7 @@ export default {
 					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
+					console.log(zoneName)
 				})
 			}
 
@@ -115,6 +119,7 @@ export default {
 					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
+					console.log(zoneName)
 				})
 			}
 
@@ -307,6 +312,7 @@ export default {
 	#infos,
 	#ordres{
 		display: flex;
+		flex-wrap: wrap;
 		height: calc(100% - 88px);
 		flex-direction: column;
 		justify-content: space-evenly;
@@ -323,6 +329,7 @@ export default {
 	#quitter > form > button{
 		background-color: #F0F0F0;
 		padding: 0 10% 0 10%;
+		margin: 0 10px;
 		line-height: 55px;
 		font-size: 25px;
 		border-radius: 10px;
@@ -441,7 +448,6 @@ export default {
 
 	/* Colonne de gauche */
 	#app > div > div:first-child{
-		background-color: red !;
 		width: 96vw;
 		margin: 1vh 2vw 1vh 2vw;
 		height: max-content;
@@ -475,6 +481,9 @@ export default {
 	}
 
 	/* Colonne d'ordres */
+	#ordres{
+		flex-direction: row;
+	}
 	#app > div > div:last-child{
 		width: 96vw;
 		margin: 1vh 2vw 1vh 2vw;
@@ -488,6 +497,7 @@ export default {
 	#quitter > form > button{
 		line-height: 55px;
 		font-size: 22px;
+		margin: 10px;
 	}
 }
 
