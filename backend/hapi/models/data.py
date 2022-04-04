@@ -408,7 +408,7 @@ voisinage=[
     {"src_region_id": 41, "dst_region_id": [61,56,69,73]},
     {"src_region_id": 42, "dst_region_id": [53,57,67]},
     {"src_region_id": 43, "dst_region_id": [52,68]},
-    # {"src_region_id": 44, "dst_region_id": []},
+    {"src_region_id": 44, "dst_region_id": [15]},
     {"src_region_id": 45, "dst_region_id": [74,65]},
     {"src_region_id": 46, "dst_region_id": [62,58,61]},
     {"src_region_id": 47, "dst_region_id": [48]},
@@ -439,8 +439,12 @@ voisinage=[
     {"src_region_id": 72, "dst_region_id": [75]},
     # {"src_region_id": 73, "dst_region_id": []},
     # {"src_region_id": 74, "dst_region_id": []},
-    # {"src_region_id": 75, "dst_region_id": []} 
+    {"src_region_id": 74, "dst_region_id": [44]}
+
  ]
+
+
+
 
 reg_type_reg=[
     {"region_id" : 0, "type_region_id" : [1]},
@@ -630,6 +634,7 @@ playersPowers=[
     },
 ]
 unites=[
+    #germany
     {
         "type_unit_id":2, #bateau
         "src_region_id":36, #kiel
@@ -650,7 +655,169 @@ unites=[
         "cur_region_id":43,
         "player_power_power_id":1,
         "player_power_player_id":1
+    },
+    #france
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":16, #Brest
+        "cur_region_id":16,
+        "player_power_power_id":3,
+        "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":40, #Marseille
+        "cur_region_id":40,
+        "player_power_power_id":3,
+        "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":48, #Paris
+        "cur_region_id":48,
+        "player_power_power_id":3,
+        "player_power_player_id":3
     }
+]
+unitMaritimeConvoy=[
+    # for convoy france
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":75, #Mediterrane
+        "cur_region_id":75,
+        "player_power_power_id":3,
+        "player_power_player_id":3
+    },
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":30, #Gulf of lyon
+        "cur_region_id":30,
+        "player_power_power_id":3,
+        "player_power_player_id":3
+    },
+    #turkeey for convoy
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":60, #Smyrna
+        "cur_region_id":60,
+        "player_power_power_id":7,
+        "player_power_player_id":7
+    },
+
+    {
+        "type_unit_id":2, #bateeu
+        "src_region_id":5, #Agean Sea
+        "cur_region_id":5,
+        "player_power_power_id":7,
+        "player_power_player_id":7
+    },
+    #italie for  convoy
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":34, #Ionian Sea
+        "cur_region_id":34,
+        "player_power_power_id":5,
+        "player_power_player_id":5
+    },
+    {
+        "type_unit_id":2, #Bateau
+        "src_region_id":69, #Agean Sea
+        "cur_region_id":69,
+        "player_power_power_id":5,
+        "player_power_player_id":5
+    },
+    #British
+    {
+        "type_unit_id":2, #Bateau
+        "src_region_id":45, #Athlantic
+        "cur_region_id":45,
+        "player_power_power_id":4,
+        "player_power_player_id":4
+    },
+    {
+        "type_unit_id":2, #Bateau
+        "src_region_id":25, #English channel
+        "cur_region_id":25,
+        "player_power_power_id":4,
+        "player_power_player_id":4
+    }
+]
+
+orderAttack=[
+    #unite de munich attaque berlin
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":13, #berlin
+        "dst_region_id" :43, #munich
+        "unit_id":2
+    },
+
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":13, #berlin
+        "dst_region_id" :58, #Silesia
+        "unit_id":2
+    },
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":13, #berlin
+        "dst_region_id" :48, #Paris
+        "unit_id":2
+    },
+
+    #smyrna Attack brest
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":60,
+        "dst_region_id" :16,
+        "unit_id":9
+    },
+
+]
+orderConvoy=[
+    #unit in Agean sea convoy unit Smyrnat  which go in brest
+    {
+        "type_order_id": 4, #convoy
+        "src_region_id":5,
+        "dst_region_id" :16,
+        "unit_id":10,
+        "other_unit_id":9 #unit present smyrna
+    },
+    #unit in ion Saea convoy unit Smyrnat which go in brest
+    {
+        "type_order_id": 4, #convoy
+        "src_region_id":34,
+        "dst_region_id" :16,
+        "unit_id":11,
+        "other_unit_id":9 #unit present smyrna
+    },
+    #unit in Tyrrhenien Sea convoy unit Smyrnat which go in brest
+    {
+        "type_order_id": 4,  # convoy
+        "src_region_id": 69,
+        "dst_region_id": 16,
+        "unit_id": 12,
+        "other_unit_id": 9 #unit present smyrna
+    },
+
+    #unit in meditarrene convoy unit Smyrnat which go in brest
+    {
+        "type_order_id": 4,  # convoy
+        "src_region_id":75,
+        "dst_region_id": 16,
+        "unit_id": 7,
+        "other_unit_id": 9 #unit present smyrna
+    },
+    #unit in athlantic convoy unit Smyrnat which go in brest
+    {
+        "type_order_id": 4,  # convoy
+        "src_region_id" :45,
+        "dst_region_id": 16,
+        "unit_id": 13,
+        "other_unit_id": 9 #unit present smyrna
+    },
+
+
 ]
 
 
@@ -754,4 +921,14 @@ def insertUnite(unite,session,table):
      for u in unite:
         new_unite=table(type_unit_id=u["type_unit_id"],src_region_id=u["src_region_id"],cur_region_id=u["cur_region_id"],player_power_power_id=u["player_power_power_id"],player_power_player_id=u["player_power_player_id"])
         session.add(new_unite)
+        session.commit()
+def insertOrderAttack(orderAttack,session,table):
+    for o in orderAttack :
+        new_orderAttack=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"])
+        session.add(new_orderAttack)
+        session.commit()
+def insertOrderConvoy(orderConvoy,session,table):
+    for o in orderConvoy :
+        new_orderConvoy=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"])
+        session.add(new_orderConvoy)
         session.commit()
