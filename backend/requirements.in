@@ -9,3 +9,6 @@ zope.sqlalchemy
 cornice
 marshmallow
 python-dotenv
+cryptography
+pymysql
+pyramid_jwt

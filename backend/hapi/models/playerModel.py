@@ -12,12 +12,12 @@ class PlayerModel(Base):
     #Attributes
     id = Column(Integer, primary_key=True)
     username=Column(String(45), nullable=False)
-    is_admin=Column(Boolean, nullable=False)
+    is_admin=Column(Boolean, nullable=False, default=False)
     game_id=Column(Integer ,ForeignKey('game.id'))
-    is_ready=Column(Boolean)
+    is_ready=Column(Boolean, default=False)
     
     #Relationships
-    game = relationship('GameModel', back_populates='players')
+    game=relationship('GameModel', back_populates='players')
     powers=relationship("PowerModel",
         secondary=playerPower,
         back_populates="players"
@@ -27,3 +27,10 @@ class PlayerModel(Base):
         primaryjoin='foreign(UnitModel.player_power_player_id) == PlayerModel.id',
         back_populates='player'    
     )
+
+    def orders(self): #TODO: Get seulement les ordres du tour courrant (du coup unit.order est un seul ordre)
+        orders = []
+        for unit in self.units:
+            orders += unit.order
+        
+        return orders

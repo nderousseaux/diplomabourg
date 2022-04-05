@@ -13,3 +13,6 @@ class TypeOrderModel(Base):
     
     #Relationships
     orders=relationship('OrderModel', back_populates='type_order')
+
+    def __str__(self):
+        return self.name

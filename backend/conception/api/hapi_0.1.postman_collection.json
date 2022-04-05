@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b4aae792-3bcc-4f3d-b946-170165986c81",
+		"_postman_id": "7d1c1159-4ab9-4176-89fb-87411839a14a",
 		"name": "Hapi v0.1",
 		"description": "API du projet intégrateur. \n  Cette première version ne permet de jouer qu'a 7 joueurs. En effet, une seule puissance pourra être sélectionnée par joueur. On ne peut donc jouer qu'avec toutes les puissances sélectionnées, soit les 7. \n Elle ne permet pas non plus à l'administrateur de forcer le début de la partie ou le passage au tour suivant.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -11,6 +11,43 @@
 			"item": [
 				{
 					"name": "ALL MAPS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is list\", () => {",
+									"    pm.expect(r).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r.length > 0){",
+									"",
+									"    pm.test(\"Response contain all properties\", () => {",
+									"        pm.expect(r[0]).to.have.all.keys('id', 'name', 'powers', 'regions')",
+									"    });",
+									"",
+									"    //Test de power",
+									"    pm.test(\"Power contain all properties\", () => {",
+									"        pm.expect(r[0].powers).to.be.an('array').but.not.an('object')",
+									"    });",
+									"",
+									"    if(r[0].powers.length > 0){",
+									"        pm.test(\"Power contain all properties\", () => {",
+									"            pm.expect(r[0].powers[0]).to.have.all.keys('id', 'name')",
+									"        });",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -20,13 +57,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/maps/",
+							"raw": "{{baseUrl}}/maps",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"maps",
-								""
+								"maps"
 							]
 						},
 						"description": "Retourne toutes les cartes disponibles au jeu."
@@ -104,6 +140,39 @@
 				},
 				{
 					"name": "ONE MAP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r).to.have.all.keys('id', 'name', 'powers', 'regions')",
+									"});",
+									"",
+									"//Test de power",
+									"pm.test(\"Power contain all properties\", () => {",
+									"    pm.expect(r.powers).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r[0].powers.length > 0){",
+									"    pm.test(\"Power contain all properties\", () => {",
+									"        pm.expect(r.powers[0]).to.have.all.keys('id', 'name')",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -461,7 +530,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/games/:game_id/players",
+											"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -469,6 +538,12 @@
 												"games",
 												":game_id",
 												"players"
+											],
+											"query": [
+												{
+													"key": "password",
+													"value": "{{game_password}}"
+												}
 											],
 											"variable": [
 												{
@@ -502,7 +577,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -510,6 +585,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -553,7 +634,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -561,6 +642,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -604,7 +691,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -612,6 +699,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -655,7 +748,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -663,6 +756,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -706,7 +805,7 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/games/:game_id/players",
+													"raw": "{{baseUrl}}/games/:game_id/players?password={{game_password}}",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -714,6 +813,12 @@
 														"games",
 														":game_id",
 														"players"
+													],
+													"query": [
+														{
+															"key": "password",
+															"value": "{{game_password}}"
+														}
 													],
 													"variable": [
 														{
@@ -2413,6 +2518,19 @@
 				},
 				{
 					"name": "CREATE GAME",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"player_name\", \"Joueur admin\");",
+									"pm.collectionVariables.set(\"map_name\", \"test-map-\"+ Date.now());",
+									"pm.collectionVariables.set(\"password\", \"dsdddd\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2427,7 +2545,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+							"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2460,7 +2578,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+									"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2503,7 +2621,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+									"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2546,7 +2664,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"{{player_name}}\",\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+									"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2591,11 +2709,35 @@
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:6543",
+			"value": "http://185.155.93.105:10005",
 			"type": "string"
+		},
+		{
+			"key": "map_id",
+			"value": ""
 		}
 	]
 }

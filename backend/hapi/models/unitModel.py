@@ -33,5 +33,9 @@ class UnitModel(Base):
         primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
         back_populates='units'   
     )
-    order=relationship('OrderModel', back_populates='unit')
-
+    orders_unit=relationship('OrderModel',
+                            primaryjoin="OrderModel.unit_id==UnitModel.id",
+                            back_populates='unit')
+    orders_other_unit=relationship('OrderModel',
+                            primaryjoin="OrderModel.other_unit_id==UnitModel.id",
+                            back_populates='other_unit')

@@ -18,6 +18,10 @@ from .models import (
 )
 
 from .models import *
+from .models.regionModel import adjoining
+
+from .models.data import *
+
 
 from dotenv import load_dotenv
 
@@ -46,7 +50,6 @@ def pre(argv):
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
     engine = load_engine(settings)
-
     return engine
 
 
@@ -61,6 +64,33 @@ def fill(argv=sys.argv):
     engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
-    color = ColorModel(rgb="aaaaa")
-    session.add(color)
-    session.commit()
+
+    insertMaps(maps,session,MapModel)
+    insertColor(colors,session,ColorModel)
+    insertPower(powers,session,PowerModel)
+    insertTypeRegion(typeRegion,session,TypeRegionModel)
+    insertTypeUnite(typeUnite,session,TypeUnitModel)
+    insertRegion(regions,session,RegionModel)
+    insert_disposition_unite(dispositionUnite,session,DispositionUnitModel)
+    insertion_voisin(voisinage,engine,adjoining)
+    insertRegTypeReg(reg_type_reg,engine,typeRegionRegion)
+    insertState(states,session,StateModel)
+    insertTypeOrder(typeOders,session,TypeOrderModel)
+
+    insertGame(games, session, GameModel)
+    insertPlayer(players,session,PlayerModel)
+    insertPlayerPower(playersPowers, engine, playerPower)
+    insertUnite(unites, session, UnitModel)
+    insertUnite(unitMaritimeConvoy, session, UnitModel)
+    insertOrderAttack(orderAttack, session, OrderModel)
+    insertOrderConvoy(orderConvoy, session, OrderModel)
+
+
+
+
+
+    
+    
+
+    
+   

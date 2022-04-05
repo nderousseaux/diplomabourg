@@ -1,0 +1,27 @@
+version: "3"
+services:
+  db:
+    container_name: hapi-db
+    image: mysql:5.7
+    restart: always
+    env_file:
+      - ./prod.env
+    volumes:
+      - ./bd_folder:/var/lib/mysql
+
+  backend:
+    image: hapi-backend
+    container_name: hapi-backend
+    env_file:
+      - ./prod.env
+    environment:
+      - MYSQL_HOST=hapi-db
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - 10005:10005
+    volumes:
+      - ./prod.log:/code/prod.log
+    links:
+      - db

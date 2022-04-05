@@ -15,3 +15,6 @@ class TypeRegionModel(Base):
     regions=relationship('RegionModel',
         secondary=typeRegionRegion,
         back_populates='types')
+
+    def __str__(self):
+        return self.name
