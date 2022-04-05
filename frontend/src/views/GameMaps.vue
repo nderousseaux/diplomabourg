@@ -57,8 +57,7 @@ export default {
 
 		for (var j in carte["areas"])
 		{
-
-			let zoneName = carte["areas"][j].name
+			let nomZone = carte["areas"][j].name
 
 			// Zone de terre
 			let path = document.createElementNS(ns, "path")
@@ -82,7 +81,7 @@ export default {
 					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
-					console.log(zoneName)
+					console.log(nomZone)
 				})
 			}
 
@@ -119,7 +118,7 @@ export default {
 					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
-					console.log(zoneName)
+					console.log(nomZone)
 				})
 			}
 
