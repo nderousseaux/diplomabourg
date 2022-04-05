@@ -8,18 +8,18 @@
 		<button id="bouton">Créer une partie</button>
 	</div>
 	<dialog id="lancer">
-		<h1>Paramètres de création de la partie</h1>
+		<h1>Paramètres de la partie</h1>
 		<form id="choix" method="dialog">
 			<div>
-				<label for="nom">Nom de la partie :</label>
+				<label for="nom">Nom de la partie</label>
 				<input type="text" id="nom" name="nom"/>
 			</div>
 			<div>
-				<label for="nbrJ">Nombre de joueurs :</label>
+				<label for="nbrJ">Nombre de joueurs</label>
 				<input type="number" id="nbrJ" name="nbrJ" min="2" max="7" value="7"/>
 			</div>
 			<div>
-				<label for="mdp">Mot de passe :</label>
+				<label for="mdp">Mot de passe</label>
 				<input type="password" id="mdp" name="mdp"/>
 			</div>
 			<div>
@@ -33,7 +33,7 @@
 <script>
 export default {
 	mounted() {
-		// Pour lancer la partie
+		// Pour paramétrer la partie
 		let paramBtn = document.getElementById("bouton");
 		let lancerDiag = document.getElementById("lancer");
 
@@ -59,11 +59,12 @@ export default {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		width: 100vw;
 		height: 100vh;
 		align-items: center;
 	}
 	#logo{
-		height: 30vh;
+		width: 30vw;
 		margin: 5vh 0;
 	}
 
@@ -109,6 +110,7 @@ export default {
 		border-radius: 10px;
 		border-style: none;
 		box-shadow: 0px 0px 15px 5px #002843;
+		min-width: 35vw;
 	}
 	#lancer > h1{
 		color: #ffffff;
@@ -130,9 +132,11 @@ export default {
 	#lancer > form > div > label{
 		color: #ffffff;
 		font-size: 25px;
+		width: 49%;
+		text-align: left;
 	}
-	#lancer > form> div > input{
-		width: 50%;
+	#lancer > form > div > input{
+		width: calc(50% - 10px);
 		font-size: 25px;
 		outline: none;
 		margin: 2px 0;
@@ -140,6 +144,9 @@ export default {
 		border-style: none;
 		background-color: #3b5167;
 		color: #ffffff;
+	}
+	#lancer > form > div > input[type=number]{
+		text-align: right;
 	}
 	#lancer > form > div > button{
 		padding: 4px 22px;
@@ -149,4 +156,42 @@ export default {
 		outline: inherit;
 		flex-basis: 40%;
 	}
+
+/* Version mobile */
+@media screen and (max-width:769px){
+	/* Div principale */
+	#logo{
+		width: 90vw;
+	}
+
+	/* Pays du joueur */
+	#pays > img{
+		height: 15vh;
+	}
+
+	/* Boîte de dialogue pour paramétrer la partie */
+	#lancer > h1{
+		font-size: 30px;
+	}
+	#lancer > form > div{
+		flex-direction: column;
+		width: 90%;
+		align-items: center;
+	}
+	#lancer > form > div > label{
+		font-size: 25px;
+		width: 100%;
+		text-align: center;
+	}
+	#lancer > form > div > input{
+		width: 100%;
+		margin-bottom: 10px;
+	}
+	#lancer > form > div:last-child{
+		flex-direction: row;
+	}
+	#lancer > form > div > button{
+		font-size: 25px;
+	}
+}
 </style>
