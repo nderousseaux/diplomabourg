@@ -109,6 +109,7 @@ def isUnitePresentInRegion(idUnite,idRegion):
     unite = DBSession.query(UnitModel).filter(UnitModel.id == idUnite).first()
     if(unite.region.id == idRegion):
         print("isUnitePresentInRegion:")
+        print("c'est ok)")
         return True
 
     return False 
