@@ -2,7 +2,7 @@
 	<div>
 		<img id="logo" alt="Logo Diplomabourg" title="Logo Diplomabourg" src="../assets/img/logo.png"/>
 		<div id="pays">
-			<img alt="Drapeau Français" title="Drapeau Français" src="../assets/img/flags/france.png"/>
+			<img alt="Drapeau français" title="Drapeau Français" src="../assets/img/flags/france.png"/>
 			<p>France</p>
 		</div>
 		<button id="bouton">Créer une partie</button>
@@ -69,8 +69,13 @@ export default {
 	}
 
 	/* Pays du joueur */
+	#pays{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	#pays > img{
-		height: 20vh;
+		height: 128px;
 	}
 	#pays > p{
 		font-size: 80px;
@@ -127,6 +132,7 @@ export default {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		align-items: center;
 		width: 80%;
 	}
 	#lancer > form > div > label{
@@ -144,6 +150,7 @@ export default {
 		border-style: none;
 		background-color: #3b5167;
 		color: #ffffff;
+		height: 30px;
 	}
 	#lancer > form > div > input[type=number]{
 		text-align: right;
@@ -162,11 +169,6 @@ export default {
 	/* Div principale */
 	#logo{
 		width: 90vw;
-	}
-
-	/* Pays du joueur */
-	#pays > img{
-		height: 15vh;
 	}
 
 	/* Boîte de dialogue pour paramétrer la partie */

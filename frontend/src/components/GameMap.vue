@@ -8,13 +8,13 @@
 			<div id="drapeaux">
 				<h1>Pays</h1>
 				<div>
-					<img alt="Drapeau Français" title="France" src="../assets/img/flags/france.png"/>
-					<img alt="Drapeau Allemand" title="Allemagne" src="../assets/img/flags/germany.png"/>
-					<img alt="Drapeau Italien" title="Italie" src="../assets/img/flags/italy.png"/>
-					<img alt="Drapeau Russe" title="Russie" src="../assets/img/flags/russia.png"/>
-					<img alt="Drapeau Turque" title="Turquie" src="../assets/img/flags/turkey.png"/>
-					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/flags/great-britain.png"/>
-					<img alt="Drapeau Autrichien" title="Autriche" src="../assets/img/flags/austria-hungary.png"/>
+					<img alt="Drapeau français" title="France" src="../assets/img/flags/france.png"/>
+					<img alt="Drapeau allemand" title="Allemagne" src="../assets/img/flags/germany.png"/>
+					<img alt="Drapeau italien" title="Italie" src="../assets/img/flags/italy.png"/>
+					<img alt="Drapeau russe" title="Russie" src="../assets/img/flags/russia.png"/>
+					<img alt="Drapeau turque" title="Turquie" src="../assets/img/flags/turkey.png"/>
+					<img alt="Drapeau anglais" title="Angleterre" src="../assets/img/flags/great-britain.png"/>
+					<img alt="Drapeau autrichien" title="Autriche" src="../assets/img/flags/austria-hungary.png"/>
 				</div>
 			</div>
 			<div id="chat">
