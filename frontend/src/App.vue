@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import WelcomePage from './views/WelcomePage.vue'
+import WelcomePage from './components/WelcomePage.vue'
 
 export default {
 	name: 'App',
