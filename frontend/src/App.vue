@@ -13,7 +13,6 @@ export default {
 }
 </script>
 
-
 <style lang="css">
 @import './assets/css/main.css';
 #app {
