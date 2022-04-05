@@ -11,6 +11,43 @@
 			"item": [
 				{
 					"name": "ALL MAPS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is list\", () => {",
+									"    pm.expect(r).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r.length > 0){",
+									"",
+									"    pm.test(\"Response contain all properties\", () => {",
+									"        pm.expect(r[0]).to.have.all.keys('id', 'name', 'powers', 'regions')",
+									"    });",
+									"",
+									"    //Test de power",
+									"    pm.test(\"Power contain all properties\", () => {",
+									"        pm.expect(r[0].powers).to.be.an('array').but.not.an('object')",
+									"    });",
+									"",
+									"    if(r[0].powers.length > 0){",
+									"        pm.test(\"Power contain all properties\", () => {",
+									"            pm.expect(r[0].powers[0]).to.have.all.keys('id', 'name')",
+									"        });",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -20,13 +57,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/maps/",
+							"raw": "{{baseUrl}}/maps",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"maps",
-								""
+								"maps"
 							]
 						},
 						"description": "Retourne toutes les cartes disponibles au jeu."
@@ -104,6 +140,39 @@
 				},
 				{
 					"name": "ONE MAP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r).to.have.all.keys('id', 'name', 'powers', 'regions')",
+									"});",
+									"",
+									"//Test de power",
+									"pm.test(\"Power contain all properties\", () => {",
+									"    pm.expect(r.powers).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r[0].powers.length > 0){",
+									"    pm.test(\"Power contain all properties\", () => {",
+									"        pm.expect(r.powers[0]).to.have.all.keys('id', 'name')",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2449,6 +2518,19 @@
 				},
 				{
 					"name": "CREATE GAME",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"player_name\", \"Joueur admin\");",
+									"pm.collectionVariables.set(\"map_name\", \"test-map-\"+ Date.now());",
+									"pm.collectionVariables.set(\"password\", \"dsdddd\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2627,11 +2709,35 @@
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:6543",
+			"value": "http://185.155.93.105:10005",
 			"type": "string"
+		},
+		{
+			"key": "map_id",
+			"value": ""
 		}
 	]
 }
