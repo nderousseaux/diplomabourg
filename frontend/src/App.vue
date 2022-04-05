@@ -1,14 +1,14 @@
 <template>
-	<GameMaps></GameMaps>
+	<WelcomePage/>
 </template>
 
 <script>
-import GameMaps from './views/GameMaps.vue'
+import WelcomePage from './views/WelcomePage.vue'
 
 export default {
 	name: 'App',
 	components: {
-		GameMaps
+		WelcomePage
 	}
 }
 </script>

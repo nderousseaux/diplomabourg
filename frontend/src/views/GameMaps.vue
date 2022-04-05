@@ -8,13 +8,13 @@
 			<div id="drapeaux">
 				<h1>Pays</h1>
 				<div>
-					<img alt="Drapeau Français" title="France" src="../assets/img/france.png"/>
-					<img alt="Drapeau Allemand" title="Allemagne" src="../assets/img/germany.png"/>
-					<img alt="Drapeau Italien" title="Italie" src="../assets/img/italy.png"/>
-					<img alt="Drapeau Russe" title="Russie" src="../assets/img/russia.png"/>
-					<img alt="Drapeau Turque" title="Turquie" src="../assets/img/turkey.png"/>
-					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/great-britain.png"/>
-					<img alt="Drapeau Autrichien" title="Autriche" src="../assets/img/austria-hungary.png"/>
+					<img alt="Drapeau Français" title="France" src="../assets/img/flags/france.png"/>
+					<img alt="Drapeau Allemand" title="Allemagne" src="../assets/img/flags/germany.png"/>
+					<img alt="Drapeau Italien" title="Italie" src="../assets/img/flags/italy.png"/>
+					<img alt="Drapeau Russe" title="Russie" src="../assets/img/flags/russia.png"/>
+					<img alt="Drapeau Turque" title="Turquie" src="../assets/img/flags/turkey.png"/>
+					<img alt="Drapeau Anglais" title="Angleterre" src="../assets/img/flags/great-britain.png"/>
+					<img alt="Drapeau Autrichien" title="Autriche" src="../assets/img/flags/austria-hungary.png"/>
 				</div>
 			</div>
 			<div id="chat">
@@ -68,7 +68,7 @@ export default {
 				// Couleur et changement du curseur lors du passage de souris
 				path.addEventListener("mouseover", function ()
 				{
-					this.style.cursor =  "pointer"
+					this.style.cursor = "pointer"
 					this.style.fill = "lightgreen"
 					this.style.transition = "0.2s"
 				})
@@ -93,7 +93,7 @@ export default {
 				// Changement du curseur
 				path.addEventListener("mouseover", function ()
 				{
-					this.style.cursor =  "not-allowed"
+					this.style.cursor = "not-allowed"
 				})
 			}
 
@@ -105,7 +105,7 @@ export default {
 				// Couleur et changement du curseur lors du passage de souris
 				path.addEventListener("mouseover", function ()
 				{
-					this.style.cursor =  "pointer"
+					this.style.cursor = "pointer"
 					this.style.fill = "lightblue"
 					this.style.transition = "0.2s"
 				})
@@ -213,7 +213,7 @@ export default {
 	/* Carte */
 	#carte{
 		border-radius: 10px;
-		box-shadow: 0px 0px 15px 5px  #CECECE;
+		box-shadow: 0px 0px 15px 5px #CECECE;
 		width: fit-content;
 		height: 98vh;
 		margin: 1vh 0 1vh 0;
