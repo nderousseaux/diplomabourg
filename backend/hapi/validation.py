@@ -1,5 +1,4 @@
 
-
 from .db_utils import *
 from hapi.models import *
 import transaction
@@ -104,8 +103,15 @@ def isYourOwnUnity(idJoueur,idUnite): #already tested
 
     return False
 
+# si l'unité est présente sur une région
 def isUnitePresentInRegion(idUnite,idRegion):
-    return None 
+    #récupère l'unité
+    unite = DBSession.query(UnitModel).filter(UnitModel.id == idUnite).first()
+    if(unite.region.id == idRegion):
+        print("isUnitePresentInRegion:")
+        return True
+
+    return False 
 
 def valideAttaque(order,DBSession,transaction): #already tested
     idJoueur=order.unit.player.id
