@@ -3,6 +3,8 @@ from .db_utils import *
 from hapi.models import *
 import transaction
 
+from sqlalchemy import or_, and_
+
 
 
 
@@ -139,3 +141,55 @@ def valideAttaque(order,DBSession,transaction): #already tested
 def tesvalideAttaque(idOrder,DBSession,transaction):
     order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
     return (valideAttaque(order,DBSession,transaction))
+
+
+def checkConvoyArmy(playerID, orderid, DBSession):
+    
+    ourConvoy = DBSession.query(OrderModel).filter(OrderModel.id == orderid).first()
+    ourCurrUnit = DBSession.query(UnitModel).filter(UnitModel.id == ourConvoy.unit_id).first()
+    state = False
+
+    if (isYourOwnUnity(playerID, ourCurrUnit.player_power_player_id) and ourConvoy.unit_id != ourConvoy.other_unit_id) 
+    and (ourConvoy.src_region_id != ourConvoy.dst_region_id) and isMaritimeRegion(ourCurrUnit.cur_region_id, DBSession) 
+    and isFleet(ourConvoy.unit_id, DBSession) and isTwoRegionsConnex(ourConvoy.src_region_id, ourCurrUnit.cur_region_id, DBSession) 
+    and isTwoRegionsConnex(ourConvoy.dst_region_id, ourCurrUnit.cur_region_id, DBSession) 
+    and isCostaleRegion(ourConvoy.src_region_id, DBSession) and isCostaleRegion(ourConvoy.dst_region_id, DBSession) :
+        convoy.is_valid = True
+        state = convoy.is_valid
+        DBSession.commit()
+
+    return state
+
+
+# Regroupe tous les ordres d'une partie en fonction du tour courant et appel une fonction en fonction du type d'ordre 
+# Attaque, Soutien, Convoi, Tenir
+# La fonction appelée veriife si l'ordre est valide ou pas et change le is_valid de cet ordre au besoin 
+def Validation(gameID, DBSession) :
+    # nbtour sera mise dans la table order
+    ourOrders = DBSession.query(OrderModel).filter(and_(OrderModel.unit.player.game_id == gameID, OrderModel.unit.player.game.nbtour == OrderModel.nbtour ))
+
+    for order in ourOrders :
+        if order.type_order.name == "ATTACK" : 
+            valideAttaque(order, DBSession, transaction) # Attaquer une zone
+            
+        else if order.type_order.name == "CONVOY":
+            checkConvoyArmy(order.unit.player.id, order.id, DBSession) # Convoyer une armée
+
+        else if order.type_order.name == "HOLD":
+            # Tenir sa position
+
+        else if order.type_order.name == "SUPPORT":
+            # Soutenir
+
+        else : 
+            # ordre non reconnu : HOLD par defaut
+
+    # Soit on modifie le nombre de tour ici dans la table game ou on le fait ailleurs
+    #game = DBSession.query(GameModel).filter(GameModel.id == gameID).first()
+    #game.nbtour += 1
+    #DBSession.commit()
+
+    return True
+
+
+    
