@@ -4,7 +4,7 @@ from hapi.cors import cors_policy
 import pyramid.httpexceptions as exception
 
 from hapi.marshmallow_schemas.orderSchema import OrderSchema
-from hapi.marshmallow_schemas.gameSchema import GameSchema
+from hapi.marshmallow_schemas.GameSchema import GameSchema
 from hapi.models import OrderModel,GameModel,PlayerModel,UnitModel,DBSession
 from hapi.service_informations import ServiceInformations
 
