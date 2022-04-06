@@ -12,6 +12,7 @@ class GameModel(Base):
     password = Column(String(45), nullable=False)
     map_id = Column(Integer, ForeignKey('map.id'))
     state_id = Column(Integer, ForeignKey('state.id'), default=1)
+    nbtour = Column(Integer)
 
     #Relationships
     map = relationship('MapModel', back_populates='games')

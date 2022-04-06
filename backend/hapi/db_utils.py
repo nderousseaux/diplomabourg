@@ -22,6 +22,7 @@ from .models.regionModel import adjoining
 
 from .models.data import *
 
+
 from dotenv import load_dotenv
 
 def usage(argv):
@@ -63,7 +64,7 @@ def fill(argv=sys.argv):
     engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
-    
+
     insertMaps(maps,session,MapModel)
     insertColor(colors,session,ColorModel)
     insertPower(powers,session,PowerModel)
@@ -74,6 +75,20 @@ def fill(argv=sys.argv):
     insertion_voisin(voisinage,engine,adjoining)
     insertRegTypeReg(reg_type_reg,engine,typeRegionRegion)
     insertState(states,session,StateModel)
+    insertTypeOrder(typeOders,session,TypeOrderModel)
+
+    insertGame(games, session, GameModel)
+    insertPlayer(players,session,PlayerModel)
+    insertPlayerPower(playersPowers, engine, playerPower)
+    insertUnite(unites, session, UnitModel)
+    insertUnite(unitMaritimeConvoy, session, UnitModel)
+    insertOrderAttack(orderAttack, session, OrderModel)
+    insertOrderConvoy(orderConvoy, session, OrderModel)
+
+
+
+
+
     
     
 

@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.prod
     ports:
-      - 6543:6543
+      - 10005:10005
     volumes:
       - ./prod.log:/code/prod.log
     links:

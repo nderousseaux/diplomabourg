@@ -26,7 +26,6 @@ class Order():
         if(self.game==None):
             raise exception.HTTPNotFound()
 
-        #je crée un joueur pour le test #FIXME: Vérifier user
         
     def collection_get(self):
         #On vérifie que l'user connecté à bien accès à cette game
