@@ -209,6 +209,9 @@ export default {
 	img{
 		cursor: pointer;
 	}
+	h1, p{
+		text-align: center;
+	}
 
 	/* Carte */
 	#carte{
@@ -250,15 +253,15 @@ export default {
 		border-bottom: grey 3px solid;
 	}
 	#minuteur > img{
-		margin: 20px 0 20px 20px;
 		width: 48px;
 		height: 48px;
+		margin: 20px 0 20px 20px;
 	}
 	#minuteur > p{
 		font-size: 40px;
-		font-weight: bold;
 		line-height: 88px;
 		margin: 0;
+		font-weight: bold;
 		text-align: center;
 	}
 	#minuteur:first-child:after{
@@ -273,6 +276,11 @@ export default {
 		flex-direction: column;
 		height: 30%;
 	}
+		#drapeaux > h1{
+		font-size: 35px;
+		font-weight: bold;
+		margin: 20px 0;
+	}
 	#drapeaux > div{
 		display: flex;
 		flex-wrap: wrap;
@@ -283,11 +291,6 @@ export default {
 		width: 17%;
 		margin: 10px;
 		user-select: none;
-	}
-	#drapeaux > h1{
-		font-size: 35px;
-		font-weight: bold;
-		margin: 20px 0;
 	}
 
 	/* Chat (masqué pendant l'alpha) */
@@ -392,7 +395,6 @@ export default {
 	#app > div > div:first-child,
 	#app > div > div:last-child{
 		height: 98vh;
-		margin: 1vh 1vw 1vh 1vw;
 	}
 
 	/* Minuteur */
@@ -401,22 +403,16 @@ export default {
 		height: 36px;
 	}
 	#minuteur > p{
-		font-size:40px;
+		font-size: 40px;
 		line-height: 76px;
 	}
 	#minuteur:first-child:after{
-		width: 36px;
+		width: 18px;
 	}
 
 	/* Drapeaux */
-	#drapeaux > h1{
-		font-size: 35px;
-	}
 	#drapeaux > div > img{
 		width: 30%;
-	}
-	#drapeaux > div:last-child{
-		margin-bottom: 20px;
 	}
 
 	/* Colonne d'ordres */
@@ -425,7 +421,6 @@ export default {
 	}
 	#ordres > p,
 	#quitter > form > button{
-		line-height: 55px;
 		font-size: 22px;
 	}
 }
@@ -440,7 +435,6 @@ export default {
 	/* Carte */
 	#carte{
 		width: unset;
-		height: 99vh;
 		margin: 0 2vw 1vh 2vw;
 		font-size: 11px;
 	}
@@ -448,20 +442,16 @@ export default {
 	/* Colonne de gauche */
 	#app > div > div:first-child{
 		width: 96vw;
-		margin: 1vh 2vw 1vh 2vw;
 		height: max-content;
+		margin: 1vh 2vw 1vh 2vw;
 	}
 
 	/* Minuteur */
-	#minuteur{
-		border-bottom: grey 2px solid;
-	}
 	#minuteur > img{
 		width: 36px;
 		height: 36px;
 	}
 	#minuteur > p{
-		font-size: 40px;
 		line-height: 76px;
 	}
 	#minuteur:first-child:after{
@@ -469,14 +459,8 @@ export default {
 	}
 
 	/* Drapeaux */
-	#drapeaux > h1{
-		font-size: 35px;
-	}
 	#drapeaux > div > img{
 		width: 15%;
-	}
-	#drapeaux > div:last-child{
-		margin-bottom: 20px;
 	}
 
 	/* Colonne d'ordres */
@@ -489,12 +473,11 @@ export default {
 		height: max-content;
 	}
 	#infos > p{
-		font-size: 32px;
 		margin: 30px 0;
+		font-size: 32px;
 	}
 	#ordres > p,
 	#quitter > form > button{
-		line-height: 55px;
 		font-size: 22px;
 		margin: 10px;
 	}
