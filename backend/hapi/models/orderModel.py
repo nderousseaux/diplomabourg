@@ -15,6 +15,7 @@ class OrderModel(Base):
     other_unit_id= Column(Integer, ForeignKey('unit.id'))
     is_valid= Column(Boolean)
     nbtour= Column(Integer, nullable=False)
+    gameid=Column(Integer, nullable=False)
     
     #Relationships
     type_order=relationship('TypeOrderModel',  back_populates='orders')

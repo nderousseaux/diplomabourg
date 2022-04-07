@@ -84,6 +84,7 @@ def fill(argv=sys.argv):
     insertUnite(unitMaritimeConvoy, session, UnitModel)
     insertOrderAttack(orderAttack, session, OrderModel)
     insertOrderConvoy(orderConvoy, session, OrderModel)
+    insertOrderAttack(floatAttack, session, OrderModel)
 
 
 

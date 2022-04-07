@@ -116,6 +116,12 @@ def isUnitePresentInRegion(idUnite,idRegion):
 
     return False 
 
+def updateOrder(order,DBSession,transaction):
+    get_order = DBSession.query(OrderModel).filter(OrderModel.id == order.id).first()
+    get_order.is_valid=True
+    transaction.commit()
+    
+
 def valideAttaque(order,DBSession,transaction): #already tested
     idJoueur=order.unit.player.id
     if (isYourOwnUnity(idJoueur,order.unit.id)==True and isAttaqueMyself(idJoueur,order.dst_region_id)==False):
@@ -123,73 +129,79 @@ def valideAttaque(order,DBSession,transaction): #already tested
             if(isLandRegion(order.dst_region_id,DBSession)==True or isCostaleRegion(order.dst_region_id,DBSession)==True):
                 if (isTwoRegionsConnex(order.src_region_id,order.dst_region_id,DBSession)):
                      #modifié le champ isvalide de l'ordre
-                     order.is_valid=True
-                     DBSession.commit()
+                     order.is_valid = True
                      return True  
                     
                 elif (ExisteConvoy(order.unit.id,order.src_region_id,order.dst_region_id,DBSession)):
                     #modifié le champ isvalide de l'order
                      order.is_valid = True
-                     transaction.commit()
+                     print("Army attack valid")
                      return True 
         elif isFleet(order.id,DBSession)==True:
-            if(isMaritimeRegion(order.idDest,DBSession)==True or isCostaleRegion(order.idDest,DBSession)==True):
-                 if (isTwoRegionsConnex(order.idSrc,order.idtarget,DBSession)):
-                     #modifié le champ isvalide de l'order 
-                     return True 
+            if(isMaritimeRegion(order.dst_region_id ,DBSession)==True or isCostaleRegion(order.dst_region_id ,DBSession)==True):
+                 if (isTwoRegionsConnex(order.src_region_id,order.dst_region_id,DBSession)):
+                     #modifié le champ isvalide de l'order  
+                     order.is_valid = True
+                    
+                     print("Fleet attack valid")
     return False
+
+orderFloat=[10,11,12]
 def tesvalideAttaque(idOrder,DBSession,transaction):
     order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
     return (valideAttaque(order,DBSession,transaction))
 
 
-def checkConvoyArmy(playerID, orderid, DBSession):
+#0- l'unité qui convoie t'appartient et est une flotte
+#1-l'unité qui est convoyé est une arme
+#2- tu ne peux pas te convoyer toi même
+#3 - region courant de l'unité qui connvoie doit être maritime 
+#4- region destination  de l'unité convoyé est côtiére 
+#5  -région source de l'unité convoyé est  cotiére
+
+def ValideConvoyArmy(order, DBSession,transaction): #already tested
     
-    ourConvoy = DBSession.query(OrderModel).filter(OrderModel.id == orderid).first()
-    ourCurrUnit = DBSession.query(UnitModel).filter(UnitModel.id == ourConvoy.unit_id).first()
-    state = False
+    idJoueur=order.unit.player.id
+    if (isYourOwnUnity(idJoueur,order.unit.id) and isFleet(order.unit.id,DBSession) and (order.unit_id != order.other_unit_id) and isArmy(order.other_unit.id,DBSession)and isMaritimeRegion(order.src_region_id ,DBSession) and isCostaleRegion(order.other_unit.cur_region_id, DBSession) and isCostaleRegion(order.dst_region_id, DBSession)) :
+        order.is_valid = True
+        print("convoy valide")
+    return True
+        
+orderConvoie=[5,6,7,8,9]       
+def testValideConvoy(idOrder,DBSession,transaction):
+    order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
+    return (ValideConvoyArmy(order,DBSession,transaction))
 
-    if (isYourOwnUnity(playerID, ourCurrUnit.player_power_player_id) and ourConvoy.unit_id != ourConvoy.other_unit_id) 
-    and (ourConvoy.src_region_id != ourConvoy.dst_region_id) and isMaritimeRegion(ourCurrUnit.cur_region_id, DBSession) 
-    and isFleet(ourConvoy.unit_id, DBSession) and isTwoRegionsConnex(ourConvoy.src_region_id, ourCurrUnit.cur_region_id, DBSession) 
-    and isTwoRegionsConnex(ourConvoy.dst_region_id, ourCurrUnit.cur_region_id, DBSession) 
-    and isCostaleRegion(ourConvoy.src_region_id, DBSession) and isCostaleRegion(ourConvoy.dst_region_id, DBSession) :
-        convoy.is_valid = True
-        state = convoy.is_valid
-        DBSession.commit()
-
-    return state
 
 
 # Regroupe tous les ordres d'une partie en fonction du tour courant et appel une fonction en fonction du type d'ordre 
 # Attaque, Soutien, Convoi, Tenir
 # La fonction appelée veriife si l'ordre est valide ou pas et change le is_valid de cet ordre au besoin 
-def Validation(gameID, DBSession) :
+def Validation(game, DBSession,transaction) :
+    orders= DBSession.query(OrderModel).filter(OrderModel.gameid.like(game.id),OrderModel.nbtour.like(game.nbtour))
+
+        
     # nbtour sera mise dans la table order
-    ourOrders = DBSession.query(OrderModel).filter(and_(OrderModel.unit.player.game_id == gameID, OrderModel.unit.player.game.nbtour == OrderModel.nbtour ))
-
-    for order in ourOrders :
-        if order.type_order.name == "ATTACK" : 
-            valideAttaque(order, DBSession, transaction) # Attaquer une zone
+    
+    for o in orders :
+        if (o.type_order.name=="ATTACK"):  
+            valideAttaque(o, DBSession, transaction) # Attaquer une zone
             
-        else if order.type_order.name == "CONVOY":
-            checkConvoyArmy(order.unit.player.id, order.id, DBSession) # Convoyer une armée
-
-        else if order.type_order.name == "HOLD":
-            # Tenir sa position
-
-        else if order.type_order.name == "SUPPORT":
-            # Soutenir
-
-        else : 
-            # ordre non reconnu : HOLD par defaut
-
-    # Soit on modifie le nombre de tour ici dans la table game ou on le fait ailleurs
-    #game = DBSession.query(GameModel).filter(GameModel.id == gameID).first()
-    #game.nbtour += 1
-    #DBSession.commit()
-
-    return True
+            
+        elif (o.type_order.name  == "CONVOY"):
+            ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée
 
 
+        elif (o.type_order.name  == "HOLD"):
+            print("tient")
+            
+
+        elif (o.type_order.name  == "SUPPORT"):
+            print("intissar")
+            
+    print("validation ok")
+    transaction.commit()
+def testValidationOrders(idGame, DBSession,transaction):
+    game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()
+    Validation(game,DBSession,transaction)
     

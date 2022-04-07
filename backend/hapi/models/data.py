@@ -750,7 +750,8 @@ orderAttack=[
         "src_region_id":13, #berlin
         "dst_region_id" :43, #munich
         "unit_id":2,
-        "nbtour" :0
+        "nbtour" :0,
+        "gameid":1
         
     },
 
@@ -759,14 +760,16 @@ orderAttack=[
         "src_region_id":13, #berlin
         "dst_region_id" :58, #Silesia
         "unit_id":2,
-        "nbtour" :0
+        "nbtour" :0   ,
+        "gameid":1
     },
     {
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
         "dst_region_id" :48, #Paris
         "unit_id":2,
-        "nbtour" :0
+        "nbtour" :0   ,
+        "gameid":1
     },
 
     #smyrna Attack brest
@@ -775,7 +778,8 @@ orderAttack=[
         "src_region_id":60,
         "dst_region_id" :16,
         "unit_id":9,
-        "nbtour" :0
+        "nbtour" :0   ,
+        "gameid":1
     },
 
 ]
@@ -787,7 +791,8 @@ orderConvoy=[
         "dst_region_id" :16,
         "unit_id":10,
         "other_unit_id":9,
-        "nbtour" :0 #unit present smyrna
+        "nbtour" :0,
+        "gameid":1 #unit present smyrna
     },
     #unit in ion Saea convoy unit Smyrnat which go in brest
     {
@@ -796,7 +801,8 @@ orderConvoy=[
         "dst_region_id" :16,
         "unit_id":11,
         "other_unit_id":9,
-        "nbtour" :0 #unit present smyrna
+        "nbtour" :0   ,
+        "gameid":1 #unit present smyrna
     },
     #unit in Tyrrhenien Sea convoy unit Smyrnat which go in brest
     {
@@ -805,7 +811,8 @@ orderConvoy=[
         "dst_region_id": 16,
         "unit_id": 12,
         "other_unit_id": 9,
-        "nbtour" :0 #unit present smyrna
+        "nbtour" :0   ,
+        "gameid":1 #unit present smyrna
     },
 
     #unit in meditarrene convoy unit Smyrnat which go in brest
@@ -815,7 +822,8 @@ orderConvoy=[
         "dst_region_id": 16,
         "unit_id": 7,
         "other_unit_id": 9, #unit present smyrna
-        "nbtour" :0
+        "nbtour" :0   ,
+        "gameid":1
     },
     #unit in athlantic convoy unit Smyrnat which go in brest
     {
@@ -824,10 +832,51 @@ orderConvoy=[
         "dst_region_id": 16,
         "unit_id": 13,
         "other_unit_id": 9, #unit present smyrna
-         "nbtour" :0
+         "nbtour" :0   ,
+         "gameid":1
+        
     },
 
 
+]
+floatAttack=[
+     #fleet Athlantic Attack brest(cost) 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":45,
+        "dst_region_id" :16,
+        "unit_id":13,
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #fleet Tyrrhenien Sea Attack ion Saea(maritime)
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":69,
+        "dst_region_id" :34,
+        "unit_id":13,
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #fleet brest  Attack gaskony cotiére
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16,
+        "dst_region_id" :28,
+        "unit_id":13,
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16,
+        "dst_region_id" :3,
+        "unit_id":1,
+        "nbtour" :1,
+        "gameid":1
+    },
+    
+    
 ]
 
 
@@ -840,7 +889,7 @@ def insertMaps(maps,session,table):
         session.add(new_maps)
         session.commit()
         
-def insertColor(colors,session,table,):
+def insertColor(colors,session,table):
     for c in colors :
         new_color=table(rgb=c["rgb"])
         session.add(new_color)
@@ -934,11 +983,11 @@ def insertUnite(unite,session,table):
         session.commit()
 def insertOrderAttack(orderAttack,session,table):
     for o in orderAttack :
-        new_orderAttack=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],nbtour=o["nbtour"])
+        new_orderAttack=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
         session.add(new_orderAttack)
         session.commit()
 def insertOrderConvoy(orderConvoy,session,table):
     for o in orderConvoy :
-        new_orderConvoy=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"])
+        new_orderConvoy=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
         session.add(new_orderConvoy)
         session.commit()
