@@ -2,7 +2,7 @@
 	<div>
 		<img id="logo" alt="Logo Diplomabourg" title="Logo Diplomabourg" src="../assets/img/logo.png"/>
 		<div id="pays">
-			<img alt="Drapeau français" title="Drapeau Français" src="../assets/img/flags/france.png"/>
+			<img alt="Drapeau français" title="Drapeau français" src="../assets/img/flags/france.png"/>
 			<p>France</p>
 		</div>
 		<button id="bouton">Créer une partie</button>
@@ -16,15 +16,16 @@
 			</div>
 			<div>
 				<label for="nbrJ">Nombre de joueurs</label>
-				<input type="number" id="nbrJ" name="nbrJ" min="2" max="7" value="7"/>
+				<input type="number" onkeydown="return false" id="nbrJ" name="nbrJ" min="2" max="7" value="7"/>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" id="mdp" name="mdp"/>
 			</div>
+			<p>Tous les champs ne sont pas complétés</p>
 			<div>
-				<button value="annuler">Annuler</button>
-				<button value="confirmer">Créer</button>
+				<button>Annuler</button>
+				<input type="submit" value="Créer"/>
 			</div>
 		</form>
 	</dialog>
@@ -34,19 +35,38 @@
 export default {
 	mounted() {
 		// Pour paramétrer la partie
-		let paramBtn = document.getElementById("bouton");
-		let lancerDiag = document.getElementById("lancer");
+		let paramBtn = document.getElementById("bouton")
+		let lancerDiag = document.getElementById("lancer")
+		let erreur = document.querySelector("form > p")
 
-
+		// Ouvrir le formulaire
 		paramBtn.addEventListener("click", function onOpen() {
 			if (typeof lancerDiag.showModal === "function") {
-				lancerDiag.showModal();
+				erreur.style.display = "none"
+				lancerDiag.showModal()
 			}
 		})
 
-		// Action effectuée lors de l'appuie sur l'un des boutons
-		lancerDiag.addEventListener("close", function onClose() {
-			console.log(lancerDiag.returnValue)
+		document.querySelector("input[type=submit]").addEventListener("click", event => {
+			event.preventDefault()
+			var form = event.target.form
+
+			// Si le formulaire n'est pas complet
+			if (
+				form["nom"].value === '' ||
+				form["mdp"].value === ''
+				) {
+					console.log("Erreur")
+					erreur.style.display = "block"
+				}
+
+			// Sinon on peut envoyer au back
+			else {
+				erreur.style.display = "none"
+				console.log("Nom de la partie :", form["nom"].value,
+							"\nNombre de joueurs :", form["nbrJ"].value,
+							"\nMot de passe :", form["mdp"].value)
+			}
 		})
 	}
 }
@@ -89,7 +109,8 @@ export default {
 	}
 
 	/* Bouton */
-	button{
+	button,
+	input[type=submit]{
 		margin: 5vh 0;
 		padding: 4px 44px;
 		background-color: #800124;
@@ -102,10 +123,12 @@ export default {
 		cursor: pointer;
 		box-shadow: 0px 0px 15px 5px #002843;
 	}
-	button:hover{
+	button:hover,
+	input[type=submit]:hover{
 		background-color: #4682b4;
 	}
-	button:active{
+	button:active,
+	input[type=submit]:active{
 		background-color: #376890;
 	}
 
@@ -121,6 +144,7 @@ export default {
 		color: #ffffff;
 		font-size: 40px;
 		margin: 10px 0 30px;
+		text-align: center;
 	}
 	#lancer > form{
 		display: flex;
@@ -135,13 +159,21 @@ export default {
 		align-items: center;
 		width: 80%;
 	}
+	#lancer > form > p{
+		display: none;
+		font-size: 20px;
+		color: lightcoral;
+		margin-bottom: 0;
+	}
 	#lancer > form > div > label{
 		color: #ffffff;
 		font-size: 25px;
 		width: 49%;
 		text-align: left;
 	}
-	#lancer > form > div > input{
+	input[type=number],
+	input[type=password],
+	input[type=text]{
 		width: calc(50% - 10px);
 		font-size: 25px;
 		outline: none;
@@ -152,10 +184,14 @@ export default {
 		color: #ffffff;
 		height: 30px;
 	}
-	#lancer > form > div > input[type=number]{
+	input[type=number]{
 		text-align: right;
+		caret-color: transparent;
+		user-select: none;
+		cursor: default;
 	}
-	#lancer > form > div > button{
+	#lancer > form > div > button,
+	#lancer > form > div > input[type=submit]{
 		padding: 4px 22px;
 		border: none;
 		line-height: 40px;
