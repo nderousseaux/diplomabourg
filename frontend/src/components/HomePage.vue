@@ -1,22 +1,25 @@
 <template>
 	<div>
-		<img id="logo" alt="Logo Diplomabourg" title="Logo Diplomabourg" src="../assets/img/logo.png"/>
+		<img id="logo" alt="Logo Diplomabourg" title="Logo Diplomabourg"
+			src="../assets/img/logo.png"/>
 		<div id="pays">
-			<img alt="Drapeau français" title="Drapeau français" src="../assets/img/flags/france.png"/>
+			<img alt="Drapeau français" title="Drapeau français"
+				src="../assets/img/flags/france.png"/>
 			<p>France</p>
 		</div>
-		<button id="bouton">Créer une partie</button>
+		<button>Créer une partie</button>
 	</div>
-	<dialog id="lancer">
+	<dialog id="param">
 		<h1>Paramètres de la partie</h1>
-		<form id="choix" method="dialog">
+		<form method="dialog">
 			<div>
 				<label for="nom">Nom de la partie</label>
 				<input type="text" id="nom" name="nom"/>
 			</div>
 			<div>
 				<label for="nbrJ">Nombre de joueurs</label>
-				<input type="number" onkeydown="return false" id="nbrJ" name="nbrJ" min="2" max="7" value="7"/>
+				<input type="number" onkeydown="return false" id="nbrJ"
+					name="nbrJ" min="2" max="7" value="7"/>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
@@ -35,8 +38,8 @@
 export default {
 	mounted() {
 		// Pour paramétrer la partie
-		let paramBtn = document.getElementById("bouton")
-		let lancerDiag = document.getElementById("lancer")
+		let paramBtn = document.querySelector("div:first-child > button")
+		let lancerDiag = document.getElementById("param")
 		let erreur = document.querySelector("form > p")
 
 		// Ouvrir le formulaire
@@ -47,7 +50,9 @@ export default {
 			}
 		})
 
-		document.querySelector("input[type=submit]").addEventListener("click", event => {
+		// Gestion du formulaire
+		document.querySelector("input[type=submit]").addEventListener("click",
+																	event => {
 			event.preventDefault()
 			var form = event.target.form
 
@@ -59,6 +64,16 @@ export default {
 					console.log("Erreur")
 					erreur.style.display = "block"
 				}
+			
+			// Si l'utilisateur a modifié l'HTML
+			else if (
+				form["nbrJ"].value < 2 ||
+				form["nbrJ"].value > 7
+			) {
+					erreur.innerText = "Le nombre de joueurs doit être compris\
+						entre 2 et 7"
+					erreur.style.display = "block"
+			}
 
 			// Sinon on peut envoyer au back
 			else {
@@ -133,39 +148,40 @@ export default {
 	}
 
 	/* Boîte de dialogue pour paramétrer la partie */
-	#lancer{
+	#param{
 		background-color: #2a3a49;
 		border-radius: 10px;
 		border-style: none;
 		box-shadow: 0px 0px 15px 5px #002843;
 		min-width: 35vw;
 	}
-	#lancer > h1{
+	#param > h1{
 		color: #ffffff;
 		font-size: 40px;
 		margin: 10px 0 30px;
 		text-align: center;
 	}
-	#lancer > form{
+	#param > form{
 		display: flex;
 		flex-direction: column;
 		margin: 0;
 		align-items: center;
 	}
-	#lancer > form > div{
+	#param > form > div{
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 		width: 80%;
 	}
-	#lancer > form > p{
+	#param > form > p{
 		display: none;
 		font-size: 20px;
 		color: lightcoral;
 		margin-bottom: 0;
+		text-align: center;
 	}
-	#lancer > form > div > label{
+	#param > form > div > label{
 		color: #ffffff;
 		font-size: 25px;
 		width: 49%;
@@ -190,8 +206,8 @@ export default {
 		user-select: none;
 		cursor: default;
 	}
-	#lancer > form > div > button,
-	#lancer > form > div > input[type=submit]{
+	#param > form > div > button,
+	#param > form > div > input[type=submit]{
 		padding: 4px 22px;
 		border: none;
 		line-height: 40px;
@@ -208,27 +224,28 @@ export default {
 	}
 
 	/* Boîte de dialogue pour paramétrer la partie */
-	#lancer > h1{
+	#param > h1{
 		font-size: 30px;
 	}
-	#lancer > form > div{
+	#param > form > div{
 		flex-direction: column;
 		width: 90%;
 		align-items: center;
 	}
-	#lancer > form > div > label{
+	#param > form > div > label{
 		font-size: 25px;
 		width: 100%;
 		text-align: center;
 	}
-	#lancer > form > div > input{
+	#param > form > div > input{
 		width: 100%;
 		margin-bottom: 10px;
 	}
-	#lancer > form > div:last-child{
+	#param > form > div:last-child{
 		flex-direction: row;
 	}
-	#lancer > form > div > button{
+	#param > form > div > button,
+	#param > form > div > input[type=submit]{
 		font-size: 25px;
 	}
 }
