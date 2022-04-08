@@ -276,7 +276,7 @@ export default {
 		flex-direction: column;
 		height: 30%;
 	}
-		#drapeaux > h1{
+	#drapeaux > h1{
 		font-size: 35px;
 		font-weight: bold;
 		margin: 20px 0;
