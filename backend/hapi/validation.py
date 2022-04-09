@@ -212,14 +212,13 @@ def testValidationOrders(idGame, DBSession,transaction):
 
 
 # orders est une liste de tous les ordres de types attaques en fonction du nombre de tour de la partie
-# Pour la recuperer : DBSession.query(OrderModel).filter(OrderModel.type_order.name == "ATTACK", OrderModel.nbtour == game.nbtour)
 # Renvoie la liste des ordres en conflit avec d'autres autres. NB : Il n y a de gestion miroire n cas au pire (n le nombre de joueur de la partie)
 # Peut etre optimiser
-def AttaqueMutuelle(orders, DBSession, transaction):
+def AttaqueMutuelle(orders, DBSession):
     MutualAttack = []
     for o in orders :
         # La liste des ordres en conflit avec l'ordre source
-        found = DBSession.query(OrderModel).filter(OrderModel.id != o.id, OrderModel.src_region_id == o.dst_region_id, OrderModel.dst_region_id == o.src_region_id, o.nbtour == OrderModel.nbtour)
+        found = DBSession.query(OrderModel).filter(OrderModel.id != o.id, OrderModel.type_order.name=="ATTACK", OrderModel.src_region_id == o.dst_region_id, OrderModel.dst_region_id == o.src_region_id, o.nbtour == OrderModel.nbtour)
         # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != o.id, OrderModel.dst_region_id == o.dst_region_id)).filter(and_((OrderModel.dst_region_id == o.src_region_id), (o.nbtour == OrderModel.nbtour)))
 
         if found != None :
@@ -239,16 +238,24 @@ def AnnuleAttMutuelle(orders, DBSession, transaction):
 
     transaction.commit()
 
-
-# Retourne une liste d'ordre en conflit avec l'ordre passé en paramètre
+# Retourne la liste de tous les ordres qui attaquent une meme zone dans un tour
 # order est un ordre de type attaque en fonction du nombre de tour de la partie
-def detecteConflitOrdre(order, DBSession, transaction):
-    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.dst_region_id == order.dst_region_id, order.nbtour == OrderModel.nbtour)
+def SameAreaAttacked(order, DBSession, transaction):
+    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order.name=="ATTACK", OrderModel.dst_region_id == order.dst_region_id, order.nbtour == OrderModel.nbtour)
     # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != order.id, OrderModel.dst_region_id == order.dst_region_id)).filter(order.nbtour == OrderModel.nbtour)
 
-    if found != None or found != [] : # Ou [] J'ai un doute
+    if found != None and found != [] : # Ou [] J'ai un doute
         order.state = False
         transaction.commit()
+
+    return found
+
+
+# Retourne une liste d'ordres qui visent une zone de l'ordre passé en paramètre
+# order est un ordre de type attaque en fonction du nombre de tour de la partie
+def detecteConflitOrdre(order, DBSession):
+    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order.name=="ATTACK", OrderModel.dst_region_id == order.src_region_id, order.nbtour == OrderModel.nbtour)
+    # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != order.id, OrderModel.dst_region_id == order.src_region_id)).filter(order.nbtour == OrderModel.nbtour)
 
     return found
 
@@ -265,7 +272,15 @@ def getAllConvoyOrders(game,DBSession):
 def getAllHoldOrders(game,DBSession):
     return DBSession.query(OrderModel).filter(OrderModel.type_order.name == "HOLD", OrderModel.nbtour == game.nbtour)
 
-# orders est une liste de tous les ordres de types soutient en fonction du nombre de tour de la partie
+# order est un ordre de type soutient en fonction du nombre de tour de la partie
 # Pour la recuperer : DBSession.query(OrderModel).filter(OrderModel.type_order.name == "SUPPORT", OrderModel.nbtour == game.nbtour)
 def soutientCoupe(order, DBSession, transaction):
-    raise NotImplementedError
+    conflit = detecteConflitOrdre(order, DBSession)
+
+    if(len(conflit) != 0):
+        order.state = False
+        transaction.commit()
+        return True
+
+    return False
+    
