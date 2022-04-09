@@ -223,7 +223,8 @@ def AttaqueMutuelle(orders, DBSession, transaction):
         # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != o.id, OrderModel.dst_region_id == o.dst_region_id)).filter(and_((OrderModel.dst_region_id == o.src_region_id), (o.nbtour == OrderModel.nbtour)))
 
         if found != None :
-            data = {o : found}
+            # Imaginons un système de clé valeur (avec le dictionnaire on ne pourra pas accéder aux valeurs de o(ordre) s'il est considéré comme une clé)
+            data = [o, [found]] 
             MutualAttack.append(data)
 
     return MutualAttack 
@@ -233,25 +234,38 @@ def AttaqueMutuelle(orders, DBSession, transaction):
 #orders est la liste des attaque mutuelle
 # La clé etant l'instance source alors on modifiera que celui ci
 def AnnuleAttMutuelle(orders, DBSession, transaction):
-    for o in orders:
-        o.state = False
+    for order in orders:
+        order[0].state = False # correspond à ===> order.o qui ne peut etre utilisé
 
     transaction.commit()
 
 
-# Le modele est tel qu'on a une liste de dictionnaire correspondance à une association clé valeur
-# orders est une liste de tous les ordres de types attaques en fonction du nombre de tour de la partie
-# Pour la recuperer : DBSession.query(OrderModel).filter(OrderModel.type_order.name == "ATTACK", OrderModel.nbtour == game.nbtour)
-# A chaque ordre (clé) est associé une valeur qui est la liste des ordres en confit avec lui
-def detecteConflitOrdre(orders, DBSession, transaction):
-    sameAreaAttackedList = []
-    for o in orders :
-        found = DBSession.query(OrderModel).filter(OrderModel.id != o.id, OrderModel.dst_region_id == o.dst_region_id, o.nbtour == OrderModel.nbtour)
-        # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != o.id, OrderModel.dst_region_id == o.dst_region_id)).filter(o.nbtour == OrderModel.nbtour)
+# Retourne une liste d'ordre en conflit avec l'ordre passé en paramètre
+# order est un ordre de type attaque en fonction du nombre de tour de la partie
+def detecteConflitOrdre(order, DBSession, transaction):
+    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.dst_region_id == order.dst_region_id, order.nbtour == OrderModel.nbtour)
+    # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != order.id, OrderModel.dst_region_id == order.dst_region_id)).filter(order.nbtour == OrderModel.nbtour)
 
-        if found != None :
-            data = {o : found}
-            sameAreaAttackedList.append(data)
+    if found != None or found != [] : # Ou [] J'ai un doute
+        order.state = False
+        transaction.commit()
 
-    return sameAreaAttackedList
-    
+    return found
+
+
+def getAllAttackOrders(game,DBSession):
+    return DBSession.query(OrderModel).filter(OrderModel.type_order.name == "ATTACK", OrderModel.nbtour == game.nbtour)
+
+def getAllSupportOrders(game,DBSession):
+    return DBSession.query(OrderModel).filter(OrderModel.type_order.name == "SUPPORT", OrderModel.nbtour == game.nbtour)
+
+def getAllConvoyOrders(game,DBSession):
+    return DBSession.query(OrderModel).filter(OrderModel.type_order.name == "CONVOY", OrderModel.nbtour == game.nbtour)
+
+def getAllHoldOrders(game,DBSession):
+    return DBSession.query(OrderModel).filter(OrderModel.type_order.name == "HOLD", OrderModel.nbtour == game.nbtour)
+
+# orders est une liste de tous les ordres de types soutient en fonction du nombre de tour de la partie
+# Pour la recuperer : DBSession.query(OrderModel).filter(OrderModel.type_order.name == "SUPPORT", OrderModel.nbtour == game.nbtour)
+def soutientCoupe(order, DBSession, transaction):
+    raise NotImplementedError
