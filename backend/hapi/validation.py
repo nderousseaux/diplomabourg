@@ -1,12 +1,6 @@
-
 from .db_utils import *
 from hapi.models import *
 import transaction
-
-
-
-
-
 
 def typeRegion(regionId,DBSession,type_region): #already tested
     region=DBSession.query(RegionModel).filter(RegionModel.id==regionId).first()
@@ -135,6 +129,32 @@ def valideAttaque(order,DBSession,transaction): #already tested
                      #modifié le champ isvalide de l'order 
                      return True 
     return False
+    
 def tesvalideAttaque(idOrder,DBSession,transaction):
     order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
     return (valideAttaque(order,DBSession,transaction))
+
+def valideSoutien(order,DBSession,transaction):    
+    idJoueur = order.unit.player.id
+    idUnit = order.unit.id
+    idOtherUnit = order.other_unit.id
+    idRegionSrc = order.src_region_id
+    idRegionDst = order.dst_region_id
+
+    if (isYourOwnUnity(idJoueur,order.unit.id)==True):
+        if (isArmy(order.unit.id, DBSession) == True):
+            if(isLandRegion(idRegionDst,DBSession)==True or isCostaleRegion(idRegionDst,DBSession)==True):
+                if (isUnitePresentInRegion(idUnit, idRegionSrc) == True and isUnitePresentInRegion(idOtherUnit, idRegionDst)==True):
+                    if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession)):
+                        order.is_valid = True
+                        transaction.commit()
+                        return True
+                         
+        elif (isFleet(order.id, DBSession) == True):
+            if(isMaritimeRegion(idRegionDst,DBSession)==True or isCostaleRegion(idRegionDst,DBSession)==True):
+                if (isUnitePresentInRegion(idUnit, idRegionSrc) == True and isUnitePresentInRegion(idOtherUnit, idRegionDst)==True):
+                    if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession)):
+                        order.is_valid = True
+                        transaction.commit()
+                        return True
+    return False
