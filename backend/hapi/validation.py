@@ -252,7 +252,7 @@ def SameAreaAttacked(order, DBSession, transaction):
 
 
 # Retourne une liste d'ordres qui visent une zone de l'ordre passé en paramètre
-# order est un ordre de type attaque en fonction du nombre de tour de la partie
+# order est un ordre de n'importe quel type en fonction du nombre de tour de la partie
 def detecteConflitOrdre(order, DBSession):
     found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order.name=="ATTACK", OrderModel.dst_region_id == order.src_region_id, order.nbtour == OrderModel.nbtour)
     # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != order.id, OrderModel.dst_region_id == order.src_region_id)).filter(order.nbtour == OrderModel.nbtour)
