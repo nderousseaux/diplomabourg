@@ -18,3 +18,9 @@ class GameModel(Base):
     map = relationship('MapModel', back_populates='games')
     state = relationship('StateModel', back_populates='games')
     players = relationship('PlayerModel',  back_populates='game')
+
+    def get_all_order(self):
+        orders=[]
+        for p in self.players :
+            orders+=p.orders()
+        return orders
