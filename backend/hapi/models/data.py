@@ -763,6 +763,7 @@ orderAttack=[
         "nbtour" :0   ,
         "gameid":1
     },
+    
     {
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
@@ -858,7 +859,7 @@ floatAttack=[
         "nbtour" :0   ,
         "gameid":1
     },
-    #fleet brest  Attack gaskony cotiére
+    #fleet brestAttack gaskony cotiére
     {
         "type_order_id": 1, #Attack
         "src_region_id":16,
@@ -879,7 +880,45 @@ floatAttack=[
     
 ]
 
-
+ordreSoutient=[
+    
+    #fleet Tyrrhenien soutient défensive ion Saea(maritime)
+    {
+        "type_order_id": 3, #support
+        "src_region_id":69,
+        "dst_region_id" :34,
+        "unit_id":13,
+        "other_unit_id":11,
+        "nbtour" :0 ,
+        "gameid":1
+        
+        
+    },
+    #smyrna soutient défensive  brest
+    {
+        "type_order_id": 3, #support
+        "src_region_id":60,
+        "dst_region_id" :16,
+        "unit_id":9,
+        "other_unit_id": 4,
+        "nbtour" :0,
+        "gameid":1
+        
+        
+        
+    },
+     #berlin soutient  défensif  #munish
+    {
+        "type_order_id": 3, #support
+        "src_region_id":13, #berlin
+        "dst_region_id" :43, #munish
+        "unit_id":2,
+        "other_unit_id": 3, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    }
+]
 def fillTableMap(data):
     return
 
@@ -990,4 +1029,9 @@ def insertOrderConvoy(orderConvoy,session,table):
     for o in orderConvoy :
         new_orderConvoy=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
         session.add(new_orderConvoy)
+        session.commit()
+def insertOrderSupport(orderSupport,session,table):
+    for o in orderSupport :
+        new_orderSupport=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
+        session.add(new_orderSupport)
         session.commit()
