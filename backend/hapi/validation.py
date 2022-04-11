@@ -293,24 +293,20 @@ def AnnuleAllAttMutuelle(listMutualAttack, DBSession, transaction):
 # Retourne la liste de tous les ordres qui attaquent une meme zone dans un tour
 # order est un ordre de type attaque en fonction du nombre de tour de la partie
 def SameAreaAttacked(order, DBSession, transaction):
-    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order.name=="ATTACK", OrderModel.dst_region_id == order.dst_region_id, order.nbtour == OrderModel.nbtour)
-    # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != order.id, OrderModel.dst_region_id == order.dst_region_id)).filter(order.nbtour == OrderModel.nbtour)
-
-    if found != None and found != [] : # Ou [] J'ai un doute
-        order.state = False
-        transaction.commit()
-
-    return found
-
-
+    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order_id ==1, OrderModel.dst_region_id == order.dst_region_id, order.nbtour == OrderModel.nbtour)
+    return found   
 # Retourne une liste d'ordres qui visent une zone de l'ordre passé en paramètre
 # order est un ordre de n'importe quel type en fonction du nombre de tour de la partie
-def detecteConflitOrdre(order, DBSession):
-    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order.name=="ATTACK", OrderModel.dst_region_id == order.src_region_id, order.nbtour == OrderModel.nbtour)
-    # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != order.id, OrderModel.dst_region_id == order.src_region_id)).filter(order.nbtour == OrderModel.nbtour)
-
+def isIamAttacked(order, DBSession): #already tested
+    found = DBSession.query(OrderModel).filter(OrderModel.id != order.id, OrderModel.type_order_id==1, OrderModel.dst_region_id == order.src_region_id, order.nbtour == OrderModel.nbtour)
     return found
 
+listInputOrder=[27,28]
+def testisIamAttacked(idOrder, DBSession):
+    order= DBSession.query(OrderModel).filter(OrderModel.id==idOrder).first()
+    query=isIamAttacked(order,DBSession)
+    l=[o.unit_id for o in query]
+    print(l)
 
 def getAllAttackOrders(game,DBSession):
     return DBSession.query(OrderModel).filter(OrderModel.type_order.name == "ATTACK", OrderModel.nbtour == game.nbtour)
@@ -326,13 +322,33 @@ def getAllHoldOrders(game,DBSession):
 
 # order est un ordre de type soutient en fonction du nombre de tour de la partie
 # Pour la recuperer : DBSession.query(OrderModel).filter(OrderModel.type_order.name == "SUPPORT", OrderModel.nbtour == game.nbtour)
-def soutientCoupe(order, DBSession, transaction):
-    conflit = detecteConflitOrdre(order, DBSession)
-
-    if(len(conflit) != 0):
+def soutientCoupe(order, DBSession, transaction): #already tested
+    conflit = isIamAttacked(order, DBSession)
+    if(conflit.count()!=0):
+        print(order.id)
         order.state = False
         transaction.commit()
-        return True
 
-    return False
+listInputIdOrder=[27,28]
+def testSoutientCoupe(idOrder, DBSession, transaction):  
+    order= DBSession.query(OrderModel).filter(OrderModel.id==idOrder).first()
+    soutientCoupe(order, DBSession, transaction)
     
+    
+def dectetAllConflicts(orders, DBSession): #pour intissar
+    return None
+
+# retourn le nombre soutient valide qu'à obtenu l'unité qui attaque
+def nbValidSupportForAttackOrder(orderAttaque): #pour Diaby
+    return None
+
+
+def ResolveConflict(listOrder): #pour Diaby
+    return None
+
+
+# prend un odre de convoiesi les conditions sont réuinies pour qu'il est rompu alors c'est rompu 
+def ConvoyBroken(OrderConvoy): #pour diaby
+    return None
+
+

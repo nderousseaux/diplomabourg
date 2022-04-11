@@ -984,6 +984,75 @@ AttackMutuel=[
         "nbtour" :0,
         "gameid":1
     },
+    
+]
+CreatConflit=[
+    
+    #berlin  et munich attaquent silésie 
+    #berlin attaque silésie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":13, #Berlin
+        "unit_id":2,
+        "dst_region_id" :58, #sliésie 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #munich attaque silésie
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":43, #munich
+        "unit_id":3,
+        "dst_region_id" :58, #sliésie 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #paris et breste attaque picardie 
+    #paris attaque picardie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":48, # paris
+        "unit_id":6,
+        "dst_region_id" :49, #picardie
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #brest attaque picardie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16, #brest
+        "unit_id":4,
+        "dst_region_id" :49, #picardie
+        "nbtour" :0   ,
+        "gameid":1
+    }
+    
+]
+soutientCoupe=[
+    #gascony qui est attaqué par marseille soutient brest
+    {
+        "type_order_id": 3, #support
+        "src_region_id":28, 
+        "dst_region_id" :16, #brest
+        "unit_id":7,
+        "other_unit_id":4,
+        "nbtour" :0 ,
+        "gameid":1
+        
+        
+    },
+    #  flleet Agean sea attaqué par fleet de ion Sea  support smyrna Army 
+    {
+        "type_order_id": 3, #support
+        "src_region_id":5, #agenan ses 
+        "dst_region_id" :60,
+        "unit_id":11,
+        "other_unit_id": 10,
+        "nbtour" :0,
+        "gameid":1
+      
+        
+    },
 ]
 def fillTableMap(data):
     return
