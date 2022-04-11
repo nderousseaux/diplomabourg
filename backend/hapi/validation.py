@@ -1,4 +1,3 @@
-
 from .db_utils import *
 from hapi.models import *
 import transaction
@@ -204,4 +203,28 @@ def Validation(game, DBSession,transaction) :
 def testValidationOrders(idGame, DBSession,transaction):
     game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()
     Validation(game,DBSession,transaction)
+
+def tesvalideSoutien(idOrder,DBSession,transaction):
+    order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
+    return (valideSoutien(order,DBSession,transaction))
+
+def valideRetraite(order, DBSession, transaction):
+    idJoueur = order.unit.player.id
+    idUnit = order.unit.id
+    idRegionSrc = order.src_region_id
+    idRegionDst = order.dst_region_id
+
+    if (isYourOwnUnity(idJoueur,idUnit )==True):
+        if (valideAttaque(order,DBSession,transaction) == False):
+            if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession) == True):
+                idRegionSrc = idRegionDst
+                order.is_valid = True
+                transaction.commit()
+                return True
+
+    return False
+
+def tesvalideRetraite(idOrder,DBSession,transaction):
+    order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
+    return (valideRetraite(order,DBSession,transaction))
     
