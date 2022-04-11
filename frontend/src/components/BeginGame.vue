@@ -1,6 +1,5 @@
 <template>
   <button @click='ready()'>Prêt</button>
-  <button @click='begin()'>Commencer la partie</button>
 </template>
 
 <script>
@@ -16,9 +15,6 @@ export default {
   methods: {
     ready() {
       api.put('/games/' + this.gameId + '/players/' + this.player, {"ready":true})
-    }
-    begin() {
-      api.post('/games' + this.gameId, {"state":"play"})
     }
   }
 }
