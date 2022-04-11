@@ -1,4 +1,5 @@
 
+from this import d
 from .db_utils import *
 from hapi.models import *
 import transaction
@@ -237,29 +238,57 @@ def testValidationOrders(idGame, DBSession,transaction):
 # orders est une liste de tous les ordres de types attaques en fonction du nombre de tour de la partie
 # Renvoie la liste des ordres en conflit avec d'autres autres. NB : Il n y a de gestion miroire n cas au pire (n le nombre de joueur de la partie)
 # Peut etre optimiser
-def AttaqueMutuelle(orders, DBSession):
-    MutualAttack = []
-    for o in orders :
-        # La liste des ordres en conflit avec l'ordre source
-        found = DBSession.query(OrderModel).filter(OrderModel.id != o.id, OrderModel.type_order.name=="ATTACK", OrderModel.src_region_id == o.dst_region_id, OrderModel.dst_region_id == o.src_region_id, o.nbtour == OrderModel.nbtour,OrderModel.gameid==o.gameid)
-        # found = DBSession.query(OrderModel).filter(and_(OrderModel.id != o.id, OrderModel.dst_region_id == o.dst_region_id)).filter(and_((OrderModel.dst_region_id == o.src_region_id), (o.nbtour == OrderModel.nbtour)))
 
-        if found != None :
-            # Imaginons un système de clé valeur (avec le dictionnaire on ne pourra pas accéder aux valeurs de o(ordre) s'il est considéré comme une clé)
-            data = [o, [found]] 
-            MutualAttack.append(data)
+def AttaqueMutuelle(orders, DBSession): #already testeed 
+    MutualAttack = []
+    redondencyListe=[]
+    for o in orders :
+        
+        
+        # La liste des ordres en conflit avec l'ordre source
+        found = DBSession.query(OrderModel).filter(OrderModel.id.not_like(o.id),OrderModel.type_order_id .like(1), OrderModel.src_region_id.like(o.dst_region_id), OrderModel.dst_region_id.like(o.src_region_id), OrderModel.nbtour.like(o.nbtour),OrderModel.gameid.like(o.gameid))
+        
+        if(found.count()!=0):
+            if o not in redondencyListe:
+                data=[]
+                data.append(o)
+                redondencyListe.append(o)
+
+                for f in found:
+                    data.append(f)
+                    redondencyListe.append(f)
+                MutualAttack.append(data)  
 
     return MutualAttack 
 
+#result must be  unit wich are in conflict :
+    # [6, 4]
+    # [13, 12]
+    # [7, 5]
+
+def testAttaqueMutuelle(idGame, DBSession,transaction):
+    game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()
+    orders= DBSession.query(OrderModel).filter(OrderModel.gameid.like(game.id),OrderModel.nbtour.like(game.nbtour))
+    list=AttaqueMutuelle(orders, DBSession)
+    return list
+    
+
+    
+        
+    
 
 #state est True par défaut alors on le met à False
 #orders est la liste des attaque mutuelle
 # La clé etant l'instance source alors on modifiera que celui ci
 def AnnuleAttMutuelle(orders, DBSession, transaction):
-    for order in orders:
-        order[0].state = False # correspond à ===> order.o qui ne peut etre utilisé
-
+    for o in orders:
+        o.state = False # correspond à ===> order.o qui ne peut etre utilisé
+        
+def AnnuleAllAttMutuelle(listMutualAttack, DBSession, transaction):
+    for l in listMutualAttack:
+         AnnuleAttMutuelle(l, DBSession, transaction)    
     transaction.commit()
+   
 
 # Retourne la liste de tous les ordres qui attaquent une meme zone dans un tour
 # order est un ordre de type attaque en fonction du nombre de tour de la partie

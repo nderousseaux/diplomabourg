@@ -16,7 +16,7 @@ class OrderModel(Base):
     is_valid= Column(Boolean)
     nbtour= Column(Integer, nullable=False)
     gameid=Column(Integer, nullable=False)
-    state=Column(Boolean, default=False)
+    state=Column(Boolean, default=True)
     #Relationships
     type_order=relationship('TypeOrderModel',  back_populates='orders')
     src_region=relationship('RegionModel', 

@@ -677,6 +677,13 @@ unites=[
         "cur_region_id":48,
         "player_power_power_id":3,
         "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":28, #gascony
+        "cur_region_id":28,
+        "player_power_power_id":3,
+        "player_power_player_id":3
     }
 ]
 unitMaritimeConvoy=[
@@ -918,6 +925,65 @@ ordreSoutient=[
         "gameid":1
            
     }
+]
+
+AttackMutuel=[
+    #paris attaque breste 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":48, #Paris
+        "unit_id":6,
+        "dst_region_id" :16, 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #et brest Attaque Paris 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16, #brest
+        "unit_id":4,
+        "dst_region_id" :48, #Paris 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    
+    #fleet in ageen sea attack fleet in  ionSea  
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":5, # AAgean sea 
+        "dst_region_id" :34, #Ion Sea 
+        "unit_id":13,
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    # et fleet in ion sea attack fleet in Agean Sea 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":34,  #Ion Sea 
+        "dst_region_id" :5,   #Agean sea 
+        "unit_id":12,
+        "nbtour" :0,
+        "gameid":1
+    },
+    
+    # army in gascony  attack army  in Marseille
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":28,  #Gascony
+        "dst_region_id" :40,   #Marseillle
+        "unit_id":7,
+        "nbtour" :0,
+        "gameid":1
+    },
+    # army in  Marseille attack army  in gascony
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":40,   #Marseillle
+        "dst_region_id" :28,  #Gascony
+        "unit_id":5,
+        "nbtour" :0,
+        "gameid":1
+    },
 ]
 def fillTableMap(data):
     return
