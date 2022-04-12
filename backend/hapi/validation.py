@@ -1,8 +1,11 @@
+
+from this import d
 from .db_utils import *
 from hapi.models import *
 import transaction
 
 from sqlalchemy import or_, and_
+#from sqlalchemy.sql import or_, and_
 
 
 
@@ -172,16 +175,45 @@ def testValideConvoy(idOrder,DBSession,transaction):
     return (ValideConvoyArmy(order,DBSession,transaction))
 
 
+def valideSoutien(order,DBSession,transaction):  # already tested 
+    idJoueur = order.unit.player.id
+    idUnit = order.unit.id
+    idOtherUnit = order.other_unit.id
+    idRegionSrc = order.src_region_id
+    idRegionDst = order.dst_region_id
+    #si c'est ton propre unité 
+    if (isYourOwnUnity(idJoueur,order.unit.id)==True):
+        #si l'unité  qui soutient est une armée 
+        if (isArmy(order.unit.id, DBSession) == True):
+             # teste si la région destination est cotiére ou maritime 
+            if(isLandRegion(idRegionDst,DBSession)==True or isCostaleRegion(idRegionDst,DBSession)==True):
+                if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession)):
+                        order.is_valid = True
+                        print("valideSoutien")
+                        return True
+                         
+        elif (isFleet(order.id, DBSession) == True):
+            if(isMaritimeRegion(idRegionDst,DBSession)==True or isCostaleRegion(idRegionDst,DBSession)==True):
+                # if (isUnitePresentInRegion(idUnit, idRegionSrc) == True and isUnitePresentInRegion(idOtherUnit, idRegionDst)==True):
+                    if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession)):
+                        order.is_valid = True
+                        print("valideSoutien")
+                        return True
+    return False
+order=[14,15,16]
+def testeValideSoutien(idOrder, DBSession,transaction):
+    order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
+    return (valideSoutien(order,DBSession,transaction))
+
 
 # Regroupe tous les ordres d'une partie en fonction du tour courant et appel une fonction en fonction du type d'ordre 
 # Attaque, Soutien, Convoi, Tenir
 # La fonction appelée veriife si l'ordre est valide ou pas et change le is_valid de cet ordre au besoin 
 def Validation(game, DBSession,transaction) :
     orders= DBSession.query(OrderModel).filter(OrderModel.gameid.like(game.id),OrderModel.nbtour.like(game.nbtour))
+    #orders= DBSession.query(OrderModel).filter((OrderModel.gameid == game.id), (OrderModel.nbtour == game.nbtour))
 
-        
     # nbtour sera mise dans la table order
-    
     for o in orders :
         if (o.type_order.name=="ATTACK"):  
             valideAttaque(o, DBSession, transaction) # Attaquer une zone
@@ -189,17 +221,15 @@ def Validation(game, DBSession,transaction) :
             
         elif (o.type_order.name  == "CONVOY"):
             ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée
-
-
-        elif (o.type_order.name  == "HOLD"):
-            print("tient")
             
 
         elif (o.type_order.name  == "SUPPORT"):
-            print("intissar")
+         valideSoutien(o, DBSession, transaction)
+
             
-    print("validation ok")
+    print("Validation ok")
     transaction.commit()
+
 def testValidationOrders(idGame, DBSession,transaction):
     game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()
     Validation(game,DBSession,transaction)

@@ -12,6 +12,7 @@ class UnitModel(Base):
     type_unit_id = Column(Integer, ForeignKey('type_unit.id'))
     src_region_id = Column(Integer, ForeignKey('region.id'))
     cur_region_id = Column(Integer, ForeignKey('region.id'))
+    life=Column(Boolean, default=True)
     player_power_power_id = Column(Integer, ForeignKey('player_power.power_id'))
     player_power_player_id = Column(Integer, ForeignKey('player_power.player_id'))
     

@@ -677,6 +677,13 @@ unites=[
         "cur_region_id":48,
         "player_power_power_id":3,
         "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":28, #gascony
+        "cur_region_id":28,
+        "player_power_power_id":3,
+        "player_power_player_id":3
     }
 ]
 unitMaritimeConvoy=[
@@ -763,6 +770,7 @@ orderAttack=[
         "nbtour" :0   ,
         "gameid":1
     },
+    
     {
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
@@ -858,7 +866,7 @@ floatAttack=[
         "nbtour" :0   ,
         "gameid":1
     },
-    #fleet brest  Attack gaskony cotiére
+    #fleet brestAttack gaskony cotiére
     {
         "type_order_id": 1, #Attack
         "src_region_id":16,
@@ -879,7 +887,173 @@ floatAttack=[
     
 ]
 
+ordreSoutient=[
+    
+    #fleet Tyrrhenien soutient défensive ion Saea(maritime)
+    {
+        "type_order_id": 3, #support
+        "src_region_id":69,
+        "dst_region_id" :34,
+        "unit_id":13,
+        "other_unit_id":11,
+        "nbtour" :0 ,
+        "gameid":1
+        
+        
+    },
+    #smyrna soutient défensive  brest
+    {
+        "type_order_id": 3, #support
+        "src_region_id":60,
+        "dst_region_id" :16,
+        "unit_id":9,
+        "other_unit_id": 4,
+        "nbtour" :0,
+        "gameid":1
+        
+        
+        
+    },
+     #berlin soutient  défensif  #munish
+    {
+        "type_order_id": 3, #support
+        "src_region_id":13, #berlin
+        "dst_region_id" :43, #munish
+        "unit_id":2,
+        "other_unit_id": 3, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    }
+]
 
+AttackMutuel=[
+    #paris attaque breste 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":48, #Paris
+        "unit_id":6,
+        "dst_region_id" :16, 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #et brest Attaque Paris 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16, #brest
+        "unit_id":4,
+        "dst_region_id" :48, #Paris 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    
+    #fleet in ageen sea attack fleet in  ionSea  
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":5, # AAgean sea 
+        "dst_region_id" :34, #Ion Sea 
+        "unit_id":13,
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    # et fleet in ion sea attack fleet in Agean Sea 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":34,  #Ion Sea 
+        "dst_region_id" :5,   #Agean sea 
+        "unit_id":12,
+        "nbtour" :0,
+        "gameid":1
+    },
+    
+    # army in gascony  attack army  in Marseille
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":28,  #Gascony
+        "dst_region_id" :40,   #Marseillle
+        "unit_id":7,
+        "nbtour" :0,
+        "gameid":1
+    },
+    # army in  Marseille attack army  in gascony
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":40,   #Marseillle
+        "dst_region_id" :28,  #Gascony
+        "unit_id":5,
+        "nbtour" :0,
+        "gameid":1
+    },
+    
+]
+CreatConflit=[
+    
+    #berlin  et munich attaquent silésie 
+    #berlin attaque silésie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":13, #Berlin
+        "unit_id":2,
+        "dst_region_id" :58, #sliésie 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #munich attaque silésie
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":43, #munich
+        "unit_id":3,
+        "dst_region_id" :58, #sliésie 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #paris et breste attaque picardie 
+    #paris attaque picardie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":48, # paris
+        "unit_id":6,
+        "dst_region_id" :49, #picardie
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #brest attaque picardie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16, #brest
+        "unit_id":4,
+        "dst_region_id" :49, #picardie
+        "nbtour" :0   ,
+        "gameid":1
+    }
+    
+]
+soutientCoupe=[
+    #gascony qui est attaqué par marseille soutient brest
+    {
+        "type_order_id": 3, #support
+        "src_region_id":28, 
+        "dst_region_id" :16, #brest
+        "unit_id":7,
+        "other_unit_id":4,
+        "nbtour" :0 ,
+        "gameid":1
+        
+        
+    },
+    #  flleet Agean sea attaqué par fleet de ion Sea  support smyrna Army 
+    {
+        "type_order_id": 3, #support
+        "src_region_id":5, #agenan ses 
+        "dst_region_id" :60,
+        "unit_id":11,
+        "other_unit_id": 10,
+        "nbtour" :0,
+        "gameid":1
+      
+        
+    },
+]
 def fillTableMap(data):
     return
 
@@ -990,4 +1164,9 @@ def insertOrderConvoy(orderConvoy,session,table):
     for o in orderConvoy :
         new_orderConvoy=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
         session.add(new_orderConvoy)
+        session.commit()
+def insertOrderSupport(orderSupport,session,table):
+    for o in orderSupport :
+        new_orderSupport=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
+        session.add(new_orderSupport)
         session.commit()
