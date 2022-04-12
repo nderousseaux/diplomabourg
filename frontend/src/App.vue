@@ -1,25 +1,21 @@
 <template>
-	<GameMaps></GameMaps>
+	<HomePage/>
+	<!--<LobbyPage/>-->
 </template>
 
 <script>
-import GameMaps from './views/GameMaps.vue'
+import HomePage from './components/HomePage.vue'
+// import LobbyPage from './components/LobbyPage.vue'
 
 export default {
 	name: 'App',
 	components: {
-		GameMaps
+		HomePage
+		// LobbyPage
 	}
 }
 </script>
 
-
-<style lang="css">
-@import './assets/css/main.css';
-#app {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-}
+<style>
+@import "assets/css/main.css";
 </style>

@@ -1,5 +1,10 @@
+@font-face {
+	font-family: "Iceland";
+	font-display: swap;
+	src: url("../font/iceland.ttf") format("truetype")
+}
 *{
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: "Iceland", cursive;
 	color: black;
 }
 body{
