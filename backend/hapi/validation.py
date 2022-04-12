@@ -21,6 +21,7 @@ def typeRegion(regionId,DBSession,type_region): #already tested
 def typeUnit(unitId,DBSession,type_unit):#already tested
     #recupérer l'unité 
     unite=DBSession.query(UnitModel).filter(UnitModel.id==unitId).first()
+    print(unite.id)
     if (unite.type_unit.name==type_unit):
         return True
     return False    
@@ -116,7 +117,14 @@ def isUnitePresentInRegion(idUnite,idRegion):
         return True
 
     return False 
-
+def isRegionOccupedByOtherUnit(idRegion,DBSession): #already tested
+     region = DBSession.query(RegionModel).filter(RegionModel.id == idRegion).first()
+     uniteRegions=region.units_cur_region
+     if(len(list(uniteRegions)))!=0:
+        return True
+     return False 
+ 
+   
 def updateOrder(order,DBSession,transaction):
     get_order = DBSession.query(OrderModel).filter(OrderModel.id == order.id).first()
     get_order.is_valid=True
@@ -131,19 +139,23 @@ def valideAttaque(order,DBSession,transaction): #already tested
                 if (isTwoRegionsConnex(order.src_region_id,order.dst_region_id,DBSession)):
                      #modifié le champ isvalide de l'ordre
                      order.is_valid = True
+                     order.unit.cur_region_id=order.dst_region_id
                      return True  
                     
                 elif (ExisteConvoy(order.unit.id,order.src_region_id,order.dst_region_id,DBSession)):
                     #modifié le champ isvalide de l'order
                      order.is_valid = True
+                    #déplace les unités 
+                     order.unit.cur_region_id=order.dst_region_id
                      print("Army attack valid")
                      return True 
-        elif isFleet(order.id,DBSession)==True:
+        elif isFleet(order.unit.id,DBSession)==True:
             if(isMaritimeRegion(order.dst_region_id ,DBSession)==True or isCostaleRegion(order.dst_region_id ,DBSession)==True):
                  if (isTwoRegionsConnex(order.src_region_id,order.dst_region_id,DBSession)):
                      #modifié le champ isvalide de l'order  
                      order.is_valid = True
-                    
+                     
+                     order.unit.cur_region_id=order.dst_region_id
                      print("Fleet attack valid")
     return False
 
@@ -163,11 +175,17 @@ def tesvalideAttaque(idOrder,DBSession,transaction):
 def ValideConvoyArmy(order, DBSession,transaction): #already tested
     
     idJoueur=order.unit.player.id
-    if (isYourOwnUnity(idJoueur,order.unit.id) and isFleet(order.unit.id,DBSession) and (order.unit_id != order.other_unit_id) and isArmy(order.other_unit.id,DBSession)and isMaritimeRegion(order.src_region_id ,DBSession) and isCostaleRegion(order.other_unit.cur_region_id, DBSession) and isCostaleRegion(order.dst_region_id, DBSession)) :
-        order.is_valid = True
-        print("convoy valide")
-    return True
-        
+    if (isYourOwnUnity(idJoueur,order.unit.id)):
+        if(isFleet(order.unit.id,DBSession) ):
+            if(order.unit_id != order.other_unit_id):
+                    if(isArmy(order.other_unit.id,DBSession)):
+                        if(isMaritimeRegion(order.src_region_id ,DBSession)):
+                            if(isCostaleRegion(order.other_unit.cur_region_id, DBSession)):
+                                if(isCostaleRegion(order.dst_region_id, DBSession)) :
+                                        order.is_valid = True
+                                        print("convoy valide")
+                                        return True
+            
 orderConvoie=[5,6,7,8,9]       
 def testValideConvoy(idOrder,DBSession,transaction):
     order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
@@ -191,7 +209,7 @@ def valideSoutien(order,DBSession,transaction):  # already tested
                         print("valideSoutien")
                         return True
                          
-        elif (isFleet(order.id, DBSession) == True):
+        elif (isFleet(order.unit.id, DBSession) == True):
             if(isMaritimeRegion(idRegionDst,DBSession)==True or isCostaleRegion(idRegionDst,DBSession)==True):
                 # if (isUnitePresentInRegion(idUnit, idRegionSrc) == True and isUnitePresentInRegion(idOtherUnit, idRegionDst)==True):
                     if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession)):
@@ -214,6 +232,7 @@ def Validation(game, DBSession,transaction) :
 
     # nbtour sera mise dans la table order
     for o in orders :
+        print("idOrder:",o.id)
         if (o.type_order.name=="ATTACK"):  
             valideAttaque(o, DBSession, transaction) # Attaquer une zone
             
@@ -333,8 +352,6 @@ def testSoutientCoupe(idOrder, DBSession, transaction):
     soutientCoupe(order, DBSession, transaction)
     
     
-def dectetAllConflicts(orders, DBSession): #pour intissar
-    return None
 
 # retourn le nombre soutient valide qu'à obtenu l'unité qui attaque
 def nbValidSupportForAttackOrder(orderAttaque): #pour Diaby
@@ -349,48 +366,61 @@ def ResolveConflict(listOrder): #pour Diaby
 def ConvoyBroken(OrderConvoy): #pour diaby
     return None
 
-def valideRetraite(order, DBSession, transaction):
-    idJoueur = order.unit.player.id
-    idUnit = order.unit.id
-    idRegionSrc = order.src_region_id
-    idRegionDst = order.dst_region_id
 
-    if (isYourOwnUnity(idJoueur,idUnit )==True):
-        if (valideAttaque(order,DBSession,transaction) == False):
-            if (isTwoRegionsConnex(idRegionSrc,idRegionDst,DBSession) == True):
-                idRegionSrc = idRegionDst
-                order.is_valid = True
-                transaction.commit()
-                return True
+def getRegionConnex(idRegionDest):
+    region=DBSession.query(RegionModel).filter(RegionModel.id==idRegionDest).first()
+    return region.neighbours
+    
+#prends tous les ordres d'attaques dont states==False
 
+def isRetraitPossible(order, DBSession, transaction):
+    # teste si la région source de l'unité qui attaque n'est pas occupé 
+    if (isRegionOccupedByOtherUnit(order.src_region_id,DBSession)==False):
+        order.unit.cur_region_id=order.src_region_id
+        print("retrait in cur_region id")
+    else:    
+          neighbours=getRegionConnex(order.dst_region_id )
+          for n in neighbours:
+              if (n.id!=order.src_region_id):
+                  print(n.name)
+                  if (isRegionOccupedByOtherUnit(n.id,DBSession)==False):
+                      order.unit.cur_region_id=n.id
+                      print("retrait in other connex region")
+                      return True
+    order.unit.life=False 
     return False
+liste=[26,25,24,23]    
+def testIsRetraitPossible(idOrder, DBSession, transaction):
+    order= DBSession.query(OrderModel).filter(OrderModel.id==idOrder).first()
+    isRetraitPossible(order, DBSession, transaction)
+    
 
 
-
-def tesvalideRetraite(idOrder,DBSession,transaction):
-    order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
-    return (valideRetraite(order,DBSession,transaction))
-
-def detecterConflit(order,DBSession):
+#prend tous les order d'attaque telque state ==True 
+def dectetAllConflicts(orders,DBSession): #already teste 
     Conflit = []
     OrdreConflit = []
-
     # pour tous les ordres
-    for o in order:
-
+    for o in orders:
         # chercher les ordres de même tour et partie + 
-        found = DBSession.query(OrderModel).filter(OrderModel.nbtour.like(o.nbtour),OrderModel.gameid.like(o.gameid),
-                                                    OrderModel.dst_region_id.like(o.dst_region_id))
-        
+        found = DBSession.query(OrderModel).filter(OrderModel.id.not_like(o.id),OrderModel.type_order_id .like(1), OrderModel.dst_region_id.like(o.dst_region_id), OrderModel.nbtour.like(o.nbtour),OrderModel.gameid.like(o.gameid),o.state==True)
         if (found.count() != 0):
             if o not in OrdreConflit:
                 data = []
                 data.append(o)
                 OrdreConflit.append(o)
-
                 for f in found:
                     data.append(f)
                     OrdreConflit.append(f)
                 Conflit.append(data)
-    
     return Conflit
+
+
+
+def testDectetAllConflicts(DBSession): #already tested
+    #recupére tous les ordres d'attaque
+    orders = DBSession.query(OrderModel).filter(OrderModel.type_order_id==1,OrderModel.nbtour==0,OrderModel.gameid==1,OrderModel.state==True)
+    listeConflit=dectetAllConflicts(orders,DBSession)
+    for l in listeConflit:
+        lc=[o.id for o in l ]
+        print(lc)

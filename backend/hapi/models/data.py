@@ -798,7 +798,7 @@ orderConvoy=[
         "src_region_id":5,
         "dst_region_id" :16,
         "unit_id":10,
-        "other_unit_id":9,
+        "other_unit_id":10,
         "nbtour" :0,
         "gameid":1 #unit present smyrna
     },
@@ -808,7 +808,7 @@ orderConvoy=[
         "src_region_id":34,
         "dst_region_id" :16,
         "unit_id":11,
-        "other_unit_id":9,
+        "other_unit_id":10,
         "nbtour" :0   ,
         "gameid":1 #unit present smyrna
     },
@@ -818,7 +818,7 @@ orderConvoy=[
         "src_region_id": 69,
         "dst_region_id": 16,
         "unit_id": 12,
-        "other_unit_id": 9,
+        "other_unit_id": 10,
         "nbtour" :0   ,
         "gameid":1 #unit present smyrna
     },
@@ -829,7 +829,7 @@ orderConvoy=[
         "src_region_id":75,
         "dst_region_id": 16,
         "unit_id": 7,
-        "other_unit_id": 9, #unit present smyrna
+        "other_unit_id": 10, #unit present smyrna
         "nbtour" :0   ,
         "gameid":1
     },
@@ -839,7 +839,7 @@ orderConvoy=[
         "src_region_id" :45,
         "dst_region_id": 16,
         "unit_id": 13,
-        "other_unit_id": 9, #unit present smyrna
+        "other_unit_id": 10, #unit present smyrna
          "nbtour" :0   ,
          "gameid":1
         
