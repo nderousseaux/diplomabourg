@@ -227,4 +227,27 @@ def valideRetraite(order, DBSession, transaction):
 def tesvalideRetraite(idOrder,DBSession,transaction):
     order = DBSession.query(OrderModel).filter(OrderModel.id == idOrder).first()
     return (valideRetraite(order,DBSession,transaction))
+
+def detecterConflit(order,DBSession):
+    Conflit = []
+    OrdreConflit = []
+
+    # pour tous les ordres
+    for o in order:
+
+        # chercher les ordres de même tour et partie + 
+        found = DBSession.query(OrderModel).filter(OrderModel.nbtour.like(o.nbtour),OrderModel.gameid.like(o.gameid),
+                                                    OrderModel.dst_region_id.like(o.dst_region_id))
+        
+        if (found.count() != 0):
+            if o not in OrdreConflit:
+                data = []
+                data.append(o)
+                OrdreConflit.append(o)
+
+                for f in found:
+                    data.append(f)
+                    OrdreConflit.append(f)
+                Conflit.append(data)
     
+    return Conflit
