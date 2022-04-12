@@ -128,17 +128,22 @@ export default {
 		align-items: center;
 		justify-content: space-evenly;
 		width: 80%;
-		height: 50vh;
+		height: max-content;
 		background-color: rgba(42, 58, 73, 0.7);
 		border-radius: 10px;
+		overflow-x: auto;
 	}
 	#joueurs > div{
 		display: flex;
 		flex-direction: column;
 		width: 23%;
-		height: calc(50% - 40px);
+		min-width: max-content;
+		height: calc(64px + 64px);
 		margin: 20px 0;
 		align-items: center;
+	}
+	#joueurs > div > button{
+		margin-bottom: 0;
 	}
 	#joueurs > div > img{
 		width: 98px;
@@ -149,7 +154,8 @@ export default {
 	button,
 	input[type=submit]{
 		margin: 20px 0;
-		padding: 4px 32px;
+		padding: 0 32px;
+		line-height: 44px;
 		background-color: #800124;
 		background-image: linear-gradient(#002843, rgba(255, 255, 255, 0));
 		transition: 0.7s;

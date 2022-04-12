@@ -133,8 +133,9 @@ export default {
 	/* Bouton */
 	button,
 	input[type=submit]{
-		margin: 5vh 0;
-		padding: 4px 44px;
+		margin: 40px 0;
+		padding: 0 44px;
+		line-height: 44px;
 		background-color: #800124;
 		background-image: linear-gradient(#002843, rgba(255, 255, 255, 0));
 		transition: 0.7s;
