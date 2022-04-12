@@ -482,6 +482,9 @@
 			"coordsRav": [
 				285,
 				290
+			],
+			"color": [
+				"darkorange"
 			]
 		},
 		"Bla": {
@@ -760,6 +763,9 @@
 			"coordsRav":[
 				172,
 				335
+			],
+			"color": [
+				"lightblue"
 			]
 		},
 		"Pic": {

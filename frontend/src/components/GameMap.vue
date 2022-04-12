@@ -183,27 +183,28 @@ export default {
 			}
 
 			// Création de pion
-			if (k == "Par")
+			if (k == "Par" || k == "Ber")
 			{
 				let pays = k // obligatoire, sinon toujours "Yor"
+				let couleur = carte["infos"][k].color
 				let pion = document.createElementNS(ns, "circle")
 		
 				pion.setAttribute("cx", carte["infos"][k].coordsRav[0]-10)
 				pion.setAttribute("cy", carte["infos"][k].coordsRav[1])
 				pion.setAttribute("r", 4)
-				pion.setAttribute("fill", "red")
-				pion.setAttribute("stroke", "red")
+				pion.setAttribute("fill", couleur)
+				pion.setAttribute("stroke", couleur)
 				svg.appendChild(pion)
 
 				// Couleur et changement du curseur lors du passage de souris
 				pion.addEventListener("mouseover", function ()
 				{
 					this.style.cursor = "pointer"
-					this.style.fill = "lightcoral"
+					this.style.fill = "white"
 				})
 				pion.addEventListener("mouseout", function ()
 				{
-					this.style.fill = "red"
+					this.style.fill = couleur
 				})
 				pion.addEventListener("click", function ()
 				{
