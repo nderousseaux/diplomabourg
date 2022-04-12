@@ -11,31 +11,32 @@
 						<button>Prêt</button>
 					</div>
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+						<img alt="Drapeau allemand" title="Drapeau allemand" 
+						src="../assets/img/flags/germany.png"/>
+						<button class="inactif">Prêt</button>
 					</div>
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur" 
+						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur" 
+						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur" 
+						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur" 
+						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur" 
+						src="../assets/img/flags/loading.png"/>
 					</div>
 				</div>
-				<div id="boutons">
+				<div id="actions">
 					<button>Créer une partie</button>
 					<button>Commencer la partie</button>
 				</div>
@@ -167,10 +168,21 @@ export default {
 	input[type=submit]:active{
 		background-color: #376890;
 	}
-	#boutons{
+	#actions{
 		display: flex;
 		width: 100%;
 		justify-content: space-evenly;
+	}
+	.inactif{
+		background-color: #000000;
+		background-image: linear-gradient(#808080, rgba(255, 255, 255, 0));
+		cursor: not-allowed;
+	}
+	.inactif:hover{
+		background-color: #000000;
+	}
+	.inactif:active{
+		background-color: #000000;
 	}
 
 /* Version mobile */
