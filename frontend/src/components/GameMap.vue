@@ -81,7 +81,7 @@ export default {
 					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
-					console.log(nomZone)
+					console.log("Clic zone terrestre : ", nomZone)
 				})
 			}
 
@@ -118,7 +118,7 @@ export default {
 					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
-					console.log(nomZone)
+					console.log("Clic zone maritime : ", nomZone)
 				})
 			}
 
@@ -146,6 +146,7 @@ export default {
 			// Points de ravitaillement
 			if (typeof carte["infos"][k].coordsRav != "undefined")
 			{
+				let pays = k // obligatoire, sinon toujours "Yor"
 				let circleIn = document.createElementNS(ns, "circle")
 				let circleOut = document.createElementNS(ns, "circle")
 			
@@ -174,11 +175,40 @@ export default {
 				})
 				circleOut.addEventListener("click", function ()
 				{
-					alert("Clic ravitaillement")
+					console.log("Clic ravitaillement : ", pays)
 				})
 
 				svg.appendChild(circleIn)
 				svg.appendChild(circleOut)
+			}
+
+			// Création de pion
+			if (k == "Par")
+			{
+				let pays = k // obligatoire, sinon toujours "Yor"
+				let pion = document.createElementNS(ns, "circle")
+		
+				pion.setAttribute("cx", carte["infos"][k].coordsRav[0]-10)
+				pion.setAttribute("cy", carte["infos"][k].coordsRav[1])
+				pion.setAttribute("r", 4)
+				pion.setAttribute("fill", "red")
+				pion.setAttribute("stroke", "red")
+				svg.appendChild(pion)
+
+				// Couleur et changement du curseur lors du passage de souris
+				pion.addEventListener("mouseover", function ()
+				{
+					this.style.cursor = "pointer"
+					this.style.fill = "lightcoral"
+				})
+				pion.addEventListener("mouseout", function ()
+				{
+					this.style.fill = "red"
+				})
+				pion.addEventListener("click", function ()
+				{
+					console.log("Clic pion : ", pays)
+				})
 			}
 		}
 
@@ -202,6 +232,7 @@ export default {
 <style scoped>
 	/* Div principale */
 	#app > div{
+		background-color: #f0f0f0;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;

@@ -62,7 +62,6 @@ export default {
 <style scoped>
 	/* Div principale */
 	#app > div{
-		background: url("../assets/img/map.jpeg");
 		display: flex;
 		flex-direction: column;
 		width: 100vw;
