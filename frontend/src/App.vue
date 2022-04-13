@@ -1,19 +1,12 @@
 <template>
-	<HomePage/>
-	<!--<LobbyPage/>-->
+  <router-view />
 </template>
 
 <script>
-import HomePage from './components/HomePage.vue'
-// import LobbyPage from './components/LobbyPage.vue'
-
 export default {
-	name: 'App',
-	components: {
-		HomePage
-		// LobbyPage
-	}
-}
+  name: "App",
+  components: {},
+};
 </script>
 
 <style>
