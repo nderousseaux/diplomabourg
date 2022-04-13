@@ -53,8 +53,8 @@
 </template>
 
 <script>
-export default {
-	mounted() {
+export default{
+	mounted(){
 	}
 }
 </script>
@@ -109,7 +109,7 @@ export default {
 		color: wheat;
 	}
 	#chat > form > input[type=text]{
-		background-color: rgb(42, 58, 73);
+		background-color: rgb(112, 128, 143);
 		width: calc(100% - 20px);
 		padding: 0 10px;
 		font-size: 24px;

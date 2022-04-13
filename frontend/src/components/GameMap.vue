@@ -49,8 +49,8 @@
 </template>
 
 <script>
-export default {
-	mounted() {
+export default{
+	mounted(){
 		let ns = "http://www.w3.org/2000/svg"
 		let svg = document.querySelector("svg")
 		const carte = require("../assets/json/map.json")
@@ -274,14 +274,14 @@ export default {
 		let paramBtn = document.getElementById("params");
 		let quitDialog = document.getElementById("quitter");
 
-		paramBtn.addEventListener("click", function onOpen() {
-			if (typeof quitDialog.showModal === "function") {
+		paramBtn.addEventListener("click", function onOpen(){
+			if (typeof quitDialog.showModal === "function"){
 				quitDialog.showModal();
 			}
 		})
 
 		// Action effectuée lors de l'appuie sur l'un des boutons
-		quitDialog.addEventListener("close", function onClose() {
+		quitDialog.addEventListener("close", function onClose(){
 			console.log(quitDialog.returnValue)
 		})
 	}
@@ -312,11 +312,11 @@ export default {
 	}
 	svg{
 		height: 100%;
-		background-color: rgba(42, 58, 73, 0.9);
-
-		/* Style pour le blocage de la carte */
-		/* pointer-events: none;
-		filter: grayscale(1) invert(0.1); */
+		background-color: rgba(112, 128, 143, 0.9);
+	}
+	.bloque{
+		pointer-events: none;
+		filter: grayscale(1) invert(0.1);
 	}
 
 	/* Colonnes */
@@ -324,7 +324,7 @@ export default {
 	#app > div > div:last-child{
 		width: 25vw;
 		height: 98vh;
-		background-color: rgba(42, 58, 73, 0.7);
+		background-color: rgba(112, 128, 143, 0.7);
 		border-radius: 10px;
 		margin: 1vh 1vw 1vh 1vw;
 	}
@@ -432,7 +432,7 @@ export default {
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
-		background-color: rgba(42, 58, 73, 0.9);
+		background-color: rgba(112, 128, 143, 0.9);
 		border-radius: 10px;
 		border-style: none;
 	}
@@ -548,6 +548,19 @@ export default {
 	#quitter > form > button{
 		font-size: 22px;
 		margin: 10px;
+	}
+}
+
+@media(prefers-color-scheme: dark){
+	/* Carte */
+	svg{
+		height: 100%;
+		background-color: rgba(42, 58, 73, 0.9);
+	}
+
+	#app > div > div:first-child,
+	#app > div > div:last-child{
+		background-color: rgba(42, 58, 73, 0.7);
 	}
 }
 </style>
