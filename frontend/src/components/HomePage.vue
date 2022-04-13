@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "../api.js";
 
 export default {
   mounted() {
@@ -109,8 +109,8 @@ export default {
             player: player,
             game: game,
           };
-          axios
-            .post("http://localhost:10005/games", jeu)
+          api
+            .post("/games", jeu)
             .then(() => {
               this.$router.push({ name: "Lobby" });
             })

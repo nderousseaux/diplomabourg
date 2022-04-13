@@ -8,31 +8,31 @@
 					<div>
 						<img alt="Drapeau français" title="Drapeau français"
 						src="../assets/img/flags/france.png"/>
-						<button>Prêt</button>
+						<button @click='ready()'>Prêt</button>
 					</div>
 					<div>
-						<img alt="Drapeau allemand" title="Drapeau allemand" 
+						<img alt="Drapeau allemand" title="Drapeau allemand"
 						src="../assets/img/flags/germany.png"/>
 						<button class="inactif">Prêt</button>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
+						<img alt="Attente du joueur" title="Attente du joueur"
 						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
+						<img alt="Attente du joueur" title="Attente du joueur"
 						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
+						<img alt="Attente du joueur" title="Attente du joueur"
 						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
+						<img alt="Attente du joueur" title="Attente du joueur"
 						src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
+						<img alt="Attente du joueur" title="Attente du joueur"
 						src="../assets/img/flags/loading.png"/>
 					</div>
 				</div>
@@ -53,8 +53,15 @@
 </template>
 
 <script>
+//import api from '../api.js'
+// get game_id ??
+// get username ??
+
 export default {
-	mounted() {
+	methods: {
+		ready() {
+//			api.put('/games/' + game_id + '/players/' + username, {ready: true})
+		}
 	}
 }
 </script>
