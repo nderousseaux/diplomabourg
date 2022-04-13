@@ -88,7 +88,7 @@ export default {
 			// Zone neutre
 			else if (carte["areas"][j].type == "impassable")
 			{
-				path.setAttribute("fill", "grey")
+				path.setAttribute("fill", "#808080")
 
 				// Changement du curseur
 				path.addEventListener("mouseover", function ()
@@ -129,6 +129,8 @@ export default {
 
 		for (var k in carte["infos"])
 		{
+			let pays = k // obligatoire, sinon toujours "Yor"
+
 			// Labels
 			let point = document.createElementNS(ns, "text")
 			var text = document.createTextNode(k)
@@ -146,7 +148,6 @@ export default {
 			// Points de ravitaillement
 			if (typeof carte["infos"][k].coordsRav != "undefined")
 			{
-				let pays = k // obligatoire, sinon toujours "Yor"
 				let circleIn = document.createElementNS(ns, "circle")
 				let circleOut = document.createElementNS(ns, "circle")
 			
@@ -182,33 +183,89 @@ export default {
 				svg.appendChild(circleOut)
 			}
 
-			// Création de pion
-			if (k == "Par" || k == "Ber")
+			// Pion marqueur
+			if (k == "Par")
 			{
-				let pays = k // obligatoire, sinon toujours "Yor"
-				let couleur = carte["infos"][k].color
-				let pion = document.createElementNS(ns, "circle")
+				let marqueur = document.createElementNS(ns, "circle")
 		
-				pion.setAttribute("cx", carte["infos"][k].coordsRav[0]-10)
-				pion.setAttribute("cy", carte["infos"][k].coordsRav[1])
-				pion.setAttribute("r", 4)
-				pion.setAttribute("fill", couleur)
-				pion.setAttribute("stroke", couleur)
-				svg.appendChild(pion)
+				marqueur.setAttribute("cx", carte["infos"][k].coords[0]-5)
+				marqueur.setAttribute("cy", carte["infos"][k].coords[1])
+				marqueur.setAttribute("r", 2.5)
+				marqueur.setAttribute("fill", "red")
+				marqueur.setAttribute("stroke", "red")
+				svg.appendChild(marqueur)
 
 				// Couleur et changement du curseur lors du passage de souris
-				pion.addEventListener("mouseover", function ()
+				marqueur.addEventListener("mouseover", function ()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				pion.addEventListener("mouseout", function ()
+				marqueur.addEventListener("mouseout", function ()
 				{
-					this.style.fill = couleur
+					this.style.fill = "red"
 				})
-				pion.addEventListener("click", function ()
+				marqueur.addEventListener("click", function ()
 				{
-					console.log("Clic pion : ", pays)
+					console.log("Clic marqueur : ", pays)
+				})
+			}
+
+			// Pion flotte
+			if (k == "Nwg")
+			{
+				let flotte = document.createElementNS(ns, "ellipse")
+		
+				flotte.setAttribute("cx", carte["infos"][k].coords[0]-7.5)
+				flotte.setAttribute("cy", carte["infos"][k].coords[1])
+				flotte.setAttribute("rx", 5)
+				flotte.setAttribute("ry", 2)
+				flotte.setAttribute("fill", "blue")
+				flotte.setAttribute("stroke", "blue")
+				svg.appendChild(flotte)
+
+				// Couleur et changement du curseur lors du passage de souris
+				flotte.addEventListener("mouseover", function ()
+				{
+					this.style.cursor = "pointer"
+					this.style.fill = "white"
+				})
+				flotte.addEventListener("mouseout", function ()
+				{
+					this.style.fill = "blue"
+				})
+				flotte.addEventListener("click", function ()
+				{
+					console.log("Clic flotte : ", pays)
+				})
+			}
+
+			// Pion armée
+			if (k == "Gal")
+			{
+				let armee = document.createElementNS(ns, "rect")
+		
+				armee.setAttribute("x", carte["infos"][k].coords[0]-7.5)
+				armee.setAttribute("y", carte["infos"][k].coords[1])
+				armee.setAttribute("width", 5)
+				armee.setAttribute("height", 5)
+				armee.setAttribute("fill", "green")
+				armee.setAttribute("stroke", "green")
+				svg.appendChild(armee)
+
+				// Couleur et changement du curseur lors du passage de souris
+				armee.addEventListener("mouseover", function ()
+				{
+					this.style.cursor = "pointer"
+					this.style.fill = "white"
+				})
+				armee.addEventListener("mouseout", function ()
+				{
+					this.style.fill = "green"
+				})
+				armee.addEventListener("click", function ()
+				{
+					console.log("Clic armee : ", pays)
 				})
 			}
 		}
@@ -233,7 +290,6 @@ export default {
 <style scoped>
 	/* Div principale */
 	#app > div{
-		background-color: #f0f0f0;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -241,14 +297,10 @@ export default {
 	img{
 		cursor: pointer;
 	}
-	h1, p{
-		text-align: center;
-	}
 
 	/* Carte */
 	#carte{
 		border-radius: 10px;
-		box-shadow: 0px 0px 15px 5px #CECECE;
 		width: fit-content;
 		height: 98vh;
 		margin: 1vh 0 1vh 0;
@@ -259,21 +311,20 @@ export default {
 		cursor: not-allowed;
 	}
 	svg{
-		background-color: #535353;
 		height: 100%;
+		background-color: rgba(42, 58, 73, 0.9);
 
 		/* Style pour le blocage de la carte */
 		/* pointer-events: none;
 		filter: grayscale(1) invert(0.1); */
 	}
 
-	/* Colonne de gauche */
+	/* Colonnes */
 	#app > div > div:first-child,
 	#app > div > div:last-child{
 		width: 25vw;
 		height: 98vh;
-		background-color: white;
-		box-shadow: 0px 0px 15px 5px #CECECE;
+		background-color: rgba(42, 58, 73, 0.7);
 		border-radius: 10px;
 		margin: 1vh 1vw 1vh 1vw;
 	}
@@ -282,7 +333,9 @@ export default {
 	#minuteur{
 		display: flex;
 		justify-content: space-between;
-		border-bottom: grey 3px solid;
+		border-style: solid;
+		border-width: 0 0 4px;
+		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 	#minuteur > img{
 		width: 48px;
@@ -341,7 +394,9 @@ export default {
 	#app > div > div:last-child > h1{
 		line-height: 88px;
 		margin: 0;
-		border-bottom: grey 3px solid;
+		border-style: solid;
+		border-width: 0 0 4px;
+		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 	#infos,
 	#ordres{
@@ -354,35 +409,18 @@ export default {
 	}
 	#infos > p{
 		margin: 0;
-		font-size: 25px;
 	}
 	#ordres{
 		display: none;
 	}
-	#ordres > p,
-	#quitter > form > button{
-		background-color: #F0F0F0;
-		padding: 0 10% 0 10%;
+	#ordres > p{
 		margin: 0 10px;
+		padding: 0 10% 0 10%;
 		line-height: 55px;
-		font-size: 25px;
-		border-radius: 10px;
-		border-style: grey 3px solid;
-		cursor: pointer;
-		transition: 0.3s;
 		font-weight: bold;
 	}
-	#ordres > p:hover,
-	#quitter > form > button:hover{
-		background-color: #e4e4e4;
-	}
-	#ordres > p:active,
-	#quitter > form > button:active{
-		background-color: #d6d6d6;
-	}
 	#ordres > p:last-child{
-		background-color: grey;
-		color: white;
+		background-color: #808080;
 		padding: 0 20% 0 20%;
 	}
 	#ordres > p:last-child:hover{
@@ -394,13 +432,11 @@ export default {
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
-		background-color: white;
+		background-color: rgba(42, 58, 73, 0.9);
 		border-radius: 10px;
 		border-style: none;
-		box-shadow: 0px 0px 15px 5px #5b5b5b;
 	}
 	#quitter > p{
-		font-size: 25px;
 		padding: 0 30px;
 	}
 	#quitter > form{
@@ -512,40 +548,6 @@ export default {
 	#quitter > form > button{
 		font-size: 22px;
 		margin: 10px;
-	}
-}
-
-/* Thème sombre */
-@media (prefers-color-scheme: dark){
-	/* Colonnes */
-	#app > div > div:first-child,
-	#app > div > div:last-child,
-	#carte,
-	#quitter{
-		background-color: #232224;
-		box-shadow: 0px 0px 15px 5px #131313;
-	}
-	#minuteur > img{
-		filter: grayscale(1) invert(1);
-	}
-
-	/* Boutons */
-	#ordres > p,
-	#quitter > form > button{
-		background-color: #bbbbbb;
-	}
-	#ordres > p:hover,
-	#quitter > form > button:hover{
-		background-color: #a0a0a0;
-	}
-	#ordres > p:active,
-	#quitter > form > button:active{
-		background-color: #868686;
-	}
-
-	/* Boîte de dialogue pour quitter */
-	#quitter{
-		box-shadow: 0px 0px 15px 5px #424242;
 	}
 }
 </style>

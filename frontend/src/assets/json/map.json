@@ -482,9 +482,6 @@
 			"coordsRav": [
 				285,
 				290
-			],
-			"color": [
-				"darkorange"
 			]
 		},
 		"Bla": {
@@ -545,10 +542,6 @@
 			"coords": [
 				439,
 				473
-			],
-			"coordsRav":[
-				433,
-				460
 			]
 		},
 		"Den": {
@@ -571,10 +564,6 @@
 			"coords": [
 				157,
 				210
-			],
-			"coordsRav": [
-				155,
-				220
 			]
 		},
 		"Eng": {
@@ -763,9 +752,6 @@
 			"coordsRav":[
 				172,
 				335
-			],
-			"color": [
-				"lightblue"
 			]
 		},
 		"Pic": {
@@ -1012,5 +998,10 @@
 		"Turkey": {
 			"colour": "#F0E68C"
 		}
+	},
+	"pions": {
+		"Flotte": {
+			"path": "M 0 0 L 1 1 L 2 0 L 1 -1 L 0 -1 L 0 0"
+		}
 	}
-	}
+}

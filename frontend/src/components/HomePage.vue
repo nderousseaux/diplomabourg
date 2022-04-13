@@ -109,7 +109,6 @@ export default {
 		flex-direction: column;
 		justify-content: space-evenly;
 		align-items: center;
-		background-color: rgba(42, 58, 73, 0.7);
 		border-radius: 10px;
 		height: max-content;
 		padding: 0 20px;
@@ -129,31 +128,6 @@ export default {
 		-moz-text-fill-color: transparent;
 	}
 
-	/* Bouton */
-	button,
-	input[type=submit]{
-		margin: 40px 0;
-		padding: 0 44px;
-		line-height: 44px;
-		background-color: #800124;
-		background-image: linear-gradient(#002843, rgba(255, 255, 255, 0));
-		transition: 0.7s;
-		color: #ffffff;
-		font-size: 36px;
-		border-radius: 20px;
-		border-style: none;
-		cursor: pointer;
-		box-shadow: 0px 0px 15px 5px #002843;
-	}
-	button:hover,
-	input[type=submit]:hover{
-		background-color: #4682b4;
-	}
-	button:active,
-	input[type=submit]:active{
-		background-color: #376890;
-	}
-
 	/* Boîte de dialogue pour paramétrer la partie */
 	#param{
 		background-color: #2a3a49;
@@ -163,7 +137,6 @@ export default {
 		min-width: 35vw;
 	}
 	#param > h1{
-		color: #ffffff;
 		font-size: 40px;
 		margin: 10px 0 30px;
 		text-align: center;
@@ -184,12 +157,11 @@ export default {
 	#param > form > p{
 		display: none;
 		font-size: 20px;
-		color: lightcoral;
 		margin-bottom: 0;
+		color: lightcoral;
 		text-align: center;
 	}
 	#param > form > div > label{
-		color: #ffffff;
 		font-size: 25px;
 		width: 49%;
 		text-align: left;
@@ -197,15 +169,14 @@ export default {
 	input[type=number],
 	input[type=password],
 	input[type=text]{
+		background-color: #3b5167;
 		width: calc(50% - 10px);
+		height: 30px;
 		font-size: 25px;
-		outline: none;
 		margin: 2px 0;
 		padding: 0 5px;
 		border-style: none;
-		background-color: #3b5167;
-		color: #ffffff;
-		height: 30px;
+		outline: none;
 	}
 	input[type=number]{
 		text-align: right;
@@ -215,12 +186,12 @@ export default {
 	}
 	#param > form > div > button,
 	#param > form > div > input[type=submit]{
-		padding: 4px 22px;
-		border: none;
-		line-height: 40px;
-		margin: 30px 0 10px;
-		outline: inherit;
 		flex-basis: 40%;
+		margin: 30px 0 10px;
+		padding: 4px 22px;
+		line-height: 40px;
+		border: none;
+		outline: inherit;
 	}
 
 /* Version mobile */
