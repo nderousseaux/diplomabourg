@@ -1,3 +1,4 @@
+/* Général */
 @font-face{
 	font-family: "Iceland";
 	font-display: swap;
@@ -21,11 +22,34 @@ p{
 	font-size: 25px;
 }
 
+/* Div principale */
+#logo{
+	width: 430px;
+	height: 163px;
+	margin: 20px 0;
+}
+
 /* Couleur de fond transparente */
 #pays,
 #joueurs,
-#chat{
+#chat,
+#colonneInfos,
+#colonneOrdres{
 	background-color: rgba(112, 128, 143, 0.7);
+}
+
+svg,
+#quitter{
+	background-color: rgba(112, 128, 143, 0.9);
+}
+
+/* Barre de séparation */
+#minuteur,
+#colonneOrdres > h1,
+#chat > h1{
+	border-style: solid;
+	border-width: 0 0 4px;
+	border-image: radial-gradient(#ae0132, #1c0043) 1;
 }
 
 /* Boutons */
@@ -55,11 +79,27 @@ input[type=submit]:active,
 	background-color: #376890;
 }
 
-@media(prefers-color-scheme: dark){
+/* Version mobile */
+@media screen and (max-width:769px){
+	/* Div principale */
+	#logo{
+		width: 324px;
+		height: 123px;
+	}
+}
+
+@media(prefers-color-scheme:dark){
 	/* Couleur de fond transparente */
 	#pays,
 	#joueurs,
-	#chat{
+	#chat,
+	#colonneInfos,
+	#colonneOrdres{
 		background-color: rgba(42, 58, 73, 0.7);
+	}
+
+	svg,
+	#quitter{
+		background-color: rgba(42, 58, 73, 0.9);
 	}
 }

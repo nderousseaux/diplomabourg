@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div>
+		<div id="colonneInfos">
 			<div id="minuteur">
 				<img id="params" alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
 				<p>5:30</p>
@@ -25,7 +25,7 @@
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
 			</svg>
 		</div>
-		<div>
+		<div id="colonneOrdres">
 			<h1>Informations</h1>
 			<div id="ordres">
 				<p>Ordre 1</p>
@@ -78,7 +78,7 @@ export default{
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
+					document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
 					console.log("Clic zone terrestre : ", nomZone)
@@ -115,7 +115,7 @@ export default{
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
+					document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
 					console.log("Clic zone maritime : ", nomZone)
@@ -312,7 +312,6 @@ export default{
 	}
 	svg{
 		height: 100%;
-		background-color: rgba(112, 128, 143, 0.9);
 	}
 	.bloque{
 		pointer-events: none;
@@ -320,11 +319,10 @@ export default{
 	}
 
 	/* Colonnes */
-	#app > div > div:first-child,
-	#app > div > div:last-child{
+	#colonneInfos,
+	#colonneOrdres{
 		width: 25vw;
 		height: 98vh;
-		background-color: rgba(112, 128, 143, 0.7);
 		border-radius: 10px;
 		margin: 1vh 1vw 1vh 1vw;
 	}
@@ -333,9 +331,6 @@ export default{
 	#minuteur{
 		display: flex;
 		justify-content: space-between;
-		border-style: solid;
-		border-width: 0 0 4px;
-		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 	#minuteur > img{
 		width: 48px;
@@ -387,16 +382,13 @@ export default{
 	}
 
 	/* Colonne d'ordres */
-	#app > div > div:last-child{
+	#colonneOrdres{
 		width: 18vw;
 		height: 98vh;
 	}
-	#app > div > div:last-child > h1{
+	#colonneOrdres > h1{
 		line-height: 88px;
 		margin: 0;
-		border-style: solid;
-		border-width: 0 0 4px;
-		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 	#infos,
 	#ordres{
@@ -432,7 +424,6 @@ export default{
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
-		background-color: rgba(112, 128, 143, 0.9);
 		border-radius: 10px;
 		border-style: none;
 	}
@@ -453,15 +444,19 @@ export default{
 
 /* Version tablette */
 @media screen and (min-width:770px) and (max-width:1370px){
+	/* Div principale */
+	#app > div{
+		flex-wrap: wrap;
+	}
 	/* Carte */
 	#carte{
+		width: calc(75vw - 3vw);
 		margin: 1vh 1vw 1vh 0;
 		font-size: 10px;
 	}
 
-	/* Colonne de gauche */
-	#app > div > div:first-child,
-	#app > div > div:last-child{
+	/* Colonnes */
+	#colonneInfos{
 		height: 98vh;
 	}
 
@@ -484,12 +479,16 @@ export default{
 	}
 
 	/* Colonne d'ordres */
-	#infos > p{
-		font-size: 32px;
+	#colonneOrdres{
+		width: 100%;
+		height: 35vh;
+	}
+	#ordres{
+		flex-direction: row;
 	}
 	#ordres > p,
 	#quitter > form > button{
-		font-size: 22px;
+		width: 25%;
 	}
 }
 
@@ -507,8 +506,9 @@ export default{
 		font-size: 11px;
 	}
 
-	/* Colonne de gauche */
-	#app > div > div:first-child{
+	/* Colonnes */
+	#colonneInfos,
+	#colonneOrdres{
 		width: 96vw;
 		height: max-content;
 		margin: 1vh 2vw 1vh 2vw;
@@ -532,13 +532,11 @@ export default{
 	}
 
 	/* Colonne d'ordres */
+	#colonneOrdres{
+		margin: 1vh 2vw 1vh 2vw;
+	}
 	#ordres{
 		flex-direction: row;
-	}
-	#app > div > div:last-child{
-		width: 96vw;
-		margin: 1vh 2vw 1vh 2vw;
-		height: max-content;
 	}
 	#infos > p{
 		margin: 30px 0;
@@ -548,19 +546,6 @@ export default{
 	#quitter > form > button{
 		font-size: 22px;
 		margin: 10px;
-	}
-}
-
-@media(prefers-color-scheme: dark){
-	/* Carte */
-	svg{
-		height: 100%;
-		background-color: rgba(42, 58, 73, 0.9);
-	}
-
-	#app > div > div:first-child,
-	#app > div > div:last-child{
-		background-color: rgba(42, 58, 73, 0.7);
 	}
 }
 </style>

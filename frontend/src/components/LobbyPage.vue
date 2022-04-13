@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div id="actions">
-					<button>Créer une partie</button>
+					<button>Générer le liens</button>
 					<button>Commencer la partie</button>
 				</div>
 			</div>
@@ -68,11 +68,6 @@ export default{
 		height: 100vh;
 		align-items: center;
 	}
-	#logo{
-		width: 430px;
-		height: 163px;
-		margin: 20px 0;
-	}
 	#app > div > div{
 		display: flex;
 		flex-direction: row;
@@ -100,9 +95,6 @@ export default{
 	#chat > h1{
 		line-height: 64px;
 		margin: 0;
-		border-style: solid;
-		border-width: 0 0 4px;
-		border-image: radial-gradient(#ae0132, #1c0043) 1;
 		text-align: center;
 	}
 	#chat > div{
@@ -113,6 +105,7 @@ export default{
 		width: calc(100% - 20px);
 		padding: 0 10px;
 		font-size: 24px;
+		border-radius: 0 0 10px 10px;
 		outline: none;
 		border-style: none;
 	}
@@ -148,8 +141,13 @@ export default{
 	/* Bouton */
 	#actions{
 		display: flex;
-		width: 100%;
+		flex-wrap: wrap;
+		width: 80%;
 		justify-content: space-evenly;
+	}
+	#actions > button{
+		width: 35%;
+		min-width: fit-content;
 	}
 	.inactif{
 		background-color: #000000;
@@ -163,12 +161,55 @@ export default{
 		background-color: #000000;
 	}
 
+/* Version tablette */
+@media screen and (max-width:1370px){
+	/* Div principale */
+	#app > div > div{
+		flex-direction: column-reverse;
+		align-items: center;
+		justify-content: space-evenly;
+	}
+	#lobby{
+		width: 80vw;
+		height: unset;
+	}
+
+	/* Chat */
+	#chat{
+		width: 80vw;
+		height: 30vh;
+		margin: 0 0 10px 0;
+	}
+	
+	/* Pays des joueurs */
+	#joueurs{
+		width: 100%;
+	}
+
+	/* Bouton */
+	#actions{
+		width: 100%;
+		margin-top: 5vh;
+	}
+}
+
 /* Version mobile */
 @media screen and (max-width:769px){
 	/* Div principale */
-	#logo{
-		width: 324px;
-		height: 123px;
+	#lobby{
+		height: calc(80vh - 203px)
+	}
+
+	/* Bouton */
+	#actions{
+		margin-top: unset;
+	}
+	#actions > button{
+		width: 100%;
+		font-size: 25px;
+	}
+	#actions > button:first-child{
+		margin-bottom: 0;
 	}
 }
 </style>

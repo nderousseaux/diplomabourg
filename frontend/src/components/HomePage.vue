@@ -97,11 +97,6 @@ export default {
 		height: 100vh;
 		align-items: center;
 	}
-	#logo{
-		width: 430px;
-		height: 163px;
-		margin: 20px 0;
-	}
 
 	/* Pays du joueur */
 	#pays{
@@ -196,10 +191,22 @@ export default {
 
 /* Version mobile */
 @media screen and (max-width:769px){
-	/* Div principale */
-	#logo{
-		width: 324px;
-		height: 123px;
+	/* Pays du joueur */
+	#pays{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		border-radius: 10px;
+		height: max-content;
+		padding: 0 20px;
+	}
+	#pays > img{
+		height: 96px;
+		padding-top: 20px;
+	}
+	#pays > p{
+		font-size: 40px;
 	}
 
 	/* Boîte de dialogue pour paramétrer la partie */
