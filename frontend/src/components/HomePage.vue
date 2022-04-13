@@ -53,6 +53,11 @@
 import api from "../api.js";
 
 export default {
+  data() {
+    return {
+      game_id: ''
+    }
+  },
   mounted() {
     // Pour paramétrer la partie
     let paramBtn = document.querySelector("div:first-child > button");
@@ -109,10 +114,15 @@ export default {
             player: player,
             game: game,
           };
+
           api
             .post("/games", jeu)
+            .then(response => {
+              this.game_id = response.data.game.id;
+              api.defaults.headers.common['Authorization'] = response.data.token;
+            })
             .then(() => {
-              this.$router.push({ name: "Lobby" });
+              this.$router.push({ path: `/games/${this.game_id}` });
             })
             .catch((err) => {
               console.log(err);

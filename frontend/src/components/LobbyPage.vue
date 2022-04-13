@@ -53,14 +53,19 @@
 </template>
 
 <script>
-//import api from '../api.js'
+import api from '../api.js'
 // get game_id ??
 // get username ??
+
+//const split_path = window.location.pathname.split("/")
+//const game_id = split_path[2]
+//const username = ????
 
 export default {
 	methods: {
 		ready() {
-//			api.put('/games/' + game_id + '/players/' + username, {ready: true})
+			api
+//				.put('/games/' + game_id + '/players/' + username, {ready: true})
 		}
 	}
 }
