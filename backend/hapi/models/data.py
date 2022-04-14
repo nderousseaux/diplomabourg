@@ -762,14 +762,14 @@ orderAttack=[
         
     },
 
-    {
-        "type_order_id": 1, #Attack
-        "src_region_id":13, #berlin
-        "dst_region_id" :58, #Silesia
-        "unit_id":2,
-        "nbtour" :0   ,
-        "gameid":1
-    },
+    # {
+    #     "type_order_id": 1, #Attack
+    #     "src_region_id":13, #berlin
+    #     "dst_region_id" :58, #Silesia
+    #     "unit_id":2,
+    #     "nbtour" :0   ,
+    #     "gameid":1
+    # },
     
     {
         "type_order_id": 1, #Attack
@@ -914,7 +914,7 @@ ordreSoutient=[
         
         
     },
-     #berlin soutient  défensif  #munish
+    #berlin soutient  défensif  #munish
     {
         "type_order_id": 3, #support
         "src_region_id":13, #berlin
@@ -988,7 +988,7 @@ AttackMutuel=[
 ]
 CreatConflit=[
     
-    #berlin  et munich attaquent silésie 
+    #berlin et munich attaquent silésie 
     #berlin attaque silésie 
     {
         "type_order_id": 1, #Attack
@@ -1054,6 +1054,109 @@ soutientCoupe=[
         
     },
 ]
+
+UniteSoutient=[
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":12, #Belgique(Belgium)
+        "cur_region_id":12,
+        "player_power_power_id":1,
+        "player_power_player_id":1
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":19, #Bourgogne(Burgundy)
+        "cur_region_id":19,
+        "player_power_power_id":4,
+        "player_power_player_id":4
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":52, #Prusse(Prussia)
+        "cur_region_id":52,
+        "player_power_power_id":3,
+        "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":15, #Boheme(Bohemia)
+        "cur_region_id":15,
+        "player_power_power_id":2,
+        "player_power_player_id":2
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":74, #Varsovie(warsaw)
+        "cur_region_id":74,
+        "player_power_power_id":5,
+        "player_power_player_id":5
+    }
+
+]
+
+
+orderSoutientAttackConflit=[
+
+    #Belgique  soutient  Bress qui attaque picardie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":12, #Belgique
+        "dst_region_id" :49, #picardie
+        "unit_id":16,
+        "other_unit_id": 4, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+    #Bourgogne  soutient  Paris qui attaque la region picardie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":19, #Bourgogne
+        "dst_region_id" :49, #picardie
+        "unit_id":17,
+        "other_unit_id": 6, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+     #Prusse  soutient   Berlin  qui attaque silésie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":52, #Prusse
+        "dst_region_id" :58, #silésie
+        "unit_id":18,
+        "other_unit_id": 2, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+    #Boheme  soutient  Berlin  qui attaque silésie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":15, #Boheme
+        "dst_region_id" :58, #silésie
+        "unit_id":19,
+        "other_unit_id":2, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+     #Varsovie  soutient  munich  qui attaque silésie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":74, #varsovie
+        "dst_region_id" :58, #silésie
+        "unit_id":20,
+        "other_unit_id": 3, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    }
+
+]
+
+
+
 def fillTableMap(data):
     return
 

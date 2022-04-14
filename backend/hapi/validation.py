@@ -133,8 +133,11 @@ def updateOrder(order,DBSession,transaction):
 
 def valideAttaque(order,DBSession,transaction): #already tested
     idJoueur=order.unit.player.id
+    print("hello")
     if (isYourOwnUnity(idJoueur,order.unit.id)==True and isAttaqueMyself(idJoueur,order.dst_region_id)==False):
+        print(order.unit.type_unit_id) 
         if isArmy(order.unit.id,DBSession)==True:
+            print("Army")
             if(isLandRegion(order.dst_region_id,DBSession)==True or isCostaleRegion(order.dst_region_id,DBSession)==True):
                 if (isTwoRegionsConnex(order.src_region_id,order.dst_region_id,DBSession)):
                      #modifié le champ isvalide de l'ordre
@@ -145,7 +148,7 @@ def valideAttaque(order,DBSession,transaction): #already tested
                 elif (ExisteConvoy(order.unit.id,order.src_region_id,order.dst_region_id,DBSession)):
                     #modifié le champ isvalide de l'order
                      order.is_valid = True
-                    #déplace les unités 
+                    #déplace les unités v
                      order.unit.cur_region_id=order.dst_region_id
                      print("Army attack valid")
                      return True 
@@ -342,9 +345,15 @@ def getAllHoldOrders(game,DBSession):
 def soutientCoupe(order, DBSession, transaction): #already tested
     conflit = isIamAttacked(order, DBSession)
     if(conflit.count()!=0):
-        print(order.id)
         order.state = False
-        transaction.commit()
+        
+
+def isSupportBroken(DBSession,nbtour,gameid,transaction):
+    orders = DBSession.query(OrderModel).filter(OrderModel.type_order_id .like(3), OrderModel.nbtour.like(nbtour),OrderModel.gameid.like(gameid))
+    for o in orders:
+        print(o.type_order_id)
+        soutientCoupe(o, DBSession, transaction)    
+    transaction.commit()
 
 listInputIdOrder=[27,28]
 def testSoutientCoupe(idOrder, DBSession, transaction):  
@@ -396,22 +405,22 @@ def testIsRetraitPossible(idOrder, DBSession, transaction):
     
 
 
-#prend tous les order d'attaque telque state ==True 
+#prend tous les ordres de la partie 
 def dectetAllConflicts(orders,DBSession): #already teste 
     Conflit = []
     OrdreConflit = []
     # pour tous les ordres
     for o in orders:
         # chercher les ordres de même tour et partie + 
-        found = DBSession.query(OrderModel).filter(OrderModel.id.not_like(o.id),OrderModel.type_order_id .like(1), OrderModel.dst_region_id.like(o.dst_region_id), OrderModel.nbtour.like(o.nbtour),OrderModel.gameid.like(o.gameid),o.state==True)
-        if (found.count() != 0):
+        # found = DBSession.query(OrderModel).filter(OrderModel.id.not_like(o.id),OrderModel.unit.cur_region_id.like(o.unit.cur_region_id))
             if o not in OrdreConflit:
                 data = []
                 data.append(o)
                 OrdreConflit.append(o)
-                for f in found:
-                    data.append(f)
-                    OrdreConflit.append(f)
+                for i in orders:
+                    if(o.id!=i.id and o.unit.cur_region_id==i.unit.cur_region_id):
+                        data.append(i)
+                        OrdreConflit.append(i)
                 Conflit.append(data)
     return Conflit
 
@@ -419,8 +428,120 @@ def dectetAllConflicts(orders,DBSession): #already teste
 
 def testDectetAllConflicts(DBSession): #already tested
     #recupére tous les ordres d'attaque
-    orders = DBSession.query(OrderModel).filter(OrderModel.type_order_id==1,OrderModel.nbtour==0,OrderModel.gameid==1,OrderModel.state==True)
+    orders = DBSession.query(OrderModel).filter(OrderModel.nbtour==0,OrderModel.gameid==1)
     listeConflit=dectetAllConflicts(orders,DBSession)
     for l in listeConflit:
-        lc=[o.id for o in l ]
+        lc=[o.unit.src_region.name for o in l ]
         print(lc)
+        
+    # retourne le nombre soutient valide qu'à obtenu l'unité qui attaque
+def nbValidSupportForOrder(order, DBSession): # Pour Diaby #already tested 
+    #fiare une requête c'est plus simple 
+    #orders = getAllSupportOrders(orderAttaque.gameid, DBSession)
+    orders = DBSession.query(OrderModel).filter(OrderModel.type_order_id.like(3),OrderModel.other_unit_id.like(order.unit_id), OrderModel.nbtour.like(order.nbtour),OrderModel.gameid.like(order.gameid),OrderModel.dst_region_id.like(order.dst_region_id),OrderModel.state!=False)
+    for o in orders:
+        print(o.src_region.name) 
+    return orders.count()
+
+listInputIdOrder=[22,23,23,25,26]
+def testnbValidSupportForOrder(idOrder, DBSession):
+     order= DBSession.query(OrderModel).filter(OrderModel.id==idOrder).first()
+     print("Attaque region:",order.src_region.name)
+     return nbValidSupportForOrder(order, DBSession)
+     
+
+# Verifier qu'une zone est attaque : Utilisez pour le soutien spécifiquement ici
+def isAttacked(order , DBSession):
+    AllAttacksOrders = getAllAttackOrders(order.gameid, DBSession)
+    for o in AllAttacksOrders:
+        if (o.dst_region_id == order.src_region_id) and (o.other_unit_id == order.unit_id) :
+            True
+
+    return False
+
+def countX(lst, x): 
+    count = 0
+    for ele in lst: 
+        if (ele == x): 
+            count = count + 1
+    return count
+#valeur doit être forcément présent  
+def  getIndex(L,x):
+    idx = 0
+    for ele in L: 
+        if (ele != x): 
+            idx = idx + 1
+        else :
+                return idx
+def ResolveConflict(listOrder, DBSession, transaction): # Pour Diaby
+    if(len(listOrder)>1):
+        counterArray = []
+        for o in listOrder:
+            # Stocke le nombre de soutien de chaque ordre de listOrdre
+            val=nbValidSupportForOrder(o, DBSession)
+            counterArray.append(val)
+            print(o.unit.cur_region.name,val)
+        maxVal=max(counterArray)
+        print(maxVal)
+        print(list)
+        for i in counterArray:
+            print(i)
+        #counterArray.count(maxVal)
+        if(countX(counterArray, maxVal)==1) : # deux unités ont obtenu le même nombre de soutient valides 
+            indice =getIndex(counterArray,maxVal)
+            orderGangant=listOrder[indice]
+            listOrder.pop(indice)
+            #je valide le déplacement de l'unité gangant 
+            orderGangant.unit.cur_region_id=orderGangant.dst_region_id
+            print(maxVal)
+            print(orderGangant.src_region.name)
+        #rendre tous  les attaques no effettif 
+        for  o in listOrder:
+                o.state = False    
+    elif (len(listOrder)==1) :
+        orderGangant=listOrder[0]
+        orderGangant.unit.cur_region_id=orderGangant.dst_region_id
+
+    print("Conflit resolu")
+    
+def testResolveConflict(listOrderId, DBSession, transaction):
+    listOrder=[]
+    for o in listOrderId:
+         order= DBSession.query(OrderModel).filter(OrderModel.id==o).first()
+         listOrder.append(order)
+    ResolveConflict(listOrder, DBSession, transaction)     
+
+# Prend un ordre de convoie si les conditions sont réunies pour qu'il soit rompu alors c'est rompu 
+"""
+    On ne stockera pas l'incide de l'ordre gagnant car on considerera que lors de l'insertion dans la base de données state et is_valid sont True par défaut
+    Ce qui fait que la valeur changera en fonction de ceux qui sont invalides.
+"""
+def ConvoyBroken(OrderConvoy, DBSession, transaction): # Pour Diaby
+
+    # Toutes les attaques qui visent le convoi
+    AllAttackers = getAllAttackOrders(OrderConvoy.gameid, DBSession).filter(OrderModel.dst_region_id == OrderConvoy.src_region_id)
+
+    # Toutes les soutiens qui visent le convoi
+    AllSupports = getAllSupportOrders(OrderConvoy.gameid, DBSession).filter(OrderModel.dst_region_id == OrderConvoy.src_region_id)
+
+    CounterAttackArray = []
+    for a in AllAttackers:
+        CounterAttackArray.append(nbValidSupportForAttackOrder(a, DBSession, transaction)) # Stocke le nombre de soutien valide de chaque attaque 
+
+
+    CounterSupportArray = []
+    for s in AllSupports:
+        # Si une unité qui soutien le convoi alors le soutien est comptabilisé par le nombre de soutien du soutien valide jusqu'au dernier soutien (Récursivement)
+        CounterSupportArray.append(nbValidSupportForAttackOrder(s, DBSession, transaction)) # Stocke le nombre de soutien valide de chaque chaque soutien de la flotte
+
+    indice = -1 # Par défaut
+    for i, res in enumerate(CounterAttackArray):
+        if (sum(CounterSupportArray) < res) : # Verifie si l'attaquant a le plus de soutien valide
+            indice = i
+
+    result = (-1 != indice) # Si -1 != indice alors True donc le convoi est rompu sinon si -1 == indice False le convoi n'est pas rompu
+    if result == True:
+        OrderConvoy.state = False
+        transaction.commit()
+
+    return result
