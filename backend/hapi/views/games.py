@@ -2,8 +2,8 @@ from cornice.resource import resource
 from hapi.cors import cors_policy
 import pyramid.httpexceptions as exception
 
-from hapi.marshmallow_schemas.joinGameSchema import JoinGameSchema
-from hapi.marshmallow_schemas.gameSchema import GameSchema
+from hapi.marshmallow_schemas.JoinGameSchema import JoinGameSchema
+from hapi.marshmallow_schemas.GameSchema import GameSchema
 from hapi.models import DBSession, PlayerModel, GameModel
 from hapi.service_informations import ServiceInformations
 
