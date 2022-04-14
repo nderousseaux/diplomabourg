@@ -7,33 +7,33 @@
 				<div id="joueurs">
 					<div>
 						<img alt="Drapeau français" title="Drapeau français"
-						src="../assets/img/flags/france.png"/>
+							src="../assets/img/flags/france.png"/>
 						<button>Prêt</button>
 					</div>
 					<div>
-						<img alt="Drapeau allemand" title="Drapeau allemand" 
-						src="../assets/img/flags/germany.png"/>
+						<img alt="Drapeau allemand" title="Drapeau allemand"
+							src="../assets/img/flags/germany.png"/>
 						<button class="inactif">Prêt</button>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
-						src="../assets/img/flags/loading.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur"
+							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
-						src="../assets/img/flags/loading.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur"
+							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
-						src="../assets/img/flags/loading.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur"
+							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
-						src="../assets/img/flags/loading.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur"
+							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur" 
-						src="../assets/img/flags/loading.png"/>
+						<img alt="Attente du joueur" title="Attente du joueur"
+							src="../assets/img/flags/loading.png"/>
 					</div>
 				</div>
 				<div id="actions">
@@ -45,7 +45,8 @@
 				<h1>Chat</h1>
 				<div>Messages ici</div>
 				<form name="message" action="">
-					<input type="text" name="msg" id="msg" placeholder="Entrez votre message"/>
+					<input type="text" name="msg" id="msg"
+						placeholder="Entrez votre message"/>
 				</form>
 			</div>
 		</div>

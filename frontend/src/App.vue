@@ -1,20 +1,20 @@
 <template>
-	<!--<HomePage/>-->
-	<!--<LobbyPage/>-->
-	<GameMap/>
+	<HomePage/>
+	<!-- <LobbyPage/> -->
+	<!-- <GameMap/> -->
 </template>
 
 <script>
-// import HomePage from './components/HomePage.vue'
+import HomePage from './components/HomePage.vue'
 // import LobbyPage from './components/LobbyPage.vue'
-import GameMap from './components/GameMap.vue'
+// import GameMap from './components/GameMap.vue'
 
 export default {
 	name: 'App',
 	components: {
-		// HomePage
+		HomePage
 		// LobbyPage
-		GameMap
+		// GameMap
 	}
 }
 </script>

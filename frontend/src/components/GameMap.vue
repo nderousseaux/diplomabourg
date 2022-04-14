@@ -2,19 +2,27 @@
 	<div>
 		<div id="colonneInfos">
 			<div id="minuteur">
-				<img id="params" alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
+				<img id="params" alt="Paramètres" title="Paramètres"
+					src="../assets/img/settings.png"/>
 				<p>5:30</p>
 			</div>
 			<div id="drapeaux">
 				<h1>Pays</h1>
 				<div>
-					<img alt="Drapeau français" title="France" src="../assets/img/flags/france.png"/>
-					<img alt="Drapeau allemand" title="Allemagne" src="../assets/img/flags/germany.png"/>
-					<img alt="Drapeau italien" title="Italie" src="../assets/img/flags/italy.png"/>
-					<img alt="Drapeau russe" title="Russie" src="../assets/img/flags/russia.png"/>
-					<img alt="Drapeau turque" title="Turquie" src="../assets/img/flags/turkey.png"/>
-					<img alt="Drapeau anglais" title="Angleterre" src="../assets/img/flags/great-britain.png"/>
-					<img alt="Drapeau autrichien" title="Autriche" src="../assets/img/flags/austria-hungary.png"/>
+					<img alt="Drapeau français" title="France"
+						src="../assets/img/flags/france.png"/>
+					<img alt="Drapeau allemand" title="Allemagne"
+						src="../assets/img/flags/germany.png"/>
+					<img alt="Drapeau italien" title="Italie"
+						src="../assets/img/flags/italy.png"/>
+					<img alt="Drapeau russe" title="Russie"
+						src="../assets/img/flags/russia.png"/>
+					<img alt="Drapeau turque" title="Turquie"
+						src="../assets/img/flags/turkey.png"/>
+					<img alt="Drapeau anglais" title="Angleterre"
+						src="../assets/img/flags/great-britain.png"/>
+					<img alt="Drapeau autrichien" title="Autriche"
+						src="../assets/img/flags/austria-hungary.png"/>
 				</div>
 			</div>
 			<div id="chat">
@@ -78,7 +86,8 @@ export default{
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres"
+					document.querySelector("#colonneOrdres > h1")
+						.innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
 					console.log("Clic zone terrestre : ", nomZone)
@@ -115,7 +124,8 @@ export default{
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres"
+					document.querySelector("#colonneOrdres > h1")
+						.innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
 					console.log("Clic zone maritime : ", nomZone)
@@ -187,7 +197,7 @@ export default{
 			if (k == "Par")
 			{
 				let marqueur = document.createElementNS(ns, "circle")
-		
+
 				marqueur.setAttribute("cx", carte["infos"][k].coords[0]-5)
 				marqueur.setAttribute("cy", carte["infos"][k].coords[1])
 				marqueur.setAttribute("r", 2.5)
@@ -215,7 +225,7 @@ export default{
 			if (k == "Nwg")
 			{
 				let flotte = document.createElementNS(ns, "ellipse")
-		
+
 				flotte.setAttribute("cx", carte["infos"][k].coords[0]-7.5)
 				flotte.setAttribute("cy", carte["infos"][k].coords[1])
 				flotte.setAttribute("rx", 5)
@@ -244,7 +254,7 @@ export default{
 			if (k == "Gal")
 			{
 				let armee = document.createElementNS(ns, "rect")
-		
+
 				armee.setAttribute("x", carte["infos"][k].coords[0]-7.5)
 				armee.setAttribute("y", carte["infos"][k].coords[1])
 				armee.setAttribute("width", 5)
