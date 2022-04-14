@@ -18,8 +18,8 @@
 			</div>
 			<div>
 				<label for="nbrJ">Nombre de joueurs</label>
-				<input type="number" onkeydown="return false" id="nbrJ"
-					name="nbrJ" min="2" max="7" value="7"/>
+				<input type="number" id="nbrJ" name="nbrJ"
+					min="2" max="7" value="7"/>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
@@ -51,9 +51,10 @@ export default {
 		})
 
 		// Gestion du formulaire
-		document.querySelector("form > div > input[type=submit]").addEventListener("click", event => {
+		document.querySelector("form > div > input[type=submit]")
+		.addEventListener("click", event => {
 			event.preventDefault()
-			let hasError = false
+			let erreurForm = false
 
 			// Regex
 			const regexInput = /^[\S\s]{5,15}$/
@@ -61,46 +62,48 @@ export default {
 			// Fonction de vérification
 			const inputPostVerif = function(){
 				if (this.value.match(regexInput) == null){
-					this.classList.add("error")
-					this.previousElementSibling.classList.add("error")
-					hasError = true
+					this.classList.add("erreur")
+					this.previousElementSibling.classList.add("erreur")
+					erreurForm = true
 					erreur.style.display = "block"
 				}
 				else{
-					this.classList.remove("error")
-					this.previousElementSibling.classList.remove("error")
-					hasError = false
-					erreur.style.display = "none"
+					this.classList.remove("erreur")
+					this.previousElementSibling.classList.remove("erreur")
+					erreurForm = false
+					if (document.querySelectorAll("input.erreur").length == 0)
+						erreur.style.display = "none"
 				}
 			}
 			const inputPostVerifNbr = function(){
 				if (this.value < 2 || this.value > 7){
-					this.classList.add("error")
-					this.previousElementSibling.classList.add("error")
-					hasError = true
+					this.classList.add("erreur")
+					this.previousElementSibling.classList.add("erreur")
+					erreurForm = true
 					erreur.style.display = "block"
 				}
 				else{
-					this.classList.remove("error")
-					this.previousElementSibling.classList.remove("error")
-					hasError = false
-					erreur.style.display = "none"
+					this.classList.remove("erreur")
+					this.previousElementSibling.classList.remove("erreur")
+					erreurForm = false
+					if (document.querySelectorAll("input.erreur").length == 0)
+						erreur.style.display = "none"
 				}
 			}
 
 			function inputPreVerif(donnee){
 				if (donnee.value.match(regexInput) == null){
-					donnee.classList.add("error")
-					donnee.previousElementSibling.classList.add("error")
-					hasError = true
+					donnee.classList.add("erreur")
+					donnee.previousElementSibling.classList.add("erreur")
+					erreurForm = true
 					erreur.style.display = "block"
 				}
 			}
 			function inputPreVerifNbr(donnee){
 				if (donnee.value < 2 || donnee.value > 7){
-					donnee.classList.add("error")
-					donnee.previousElementSibling.classList.add("error")
-					hasError = true
+					donnee.classList.add("erreur")
+					donnee.previousElementSibling.classList.add("erreur")
+					erreurForm = true
 					erreur.style.display = "block"
 				}
 			}
@@ -121,7 +124,7 @@ export default {
 			joueurInput.addEventListener("input", inputPostVerifNbr)
 
 			// Si tous les tests sont validés, on envoie au back
-			if (hasError == false)
+			if (erreurForm == false)
 				document.querySelector("form").submit()
 		})
 	}
@@ -229,7 +232,7 @@ export default {
 		border: none;
 		outline: inherit;
 	}
-	input.error{
+	input.erreur{
 		background-color: rgba(255, 0, 0, 0.4);
 	}
 
