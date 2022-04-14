@@ -31,6 +31,8 @@ class PlayerModel(Base):
     def orders(self): #TODO: Get seulement les ordres du tour courrant (du coup unit.order est un seul ordre)
         orders = []
         for unit in self.units:
-            orders += unit.order
+            for o in unit.orders_unit:
+                if(o.nbtour==self.game.nbtour):
+                    orders += unit.orders_unit
         
         return orders

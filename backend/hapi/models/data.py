@@ -1154,6 +1154,81 @@ orderSoutientAttackConflit=[
     }
 
 ]
+UnitConvoyBroken=[
+        
+    {  # unit in North sea 
+        "type_unit_id":2, #bateau
+        "src_region_id":2, #Norhe of the sea 
+        "cur_region_id":2,
+        "player_power_power_id":5, #italie
+        "player_power_player_id":5
+    },
+    
+    #Angleterre
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":39, #london
+        "cur_region_id":39,
+        "player_power_power_id":4,
+        "player_power_player_id":4
+    },
+    #Russ 
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":22,#danMark
+        "cur_region_id":22, 
+        "player_power_power_id":6,
+        "player_power_player_id":6
+    },
+    
+    { # unit in baye de holland
+        "type_unit_id":2, #bateau
+        "src_region_id":32, #baye de holland
+        "type_unit_id":2, #bateau
+        "cur_region_id":32, 
+        "player_power_power_id":6, #Ruuss
+        "player_power_player_id":6
+    }
+]
+
+c=[
+    #unit in North sea convoy unit belgique  which go in  Norway 
+    {
+        "type_order_id": 4, #convoy
+        "src_region_id":2, #Northe sea 
+        "dst_region_id" :47,# Norway 
+        "unit_id":21,
+        "other_unit_id":16,
+        "nbtour" :2,
+        "gameid":1 #unit present smyrna
+    },
+]
+
+a=[
+    #unit in bay holland  attaque North sea
+    {
+        "type_order_id":1, #Attack
+        "src_region_id":32, #bay holland
+        "unit_id":24,
+        "dst_region_id" :2, #North sea
+        "nbtour" :2,
+        "gameid":1
+    },
+]
+
+s=[
+    #Londone soutient NRD
+    {
+        "type_order_id": 3, #support
+        "src_region_id":39, #London
+        "dst_region_id" :2, #NRD
+        "unit_id":22,
+        "other_unit_id": 21, 
+        "nbtour" :2 ,
+        "gameid":1
+           
+    }
+]
 
 
 
