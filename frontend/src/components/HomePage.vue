@@ -14,18 +14,18 @@
 		<form method="dialog">
 			<div>
 				<label for="nom">Nom de la partie</label>
-				<input type="text" id="nom" name="nom"/>
+				<input type="text" id="nom" maxlength="15" name="nom"/>
 			</div>
 			<div>
 				<label for="nbrJ">Nombre de joueurs</label>
-				<input type="number" onkeydown="return false" id="nbrJ"
-					name="nbrJ" min="2" max="7" value="7"/>
+				<input type="number" id="nbrJ" name="nbrJ"
+					min="2" max="7" value="7"/>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
-				<input type="password" id="mdp" name="mdp"/>
+				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
-			<p>Tous les champs ne sont pas complétés</p>
+			<p>Tous les champs ne sont pas complétés correctement</p>
 			<div>
 				<button>Annuler</button>
 				<input type="submit" value="Créer"/>
@@ -51,37 +51,81 @@ export default {
 		})
 
 		// Gestion du formulaire
-		document.querySelector("input[type=submit]").addEventListener("click",
-																	event => {
+		document.querySelector("form > div > input[type=submit]")
+		.addEventListener("click", event => {
 			event.preventDefault()
-			var form = event.target.form
+			let erreurForm = false
 
-			// Si le formulaire n'est pas complet
-			if (
-				form["nom"].value === '' ||
-				form["mdp"].value === ''
-				) {
-					console.log("Erreur")
+			// Regex
+			const regexInput = /^[\S\s]{5,15}$/
+
+			// Fonction de vérification
+			const inputPostVerif = function(){
+				if (this.value.match(regexInput) == null){
+					this.classList.add("erreur")
+					this.previousElementSibling.classList.add("erreur")
+					erreurForm = true
 					erreur.style.display = "block"
 				}
-			
-			// Si l'utilisateur a modifié l'HTML
-			else if (
-				form["nbrJ"].value < 2 ||
-				form["nbrJ"].value > 7
-			) {
-					erreur.innerText = "Le nombre de joueurs doit être compris\
-						entre 2 et 7"
+				else{
+					this.classList.remove("erreur")
+					this.previousElementSibling.classList.remove("erreur")
+					erreurForm = false
+					if (document.querySelectorAll("input.erreur").length == 0)
+						erreur.style.display = "none"
+				}
+			}
+			const inputPostVerifNbr = function(){
+				if (this.value < 2 || this.value > 7){
+					this.classList.add("erreur")
+					this.previousElementSibling.classList.add("erreur")
+					erreurForm = true
 					erreur.style.display = "block"
+				}
+				else{
+					this.classList.remove("erreur")
+					this.previousElementSibling.classList.remove("erreur")
+					erreurForm = false
+					if (document.querySelectorAll("input.erreur").length == 0)
+						erreur.style.display = "none"
+				}
 			}
 
-			// Sinon on peut envoyer au back
-			else {
-				erreur.style.display = "none"
-				console.log("Nom de la partie :", form["nom"].value,
-							"\nNombre de joueurs :", form["nbrJ"].value,
-							"\nMot de passe :", form["mdp"].value)
+			function inputPreVerif(donnee){
+				if (donnee.value.match(regexInput) == null){
+					donnee.classList.add("erreur")
+					donnee.previousElementSibling.classList.add("erreur")
+					erreurForm = true
+					erreur.style.display = "block"
+				}
 			}
+			function inputPreVerifNbr(donnee){
+				if (donnee.value < 2 || donnee.value > 7){
+					donnee.classList.add("erreur")
+					donnee.previousElementSibling.classList.add("erreur")
+					erreurForm = true
+					erreur.style.display = "block"
+				}
+			}
+
+			// Nom de la partie
+			let nomInput = document.getElementById("nom")
+			inputPreVerif(nomInput)
+			nomInput.addEventListener("input", inputPostVerif)
+
+			// Mot de passe
+			let mdpInput = document.getElementById("mdp")
+			inputPreVerif(mdpInput)
+			mdpInput.addEventListener("input", inputPostVerif)
+
+			// Nombre de joueurs
+			let joueurInput = document.getElementById("nbrJ")
+			inputPreVerifNbr(joueurInput)
+			joueurInput.addEventListener("input", inputPostVerifNbr)
+
+			// Si tous les tests sont validés, on envoie au back
+			if (erreurForm == false)
+				document.querySelector("form").submit()
 		})
 	}
 }
@@ -90,18 +134,12 @@ export default {
 <style scoped>
 	/* Div principale */
 	#app > div{
-		background: url("../assets/img/map.jpeg");
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		width: 100vw;
 		height: 100vh;
 		align-items: center;
-	}
-	#logo{
-		width: 430px;
-		height: 163px;
-		margin: 20px 0;
 	}
 
 	/* Pays du joueur */
@@ -110,7 +148,6 @@ export default {
 		flex-direction: column;
 		justify-content: space-evenly;
 		align-items: center;
-		background-color: rgba(42, 58, 73, 0.7);
 		border-radius: 10px;
 		height: max-content;
 		padding: 0 20px;
@@ -130,30 +167,6 @@ export default {
 		-moz-text-fill-color: transparent;
 	}
 
-	/* Bouton */
-	button,
-	input[type=submit]{
-		margin: 5vh 0;
-		padding: 4px 44px;
-		background-color: #800124;
-		background-image: linear-gradient(#002843, rgba(255, 255, 255, 0));
-		transition: 0.7s;
-		color: #ffffff;
-		font-size: 36px;
-		border-radius: 20px;
-		border-style: none;
-		cursor: pointer;
-		box-shadow: 0px 0px 15px 5px #002843;
-	}
-	button:hover,
-	input[type=submit]:hover{
-		background-color: #4682b4;
-	}
-	button:active,
-	input[type=submit]:active{
-		background-color: #376890;
-	}
-
 	/* Boîte de dialogue pour paramétrer la partie */
 	#param{
 		background-color: #2a3a49;
@@ -163,7 +176,6 @@ export default {
 		min-width: 35vw;
 	}
 	#param > h1{
-		color: #ffffff;
 		font-size: 40px;
 		margin: 10px 0 30px;
 		text-align: center;
@@ -184,12 +196,11 @@ export default {
 	#param > form > p{
 		display: none;
 		font-size: 20px;
-		color: lightcoral;
 		margin-bottom: 0;
+		color: lightcoral;
 		text-align: center;
 	}
 	#param > form > div > label{
-		color: #ffffff;
 		font-size: 25px;
 		width: 49%;
 		text-align: left;
@@ -197,15 +208,14 @@ export default {
 	input[type=number],
 	input[type=password],
 	input[type=text]{
+		background-color: #3b5167;
 		width: calc(50% - 10px);
+		height: 30px;
 		font-size: 25px;
-		outline: none;
 		margin: 2px 0;
 		padding: 0 5px;
 		border-style: none;
-		background-color: #3b5167;
-		color: #ffffff;
-		height: 30px;
+		outline: none;
 	}
 	input[type=number]{
 		text-align: right;
@@ -215,20 +225,35 @@ export default {
 	}
 	#param > form > div > button,
 	#param > form > div > input[type=submit]{
-		padding: 4px 22px;
-		border: none;
-		line-height: 40px;
-		margin: 30px 0 10px;
-		outline: inherit;
 		flex-basis: 40%;
+		margin: 30px 0 10px;
+		padding: 4px 22px;
+		line-height: 40px;
+		border: none;
+		outline: inherit;
+	}
+	input.erreur{
+		background-color: rgba(255, 0, 0, 0.4);
 	}
 
 /* Version mobile */
 @media screen and (max-width:769px){
-	/* Div principale */
-	#logo{
-		width: 324px;
-		height: 123px;
+	/* Pays du joueur */
+	#pays{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		border-radius: 10px;
+		height: max-content;
+		padding: 0 20px;
+	}
+	#pays > img{
+		height: 96px;
+		padding-top: 20px;
+	}
+	#pays > p{
+		font-size: 40px;
 	}
 
 	/* Boîte de dialogue pour paramétrer la partie */

@@ -1,20 +1,28 @@
 <template>
 	<div>
-		<div>
+		<div id="colonneInfos">
 			<div id="minuteur">
-				<img id="params" alt="Paramètres" title="Paramètres" src="../assets/img/settings.png"/>
+				<img id="params" alt="Paramètres" title="Paramètres"
+					src="../assets/img/settings.png"/>
 				<p>5:30</p>
 			</div>
 			<div id="drapeaux">
 				<h1>Pays</h1>
 				<div>
-					<img alt="Drapeau français" title="France" src="../assets/img/flags/france.png"/>
-					<img alt="Drapeau allemand" title="Allemagne" src="../assets/img/flags/germany.png"/>
-					<img alt="Drapeau italien" title="Italie" src="../assets/img/flags/italy.png"/>
-					<img alt="Drapeau russe" title="Russie" src="../assets/img/flags/russia.png"/>
-					<img alt="Drapeau turque" title="Turquie" src="../assets/img/flags/turkey.png"/>
-					<img alt="Drapeau anglais" title="Angleterre" src="../assets/img/flags/great-britain.png"/>
-					<img alt="Drapeau autrichien" title="Autriche" src="../assets/img/flags/austria-hungary.png"/>
+					<img alt="Drapeau français" title="France"
+						src="../assets/img/flags/france.png"/>
+					<img alt="Drapeau allemand" title="Allemagne"
+						src="../assets/img/flags/germany.png"/>
+					<img alt="Drapeau italien" title="Italie"
+						src="../assets/img/flags/italy.png"/>
+					<img alt="Drapeau russe" title="Russie"
+						src="../assets/img/flags/russia.png"/>
+					<img alt="Drapeau turque" title="Turquie"
+						src="../assets/img/flags/turkey.png"/>
+					<img alt="Drapeau anglais" title="Angleterre"
+						src="../assets/img/flags/great-britain.png"/>
+					<img alt="Drapeau autrichien" title="Autriche"
+						src="../assets/img/flags/austria-hungary.png"/>
 				</div>
 			</div>
 			<div id="chat">
@@ -25,7 +33,7 @@
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
 			</svg>
 		</div>
-		<div>
+		<div id="colonneOrdres">
 			<h1>Informations</h1>
 			<div id="ordres">
 				<p>Ordre 1</p>
@@ -49,8 +57,8 @@
 </template>
 
 <script>
-export default {
-	mounted() {
+export default{
+	mounted(){
 		let ns = "http://www.w3.org/2000/svg"
 		let svg = document.querySelector("svg")
 		const carte = require("../assets/json/map.json")
@@ -78,17 +86,18 @@ export default {
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
+					document.querySelector("#colonneOrdres > h1")
+						.innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
-					console.log(nomZone)
+					console.log("Clic zone terrestre : ", nomZone)
 				})
 			}
 
 			// Zone neutre
 			else if (carte["areas"][j].type == "impassable")
 			{
-				path.setAttribute("fill", "grey")
+				path.setAttribute("fill", "#808080")
 
 				// Changement du curseur
 				path.addEventListener("mouseover", function ()
@@ -115,10 +124,11 @@ export default {
 				})
 				path.addEventListener("click", function ()
 				{
-					document.querySelector("#app > div > div:last-child > h1").innerHTML = "Ordres"
+					document.querySelector("#colonneOrdres > h1")
+						.innerHTML = "Ordres"
 					document.querySelector("#infos").style.display = "none"
 					document.querySelector("#ordres").style.display = "flex"
-					console.log(nomZone)
+					console.log("Clic zone maritime : ", nomZone)
 				})
 			}
 
@@ -129,6 +139,8 @@ export default {
 
 		for (var k in carte["infos"])
 		{
+			let pays = k // obligatoire, sinon toujours "Yor"
+
 			// Labels
 			let point = document.createElementNS(ns, "text")
 			var text = document.createTextNode(k)
@@ -174,11 +186,97 @@ export default {
 				})
 				circleOut.addEventListener("click", function ()
 				{
-					alert("Clic ravitaillement")
+					console.log("Clic ravitaillement : ", pays)
 				})
 
 				svg.appendChild(circleIn)
 				svg.appendChild(circleOut)
+			}
+
+			// Pion marqueur
+			if (k == "Par")
+			{
+				let marqueur = document.createElementNS(ns, "circle")
+
+				marqueur.setAttribute("cx", carte["infos"][k].coords[0]-5)
+				marqueur.setAttribute("cy", carte["infos"][k].coords[1])
+				marqueur.setAttribute("r", 2.5)
+				marqueur.setAttribute("fill", "red")
+				marqueur.setAttribute("stroke", "red")
+				svg.appendChild(marqueur)
+
+				// Couleur et changement du curseur lors du passage de souris
+				marqueur.addEventListener("mouseover", function ()
+				{
+					this.style.cursor = "pointer"
+					this.style.fill = "white"
+				})
+				marqueur.addEventListener("mouseout", function ()
+				{
+					this.style.fill = "red"
+				})
+				marqueur.addEventListener("click", function ()
+				{
+					console.log("Clic marqueur : ", pays)
+				})
+			}
+
+			// Pion flotte
+			if (k == "Nwg")
+			{
+				let flotte = document.createElementNS(ns, "ellipse")
+
+				flotte.setAttribute("cx", carte["infos"][k].coords[0]-7.5)
+				flotte.setAttribute("cy", carte["infos"][k].coords[1])
+				flotte.setAttribute("rx", 5)
+				flotte.setAttribute("ry", 2)
+				flotte.setAttribute("fill", "blue")
+				flotte.setAttribute("stroke", "blue")
+				svg.appendChild(flotte)
+
+				// Couleur et changement du curseur lors du passage de souris
+				flotte.addEventListener("mouseover", function ()
+				{
+					this.style.cursor = "pointer"
+					this.style.fill = "white"
+				})
+				flotte.addEventListener("mouseout", function ()
+				{
+					this.style.fill = "blue"
+				})
+				flotte.addEventListener("click", function ()
+				{
+					console.log("Clic flotte : ", pays)
+				})
+			}
+
+			// Pion armée
+			if (k == "Gal")
+			{
+				let armee = document.createElementNS(ns, "rect")
+
+				armee.setAttribute("x", carte["infos"][k].coords[0]-7.5)
+				armee.setAttribute("y", carte["infos"][k].coords[1])
+				armee.setAttribute("width", 5)
+				armee.setAttribute("height", 5)
+				armee.setAttribute("fill", "green")
+				armee.setAttribute("stroke", "green")
+				svg.appendChild(armee)
+
+				// Couleur et changement du curseur lors du passage de souris
+				armee.addEventListener("mouseover", function ()
+				{
+					this.style.cursor = "pointer"
+					this.style.fill = "white"
+				})
+				armee.addEventListener("mouseout", function ()
+				{
+					this.style.fill = "green"
+				})
+				armee.addEventListener("click", function ()
+				{
+					console.log("Clic armee : ", pays)
+				})
 			}
 		}
 
@@ -186,14 +284,14 @@ export default {
 		let paramBtn = document.getElementById("params");
 		let quitDialog = document.getElementById("quitter");
 
-		paramBtn.addEventListener("click", function onOpen() {
-			if (typeof quitDialog.showModal === "function") {
+		paramBtn.addEventListener("click", function onOpen(){
+			if (typeof quitDialog.showModal === "function"){
 				quitDialog.showModal();
 			}
 		})
 
 		// Action effectuée lors de l'appuie sur l'un des boutons
-		quitDialog.addEventListener("close", function onClose() {
+		quitDialog.addEventListener("close", function onClose(){
 			console.log(quitDialog.returnValue)
 		})
 	}
@@ -209,14 +307,10 @@ export default {
 	img{
 		cursor: pointer;
 	}
-	h1, p{
-		text-align: center;
-	}
 
 	/* Carte */
 	#carte{
 		border-radius: 10px;
-		box-shadow: 0px 0px 15px 5px #CECECE;
 		width: fit-content;
 		height: 98vh;
 		margin: 1vh 0 1vh 0;
@@ -227,21 +321,18 @@ export default {
 		cursor: not-allowed;
 	}
 	svg{
-		background-color: #535353;
 		height: 100%;
-
-		/* Style pour le blocage de la carte */
-		/* pointer-events: none;
-		filter: grayscale(1) invert(0.1); */
+	}
+	.bloque{
+		pointer-events: none;
+		filter: grayscale(1) invert(0.1);
 	}
 
-	/* Colonne de gauche */
-	#app > div > div:first-child,
-	#app > div > div:last-child{
+	/* Colonnes */
+	#colonneInfos,
+	#colonneOrdres{
 		width: 25vw;
 		height: 98vh;
-		background-color: white;
-		box-shadow: 0px 0px 15px 5px #CECECE;
 		border-radius: 10px;
 		margin: 1vh 1vw 1vh 1vw;
 	}
@@ -250,7 +341,6 @@ export default {
 	#minuteur{
 		display: flex;
 		justify-content: space-between;
-		border-bottom: grey 3px solid;
 	}
 	#minuteur > img{
 		width: 48px;
@@ -302,14 +392,13 @@ export default {
 	}
 
 	/* Colonne d'ordres */
-	#app > div > div:last-child{
+	#colonneOrdres{
 		width: 18vw;
 		height: 98vh;
 	}
-	#app > div > div:last-child > h1{
+	#colonneOrdres > h1{
 		line-height: 88px;
 		margin: 0;
-		border-bottom: grey 3px solid;
 	}
 	#infos,
 	#ordres{
@@ -322,35 +411,18 @@ export default {
 	}
 	#infos > p{
 		margin: 0;
-		font-size: 25px;
 	}
 	#ordres{
 		display: none;
 	}
-	#ordres > p,
-	#quitter > form > button{
-		background-color: #F0F0F0;
-		padding: 0 10% 0 10%;
+	#ordres > p{
 		margin: 0 10px;
+		padding: 0 10% 0 10%;
 		line-height: 55px;
-		font-size: 25px;
-		border-radius: 10px;
-		border-style: grey 3px solid;
-		cursor: pointer;
-		transition: 0.3s;
 		font-weight: bold;
 	}
-	#ordres > p:hover,
-	#quitter > form > button:hover{
-		background-color: #e4e4e4;
-	}
-	#ordres > p:active,
-	#quitter > form > button:active{
-		background-color: #d6d6d6;
-	}
 	#ordres > p:last-child{
-		background-color: grey;
-		color: white;
+		background-color: #808080;
 		padding: 0 20% 0 20%;
 	}
 	#ordres > p:last-child:hover{
@@ -362,13 +434,10 @@ export default {
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
-		background-color: white;
 		border-radius: 10px;
 		border-style: none;
-		box-shadow: 0px 0px 15px 5px #5b5b5b;
 	}
 	#quitter > p{
-		font-size: 25px;
 		padding: 0 30px;
 	}
 	#quitter > form{
@@ -385,15 +454,19 @@ export default {
 
 /* Version tablette */
 @media screen and (min-width:770px) and (max-width:1370px){
+	/* Div principale */
+	#app > div{
+		flex-wrap: wrap;
+	}
 	/* Carte */
 	#carte{
+		width: calc(75vw - 3vw);
 		margin: 1vh 1vw 1vh 0;
 		font-size: 10px;
 	}
 
-	/* Colonne de gauche */
-	#app > div > div:first-child,
-	#app > div > div:last-child{
+	/* Colonnes */
+	#colonneInfos{
 		height: 98vh;
 	}
 
@@ -416,12 +489,16 @@ export default {
 	}
 
 	/* Colonne d'ordres */
-	#infos > p{
-		font-size: 32px;
+	#colonneOrdres{
+		width: 100%;
+		height: 35vh;
+	}
+	#ordres{
+		flex-direction: row;
 	}
 	#ordres > p,
 	#quitter > form > button{
-		font-size: 22px;
+		width: 25%;
 	}
 }
 
@@ -439,8 +516,9 @@ export default {
 		font-size: 11px;
 	}
 
-	/* Colonne de gauche */
-	#app > div > div:first-child{
+	/* Colonnes */
+	#colonneInfos,
+	#colonneOrdres{
 		width: 96vw;
 		height: max-content;
 		margin: 1vh 2vw 1vh 2vw;
@@ -464,13 +542,11 @@ export default {
 	}
 
 	/* Colonne d'ordres */
+	#colonneOrdres{
+		margin: 1vh 2vw 1vh 2vw;
+	}
 	#ordres{
 		flex-direction: row;
-	}
-	#app > div > div:last-child{
-		width: 96vw;
-		margin: 1vh 2vw 1vh 2vw;
-		height: max-content;
 	}
 	#infos > p{
 		margin: 30px 0;
@@ -480,40 +556,6 @@ export default {
 	#quitter > form > button{
 		font-size: 22px;
 		margin: 10px;
-	}
-}
-
-/* Thème sombre */
-@media (prefers-color-scheme: dark){
-	/* Colonnes */
-	#app > div > div:first-child,
-	#app > div > div:last-child,
-	#carte,
-	#quitter{
-		background-color: #232224;
-		box-shadow: 0px 0px 15px 5px #131313;
-	}
-	#minuteur > img{
-		filter: grayscale(1) invert(1);
-	}
-
-	/* Boutons */
-	#ordres > p,
-	#quitter > form > button{
-		background-color: #bbbbbb;
-	}
-	#ordres > p:hover,
-	#quitter > form > button:hover{
-		background-color: #a0a0a0;
-	}
-	#ordres > p:active,
-	#quitter > form > button:active{
-		background-color: #868686;
-	}
-
-	/* Boîte de dialogue pour quitter */
-	#quitter{
-		box-shadow: 0px 0px 15px 5px #424242;
 	}
 }
 </style>
