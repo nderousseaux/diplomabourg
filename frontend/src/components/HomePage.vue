@@ -14,7 +14,7 @@
 		<form method="dialog">
 			<div>
 				<label for="nom">Nom de la partie</label>
-				<input type="text" id="nom" name="nom"/>
+				<input type="text" id="nom" maxlength="15" name="nom"/>
 			</div>
 			<div>
 				<label for="nbrJ">Nombre de joueurs</label>
@@ -23,9 +23,9 @@
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
-				<input type="password" id="mdp" name="mdp"/>
+				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
-			<p>Tous les champs ne sont pas complétés</p>
+			<p>Tous les champs ne sont pas complétés correctement</p>
 			<div>
 				<button>Annuler</button>
 				<input type="submit" value="Créer"/>
@@ -51,37 +51,78 @@ export default {
 		})
 
 		// Gestion du formulaire
-		document.querySelector("input[type=submit]").addEventListener("click",
-																	event => {
+		document.querySelector("form > div > input[type=submit]").addEventListener("click", event => {
 			event.preventDefault()
-			var form = event.target.form
+			let hasError = false
 
-			// Si le formulaire n'est pas complet
-			if (
-				form["nom"].value === '' ||
-				form["mdp"].value === ''
-				) {
-					console.log("Erreur")
+			// Regex
+			const regexInput = /^[\S\s]{5,15}$/
+
+			// Fonction de vérification
+			const inputPostVerif = function(){
+				if (this.value.match(regexInput) == null){
+					this.classList.add("error")
+					this.previousElementSibling.classList.add("error")
+					hasError = true
 					erreur.style.display = "block"
 				}
-			
-			// Si l'utilisateur a modifié l'HTML
-			else if (
-				form["nbrJ"].value < 2 ||
-				form["nbrJ"].value > 7
-			) {
-					erreur.innerText = "Le nombre de joueurs doit être compris\
-						entre 2 et 7"
+				else{
+					this.classList.remove("error")
+					this.previousElementSibling.classList.remove("error")
+					hasError = false
+					erreur.style.display = "none"
+				}
+			}
+			const inputPostVerifNbr = function(){
+				if (this.value < 2 || this.value > 7){
+					this.classList.add("error")
+					this.previousElementSibling.classList.add("error")
+					hasError = true
 					erreur.style.display = "block"
+				}
+				else{
+					this.classList.remove("error")
+					this.previousElementSibling.classList.remove("error")
+					hasError = false
+					erreur.style.display = "none"
+				}
 			}
 
-			// Sinon on peut envoyer au back
-			else {
-				erreur.style.display = "none"
-				console.log("Nom de la partie :", form["nom"].value,
-							"\nNombre de joueurs :", form["nbrJ"].value,
-							"\nMot de passe :", form["mdp"].value)
+			function inputPreVerif(donnee){
+				if (donnee.value.match(regexInput) == null){
+					donnee.classList.add("error")
+					donnee.previousElementSibling.classList.add("error")
+					hasError = true
+					erreur.style.display = "block"
+				}
 			}
+			function inputPreVerifNbr(donnee){
+				if (donnee.value < 2 || donnee.value > 7){
+					donnee.classList.add("error")
+					donnee.previousElementSibling.classList.add("error")
+					hasError = true
+					erreur.style.display = "block"
+				}
+			}
+
+			// Nom de la partie
+			let nomInput = document.getElementById("nom")
+			inputPreVerif(nomInput)
+			nomInput.addEventListener("input", inputPostVerif)
+
+			// Mot de passe
+			let mdpInput = document.getElementById("mdp")
+			inputPreVerif(mdpInput)
+			mdpInput.addEventListener("input", inputPostVerif)
+
+			// Nombre de joueurs
+			let joueurInput = document.getElementById("nbrJ")
+			inputPreVerifNbr(joueurInput)
+			joueurInput.addEventListener("input", inputPostVerifNbr)
+
+			// Si tous les tests sont validés, on envoie au back
+			if (hasError == false)
+				document.querySelector("form").submit()
 		})
 	}
 }
@@ -187,6 +228,9 @@ export default {
 		line-height: 40px;
 		border: none;
 		outline: inherit;
+	}
+	input.error{
+		background-color: rgba(255, 0, 0, 0.4);
 	}
 
 /* Version mobile */
