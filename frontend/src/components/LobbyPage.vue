@@ -54,18 +54,21 @@
 
 <script>
 import api from '../api.js'
-// get game_id ??
-// get username ??
+import store from "../store.js"
 
-//const split_path = window.location.pathname.split("/")
-//const game_id = split_path[2]
-//const username = ????
 
 export default {
+	data() {
+		return {
+			game_id: store.state.gameId,
+			player_id: store.state.playerId
+		}
+	},
 	methods: {
 		ready() {
-			api
-//				.put('/games/' + game_id + '/players/' + username, {ready: true})
+			console.log(this.game_id)
+			console.log(this.player_id)
+			api.put('/games/' + this.game_id + '/players/' + this.player_id, {ready: true})
 		}
 	}
 }

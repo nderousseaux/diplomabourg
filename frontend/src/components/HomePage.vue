@@ -51,11 +51,20 @@
 
 <script>
 import api from "../api.js";
+import store from "../store.js";
 
 export default {
   data() {
     return {
       game_id: ''
+    }
+  },
+  methods: {
+    storeGameId(id) {
+      store.setGameId(Number(id))
+    },
+    storePlayerId(id) {
+      store.setPlayerId(Number(id))
     }
   },
   mounted() {
@@ -118,7 +127,15 @@ export default {
           api
             .post("/games", jeu)
             .then(response => {
+              //store l'id de la game dans un objet pour le récuperer depuis le lobby
               this.game_id = response.data.game.id;
+              this.storeGameId(this.game_id);
+
+              //pareil pour l'id du joueur
+              this.player_id = response.data.game.players[0].id;
+              this.storePlayerId(this.player_id);
+
+              //enregistre le token reçu
               api.defaults.headers.common['Authorization'] = response.data.token;
             })
             .then(() => {
