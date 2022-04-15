@@ -218,7 +218,7 @@ export default {
 		outline: none;
 	}
 	input[type=number]{
-		text-align: right;
+		text-align: center;
 		caret-color: transparent;
 		user-select: none;
 		cursor: default;
