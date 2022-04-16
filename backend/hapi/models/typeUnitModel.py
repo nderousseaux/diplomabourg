@@ -15,3 +15,6 @@ class TypeUnitModel(Base):
     units=relationship('UnitModel',
         back_populates='type_unit')
     dispositions_unit=relationship('DispositionUnitModel',  back_populates='type_unit')
+
+    def __str__(self):
+        return self.name

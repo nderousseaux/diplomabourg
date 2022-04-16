@@ -1,16 +1,15 @@
 from marshmallow import (
     Schema,
-    fields,
+    fields
 )
 
 from hapi.models import MapModel
 
 class UnitSchema(Schema):
     id = fields.Int()
-    type = fields.Str()
+    type_unit = fields.Str()
     power_id = fields.Int()
+    power = fields.Nested("PowerSchema")
     src_region_id = fields.Int()
     cur_region_id = fields.Int()
-
-    class Meta:
-        ordered = True
+    player=fields.Nested("PlayerSchema")

@@ -1,14 +1,15 @@
 from marshmallow import (
     Schema,
     fields,
-    validate
+    post_load
 )
-from hapi.marshmallow_schemas.gameSchema import GameSchema, PlayerSchema
 
 class JoinGameSchema(Schema):
-    player = fields.Nested(PlayerSchema())
-    game =fields.Nested(GameSchema())
+    player = fields.Nested("PlayerSchema", only=["username"])
+    game =fields.Nested("GameSchema", only=["name", "password", "map_id"])
 
 
-    class Meta:
-        ordered = True
+    @post_load
+    def post_load(self, data, **kwargs):
+        data["player"]["game"] = data["game"]
+        return data

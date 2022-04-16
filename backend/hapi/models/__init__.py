@@ -10,7 +10,6 @@ register(DBSession)
 Base = declarative_base()
 
 from .colorModel import ColorModel
-from .dispositionModel import DispositionModel
 from .gameModel import GameModel
 from .mapModel import MapModel
 from .orderModel import OrderModel
@@ -26,4 +25,3 @@ from .unitModel import UnitModel
 
 from .typeRegionRegion import typeRegionRegion
 from .playerPower import playerPower
-#TODO: Changer tout les "" en ''

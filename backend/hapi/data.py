@@ -1,45 +1,47 @@
-
-
-
-
 from sqlalchemy import create_engine
-
 
 colors=[
     {
-        "rgb":"black"
-        
+        "id":1,
+        "rgb":"black"  
     },
     {
+        "id":2,
         "rgb" :"yellow"
-        
     },
     {
+        "id":3,
         "rgb" :"blue"
     },
     
     {
+        "id":4,
         "rgb" :"pink"
     },
     
     {
+        "id":5,
         "rgb" :"red"
         
     },
     {
+        "id":6,
         "rgb" :"white"
         
     },
     {
+        "id":7,
         "rgb" :"green"
         
     },
 ]
 maps=[
     {
+        "id":1,
         "name":"Europe"
     },
     {
+        "id":2,
         "name":"Strasbourg"
     }
 ]
@@ -48,41 +50,48 @@ maps=[
 
 powers=[
     {
+        "id":1,
         "name" : "Germany",
         "color_id":1,
         "map_id" : 1
     },
     {
+        "id":2,
         "name": "Austria-Hungary", 
         "color_id":2,
         "map_id" : 1
     },
     
     {
+        "id":3,
         "name": "France",
         "color_id":3,
         "map_id" : 1
     },
     
     {
+        "id":4,
         "name": "Great-Britain",  
         "color_id":4,
         "map_id" : 1
     },
     
     {
+        "id":5,
         "name": "Italy",
         "color_id":5,
         "map_id" : 1
     },
     
     {
+        "id":6,
         "name": "Russia",
         "color_id":6,
         "map_id" : 1
     },
     
     {
+        "id":7,
         "name": "Turkey",
         "color_id":7,
         "map_id" : 1
@@ -91,25 +100,31 @@ powers=[
 
 typeRegion=[
     {
+        "id":1,
         "name":"LAND"
     },
     {
+        "id":2,
         "name":"SEA"
     },
     {
+        "id":3,
         "name":"COAST"
     },
 ]
 
 typeUnite=[
     {
+        "id":1,
         "name":"ARMY"
     },
     {
+        "id":2,
         "name":"FLEET"
     },
     
     {
+        "id":3,
         "name": "CENTER"
     }
    
@@ -117,88 +132,86 @@ typeUnite=[
 
 regions=[
 
-        {"name" : "Norwegian Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "North Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Switzerland", "map_id" : 1, "hasCenter": False},
-        {"name" : "Adriatic Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Aegean Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Albania", "map_id" : 1, "hasCenter": False},
-        {"name" : "Ankara", "map_id" : 1, "hasCenter": True},
-        {"name" : "Apulia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Armenia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Baltic Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Barents Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Belgium", "map_id" : 1, "hasCenter": False},
-        {"name" : "Berlin", "map_id" : 1, "hasCenter": True},
-        {"name" : "Black Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Bohemia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Brest", "map_id" : 1, "hasCenter": True},
-        {"name" : "Budapest", "map_id" : 1, "hasCenter": True},
-        {"name" : "Bulgaria", "map_id" : 1, "hasCenter": False},
-        {"name" : "Burgundy", "map_id" : 1, "hasCenter": False},
-        {"name" : "Clyde", "map_id" : 1, "hasCenter": False},
-        {"name" : "Constantinople", "map_id" : 1, "hasCenter": True},
-        {"name" : "Denmark", "map_id" : 1, "hasCenter":True},
-        {"name" : "Eastern Mediterranean", "map_id" : 1, "hasCenter": False},
-        {"name" : "Edinburgh", "map_id" : 1, "hasCenter": True},
-        {"name" : "English Channel", "map_id" : 1, "hasCenter": False},
-        {"name" : "Finland", "map_id" : 1, "hasCenter": False},
-        {"name" : "Galicia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Gascony", "map_id" : 1, "hasCenter": False},
-        {"name" : "Greece", "map_id" : 1, "hasCenter": False},
-        {"name" : "Gulf of Lyon", "map_id" : 1, "hasCenter": False},
-        {"name" : "Gulf of Bothnia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Helgoland Bight", "map_id" : 1, "hasCenter": False},
-        {"name" : "Holland", "map_id" : 1, "hasCenter": False},
-        {"name" : "Ionian Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Irish Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Kiel", "map_id" : 1, "hasCenter": True},
-        {"name" : "Liverpool", "map_id" : 1, "hasCenter": True},
-        {"name" : "Livonia", "map_id" : 1, "hasCenter": False},
-        {"name" : "London", "map_id" : 1, "hasCenter": True},
-        {"name" : "Marseilles", "map_id" : 1, "hasCenter": False},
-        {"name" : "Mid-Atlantic Ocean", "map_id" : 1, "hasCenter": False},
-        {"name" : "Moscow", "map_id" : 1, "hasCenter": True},
-        {"name" : "Munich", "map_id" : 1, "hasCenter": True},
-        {"name" : "Naples", "map_id" : 1, "hasCenter": True},
-        {"name" : "North Atlantic Ocean", "map_id" : 1, "hasCenter": False},
-        {"name" : "North Africa", "map_id" : 1, "hasCenter": False},
-        {"name" : "Norway", "map_id" : 1, "hasCenter": False},
-        {"name" : "Paris", "map_id" : 1, "hasCenter": True},
-        {"name" : "Picardy", "map_id" : 1, "hasCenter": False},
-        {"name" : "Piedmont", "map_id" : 1, "hasCenter": False},
-        {"name" : "Portugal", "map_id" : 1, "hasCenter": False},
-        {"name" : "Prussia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Rome", "map_id" : 1, "hasCenter": True},
-        {"name" : "Ruhr", "map_id" : 1, "hasCenter": False},
-        {"name" : "Rumania", "map_id" : 1, "hasCenter": False},
-        {"name" : "Serbia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Sevastopol", "map_id" : 1, "hasCenter": False},
-        {"name" : "Silesia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Skagerrak", "map_id" : 1, "hasCenter": False},
-        {"name" : "Smyrna", "map_id" : 1, "hasCenter": True},
-        {"name" : "Spain", "map_id" : 1, "hasCenter": False},
-        {"name" : "St Petersburg", "map_id" : 1, "hasCenter": True},
-        {"name" : "Sweden", "map_id" : 1, "hasCenter": False},
-        {"name" : "Syria", "map_id" : 1, "hasCenter": False},
-        {"name" : "Trieste", "map_id" : 1, "hasCenter": True},
-        {"name" : "Tunis", "map_id" : 1, "hasCenter": False},
-        {"name" : "Tuscany", "map_id" : 1, "hasCenter": False},
-        {"name" : "Tyrolia", "map_id" : 1, "hasCenter": False},
-        {"name" : "Tyrrhenian Sea", "map_id" : 1, "hasCenter": False},
-        {"name" : "Ukraine", "map_id" : 1, "hasCenter": False},
-        {"name" : "Venice", "map_id" : 1, "hasCenter": True},
-        {"name" : "Vienna", "map_id" : 1, "hasCenter": True},
-        {"name" : "Wales", "map_id" : 1, "hasCenter": False},
-        {"name" : "Warsaw", "map_id" : 1, "hasCenter": False},
-        {"name" : "Western Mediterranean", "map_id" : 1, "hasCenter": False},
-        {"name" : "Yorkshire", "map_id" : 1, "hasCenter": False}
+        {"id":1,"name" : "Norwegian Sea", "map_id" : 1, "hasCenter": False},
+        {"id":2,"name" : "North Sea", "map_id" : 1, "hasCenter": False},
+        {"id":3,"name" : "Switzerland", "map_id" : 1, "hasCenter": False},
+        {"id":4,"name" : "Adriatic Sea", "map_id" : 1, "hasCenter": False},
+        {"id":5,"name" : "Aegean Sea", "map_id" : 1, "hasCenter": False},
+        {"id":6,"name" : "Albania", "map_id" : 1, "hasCenter": False},
+        {"id":7,"name" : "Ankara", "map_id" : 1, "hasCenter": True},
+        {"id":8,"name" : "Apulia", "map_id" : 1, "hasCenter": False},
+        {"id":9,"name" : "Armenia", "map_id" : 1, "hasCenter": False},
+        {"id":10,"name" : "Baltic Sea", "map_id" : 1, "hasCenter": False},
+        {"id":11,"name" : "Barents Sea", "map_id" : 1, "hasCenter": False},
+        {"id":12,"name" : "Belgium", "map_id" : 1, "hasCenter": False},
+        {"id":13,"name" : "Berlin", "map_id" : 1, "hasCenter": True},
+        {"id":14,"name" : "Black Sea", "map_id" : 1, "hasCenter": False},
+        {"id":15,"name" : "Bohemia", "map_id" : 1, "hasCenter": False},
+        {"id":16,"name" : "Brest", "map_id" : 1, "hasCenter": True},
+        {"id":17,"name" : "Budapest", "map_id" : 1, "hasCenter": True},
+        {"id":18,"name" : "Bulgaria", "map_id" : 1, "hasCenter": False},
+        {"id":19,"name" : "Burgundy", "map_id" : 1, "hasCenter": False},
+        {"id":20,"name" : "Clyde", "map_id" : 1, "hasCenter": False},
+        {"id":21,"name" : "Constantinople", "map_id" : 1, "hasCenter": True},
+        {"id":22,"name" : "Denmark", "map_id" : 1, "hasCenter":True},
+        {"id":23,"name" : "Eastern Mediterranean", "map_id" : 1, "hasCenter": False},
+        {"id":24,"name" : "Edinburgh", "map_id" : 1, "hasCenter": True},
+        {"id":25,"name" : "English Channel", "map_id" : 1, "hasCenter": False},
+        {"id":26,"name" : "Finland", "map_id" : 1, "hasCenter": False},
+        {"id":27,"name" : "Galicia", "map_id" : 1, "hasCenter": False},
+        {"id":28,"name" : "Gascony", "map_id" : 1, "hasCenter": False},
+        {"id":29,"name" : "Greece", "map_id" : 1, "hasCenter": False},
+        {"id":30,"name" : "Gulf of Lyon", "map_id" : 1, "hasCenter": False},
+        {"id":31,"name" : "Gulf of Bothnia", "map_id" : 1, "hasCenter": False},
+        {"id":32,"name" : "Helgoland Bight", "map_id" : 1, "hasCenter": False},
+        {"id":33,"name" : "Holland", "map_id" : 1, "hasCenter": False},
+        {"id":34,"name" : "Ionian Sea", "map_id" : 1, "hasCenter": False},
+        {"id":35,"name" : "Irish Sea", "map_id" : 1, "hasCenter": False},
+        {"id":36,"name" : "Kiel", "map_id" : 1, "hasCenter": True},
+        {"id":37,"name" : "Liverpool", "map_id" : 1, "hasCenter": True},
+        {"id":38,"name" : "Livonia", "map_id" : 1, "hasCenter": False},
+        {"id":39,"name" : "London", "map_id" : 1, "hasCenter": True},
+        {"id":40,"name" : "Marseilles", "map_id" : 1, "hasCenter": False},
+        {"id":41,"name" : "Mid-Atlantic Ocean", "map_id" : 1, "hasCenter": False},
+        {"id":42,"name" : "Moscow", "map_id" : 1, "hasCenter": True},
+        {"id":43,"name" : "Munich", "map_id" : 1, "hasCenter": True},
+        {"id":44,"name" : "Naples", "map_id" : 1, "hasCenter": True},
+        {"id":45,"name" : "North Atlantic Ocean", "map_id" : 1, "hasCenter": False},
+        {"id":46,"name" : "North Africa", "map_id" : 1, "hasCenter": False},
+        {"id":47,"name" : "Norway", "map_id" : 1, "hasCenter": False},
+        {"id":48,"name" : "Paris", "map_id" : 1, "hasCenter": True},
+        {"id":49,"name" : "Picardy", "map_id" : 1, "hasCenter": False},
+        {"id":50,"name" : "Piedmont", "map_id" : 1, "hasCenter": False},
+        {"id":51,"name" : "Portugal", "map_id" : 1, "hasCenter": False},
+        {"id":52,"name" : "Prussia", "map_id" : 1, "hasCenter": False},
+        {"id":53,"name" : "Rome", "map_id" : 1, "hasCenter": True},
+        {"id":54,"name" : "Ruhr", "map_id" : 1, "hasCenter": False},
+        {"id":55,"name" : "Rumania", "map_id" : 1, "hasCenter": False},
+        {"id":56,"name" : "Serbia", "map_id" : 1, "hasCenter": False},
+        {"id":57,"name" : "Sevastopol", "map_id" : 1, "hasCenter": False},
+        {"id":58,"name" : "Silesia", "map_id" : 1, "hasCenter": False},
+        {"id":59,"name" : "Skagerrak", "map_id" : 1, "hasCenter": False},
+        {"id":60,"name" : "Smyrna", "map_id" : 1, "hasCenter": True},
+        {"id":61,"name" : "Spain", "map_id" : 1, "hasCenter": False},
+        {"id":62,"name" : "St Petersburg", "map_id" : 1, "hasCenter": True},
+        {"id":63,"name" : "Sweden", "map_id" : 1, "hasCenter": False},
+        {"id":64,"name" : "Syria", "map_id" : 1, "hasCenter": False},
+        {"id":65,"name" : "Trieste", "map_id" : 1, "hasCenter": True},
+        {"id":66,"name" : "Tunis", "map_id" : 1, "hasCenter": False},
+        {"id":67,"name" : "Tuscany", "map_id" : 1, "hasCenter": False},
+        {"id":68,"name" : "Tyrolia", "map_id" : 1, "hasCenter": False},
+        {"id":69,"name" : "Tyrrhenian Sea", "map_id" : 1, "hasCenter": False},
+        {"id":70,"name" : "Ukraine", "map_id" : 1, "hasCenter": False},
+        {"id":71,"name" : "Venice", "map_id" : 1, "hasCenter": True},
+        {"id":72,"name" : "Vienna", "map_id" : 1, "hasCenter": True},
+        {"id":73,"name" : "Wales", "map_id" : 1, "hasCenter": False},
+        {"id":74,"name" : "Warsaw", "map_id" : 1, "hasCenter": False},
+        {"id":75,"name" : "Western Mediterranean", "map_id" : 1, "hasCenter": False},
+        {"id":76,"name" : "Yorkshire", "map_id" : 1, "hasCenter": False}
     ]
     
-
-dispositionUnite=[
-    
-    #germany : 
+dispositionUnite= [
+ #germany : 
     {
         "type_unit_id": 2, #bateau 
         
@@ -363,6 +376,7 @@ dispositionUnite=[
     
 ]
 
+
 voisinage=[
     {"src_region_id": 0, "dst_region_id": [10,46,44,1]},
     {"src_region_id": 1, "dst_region_id": [46,23,75,38,31,21,58,11,24,32]},
@@ -442,8 +456,6 @@ voisinage=[
     {"src_region_id": 74, "dst_region_id": [44]}
 
  ]
-
-
 
 
 reg_type_reg=[
@@ -526,20 +538,26 @@ reg_type_reg=[
     ]
 
 states=[
-    {"id":1, "name":"CONFIGURATION"}
+    {"id":1, "name":"CONFIGURATION"},
+    {"id":2, "name":"GAME"},
+    {"id":3, "name":"END"},
 ]
 typeOders=[
     
     {
+        "id":1,
         "name":"ATTACK"
     },
     {
+        "id":2,
         "name":"HOLD"
     },
     {
+        "id":3,
         "name":"SUPPORT"
     },
     {
+        "id":4,
         "name":"CONVOY"
     }
 ]
@@ -552,24 +570,27 @@ state=[
     
 ]
 games=[
-    {
+    {   
+        "id": 1,
         "name" : "Amdadou",
         "password":"cool",
         "map_id" : 1,
         "state_id": 1,
-        "nbtour" :0
+        "num_tour" :0
     }
     
 ]
 
 players =[
     {
+        "id":1,
         "username":"Ladislav",
          "is_admin":True,
           "game_id": 1
               
     },
     {
+        "id":2,
         "username":"Emmanuel",
         "is_admin":False,
         "game_id": 1
@@ -577,27 +598,32 @@ players =[
               
     },
     {
-        "username":"Emmanuel",
+        "id":3,
+        "username":"Emmanuel2",
         "is_admin":False,
         "game_id": 1
                
     },
     {
+        "id":4,
         "username":"Mariame",
         "is_admin":False,
         "game_id": 1    
     },
     {
+        "id":5,
         "username":"Intissar",
         "is_admin":False,
         "game_id": 1    
     },
     {
+        "id":6,
         "username":"Melissa",
         "is_admin":False,
         "game_id": 1    
     },
     {
+        "id":7,
         "username":"Loic",
         "is_admin":False,
         "game_id": 1    
@@ -636,6 +662,7 @@ playersPowers=[
 unites=[
     #germany
     {
+        "id":1,
         "type_unit_id":2, #bateau
         "src_region_id":36, #kiel
         "cur_region_id":36,
@@ -643,6 +670,7 @@ unites=[
         "player_power_player_id":1
     },
     {
+        "id":2,
         "type_unit_id":1, #Army
         "src_region_id":13, #berlin
         "cur_region_id":13,
@@ -650,6 +678,7 @@ unites=[
         "player_power_player_id":1
     },
     {
+        "id":3,
         "type_unit_id":1, #Army
         "src_region_id":43, #munich
         "cur_region_id":43,
@@ -658,6 +687,7 @@ unites=[
     },
     #france
     {
+        "id":4,
         "type_unit_id":2, #bateau
         "src_region_id":16, #Brest
         "cur_region_id":16,
@@ -665,6 +695,7 @@ unites=[
         "player_power_player_id":3
     },
     {
+        "id":5,
         "type_unit_id":1, #Army
         "src_region_id":40, #Marseille
         "cur_region_id":40,
@@ -672,6 +703,7 @@ unites=[
         "player_power_player_id":3
     },
     {
+        "id":6,
         "type_unit_id":1, #Army
         "src_region_id":48, #Paris
         "cur_region_id":48,
@@ -682,6 +714,7 @@ unites=[
 unitMaritimeConvoy=[
     # for convoy france
     {
+        "id":7,
         "type_unit_id":2, #bateau
         "src_region_id":75, #Mediterrane
         "cur_region_id":75,
@@ -689,6 +722,7 @@ unitMaritimeConvoy=[
         "player_power_player_id":3
     },
     {
+        "id":8,
         "type_unit_id":2, #bateau
         "src_region_id":30, #Gulf of lyon
         "cur_region_id":30,
@@ -697,6 +731,7 @@ unitMaritimeConvoy=[
     },
     #turkeey for convoy
     {
+        "id":9,
         "type_unit_id":1, #Army
         "src_region_id":60, #Smyrna
         "cur_region_id":60,
@@ -705,6 +740,7 @@ unitMaritimeConvoy=[
     },
 
     {
+        "id":10,
         "type_unit_id":2, #bateeu
         "src_region_id":5, #Agean Sea
         "cur_region_id":5,
@@ -713,6 +749,7 @@ unitMaritimeConvoy=[
     },
     #italie for  convoy
     {
+        "id":11,
         "type_unit_id":2, #bateau
         "src_region_id":34, #Ionian Sea
         "cur_region_id":34,
@@ -720,6 +757,7 @@ unitMaritimeConvoy=[
         "player_power_player_id":5
     },
     {
+        "id":12,
         "type_unit_id":2, #Bateau
         "src_region_id":69, #Agean Sea
         "cur_region_id":69,
@@ -728,6 +766,7 @@ unitMaritimeConvoy=[
     },
     #British
     {
+        "id":13,
         "type_unit_id":2, #Bateau
         "src_region_id":45, #Athlantic
         "cur_region_id":45,
@@ -735,6 +774,7 @@ unitMaritimeConvoy=[
         "player_power_player_id":4
     },
     {
+        "id":14,
         "type_unit_id":2, #Bateau
         "src_region_id":25, #English channel
         "cur_region_id":25,
@@ -746,94 +786,94 @@ unitMaritimeConvoy=[
 orderAttack=[
     #unite de munich attaque berlin
     {
+        "id":1,
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
         "dst_region_id" :43, #munich
         "unit_id":2,
-        "nbtour" :0,
-        "gameid":1
+        "num_tour" :0
         
     },
 
     {
+        "id":2,
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
         "dst_region_id" :58, #Silesia
         "unit_id":2,
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
     {
+        "id":3,
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
         "dst_region_id" :48, #Paris
         "unit_id":2,
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
 
     #smyrna Attack brest
     {
+        "id":4,
         "type_order_id": 1, #Attack
         "src_region_id":60,
         "dst_region_id" :16,
         "unit_id":9,
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
 
 ]
 orderConvoy=[
     #unit in Agean sea convoy unit Smyrnat  which go in brest
     {
+        "id":5,
         "type_order_id": 4, #convoy
         "src_region_id":5,
         "dst_region_id" :16,
         "unit_id":10,
         "other_unit_id":9,
-        "nbtour" :0,
-        "gameid":1 #unit present smyrna
+        "num_tour" :0 #unit present smyrna
     },
     #unit in ion Saea convoy unit Smyrnat which go in brest
     {
+        "id":6,
         "type_order_id": 4, #convoy
         "src_region_id":34,
         "dst_region_id" :16,
         "unit_id":11,
         "other_unit_id":9,
-        "nbtour" :0   ,
-        "gameid":1 #unit present smyrna
+        "num_tour" :0    #unit present smyrna
     },
     #unit in Tyrrhenien Sea convoy unit Smyrnat which go in brest
     {
+        "id":7,
         "type_order_id": 4,  # convoy
         "src_region_id": 69,
         "dst_region_id": 16,
         "unit_id": 12,
         "other_unit_id": 9,
-        "nbtour" :0   ,
-        "gameid":1 #unit present smyrna
+        "num_tour" :0    #unit present smyrna
     },
 
     #unit in meditarrene convoy unit Smyrnat which go in brest
     {
+        "id":8,
         "type_order_id": 4,  # convoy
         "src_region_id":75,
         "dst_region_id": 16,
         "unit_id": 7,
         "other_unit_id": 9, #unit present smyrna
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
     #unit in athlantic convoy unit Smyrnat which go in brest
     {
+        "id":9,
         "type_order_id": 4,  # convoy
         "src_region_id" :45,
         "dst_region_id": 16,
         "unit_id": 13,
         "other_unit_id": 9, #unit present smyrna
-         "nbtour" :0   ,
-         "gameid":1
+         "num_tour" :0
         
     },
 
@@ -842,41 +882,39 @@ orderConvoy=[
 floatAttack=[
      #fleet Athlantic Attack brest(cost) 
     {
+        "id":10,
         "type_order_id": 1, #Attack
         "src_region_id":45,
         "dst_region_id" :16,
         "unit_id":13,
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
     #fleet Tyrrhenien Sea Attack ion Saea(maritime)
     {
+        "id":11,
         "type_order_id": 1, #Attack
         "src_region_id":69,
         "dst_region_id" :34,
         "unit_id":13,
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
     #fleet brest  Attack gaskony cotiére
     {
+        "id":12,
         "type_order_id": 1, #Attack
         "src_region_id":16,
         "dst_region_id" :28,
         "unit_id":13,
-        "nbtour" :0   ,
-        "gameid":1
+        "num_tour" :0   
     },
     {
+        "id":13,
         "type_order_id": 1, #Attack
         "src_region_id":16,
         "dst_region_id" :3,
         "unit_id":1,
-        "nbtour" :1,
-        "gameid":1
-    },
-    
-    
+        "num_tour" :1
+    }, 
 ]
 
 
@@ -885,38 +923,38 @@ def fillTableMap(data):
 
 def insertMaps(maps,session,table):
     for m in maps :
-        new_maps=table(name=m["name"])
+        new_maps=table(id=m["id"], name=m["name"])
         session.add(new_maps)
         session.commit()
         
 def insertColor(colors,session,table):
     for c in colors :
-        new_color=table(rgb=c["rgb"])
+        new_color=table(id=c["id"], rgb=c["rgb"])
         session.add(new_color)
         session.commit()
         
 def insertPower(powers,session,table):
     
     for p in powers :
-        new_powers=table(name=p["name"],color_id=p["color_id"],map_id=p["map_id"])
+        new_powers=table(id=p["id"], name=p["name"],color_id=p["color_id"],map_id=p["map_id"])
         session.add(new_powers)
         session.commit()
 
 def insertTypeRegion(typeRegion,session,table)   :
     for tr in typeRegion :
-        new_typeRegion=table(name=tr["name"])
+        new_typeRegion=table(id=tr["id"], name=tr["name"])
         session.add(new_typeRegion)
         session.commit() 
         
 def insertTypeUnite(typeUnite,session,table)   :
     for tu in typeUnite :
-        new_typeUnite=table(name=tu["name"])
+        new_typeUnite=table(id=tu["id"], name=tu["name"])
         session.add(new_typeUnite)
         session.commit() 
 
 def insertRegion(regions,session,table):
     for r in regions:
-        new_region=table(name=r["name"],map_id=r["map_id"],hasCenter=r["hasCenter"])
+        new_region=table(id=r["id"],name=r["name"],map_id=r["map_id"],hasCenter=r["hasCenter"])
         session.add(new_region)
         session.commit() 
         
@@ -953,23 +991,23 @@ def insertState(state,session,table):
         session.commit() 
 def insertTypeOrder(typeOrder,session,table)   :
     for tO in typeOrder :
-        new_typeOrder=table(name=tO["name"])
+        new_typeOrder=table(id=tO["id"], name=tO["name"])
         session.add(new_typeOrder)
         session.commit() 
         
 def insertState(states,session,table)   :
     for s in states :
-        new_states=table(name=s["name"])
+        new_states=table(id=s["id"], name=s["name"])
         session.add(new_states)
         session.commit()
 def insertGame(games,session,table):
     for g in games :
-        new_games=table(name=g["name"],password=g["password"],map_id=g["map_id"],state_id=g["state_id"],nbtour=g["nbtour"])
+        new_games=table(id=g["id"], name=g["name"],password=g["password"],map_id=g["map_id"],state_id=g["state_id"],num_tour=g["num_tour"])
         session.add(new_games)
         session.commit() 
 def insertPlayer(players,session,table):
     for p in players :
-        new_players=table(username=p["username"],is_admin=p["is_admin"],game_id=p["game_id"])
+        new_players=table(id=p["id"],username=p["username"],is_admin=p["is_admin"],game_id=p["game_id"])
         session.add(new_players)
         session.commit()
 def insertPlayerPower(playersPowers,engine,table):
@@ -978,16 +1016,16 @@ def insertPlayerPower(playersPowers,engine,table):
                 engine.execute(new_line) 
 def insertUnite(unite,session,table):
      for u in unite:
-        new_unite=table(type_unit_id=u["type_unit_id"],src_region_id=u["src_region_id"],cur_region_id=u["cur_region_id"],player_power_power_id=u["player_power_power_id"],player_power_player_id=u["player_power_player_id"])
+        new_unite=table(id=u["id"], type_unit_id=u["type_unit_id"],src_region_id=u["src_region_id"],cur_region_id=u["cur_region_id"],player_power_power_id=u["player_power_power_id"],player_power_player_id=u["player_power_player_id"])
         session.add(new_unite)
         session.commit()
 def insertOrderAttack(orderAttack,session,table):
     for o in orderAttack :
-        new_orderAttack=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
+        new_orderAttack=table(id=o["id"],type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],num_tour=o["num_tour"])
         session.add(new_orderAttack)
         session.commit()
 def insertOrderConvoy(orderConvoy,session,table):
     for o in orderConvoy :
-        new_orderConvoy=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
+        new_orderConvoy=table(id=o["id"],type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],num_tour=o["num_tour"])
         session.add(new_orderConvoy)
         session.commit()

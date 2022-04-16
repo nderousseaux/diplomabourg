@@ -13,5 +13,5 @@ class StateModel(Base):
     #Relationships
     games = relationship('GameModel',  back_populates='state')
 
-    def __repr__(self):
+    def __str__(self):
         return self.name

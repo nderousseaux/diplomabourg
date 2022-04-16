@@ -14,8 +14,7 @@ class OrderModel(Base):
     unit_id = Column(Integer, ForeignKey('unit.id'))
     other_unit_id= Column(Integer, ForeignKey('unit.id'))
     is_valid= Column(Boolean)
-    nbtour= Column(Integer, nullable=False)
-    gameid=Column(Integer, nullable=False)
+    num_tour = Column(Integer, nullable=False)
     
     #Relationships
     type_order=relationship('TypeOrderModel',  back_populates='orders')
@@ -27,7 +26,7 @@ class OrderModel(Base):
         back_populates="orders_dst_region")
     unit=relationship("UnitModel", 
                     primaryjoin="OrderModel.unit_id==UnitModel.id",
-                      back_populates='orders_unit')
+                      back_populates='orders')
     other_unit=relationship("UnitModel",
                       primaryjoin="OrderModel.other_unit_id==UnitModel.id",
                       back_populates='orders_other_unit')

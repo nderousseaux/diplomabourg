@@ -1,7 +1,6 @@
 from marshmallow import (
     Schema,
-    fields,
-    pre_dump
+    fields
 )
 
 class RegionSchema(Schema):
@@ -9,7 +8,3 @@ class RegionSchema(Schema):
     name = fields.Str()
     types=fields.List(fields.Str())
     has_centre=fields.Boolean()
-
-    
-    class Meta:
-        ordered = True

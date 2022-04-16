@@ -1,32 +1,39 @@
 from cornice.resource import resource
-from hapi.cors import cors_policy
 import pyramid.httpexceptions as exception
 
-from hapi.marshmallow_schemas.joinGameSchema import PlayerSchema
-from hapi.marshmallow_schemas.gameSchema import GameSchema
-from hapi.models import DBSession, PlayerModel, GameModel
-from hapi.service_informations import ServiceInformations
+from hapi.marshmallow_schemas import PlayerSchema, GameSchema
+from hapi.models import GameModel, PlayerModel
+from hapi.utils.auth import *
+from hapi.utils.cors import cors_policy
+from hapi.utils.service_informations import ServiceInformations
+from hapi.utils.state import change_state
 
 
-@resource(name="players", collection_path="/games/{idGame:\d+}/players", path="/games/{idGame:\d+}/players/{idPlayer:\d+}", cors_policy=cors_policy)
+@resource(name="players", collection_path="/games/{id_game:\d+}/players", path="/games/{id_game:\d+}/players/{id_player:\d+}", cors_policy=cors_policy)
 class Players():
     def __init__(self, request, context=None):
         self.request = request
         self.request.si = ServiceInformations(__name__, self.request)
 
-        idGame = self.request.matchdict.get('idGame')
+        id_game = self.request.matchdict.get('id_game')
 
         # On cherche la carte en db
-        self.game = DBSession.query(GameModel).get(idGame)
+        self.game = DBSession.query(GameModel).get(id_game)
 
         if self.game == None:
             raise exception.HTTPNotFound()
         
+        if "password" in self.request.params:
+            self.password = self.request.params["password"]
+        else:
+            self.password = None
+
         #On vérifie que le player existe
-        idPlayer = self.request.matchdict.get('idPlayer')
-        if idPlayer != None:
+        id_player = self.request.matchdict.get('id_player')
+
+        if id_player != None:
             # On cherche le player en db
-            self.player = DBSession.query(PlayerModel).get(idPlayer)
+            self.player = DBSession.query(PlayerModel).get(id_player)
 
             #On vérifie que l'user appartient bien à cette carte
             if self.player.game != self.game:
@@ -35,82 +42,66 @@ class Players():
             if self.player == None:
                 raise exception.HTTPNotFound()
 
+    #Get all users
     def collection_get(self):
-        #On vérifie que l'user connecté à bien accès à cette game
-        if self.request.user == None or self.request.user.game != self.game:
-            return self.request.si.build_response(
-                exception.HTTPUnauthorized())
+        check_member_of_game(self.request.user, self.game)
 
         players = PlayerSchema().dump(self.game.players, many=True)
 
-        return self.request.si.build_response(
-            exception.HTTPOk(),
-            PlayerSchema().add_is_you(players, self.request.user))
+        return self.request.si.build_response(exception.HTTPOk(),players)
 
+    #Créer un user (connection à une partie)
     def collection_post(self):
         #On charge le body
-        data = PlayerSchema().load(self.request.json)
-
-        #On vérifie que la partie est toujours ouverte
-        if self.game.state.name != "CONFIGURATION":
-            return self.request.si.build_response(exception.HTTPGone())
-
-        #On vérifie que les mots de passes correspondent
-        if self.game.password != self.request.params["password"]:
-            return self.request.si.build_response(exception.HTTPUnauthorized())
-
-        #On vérifie que la partie n'est pas pleine
-        if len(self.game.players) >= len(self.game.map.powers):
-            return self.request.si.build_response(exception.HTTPForbidden(), details="Max number of players is reached")
+        data = PlayerSchema(only=["username"]).load(self.request.json)
 
         #On vérifie que l'username est pas déjà pris
         PlayerSchema().check_username(data, self.game)
-        
-        #On ajoute un joueur
-        player = PlayerModel(**data)
-        player.game = self.game
-        DBSession.add(player)
-        DBSession.flush()
 
-        #On renvoie les infos
-        game = GameSchema().dump(self.game)
+        self.game.check_add_player(self.password)
+
+        data = PlayerModel(**data)
+        data.game = self.game
+        data.is_you = True
+
+        #FIXME: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
+
         res = {
-            "token": self.request.create_jwt_token(player.id),
-            "game": GameSchema().add_is_you(game, player)
+            "token": self.request.create_jwt_token(data.id),
+            "game": GameSchema().dump(self.game)
         }
 
         return self.request.si.build_response(exception.HTTPCreated(), res)
 
+    #Modifier un user
     def put(self):
-        #On vérifie que l'user connecté à bien accès à cette game
-        if self.request.user == None or self.request.user.game != self.game:
-            return self.request.si.build_response(
-                exception.HTTPUnauthorized())
+        check_can_update_player(self.request.user, self.player)
 
-        #On vérifie que l'user connecté à le droit de modier le player
-        if self.request.user != self.player and not self.request.user.is_admin:
-            return self.request.si.build_response(
-                exception.HTTPUnauthorized())
+        newPlayer = PlayerSchema(only=["username", "power_id", "is_ready"]).load(self.request.json)
 
-        newPlayer = PlayerSchema(
-            only=["username", "powers", "is_ready"]
-        ).load(self.request.json)
-        
-        #On vérifie que les powers appartiennent à la carte et sont disponible à la sélection
-        PlayerSchema().check_powers(self.player, newPlayer)
-
-        #On vérifie l'intégrité de l'username
+        if len(newPlayer["power"]) == 0:
+            newPlayer.power = self.player.power
+    
+        #On vérifie que l'username est pas déjà pris
         PlayerSchema().check_username(newPlayer, self.game, self.player)
 
-        #On modifie l'objet player
-        #On ajoute les powers
-        if "powers" in newPlayer:
-            powers = newPlayer.pop("powers")
-            self.player.powers = powers
-        DBSession.query(PlayerModel)\
-            .filter_by(id=self.player.id)\
-            .update(newPlayer)
+        #On vérifie que la puissance n'est pas déjà prise
+        PlayerSchema().check_power(newPlayer, self.game, self.player)
+
+        #On ne peut pas être pret si on a pas sélectionné de puissance
+        if newPlayer["is_ready"] and len(newPlayer["power"]) == 0:
+            raise exception.HTTPBadRequest("You cannot be ready : you don't have chose any power")
+
+        #On modifie l'objet player      
+        self.player.is_ready = False  
+        for k, v in newPlayer.items():
+            setattr(self.player,k,v)
+
         DBSession.flush()
 
+        #On vérifie si tout le monde est pret
+        change_state(DBSession, self.game)
+
+        #FIXME: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
         
         return self.request.si.build_response(exception.HTTPNoContent())

@@ -1,13 +1,9 @@
 
-from .db_utils import *
+from hapi.utils.db import *
 from hapi.models import *
 import transaction
 
 from sqlalchemy import or_, and_
-
-
-
-
 
 
 def typeRegion(regionId,DBSession,type_region): #already tested
@@ -178,10 +174,10 @@ def testValideConvoy(idOrder,DBSession,transaction):
 # Attaque, Soutien, Convoi, Tenir
 # La fonction appelée veriife si l'ordre est valide ou pas et change le is_valid de cet ordre au besoin 
 def Validation(game, DBSession,transaction) :
-    orders= DBSession.query(OrderModel).filter(OrderModel.gameid.like(game.id),OrderModel.nbtour.like(game.nbtour))
+    orders= DBSession.query(OrderModel).filter(OrderModel.gameid.like(game.id),OrderModel.num_tour.like(game.num_tour))
 
         
-    # nbtour sera mise dans la table order
+    # num_tour sera mise dans la table order
     
     for o in orders :
         if (o.type_order.name=="ATTACK"):  

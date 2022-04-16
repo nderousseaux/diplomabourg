@@ -18,7 +18,7 @@ class PlayerModel(Base):
     
     #Relationships
     game=relationship('GameModel', back_populates='players')
-    powers=relationship("PowerModel",
+    power=relationship("PowerModel",
         secondary=playerPower,
         back_populates="players"
     )
@@ -28,9 +28,10 @@ class PlayerModel(Base):
         back_populates='player'    
     )
 
-    def orders(self): #TODO: Get seulement les ordres du tour courrant (du coup unit.order est un seul ordre)
+    def orders(self):
         orders = []
         for unit in self.units:
-            orders += unit.order
-        
-        return orders
+            orders += unit.orders
+
+        num_tour = self.game.num_tour    
+        return [o for o in orders if o.num_tour == num_tour]

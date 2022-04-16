@@ -14,6 +14,7 @@ class UnitModel(Base):
     cur_region_id = Column(Integer, ForeignKey('region.id'))
     player_power_power_id = Column(Integer, ForeignKey('player_power.power_id'))
     player_power_player_id = Column(Integer, ForeignKey('player_power.player_id'))
+    game_id = Column(Integer, ForeignKey('game.id'))
     
     #Relationships
     type_unit = relationship('TypeUnitModel',  back_populates='units')
@@ -33,9 +34,11 @@ class UnitModel(Base):
         primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
         back_populates='units'   
     )
-    orders_unit=relationship('OrderModel',
+    orders=relationship('OrderModel',
                             primaryjoin="OrderModel.unit_id==UnitModel.id",
                             back_populates='unit')
     orders_other_unit=relationship('OrderModel',
                             primaryjoin="OrderModel.other_unit_id==UnitModel.id",
                             back_populates='other_unit')
+
+    game=relationship('GameModel', back_populates="units")
