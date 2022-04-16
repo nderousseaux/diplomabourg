@@ -21,16 +21,14 @@ class ServiceInformations:
         #On ajoute le body si il existe
         try:
             data_log['body'] = self.request.json_body
-            
         except:
             pass
-
+        
         #On ajoute la réponse si elle existe
         try:
             data_log['response_content'] = response.json_body
         except:
             pass
-
         self.logger.info(data_log)
 
     def build_response(self, http_exception, data=None, message=None, details=None):
@@ -61,6 +59,10 @@ class ServiceInformations:
     def catch_error(self, e):
         if type(e) is type(exception.HTTPNotFound()):
             response = self.build_response(exception.HTTPNotFound())
+        elif type(e) is type(exception.HTTPUnauthorized()):
+            response = self.build_response(exception.HTTPUnauthorized())
+        elif type(e) is type(exception.HTTPGone()):
+            response = self.build_response(exception.HTTPGone())
 
         else:
             try:

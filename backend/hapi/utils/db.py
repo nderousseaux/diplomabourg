@@ -1,29 +1,16 @@
+from dotenv import load_dotenv
+from pyramid.paster import get_appsettings, setup_logging
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import datetime
 import os
 import sys
 import transaction
-import datetime
 
-from sqlalchemy import create_engine
+from hapi.data import *
+from hapi.models import *
+from hapi.models.regionModel import adjoining
 
-from sqlalchemy.orm import sessionmaker
-
-from pyramid.paster import (
-    get_appsettings,
-    setup_logging,
-)
-
-from .models import (
-    DBSession,
-    Base,
-)
-
-from .models import *
-from .models.regionModel import adjoining
-
-from .models.data import *
-
-
-from dotenv import load_dotenv
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -52,18 +39,20 @@ def pre(argv):
     engine = load_engine(settings)
     return engine
 
-
-
 def main(argv=sys.argv):
     engine = pre(argv)
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
 
-
 def fill(argv=sys.argv):
     engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
+
+    meta = Base.metadata
+    for table in reversed(meta.sorted_tables):
+        session.execute(table.delete())
+    session.flush()
 
     insertMaps(maps,session,MapModel)
     insertColor(colors,session,ColorModel)
@@ -85,13 +74,3 @@ def fill(argv=sys.argv):
     insertOrderAttack(orderAttack, session, OrderModel)
     insertOrderConvoy(orderConvoy, session, OrderModel)
     insertOrderAttack(floatAttack, session, OrderModel)
-
-
-
-
-
-    
-    
-
-    
-   

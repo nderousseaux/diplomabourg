@@ -1,38 +1,38 @@
-import collections
 from cornice.resource import resource
-from hapi.cors import cors_policy
 import pyramid.httpexceptions as exception
 
-from hapi.marshmallow_schemas.orderSchema import OrderSchema
-from hapi.marshmallow_schemas.gameSchema import GameSchema
-from hapi.models import OrderModel,GameModel,PlayerModel,UnitModel,DBSession
-from hapi.service_informations import ServiceInformations
+from hapi.marshmallow_schemas import OrderSchema
+from hapi.models import DBSession, OrderModel, GameModel, PlayerModel, UnitModel
+from hapi.utils.auth import *
+from hapi.utils.cors import cors_policy
+from hapi.utils.service_informations import ServiceInformations
 
 
-@resource(collection_path='/games/{gameId:\d+}/orders',path='/games/{gameId:\d+}/orders/{orderId:\d+}')
+@resource(collection_path='/games/{game_id:\d+}/orders',path='/games/{game_id:\d+}/orders/{order_id:\d+}')
 class Order():
     def __init__(self,request,context=None):
         self.request = request
         self.request.si = ServiceInformations(__name__, self.request)
         
-
         #on recupere gameId
-        gameId=self.request.matchdict.get('gameId')
-        orderId=self.request.matchdict.get('orderId')
+        game_id=self.request.matchdict.get('game_id')
 
-        #on recupere le jeux qui a pour id gameId dans la BDD
-        self.game=DBSession.query(GameModel).get(gameId)
+        order_id=self.request.matchdict.get('order_id')
+
+        #on recupere le jeux qui a pour id game_id dans la BDD
+        self.game=DBSession.query(GameModel).get(game_id)
 
         if(self.game==None):
             raise exception.HTTPNotFound()
 
+        #On vérifie que la partie est en mode jeu
+        if self.game.state.name != "GAME":
+            raise exception.HTTPGone()
+
         
     def collection_get(self):
-        #On vérifie que l'user connecté à bien accès à cette game
-        if self.request.user == None or self.request.user.game != self.game:
-            return self.request.si.build_response(
-                exception.HTTPUnauthorized())
-
+        check_member_of_game(self.request.user, self.game)
+        
         #On récupère tous les ordres du joueur
         orders = self.request.user.orders()
 
@@ -45,25 +45,23 @@ class Order():
 
     def collection_post(self):
         #On recupère les données
-        newOrder = OrderSchema(
-            only=["type_order", "src_region_id", "unit_id", "is_valid"]
-        ).load(self.request.json)
+        newOrder = OrderSchema().load(self.request.json)
+
+        if self.request.user != newOrder["unit"].player:
+            raise exception.HTTPUnauthorized()
 
         #On récupère l'ordre si il existe
         order = DBSession.query(OrderModel)\
-            .filter_by(unit_id=newOrder["unit_id"])\
+            .filter_by(unit=newOrder["unit"])\
+            .filter_by(num_tour=self.game.num_tour)\
             .first()
 
-        if(order!=None):
-            DBSession.query(OrderModel)\
-                .filter_by(id=order.id)\
-                .delete()
+        if order != None:
+            for k, v in newOrder.items():
+                setattr(order,k,v)
+        else:
+            order = OrderModel(**newOrder)
 
-        #On crée un ordre
-        order=OrderModel(**newOrder)
-        DBSession.add(order)
-        DBSession.flush()
-
-        #On renvoie l'objet crée
+        DBSession().flush()
         return self.request.si.build_response(exception.HTTPOk, OrderSchema().dump(order))
         
