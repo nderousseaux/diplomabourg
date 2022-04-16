@@ -38,11 +38,6 @@ p{
 	background-color: rgba(112, 128, 143, 0.7);
 }
 
-svg,
-#quitter{
-	background-color: rgba(112, 128, 143, 0.9);
-}
-
 /* Barre de séparation */
 #minuteur,
 #colonneOrdres > h1,
@@ -79,6 +74,83 @@ input[type=submit]:active,
 	background-color: #376890;
 }
 
+/* Boîtes de dialogue */
+#joindre,
+#param,
+#quitter{
+	background-color: #2a3a49;
+	border-radius: 10px;
+	border-style: none;
+	box-shadow: 0px 0px 15px 5px #002843;
+}
+#joindre > h1,
+#param > h1,
+#quitter > h1{
+	font-size: 40px;
+	margin: 10px 0 30px;
+	text-align: center;
+}
+#joindre > form,
+#param > form,
+#quitter > form{
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	align-items: center;
+}
+#joindre > form > div,
+#param > form > div,
+#quitter > form > div{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 80%;
+}
+
+#joindre > form > p,
+#param > form > p{
+	display: none;
+	font-size: 20px;
+	margin-bottom: 0;
+	color: lightcoral;
+	text-align: center;
+}
+#joindre > form > div > label,
+#param > form > div > label{
+	font-size: 25px;
+	width: 49%;
+	text-align: left;
+}
+input[type=number],
+input[type=password],
+input[type=text]{
+	background-color: #3b5167;
+	width: calc(50% - 10px);
+	height: 30px;
+	font-size: 25px;
+	margin: 2px 0;
+	padding: 0 5px;
+	border-style: none;
+	outline: none;
+}
+#joindre > form > div > button,
+#joindre > form > div > input[type=submit],
+#param > form > div > button,
+#param > form > div > input[type=submit],
+#quitter > form > div > button,
+#quitter > form > div > input[type=submit]{
+	flex-basis: 40%;
+	margin: 30px 0 10px;
+	padding: 4px 22px;
+	line-height: 40px;
+	border: none;
+	outline: inherit;
+}
+input.erreur{
+	background-color: rgba(255, 0, 0, 0.4);
+}
+
 /* Version mobile */
 @media screen and (max-width:769px){
 	/* Div principale */
@@ -96,10 +168,5 @@ input[type=submit]:active,
 	#colonneInfos,
 	#colonneOrdres{
 		background-color: rgba(42, 58, 73, 0.7);
-	}
-
-	svg,
-	#quitter{
-		background-color: rgba(42, 58, 73, 0.9);
 	}
 }

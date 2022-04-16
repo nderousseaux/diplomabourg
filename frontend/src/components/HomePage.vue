@@ -35,8 +35,10 @@
 </template>
 
 <script>
-export default {
-	mounted() {
+export default
+{
+	mounted()
+	{
 		// Pour paramétrer la partie
 		let paramBtn = document.querySelector("div:first-child > button")
 		let lancerDiag = document.getElementById("param")
@@ -123,7 +125,7 @@ export default {
 			inputPreVerifNbr(joueurInput)
 			joueurInput.addEventListener("input", inputPostVerifNbr)
 
-			// Si tous les tests sont validés, on envoie au back
+			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
 				document.querySelector("form").submit()
 		})
@@ -169,71 +171,13 @@ export default {
 
 	/* Boîte de dialogue pour paramétrer la partie */
 	#param{
-		background-color: #2a3a49;
-		border-radius: 10px;
-		border-style: none;
-		box-shadow: 0px 0px 15px 5px #002843;
 		min-width: 35vw;
 	}
-	#param > h1{
-		font-size: 40px;
-		margin: 10px 0 30px;
-		text-align: center;
-	}
-	#param > form{
-		display: flex;
-		flex-direction: column;
-		margin: 0;
-		align-items: center;
-	}
-	#param > form > div{
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		width: 80%;
-	}
-	#param > form > p{
-		display: none;
-		font-size: 20px;
-		margin-bottom: 0;
-		color: lightcoral;
-		text-align: center;
-	}
-	#param > form > div > label{
-		font-size: 25px;
-		width: 49%;
-		text-align: left;
-	}
-	input[type=number],
-	input[type=password],
-	input[type=text]{
-		background-color: #3b5167;
-		width: calc(50% - 10px);
-		height: 30px;
-		font-size: 25px;
-		margin: 2px 0;
-		padding: 0 5px;
-		border-style: none;
-		outline: none;
-	}
 	input[type=number]{
-		text-align: right;
+		text-align: center;
 		caret-color: transparent;
 		user-select: none;
 		cursor: default;
-	}
-	#param > form > div > button,
-	#param > form > div > input[type=submit]{
-		flex-basis: 40%;
-		margin: 30px 0 10px;
-		padding: 4px 22px;
-		line-height: 40px;
-		border: none;
-		outline: inherit;
-	}
-	input.erreur{
-		background-color: rgba(255, 0, 0, 0.4);
 	}
 
 /* Version mobile */

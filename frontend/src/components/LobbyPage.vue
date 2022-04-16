@@ -50,12 +50,88 @@
 				</form>
 			</div>
 		</div>
+
+		<!-- A SUPPRIMER !! -->
+		<button id="testJoindre">TEST JOINDRE MDP</button>
 	</div>
+	<dialog id="joindre">
+		<h1>Joindre la partie</h1>
+		<form method="dialog">
+			<div>
+				<label for="mdp">Mot de passe</label>
+				<input type="password" maxlength="15" id="mdp" name="mdp"/>
+			</div>
+			<p>Tous les champs ne sont pas complétés correctement</p>
+			<div>
+				<button>Annuler</button>
+				<input type="submit" value="Joindre"/>
+			</div>
+		</form>
+	</dialog>
 </template>
 
 <script>
-export default{
-	mounted(){
+export default
+{
+	mounted()
+	{
+		// Pour paramétrer la partie
+		let joindreBtn = document.getElementById("testJoindre")
+		let lancerDiag = document.getElementById("joindre")
+		let erreur = document.querySelector("form > p")
+
+		// Ouvrir le formulaire
+		joindreBtn.addEventListener("click", function onOpen() {
+			if (typeof lancerDiag.showModal === "function") {
+				erreur.style.display = "none"
+				lancerDiag.showModal()
+			}
+		})
+
+		// Gestion du formulaire
+		document.querySelector("form > div > input[type=submit]")
+		.addEventListener("click", event => {
+			event.preventDefault()
+			let erreurForm = false
+
+			// Regex
+			const regexInput = /^[\S\s]{5,15}$/
+
+			// Fonction de vérification
+			const inputPostVerif = function(){
+				if (this.value.match(regexInput) == null){
+					this.classList.add("erreur")
+					this.previousElementSibling.classList.add("erreur")
+					erreurForm = true
+					erreur.style.display = "block"
+				}
+				else{
+					this.classList.remove("erreur")
+					this.previousElementSibling.classList.remove("erreur")
+					erreurForm = false
+					if (document.querySelectorAll("input.erreur").length == 0)
+						erreur.style.display = "none"
+				}
+			}
+
+			function inputPreVerif(donnee){
+				if (donnee.value.match(regexInput) == null){
+					donnee.classList.add("erreur")
+					donnee.previousElementSibling.classList.add("erreur")
+					erreurForm = true
+					erreur.style.display = "block"
+				}
+			}
+
+			// Mot de passe
+			let mdpInput = document.getElementById("mdp")
+			inputPreVerif(mdpInput)
+			mdpInput.addEventListener("input", inputPostVerif)
+
+			// Si tous les tests sont validés, on peut envoyer
+			if (erreurForm == false)
+				document.querySelector("form").submit()
+		})
 	}
 }
 </script>

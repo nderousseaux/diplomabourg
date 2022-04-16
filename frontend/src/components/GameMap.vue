@@ -48,17 +48,21 @@
 		</div>
 	</div>
 	<dialog id="quitter">
-		<p>Voulez-vous quitter la partie ?</p>
+		<h1>Quitter la partie ?</h1>
 		<form method="dialog">
-			<button value="annuler">Annuler</button>
-			<button value="confirmer">Quitter</button>
+			<div>
+				<button value="annuler">Annuler</button>
+				<button value="confirmer">Quitter</button>
+			</div>
 		</form>
 	</dialog>
 </template>
 
 <script>
-export default{
-	mounted(){
+export default
+{
+	mounted()
+	{
 		let ns = "http://www.w3.org/2000/svg"
 		let svg = document.querySelector("svg")
 		const carte = require("../assets/json/map.json")
@@ -321,6 +325,7 @@ export default{
 		cursor: not-allowed;
 	}
 	svg{
+		background-color: rgba(112, 128, 143, 0.9);
 		height: 100%;
 	}
 	.bloque{
@@ -434,23 +439,15 @@ export default{
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
-		border-radius: 10px;
-		border-style: none;
+		min-width: 25vw;
 	}
-	#quitter > p{
-		padding: 0 30px;
+
+@media(prefers-color-scheme:dark){
+	/* Carte */
+	svg{
+		background-color: rgba(42, 58, 73, 0.9);
 	}
-	#quitter > form{
-		display: flex;
-		justify-content: space-evenly;
-	}
-	#quitter > form > button{
-		border: none;
-		line-height: 40px;
-		margin: 0 10px;
-		outline: inherit;
-		flex-basis: 50%;
-	}
+}
 
 /* Version tablette */
 @media screen and (min-width:770px) and (max-width:1370px){
