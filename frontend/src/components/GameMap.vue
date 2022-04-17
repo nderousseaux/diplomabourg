@@ -27,8 +27,8 @@
 			</div>
 			<div id="chat">
 				<h1>Chat</h1>
-				<div>Messages ici</div>
-				<form name="message" action="">
+				<div></div>
+				<form name="message">
 					<input type="text" name="msg" id="msg"
 						placeholder="Entrez votre message"/>
 				</form>
@@ -83,17 +83,17 @@ export default
 				path.setAttribute("fill", "#fcf2d4")
 
 				// Couleur et changement du curseur lors du passage de souris
-				path.addEventListener("mouseover", function ()
+				path.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightgreen"
 					this.style.transition = "0.2s"
 				})
-				path.addEventListener("mouseout", function ()
+				path.addEventListener("mouseout", function()
 				{
 					this.style.fill = "#fcf2d4"
 				})
-				path.addEventListener("click", function ()
+				path.addEventListener("click", function()
 				{
 					document.querySelector("#colonneOrdres > h1")
 						.innerHTML = "Ordres"
@@ -109,7 +109,7 @@ export default
 				path.setAttribute("fill", "#808080")
 
 				// Changement du curseur
-				path.addEventListener("mouseover", function ()
+				path.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "not-allowed"
 				})
@@ -121,17 +121,17 @@ export default
 				path.setAttribute("fill", "#b4b6cc")
 
 				// Couleur et changement du curseur lors du passage de souris
-				path.addEventListener("mouseover", function ()
+				path.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightblue"
 					this.style.transition = "0.2s"
 				})
-				path.addEventListener("mouseout", function ()
+				path.addEventListener("mouseout", function()
 				{
 					this.style.fill = "#b4b6cc"
 				})
-				path.addEventListener("click", function ()
+				path.addEventListener("click", function()
 				{
 					document.querySelector("#colonneOrdres > h1")
 						.innerHTML = "Ordres"
@@ -158,7 +158,7 @@ export default
 			point.appendChild(text)
 
 			// Empêche la selection du label
-			point.addEventListener("mouseover", function ()
+			point.addEventListener("mouseover", function()
 			{
 				this.style.pointerEvents = "none"
 			})
@@ -184,16 +184,16 @@ export default
 				circleOut.setAttribute("stroke", "black")
 
 				// Couleur et changement du curseur lors du passage de souris
-				circleOut.addEventListener("mouseover", function ()
+				circleOut.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightcoral"
 				})
-				circleOut.addEventListener("mouseout", function ()
+				circleOut.addEventListener("mouseout", function()
 				{
 					this.style.fill = "none"
 				})
-				circleOut.addEventListener("click", function ()
+				circleOut.addEventListener("click", function()
 				{
 					console.log("Clic ravitaillement : ", pays)
 				})
@@ -215,16 +215,16 @@ export default
 				svg.appendChild(marqueur)
 
 				// Couleur et changement du curseur lors du passage de souris
-				marqueur.addEventListener("mouseover", function ()
+				marqueur.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				marqueur.addEventListener("mouseout", function ()
+				marqueur.addEventListener("mouseout", function()
 				{
 					this.style.fill = "red"
 				})
-				marqueur.addEventListener("click", function ()
+				marqueur.addEventListener("click", function()
 				{
 					console.log("Clic marqueur : ", pays)
 				})
@@ -244,16 +244,16 @@ export default
 				svg.appendChild(flotte)
 
 				// Couleur et changement du curseur lors du passage de souris
-				flotte.addEventListener("mouseover", function ()
+				flotte.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				flotte.addEventListener("mouseout", function ()
+				flotte.addEventListener("mouseout", function()
 				{
 					this.style.fill = "blue"
 				})
-				flotte.addEventListener("click", function ()
+				flotte.addEventListener("click", function()
 				{
 					console.log("Clic flotte : ", pays)
 				})
@@ -273,16 +273,16 @@ export default
 				svg.appendChild(armee)
 
 				// Couleur et changement du curseur lors du passage de souris
-				armee.addEventListener("mouseover", function ()
+				armee.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				armee.addEventListener("mouseout", function ()
+				armee.addEventListener("mouseout", function()
 				{
 					this.style.fill = "green"
 				})
-				armee.addEventListener("click", function ()
+				armee.addEventListener("click", function()
 				{
 					console.log("Clic armee : ", pays)
 				})
@@ -290,19 +290,50 @@ export default
 		}
 
 		// Pour quitter la partie
-		let paramBtn = document.getElementById("params");
-		let quitDialog = document.getElementById("quitter");
+		let paramBtn = document.getElementById("params")
+		let quitDialog = document.getElementById("quitter")
 
-		paramBtn.addEventListener("click", function onOpen(){
-			if (typeof quitDialog.showModal === "function"){
+		paramBtn.addEventListener("click", function onOpen()
+		{
+			if (typeof quitDialog.showModal === "function")
 				quitDialog.showModal();
-			}
 		})
 
 		// Action effectuée lors de l'appuie sur l'un des boutons
-		quitDialog.addEventListener("close", function onClose(){
+		quitDialog.addEventListener("close", function onClose()
+		{
 			console.log(quitDialog.returnValue)
 		})
+
+		// Action quand on appuie sur "Entrer" dans le chat
+		let texte = document.querySelector("input[type=text]")
+		document.querySelector("form").onkeypress = function(e)
+		{
+			if (e.key === "Enter")
+			{
+				e.preventDefault()
+				if (texte.value != "")
+				{
+					var para = document.createElement("p")
+
+					// Récupérer le pseudo là dedans
+					var pseudo = "Patrick"
+
+					var contenu = document.createTextNode(pseudo + " : " +
+						texte.value)
+					para.appendChild(contenu)
+					para.style.textAlign = "left"
+					para.style.margin = "0"
+
+					// Changer la couleur du joueur en fonction du pays
+					para.style.color = "wheat"
+
+					document.querySelector("#chat > div:nth-child(2)")
+						.appendChild(para)
+					texte.value = ""
+				}
+			}
+		}
 	}
 }
 </script>

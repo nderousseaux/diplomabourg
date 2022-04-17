@@ -43,8 +43,8 @@
 			</div>
 			<div id="chat">
 				<h1>Chat</h1>
-				<div>Messages ici</div>
-				<form name="message" action="">
+				<div></div>
+				<form name="message">
 					<input type="text" name="msg" id="msg"
 						placeholder="Entrez votre message"/>
 				</form>
@@ -81,8 +81,10 @@ export default
 		let erreur = document.querySelector("form > p")
 
 		// Ouvrir le formulaire
-		joindreBtn.addEventListener("click", function onOpen() {
-			if (typeof lancerDiag.showModal === "function") {
+		joindreBtn.addEventListener("click", function onOpen()
+		{
+			if (typeof lancerDiag.showModal === "function")
+			{
 				erreur.style.display = "none"
 				lancerDiag.showModal()
 			}
@@ -90,7 +92,8 @@ export default
 
 		// Gestion du formulaire
 		document.querySelector("form > div > input[type=submit]")
-		.addEventListener("click", event => {
+		.addEventListener("click", event =>
+		{
 			event.preventDefault()
 			let erreurForm = false
 
@@ -98,14 +101,17 @@ export default
 			const regexInput = /^[\S\s]{5,15}$/
 
 			// Fonction de vérification
-			const inputPostVerif = function(){
-				if (this.value.match(regexInput) == null){
+			const inputPostVerif = function()
+			{
+				if (this.value.match(regexInput) == null)
+				{
 					this.classList.add("erreur")
 					this.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
 				}
-				else{
+				else
+				{
 					this.classList.remove("erreur")
 					this.previousElementSibling.classList.remove("erreur")
 					erreurForm = false
@@ -114,8 +120,10 @@ export default
 				}
 			}
 
-			function inputPreVerif(donnee){
-				if (donnee.value.match(regexInput) == null){
+			function inputPreVerif(donnee)
+			{
+				if (donnee.value.match(regexInput) == null)
+				{
 					donnee.classList.add("erreur")
 					donnee.previousElementSibling.classList.add("erreur")
 					erreurForm = true
@@ -132,6 +140,36 @@ export default
 			if (erreurForm == false)
 				document.querySelector("form").submit()
 		})
+
+		// Action quand on appuie sur "Entrer" dans le chat
+		let texte = document.querySelector("input[type=text]")
+		document.querySelector("form").onkeypress = function(e)
+		{
+			if (e.key === "Enter")
+			{
+				e.preventDefault()
+				if (texte.value != "")
+				{
+					var para = document.createElement("p")
+
+					// Récupérer le pseudo là dedans
+					var pseudo = "Patrick"
+
+					var contenu = document.createTextNode(pseudo + " : " +
+						texte.value)
+					para.appendChild(contenu)
+					para.style.textAlign = "left"
+					para.style.margin = "0"
+
+					// Changer la couleur du joueur en fonction du pays
+					para.style.color = "wheat"
+
+					document.querySelector("#chat > div:nth-child(2)")
+						.appendChild(para)
+					texte.value = ""
+				}
+			}
+		}
 	}
 }
 </script>
@@ -156,13 +194,13 @@ export default
 		justify-content: space-between;
 		align-items: center;
 		width: 80vw;
-		height: calc(100vh - 203px)
+		height: calc(100vh - 203px);
 	}
 
 	/* Chat */
 	#chat{
-		width: calc(20vw - 10px);
-		height: calc(100% - 10px);
+		width: calc(25vw - 10px);
+		height: calc(100vh - 223px);
 	}
 	#chat > h1{
 		line-height: 64px;

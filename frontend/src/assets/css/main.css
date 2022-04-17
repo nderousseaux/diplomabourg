@@ -52,12 +52,8 @@ p{
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-
 	margin: 0 10px 10px 0;
 	border-radius: 10px;
-}
-#chat > div{
-	color: wheat;
 }
 #chat > form > input[type=text]{
 	background-color: rgb(112, 128, 143);
@@ -67,6 +63,11 @@ p{
 	border-radius: 0 0 10px 10px;
 	outline: none;
 	border-style: none;
+}
+#chat > div:nth-child(2){
+	height: 100%;
+	padding: 10px;
+	overflow-y: auto;
 }
 
 /* Boutons */
