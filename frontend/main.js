@@ -9,14 +9,12 @@ function createWindow()
 {
 	mainWindow = new BrowserWindow(
 	{
-		show: false,
 		webPreferences:
 		{
 			nodeIntegration: true
 		}
 	})
 	mainWindow.maximize()
-	mainWindow.show()
 	mainWindow.loadURL(
 		url.format(
 		{
