@@ -181,7 +181,7 @@ export default
 	}
 
 /* Version mobile */
-@media screen and (max-width:769px){
+@media screen and (max-width: 769px){
 	/* Pays du joueur */
 	#pays{
 		display: flex;

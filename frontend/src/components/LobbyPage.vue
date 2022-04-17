@@ -161,30 +161,13 @@ export default
 
 	/* Chat */
 	#chat{
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
 		width: calc(20vw - 10px);
 		height: calc(100% - 10px);
-		margin: 0 10px 10px 0;
-		border-radius: 10px;
 	}
 	#chat > h1{
 		line-height: 64px;
 		margin: 0;
 		text-align: center;
-	}
-	#chat > div{
-		color: wheat;
-	}
-	#chat > form > input[type=text]{
-		background-color: rgb(112, 128, 143);
-		width: calc(100% - 20px);
-		padding: 0 10px;
-		font-size: 24px;
-		border-radius: 0 0 10px 10px;
-		outline: none;
-		border-style: none;
 	}
 
 	/* Pays des joueurs */
@@ -239,7 +222,7 @@ export default
 	}
 
 /* Version tablette */
-@media screen and (max-width:1370px){
+@media screen and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
 		flex-direction: column-reverse;
@@ -271,7 +254,7 @@ export default
 }
 
 /* Version mobile */
-@media screen and (max-width:769px){
+@media screen and (max-width: 769px){
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 203px)

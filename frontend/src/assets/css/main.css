@@ -47,6 +47,28 @@ p{
 	border-image: radial-gradient(#ae0132, #1c0043) 1;
 }
 
+/* Chat */
+#chat{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	margin: 0 10px 10px 0;
+	border-radius: 10px;
+}
+#chat > div{
+	color: wheat;
+}
+#chat > form > input[type=text]{
+	background-color: rgb(112, 128, 143);
+	width: calc(100% - 20px);
+	padding: 0 10px;
+	font-size: 24px;
+	border-radius: 0 0 10px 10px;
+	outline: none;
+	border-style: none;
+}
+
 /* Boutons */
 button,
 input[type=submit],
@@ -151,16 +173,8 @@ input.erreur{
 	background-color: rgba(255, 0, 0, 0.4);
 }
 
-/* Version mobile */
-@media screen and (max-width:769px){
-	/* Div principale */
-	#logo{
-		width: 324px;
-		height: 123px;
-	}
-}
-
-@media(prefers-color-scheme:dark){
+/* Mode sombre */
+@media(prefers-color-scheme: dark){
 	/* Couleur de fond transparente */
 	#pays,
 	#joueurs,
@@ -168,5 +182,19 @@ input.erreur{
 	#colonneInfos,
 	#colonneOrdres{
 		background-color: rgba(42, 58, 73, 0.7);
+	}
+
+	/* Chat */
+	#chat > form > input[type=text]{
+		background-color: rgb(42, 58, 73);
+	}
+}
+
+/* Version mobile */
+@media screen and (max-width: 769px){
+	/* Div principale */
+	#logo{
+		width: 324px;
+		height: 123px;
 	}
 }

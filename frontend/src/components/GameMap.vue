@@ -27,6 +27,11 @@
 			</div>
 			<div id="chat">
 				<h1>Chat</h1>
+				<div>Messages ici</div>
+				<form name="message" action="">
+					<input type="text" name="msg" id="msg"
+						placeholder="Entrez votre message"/>
+				</form>
 			</div>
 		</div>
 		<div id="carte">
@@ -346,6 +351,7 @@ export default
 	#minuteur{
 		display: flex;
 		justify-content: space-between;
+		height: 88px;
 	}
 	#minuteur > img{
 		width: 48px;
@@ -369,7 +375,8 @@ export default
 	#drapeaux{
 		display: flex;
 		flex-direction: column;
-		height: 30%;
+		height: 35%;
+		overflow-x: auto;
 	}
 	#drapeaux > h1{
 		font-size: 35px;
@@ -388,12 +395,15 @@ export default
 		user-select: none;
 	}
 
-	/* Chat (masqué pendant l'alpha) */
+	/* Chat */
 	#chat{
-		display: none; /* Placeholder pour plus tard */
-		width: 30vw;
-		height: calc(60% - 48px);
-		border-radius: 10px;
+		width: 100%;
+		height: calc(65% - 92px);
+		background-color: unset;
+	}
+	#chat > h1{
+		border-width: 4px 0 0;
+		padding-top: 20px;
 	}
 
 	/* Colonne d'ordres */
@@ -442,7 +452,8 @@ export default
 		min-width: 25vw;
 	}
 
-@media(prefers-color-scheme:dark){
+/* Mode sombre */
+@media(prefers-color-scheme: dark){
 	/* Carte */
 	svg{
 		background-color: rgba(42, 58, 73, 0.9);
@@ -450,7 +461,7 @@ export default
 }
 
 /* Version tablette */
-@media screen and (min-width:770px) and (max-width:1370px){
+@media screen and (min-width: 770px) and (max-width: 1370px){
 	/* Div principale */
 	#app > div{
 		flex-wrap: wrap;
@@ -500,7 +511,7 @@ export default
 }
 
 /* Version mobile */
-@media screen and (max-width:769px){
+@media screen and (max-width: 769px){
 	/* Div principale */
 	#app > div{
 		flex-direction: column;
