@@ -16,7 +16,7 @@ from .type_unite_data import type_unites
 from .voisinage_data import voisinages
 
 """"
-insérrer les données minimales dans la base
+insérer les données minimales dans la base
 """
 def insert_minimal_data(session):
     for m in maps:

@@ -9,6 +9,7 @@ DBSession = scoped_session(sessionmaker())
 register(DBSession)
 Base = declarative_base()
 
+from .mapModel import MapModel
 from .colorModel import ColorModel
 from .gameModel import GameModel
 from .mapModel import MapModel
