@@ -6,6 +6,7 @@ from hapi.marshmallow_schemas import MapSchema
 from hapi.models import MapModel, DBSession
 from hapi.utils.service_informations import ServiceInformations
 
+
 @resource(name="maps", collection_path='/maps', path='/maps/{id_map:\d+}', cors_policy=cors_policy)
 class Maps():
     def __init__(self, request, context=None):
@@ -22,6 +23,7 @@ class Maps():
                 raise exception.HTTPNotFound()
 
     def collection_get(self):
+
         #On cherche toutes les cartes en bdd
         maps = DBSession.query(MapModel).all()
 

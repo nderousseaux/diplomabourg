@@ -7,7 +7,8 @@ import os
 import sys
 import transaction
 
-from hapi.data import *
+from hapi.data.minimal import insert_minimal_data
+from hapi.data.test import insert_test_data
 from hapi.models import *
 from hapi.models.regionModel import adjoining
 
@@ -36,8 +37,7 @@ def pre(argv):
     os.system("env/bin/python setup.py develop && env/bin/python setup.py install")
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
-    # engine = load_engine(settings)
-    engine=create_engine("mysql+pymysql://root:Amadou0899@127.0.0.1:3306/Diplomacy")
+    engine = load_engine(settings)
     return engine
 
 def main(argv=sys.argv):
@@ -45,48 +45,22 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
 
-def fill(argv=sys.argv):
-    engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
 
+    cleen(Base, session)
+
+    insert_minimal_data(session)
+
+    return session
+
+def fill_test_data(argv=sys.argv):
+    session = main()
+
+    insert_test_data(session)
+
+def cleen(Base, session):
     meta = Base.metadata
     for table in reversed(meta.sorted_tables):
         session.execute(table.delete())
     session.flush()
-
-    insertMaps(maps,session,MapModel)
-    insertColor(colors,session,ColorModel)
-    insertPower(powers,session,PowerModel)
-    insertTypeRegion(typeRegion,session,TypeRegionModel)
-    insertTypeUnite(typeUnite,session,TypeUnitModel)
-    insertRegion(regions,session,RegionModel)
-    insert_disposition_unite(dispositionUnite,session,DispositionUnitModel)
-    insertion_voisin(voisinage,engine,adjoining)
-    insertRegTypeReg(reg_type_reg,engine,typeRegionRegion)
-    insertState(states,session,StateModel)
-    insertTypeOrder(typeOders,session,TypeOrderModel)
-
-    insertGame(games, session, GameModel)
-    insertPlayer(players,session,PlayerModel)
-    insertPlayerPower(playersPowers, engine, playerPower)
-    insertUnite(unites, session, UnitModel)
-    insertUnite(unitMaritimeConvoy, session, UnitModel)
-    insertOrderAttack(orderAttack, session, OrderModel)
-    insertOrderConvoy(orderConvoy, session, OrderModel)
-    insertOrderAttack(floatAttack, session, OrderModel)
-    insertOrderSupport(ordreSoutient,session, OrderModel)
-    insertOrderAttack(AttackMutuel, session, OrderModel)
-    insertOrderAttack(CreatConflit, session, OrderModel)
-    insertOrderSupport(soutientCoupe,session, OrderModel)
-    insertUnite(UniteSoutient, session, UnitModel)
-    insertOrderSupport(orderSoutientAttackConflit,session, OrderModel)
-    insertUnite(UnitConvoyBroken, session, UnitModel)
-    insertOrderConvoy(c, session, OrderModel)
-    insertOrderAttack(a, session, OrderModel)
-    insertOrderSupport(s,session, OrderModel)
-    
-    
-
-    
-   

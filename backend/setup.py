@@ -32,8 +32,9 @@ setup(
         ],
         'console_scripts': [
             'initialize_db=hapi.utils.db:main',
-            'fill_db=hapi.utils.db:fill',
+            'fill_test_data_db=hapi.utils.db:fill_test_data',
         	'server_start=hapi.server_start:main',
 	    ],
     },
 )
+

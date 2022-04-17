@@ -75,7 +75,4 @@ class OrderSchema(Schema):
 
             data["type_order"] = type_order
 
-        data["is_valid"] = False #FIXME Quand fonction de validation
-        data["num_tour"] = 0
-
         return data

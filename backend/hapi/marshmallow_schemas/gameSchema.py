@@ -25,6 +25,7 @@ class GameSchema(Schema):
     map_id=fields.Int(load_only=True)
     state = fields.Str(dump_only=True)
     players=fields.List(fields.Nested("PlayerSchema"), dump_only=True)
+    num_tour=fields.Int()
 
     @pre_load
     def pre_load(self, data, **kwargs):

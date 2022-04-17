@@ -1,4 +1,5 @@
 from hapi.models import StateModel
+from hapi.utils.validation import resolution_orders
 
 # Définit si il faut ou non changer d'état
 def change_state(DBSession, game, forced = False):
@@ -16,7 +17,10 @@ def change_state(DBSession, game, forced = False):
     elif game.state.name == "GAME":
         #Si le jeu est forcé ou que tout le monde à dit "pret" alors on passe un tour et resout les ordres
         if game.is_all_pret() or forced:
-            #FIXME: Résoudre les erreurs
+            
+            #On résout les conflit
+            resolution_orders(DBSession, game)
+
             game.num_tour+=1
 
             #TODO: Définir quand est-ce qu'on finit ?

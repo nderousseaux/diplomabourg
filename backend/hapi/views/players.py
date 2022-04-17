@@ -64,7 +64,7 @@ class Players():
         data.game = self.game
         data.is_you = True
 
-        #FIXME: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
+        #TODO: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
 
         res = {
             "token": self.request.create_jwt_token(data.id),
@@ -102,6 +102,6 @@ class Players():
         #On vérifie si tout le monde est pret
         change_state(DBSession, self.game)
 
-        #FIXME: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
+        #TODO: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
         
         return self.request.si.build_response(exception.HTTPNoContent())

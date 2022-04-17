@@ -62,6 +62,9 @@ class Order():
         else:
             order = OrderModel(**newOrder)
 
+        order.num_tour = self.game.num_tour
+        order.validation()
+
         DBSession().flush()
         return self.request.si.build_response(exception.HTTPOk, OrderSchema().dump(order))
         

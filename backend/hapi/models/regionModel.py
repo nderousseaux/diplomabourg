@@ -52,5 +52,5 @@ class RegionModel(Base):
 
     def beNeigbours(self, neighbour):
         if neighbour not in self.neighbours:
-            self.neighbours.append(neighbours)
+            self.neighbours.append(neighbour)
             neighbour.neighbours.append(self)
