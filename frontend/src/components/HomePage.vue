@@ -45,8 +45,10 @@ export default
 		let erreur = document.querySelector("form > p")
 
 		// Ouvrir le formulaire
-		paramBtn.addEventListener("click", function onOpen() {
-			if (typeof lancerDiag.showModal === "function") {
+		paramBtn.addEventListener("click", function onOpen()
+		{
+			if (typeof lancerDiag.showModal === "function")
+			{
 				erreur.style.display = "none"
 				lancerDiag.showModal()
 			}
@@ -54,22 +56,29 @@ export default
 
 		// Gestion du formulaire
 		document.querySelector("form > div > input[type=submit]")
-		.addEventListener("click", event => {
+		.addEventListener("click", event =>
+		{
 			event.preventDefault()
 			let erreurForm = false
 
 			// Regex
 			const regexInput = /^[\S\s]{5,15}$/
 
+			// Valeurs de tests
+			let minJoueurs = 2
+			let maxJoueurs = 7
+
 			// Fonction de vérification
 			const inputPostVerif = function(){
-				if (this.value.match(regexInput) == null){
+				if (this.value.match(regexInput) == null)
+				{
 					this.classList.add("erreur")
 					this.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
 				}
-				else{
+				else
+				{
 					this.classList.remove("erreur")
 					this.previousElementSibling.classList.remove("erreur")
 					erreurForm = false
@@ -77,14 +86,17 @@ export default
 						erreur.style.display = "none"
 				}
 			}
-			const inputPostVerifNbr = function(){
-				if (this.value < 2 || this.value > 7){
+			const inputPostVerifNbr = function()
+			{
+				if (this.value < minJoueurs || this.value > maxJoueurs)
+				{
 					this.classList.add("erreur")
 					this.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
 				}
-				else{
+				else
+				{
 					this.classList.remove("erreur")
 					this.previousElementSibling.classList.remove("erreur")
 					erreurForm = false
@@ -93,16 +105,20 @@ export default
 				}
 			}
 
-			function inputPreVerif(donnee){
-				if (donnee.value.match(regexInput) == null){
+			function inputPreVerif(donnee)
+			{
+				if (donnee.value.match(regexInput) == null)
+				{
 					donnee.classList.add("erreur")
 					donnee.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
 				}
 			}
-			function inputPreVerifNbr(donnee){
-				if (donnee.value < 2 || donnee.value > 7){
+			function inputPreVerifNbr(donnee)
+			{
+				if (donnee.value < 2 || donnee.value > 7)
+				{
 					donnee.classList.add("erreur")
 					donnee.previousElementSibling.classList.add("erreur")
 					erreurForm = true
@@ -181,7 +197,7 @@ export default
 	}
 
 /* Version mobile */
-@media screen and (max-width:769px){
+@media screen and (max-width: 769px){
 	/* Pays du joueur */
 	#pays{
 		display: flex;

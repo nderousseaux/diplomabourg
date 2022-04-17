@@ -27,6 +27,11 @@
 			</div>
 			<div id="chat">
 				<h1>Chat</h1>
+				<div id="historique"></div>
+				<form name="message">
+					<input type="text" name="msg" id="msg"
+						placeholder="Entrez votre message"/>
+				</form>
 			</div>
 		</div>
 		<div id="carte">
@@ -78,17 +83,17 @@ export default
 				path.setAttribute("fill", "#fcf2d4")
 
 				// Couleur et changement du curseur lors du passage de souris
-				path.addEventListener("mouseover", function ()
+				path.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightgreen"
 					this.style.transition = "0.2s"
 				})
-				path.addEventListener("mouseout", function ()
+				path.addEventListener("mouseout", function()
 				{
 					this.style.fill = "#fcf2d4"
 				})
-				path.addEventListener("click", function ()
+				path.addEventListener("click", function()
 				{
 					document.querySelector("#colonneOrdres > h1")
 						.innerHTML = "Ordres"
@@ -104,7 +109,7 @@ export default
 				path.setAttribute("fill", "#808080")
 
 				// Changement du curseur
-				path.addEventListener("mouseover", function ()
+				path.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "not-allowed"
 				})
@@ -116,17 +121,17 @@ export default
 				path.setAttribute("fill", "#b4b6cc")
 
 				// Couleur et changement du curseur lors du passage de souris
-				path.addEventListener("mouseover", function ()
+				path.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightblue"
 					this.style.transition = "0.2s"
 				})
-				path.addEventListener("mouseout", function ()
+				path.addEventListener("mouseout", function()
 				{
 					this.style.fill = "#b4b6cc"
 				})
-				path.addEventListener("click", function ()
+				path.addEventListener("click", function()
 				{
 					document.querySelector("#colonneOrdres > h1")
 						.innerHTML = "Ordres"
@@ -153,7 +158,7 @@ export default
 			point.appendChild(text)
 
 			// Empêche la selection du label
-			point.addEventListener("mouseover", function ()
+			point.addEventListener("mouseover", function()
 			{
 				this.style.pointerEvents = "none"
 			})
@@ -179,16 +184,16 @@ export default
 				circleOut.setAttribute("stroke", "black")
 
 				// Couleur et changement du curseur lors du passage de souris
-				circleOut.addEventListener("mouseover", function ()
+				circleOut.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "lightcoral"
 				})
-				circleOut.addEventListener("mouseout", function ()
+				circleOut.addEventListener("mouseout", function()
 				{
 					this.style.fill = "none"
 				})
-				circleOut.addEventListener("click", function ()
+				circleOut.addEventListener("click", function()
 				{
 					console.log("Clic ravitaillement : ", pays)
 				})
@@ -210,16 +215,16 @@ export default
 				svg.appendChild(marqueur)
 
 				// Couleur et changement du curseur lors du passage de souris
-				marqueur.addEventListener("mouseover", function ()
+				marqueur.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				marqueur.addEventListener("mouseout", function ()
+				marqueur.addEventListener("mouseout", function()
 				{
 					this.style.fill = "red"
 				})
-				marqueur.addEventListener("click", function ()
+				marqueur.addEventListener("click", function()
 				{
 					console.log("Clic marqueur : ", pays)
 				})
@@ -239,16 +244,16 @@ export default
 				svg.appendChild(flotte)
 
 				// Couleur et changement du curseur lors du passage de souris
-				flotte.addEventListener("mouseover", function ()
+				flotte.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				flotte.addEventListener("mouseout", function ()
+				flotte.addEventListener("mouseout", function()
 				{
 					this.style.fill = "blue"
 				})
-				flotte.addEventListener("click", function ()
+				flotte.addEventListener("click", function()
 				{
 					console.log("Clic flotte : ", pays)
 				})
@@ -268,16 +273,16 @@ export default
 				svg.appendChild(armee)
 
 				// Couleur et changement du curseur lors du passage de souris
-				armee.addEventListener("mouseover", function ()
+				armee.addEventListener("mouseover", function()
 				{
 					this.style.cursor = "pointer"
 					this.style.fill = "white"
 				})
-				armee.addEventListener("mouseout", function ()
+				armee.addEventListener("mouseout", function()
 				{
 					this.style.fill = "green"
 				})
-				armee.addEventListener("click", function ()
+				armee.addEventListener("click", function()
 				{
 					console.log("Clic armee : ", pays)
 				})
@@ -285,18 +290,64 @@ export default
 		}
 
 		// Pour quitter la partie
-		let paramBtn = document.getElementById("params");
-		let quitDialog = document.getElementById("quitter");
+		let paramBtn = document.getElementById("params")
+		let quitDialog = document.getElementById("quitter")
 
-		paramBtn.addEventListener("click", function onOpen(){
-			if (typeof quitDialog.showModal === "function"){
+		paramBtn.addEventListener("click", function onOpen()
+		{
+			if (typeof quitDialog.showModal === "function")
 				quitDialog.showModal();
-			}
 		})
 
 		// Action effectuée lors de l'appuie sur l'un des boutons
-		quitDialog.addEventListener("close", function onClose(){
+		quitDialog.addEventListener("close", function onClose()
+		{
 			console.log(quitDialog.returnValue)
+		})
+
+		// Action effectuée quand on appuie sur "Entrer" dans le chat
+		let texte = document.querySelector("input[type=text]")
+		document.querySelector("form").onkeypress = function(e)
+		{
+			if (e.key === "Enter")
+			{
+				e.preventDefault()
+				if (texte.value != "")
+				{
+					// Récupérer le pseudo là dedans
+					var pseudo = "Patrick"
+
+					// Créer le message
+					var para = document.createElement("p")
+					var contenu = document.createTextNode(pseudo + " : " +
+						texte.value)
+					para.appendChild(contenu)
+					para.style.textAlign = "left"
+					para.style.margin = "0"
+
+					// Changer la couleur du joueur en fonction du pays
+					para.style.color = "wheat"
+
+					let historique = document.getElementById("historique")
+					historique.appendChild(para)
+
+					// Réinitialiser l'input et afficher le dernier message
+					texte.value = ""
+					historique.scrollTop = historique.scrollHeight
+				}
+			}
+		}
+
+		// Affiche ou masque l'historique et l'input
+		var $ = require("jquery")
+		document.querySelector("#chat > h1").addEventListener("click", () =>
+		{
+			if (window.innerWidth < 769)
+			{
+				$(document.getElementById("historique")).slideToggle(100)
+				$(document.getElementsByTagName("form")[0]).slideToggle(100)
+				$(document.querySelector("#chat > h1")).toggleClass("bas")
+			}
 		})
 	}
 }
@@ -346,6 +397,7 @@ export default
 	#minuteur{
 		display: flex;
 		justify-content: space-between;
+		height: 88px;
 	}
 	#minuteur > img{
 		width: 48px;
@@ -369,7 +421,8 @@ export default
 	#drapeaux{
 		display: flex;
 		flex-direction: column;
-		height: 30%;
+		height: 35%;
+		overflow-x: auto;
 	}
 	#drapeaux > h1{
 		font-size: 35px;
@@ -388,12 +441,17 @@ export default
 		user-select: none;
 	}
 
-	/* Chat (masqué pendant l'alpha) */
+	/* Chat */
 	#chat{
-		display: none; /* Placeholder pour plus tard */
-		width: 30vw;
-		height: calc(60% - 48px);
-		border-radius: 10px;
+		width: 100%;
+		height: calc(65% - 92px);
+		background-color: unset;
+	}
+	#chat > h1{
+		padding-top: 20px;
+		border-style: solid;
+		border-width: 4px 0 0;
+		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 
 	/* Colonne d'ordres */
@@ -442,7 +500,8 @@ export default
 		min-width: 25vw;
 	}
 
-@media(prefers-color-scheme:dark){
+/* Mode sombre */
+@media(prefers-color-scheme: dark){
 	/* Carte */
 	svg{
 		background-color: rgba(42, 58, 73, 0.9);
@@ -450,7 +509,7 @@ export default
 }
 
 /* Version tablette */
-@media screen and (min-width:770px) and (max-width:1370px){
+@media screen and (min-width: 770px) and (max-width: 1370px){
 	/* Div principale */
 	#app > div{
 		flex-wrap: wrap;
@@ -500,7 +559,7 @@ export default
 }
 
 /* Version mobile */
-@media screen and (max-width:769px){
+@media screen and (max-width: 769px){
 	/* Div principale */
 	#app > div{
 		flex-direction: column;

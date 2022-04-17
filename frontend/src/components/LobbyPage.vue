@@ -43,8 +43,8 @@
 			</div>
 			<div id="chat">
 				<h1>Chat</h1>
-				<div>Messages ici</div>
-				<form name="message" action="">
+				<div id="historique"></div>
+				<form name="message">
 					<input type="text" name="msg" id="msg"
 						placeholder="Entrez votre message"/>
 				</form>
@@ -81,8 +81,10 @@ export default
 		let erreur = document.querySelector("form > p")
 
 		// Ouvrir le formulaire
-		joindreBtn.addEventListener("click", function onOpen() {
-			if (typeof lancerDiag.showModal === "function") {
+		joindreBtn.addEventListener("click", function onOpen()
+		{
+			if (typeof lancerDiag.showModal === "function")
+			{
 				erreur.style.display = "none"
 				lancerDiag.showModal()
 			}
@@ -90,7 +92,8 @@ export default
 
 		// Gestion du formulaire
 		document.querySelector("form > div > input[type=submit]")
-		.addEventListener("click", event => {
+		.addEventListener("click", event =>
+		{
 			event.preventDefault()
 			let erreurForm = false
 
@@ -98,14 +101,17 @@ export default
 			const regexInput = /^[\S\s]{5,15}$/
 
 			// Fonction de vérification
-			const inputPostVerif = function(){
-				if (this.value.match(regexInput) == null){
+			const inputPostVerif = function()
+			{
+				if (this.value.match(regexInput) == null)
+				{
 					this.classList.add("erreur")
 					this.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
 				}
-				else{
+				else
+				{
 					this.classList.remove("erreur")
 					this.previousElementSibling.classList.remove("erreur")
 					erreurForm = false
@@ -114,8 +120,10 @@ export default
 				}
 			}
 
-			function inputPreVerif(donnee){
-				if (donnee.value.match(regexInput) == null){
+			function inputPreVerif(donnee)
+			{
+				if (donnee.value.match(regexInput) == null)
+				{
 					donnee.classList.add("erreur")
 					donnee.previousElementSibling.classList.add("erreur")
 					erreurForm = true
@@ -131,6 +139,51 @@ export default
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
 				document.querySelector("form").submit()
+		})
+
+		// Action effectuée quand on appuie sur "Entrer" dans le chat
+		let texte = document.querySelector("input[type=text]")
+		document.querySelector("form").onkeypress = function(e)
+		{
+			if (e.key === "Enter")
+			{
+				e.preventDefault()
+				if (texte.value != "")
+				{
+					// Récupérer le pseudo là dedans
+					var pseudo = "Patrick"
+
+					// Créer le message
+					var para = document.createElement("p")
+					var contenu = document.createTextNode(pseudo + " : " +
+						texte.value)
+					para.appendChild(contenu)
+					para.style.textAlign = "left"
+					para.style.margin = "0"
+
+					// Changer la couleur du joueur en fonction du pays
+					para.style.color = "wheat"
+
+					let historique = document.getElementById("historique")
+					historique.appendChild(para)
+
+					// Réinitialiser l'input et afficher le dernier message
+					texte.value = ""
+					historique.scrollTop = historique.scrollHeight
+				}
+			}
+		}
+
+		// Affiche ou masque l'historique et l'input
+		var $ = require("jquery")
+		document.querySelector("#chat > h1").addEventListener("click", () =>
+		{
+			if (window.innerWidth < 769)
+			{
+				$(document.getElementById("historique")).slideToggle(100)
+				$(document.getElementsByTagName("form")[0]).slideToggle(100)
+				$(document.querySelector("#chat > h1")).toggleClass("bas")
+			}
 		})
 	}
 }
@@ -156,35 +209,23 @@ export default
 		justify-content: space-between;
 		align-items: center;
 		width: 80vw;
-		height: calc(100vh - 203px)
+		height: calc(100vh - 203px);
 	}
 
 	/* Chat */
 	#chat{
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		width: calc(20vw - 10px);
-		height: calc(100% - 10px);
-		margin: 0 10px 10px 0;
-		border-radius: 10px;
+		width: calc(25vw - 10px);
+		height: calc(100vh - 223px);
 	}
 	#chat > h1{
 		line-height: 64px;
 		margin: 0;
 		text-align: center;
 	}
-	#chat > div{
-		color: wheat;
-	}
-	#chat > form > input[type=text]{
-		background-color: rgb(112, 128, 143);
-		width: calc(100% - 20px);
-		padding: 0 10px;
-		font-size: 24px;
-		border-radius: 0 0 10px 10px;
-		outline: none;
-		border-style: none;
+	#historique{
+		border-style: solid;
+		border-width: 4px 0 0;
+		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 
 	/* Pays des joueurs */
@@ -239,7 +280,7 @@ export default
 	}
 
 /* Version tablette */
-@media screen and (max-width:1370px){
+@media screen and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
 		flex-direction: column-reverse;
@@ -271,7 +312,7 @@ export default
 }
 
 /* Version mobile */
-@media screen and (max-width:769px){
+@media screen and (max-width: 769px){
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 203px)
