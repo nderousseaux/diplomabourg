@@ -43,7 +43,7 @@
 			</div>
 			<div id="chat">
 				<h1>Chat</h1>
-				<div></div>
+				<div id="historique"></div>
 				<form name="message">
 					<input type="text" name="msg" id="msg"
 						placeholder="Entrez votre message"/>
@@ -141,7 +141,7 @@ export default
 				document.querySelector("form").submit()
 		})
 
-		// Action quand on appuie sur "Entrer" dans le chat
+		// Action effectuée quand on appuie sur "Entrer" dans le chat
 		let texte = document.querySelector("input[type=text]")
 		document.querySelector("form").onkeypress = function(e)
 		{
@@ -150,11 +150,11 @@ export default
 				e.preventDefault()
 				if (texte.value != "")
 				{
-					var para = document.createElement("p")
-
 					// Récupérer le pseudo là dedans
 					var pseudo = "Patrick"
 
+					// Créer le message
+					var para = document.createElement("p")
 					var contenu = document.createTextNode(pseudo + " : " +
 						texte.value)
 					para.appendChild(contenu)
@@ -164,9 +164,12 @@ export default
 					// Changer la couleur du joueur en fonction du pays
 					para.style.color = "wheat"
 
-					document.querySelector("#chat > div:nth-child(2)")
-						.appendChild(para)
+					let historique = document.getElementById("historique")
+					historique.appendChild(para)
+
+					// Réinitialiser l'input et afficher le dernier message
 					texte.value = ""
+					historique.scrollTop = historique.scrollHeight
 				}
 			}
 		}
