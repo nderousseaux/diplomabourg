@@ -40,8 +40,7 @@ p{
 
 /* Barre de séparation */
 #minuteur,
-#colonneOrdres > h1,
-#chat > h1{
+#colonneOrdres > h1{
 	border-style: solid;
 	border-width: 0 0 4px;
 	border-image: radial-gradient(#ae0132, #1c0043) 1;
@@ -52,7 +51,7 @@ p{
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	margin: 0 10px 10px 0;
+	margin: 0 10px 0 0;
 	border-radius: 10px;
 }
 #chat > form > input[type=text]{
@@ -197,5 +196,19 @@ input.erreur{
 	#logo{
 		width: 324px;
 		height: 123px;
+	}
+
+	/* Chat */
+	#chat{
+		height: max-content !important;
+	}
+	#historique{
+		min-height: 15vh !important;
+	}
+	#chat > h1.bas:after{
+		content: "⯆";
+	}
+	#chat > h1:after{
+		content: "⯅";
 	}
 }

@@ -337,6 +337,18 @@ export default
 				}
 			}
 		}
+
+		// Affiche ou masque l'historique et l'input
+		var $ = require("jquery")
+		document.querySelector("#chat > h1").addEventListener("click", () =>
+		{
+			if (window.innerWidth < 769)
+			{
+				$(document.getElementById("historique")).slideToggle(100)
+				$(document.getElementsByTagName("form")[0]).slideToggle(100)
+				$(document.querySelector("#chat > h1")).toggleClass("bas")
+			}
+		})
 	}
 }
 </script>
@@ -436,8 +448,10 @@ export default
 		background-color: unset;
 	}
 	#chat > h1{
-		border-width: 4px 0 0;
 		padding-top: 20px;
+		border-style: solid;
+		border-width: 4px 0 0;
+		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 
 	/* Colonne d'ordres */
