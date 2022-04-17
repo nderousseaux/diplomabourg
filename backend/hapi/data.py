@@ -709,6 +709,13 @@ unites=[
         "cur_region_id":48,
         "player_power_power_id":3,
         "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":28, #gascony
+        "cur_region_id":28,
+        "player_power_power_id":3,
+        "player_power_player_id":3
     }
 ]
 unitMaritimeConvoy=[
@@ -795,16 +802,17 @@ orderAttack=[
         
     },
 
+    # {
+    #     "type_order_id": 1, #Attack
+    #     "src_region_id":13, #berlin
+    #     "dst_region_id" :58, #Silesia
+    #     "unit_id":2,
+    #     "nbtour" :0   ,
+    #     "gameid":1
+    # },
+    
     {
         "id":2,
-        "type_order_id": 1, #Attack
-        "src_region_id":13, #berlin
-        "dst_region_id" :58, #Silesia
-        "unit_id":2,
-        "num_tour" :0   
-    },
-    {
-        "id":3,
         "type_order_id": 1, #Attack
         "src_region_id":13, #berlin
         "dst_region_id" :48, #Paris
@@ -814,7 +822,7 @@ orderAttack=[
 
     #smyrna Attack brest
     {
-        "id":4,
+        "id":3,
         "type_order_id": 1, #Attack
         "src_region_id":60,
         "dst_region_id" :16,
@@ -826,54 +834,59 @@ orderAttack=[
 orderConvoy=[
     #unit in Agean sea convoy unit Smyrnat  which go in brest
     {
-        "id":5,
+        "id":4,
         "type_order_id": 4, #convoy
         "src_region_id":5,
         "dst_region_id" :16,
         "unit_id":10,
-        "other_unit_id":9,
-        "num_tour" :0 #unit present smyrna
+        "other_unit_id":10,
+        "num_tour" :0,
+        "gameid":1 #unit present smyrna
     },
     #unit in ion Saea convoy unit Smyrnat which go in brest
     {
-        "id":6,
+        "id":5,
         "type_order_id": 4, #convoy
         "src_region_id":34,
         "dst_region_id" :16,
         "unit_id":11,
-        "other_unit_id":9,
-        "num_tour" :0    #unit present smyrna
+        "other_unit_id":10,
+        "nbtour" :0   ,
+        "gameid":1 #unit present smyrna
     },
     #unit in Tyrrhenien Sea convoy unit Smyrnat which go in brest
     {
-        "id":7,
+        "id":6,
         "type_order_id": 4,  # convoy
         "src_region_id": 69,
         "dst_region_id": 16,
         "unit_id": 12,
-        "other_unit_id": 9,
-        "num_tour" :0    #unit present smyrna
+        "other_unit_id": 10,
+        "nbtour" :0   ,
+        "gameid":1 #unit present smyrna
     },
 
     #unit in meditarrene convoy unit Smyrnat which go in brest
     {
-        "id":8,
+        "id":7,
         "type_order_id": 4,  # convoy
         "src_region_id":75,
         "dst_region_id": 16,
         "unit_id": 7,
-        "other_unit_id": 9, #unit present smyrna
-        "num_tour" :0   
+        "other_unit_id": 10, #unit present smyrna
+        "nbtour" :0   ,
+        "gameid":1
     },
     #unit in athlantic convoy unit Smyrnat which go in brest
     {
-        "id":9,
+        "id":8,
         "type_order_id": 4,  # convoy
         "src_region_id" :45,
         "dst_region_id": 16,
         "unit_id": 13,
-        "other_unit_id": 9, #unit present smyrna
-         "num_tour" :0
+        "other_unit_id": 10, #unit present smyrna
+         "nbtour" :0   ,
+         "gameid":1
         
     },
 
@@ -882,7 +895,7 @@ orderConvoy=[
 floatAttack=[
      #fleet Athlantic Attack brest(cost) 
     {
-        "id":10,
+        "id":9,
         "type_order_id": 1, #Attack
         "src_region_id":45,
         "dst_region_id" :16,
@@ -891,16 +904,16 @@ floatAttack=[
     },
     #fleet Tyrrhenien Sea Attack ion Saea(maritime)
     {
-        "id":11,
+        "id":10,
         "type_order_id": 1, #Attack
         "src_region_id":69,
         "dst_region_id" :34,
         "unit_id":13,
         "num_tour" :0   
     },
-    #fleet brest  Attack gaskony cotiére
+    #fleet brestAttack gaskony cotiére
     {
-        "id":12,
+        "id":11,
         "type_order_id": 1, #Attack
         "src_region_id":16,
         "dst_region_id" :28,
@@ -908,7 +921,7 @@ floatAttack=[
         "num_tour" :0   
     },
     {
-        "id":13,
+        "id":12,
         "type_order_id": 1, #Attack
         "src_region_id":16,
         "dst_region_id" :3,
@@ -916,6 +929,350 @@ floatAttack=[
         "num_tour" :1
     }, 
 ]
+
+ordreSoutient=[
+    
+    #fleet Tyrrhenien soutient défensive ion Saea(maritime)
+    {
+        "type_order_id": 3, #support
+        "src_region_id":69,
+        "dst_region_id" :34,
+        "unit_id":13,
+        "other_unit_id":11,
+        "nbtour" :0 ,
+        "gameid":1
+        
+        
+    },
+    #smyrna soutient défensive  brest
+    {
+        "type_order_id": 3, #support
+        "src_region_id":60,
+        "dst_region_id" :16,
+        "unit_id":9,
+        "other_unit_id": 4,
+        "nbtour" :0,
+        "gameid":1
+        
+        
+        
+    },
+    #berlin soutient  défensif  #munish
+    {
+        "type_order_id": 3, #support
+        "src_region_id":13, #berlin
+        "dst_region_id" :43, #munish
+        "unit_id":2,
+        "other_unit_id": 3, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    }
+]
+
+AttackMutuel=[
+    #paris attaque breste 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":48, #Paris
+        "unit_id":6,
+        "dst_region_id" :16, 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #et brest Attaque Paris 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16, #brest
+        "unit_id":4,
+        "dst_region_id" :48, #Paris 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    
+    #fleet in ageen sea attack fleet in  ionSea  
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":5, # AAgean sea 
+        "dst_region_id" :34, #Ion Sea 
+        "unit_id":13,
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    # et fleet in ion sea attack fleet in Agean Sea 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":34,  #Ion Sea 
+        "dst_region_id" :5,   #Agean sea 
+        "unit_id":12,
+        "nbtour" :0,
+        "gameid":1
+    },
+    
+    # army in gascony  attack army  in Marseille
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":28,  #Gascony
+        "dst_region_id" :40,   #Marseillle
+        "unit_id":7,
+        "nbtour" :0,
+        "gameid":1
+    },
+    # army in  Marseille attack army  in gascony
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":40,   #Marseillle
+        "dst_region_id" :28,  #Gascony
+        "unit_id":5,
+        "nbtour" :0,
+        "gameid":1
+    },
+    
+]
+CreatConflit=[
+    
+    #berlin et munich attaquent silésie 
+    #berlin attaque silésie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":13, #Berlin
+        "unit_id":2,
+        "dst_region_id" :58, #sliésie 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #munich attaque silésie
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":43, #munich
+        "unit_id":3,
+        "dst_region_id" :58, #sliésie 
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #paris et breste attaque picardie 
+    #paris attaque picardie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":48, # paris
+        "unit_id":6,
+        "dst_region_id" :49, #picardie
+        "nbtour" :0   ,
+        "gameid":1
+    },
+    #brest attaque picardie 
+    {
+        "type_order_id": 1, #Attack
+        "src_region_id":16, #brest
+        "unit_id":4,
+        "dst_region_id" :49, #picardie
+        "nbtour" :0   ,
+        "gameid":1
+    }
+    
+]
+soutientCoupe=[
+    #gascony qui est attaqué par marseille soutient brest
+    {
+        "type_order_id": 3, #support
+        "src_region_id":28, 
+        "dst_region_id" :16, #brest
+        "unit_id":7,
+        "other_unit_id":4,
+        "nbtour" :0 ,
+        "gameid":1
+        
+        
+    },
+    #  flleet Agean sea attaqué par fleet de ion Sea  support smyrna Army 
+    {
+        "type_order_id": 3, #support
+        "src_region_id":5, #agenan ses 
+        "dst_region_id" :60,
+        "unit_id":11,
+        "other_unit_id": 10,
+        "nbtour" :0,
+        "gameid":1
+      
+        
+    },
+]
+
+UniteSoutient=[
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":12, #Belgique(Belgium)
+        "cur_region_id":12,
+        "player_power_power_id":1,
+        "player_power_player_id":1
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":19, #Bourgogne(Burgundy)
+        "cur_region_id":19,
+        "player_power_power_id":4,
+        "player_power_player_id":4
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":52, #Prusse(Prussia)
+        "cur_region_id":52,
+        "player_power_power_id":3,
+        "player_power_player_id":3
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":15, #Boheme(Bohemia)
+        "cur_region_id":15,
+        "player_power_power_id":2,
+        "player_power_player_id":2
+    },
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":74, #Varsovie(warsaw)
+        "cur_region_id":74,
+        "player_power_power_id":5,
+        "player_power_player_id":5
+    }
+
+]
+
+
+orderSoutientAttackConflit=[
+
+    #Belgique  soutient  Bress qui attaque picardie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":12, #Belgique
+        "dst_region_id" :49, #picardie
+        "unit_id":16,
+        "other_unit_id": 4, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+    #Bourgogne  soutient  Paris qui attaque la region picardie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":19, #Bourgogne
+        "dst_region_id" :49, #picardie
+        "unit_id":17,
+        "other_unit_id": 6, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+     #Prusse  soutient   Berlin  qui attaque silésie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":52, #Prusse
+        "dst_region_id" :58, #silésie
+        "unit_id":18,
+        "other_unit_id": 2, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+    #Boheme  soutient  Berlin  qui attaque silésie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":15, #Boheme
+        "dst_region_id" :58, #silésie
+        "unit_id":19,
+        "other_unit_id":2, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    },
+     #Varsovie  soutient  munich  qui attaque silésie
+    {
+        "type_order_id": 3, #support
+        "src_region_id":74, #varsovie
+        "dst_region_id" :58, #silésie
+        "unit_id":20,
+        "other_unit_id": 3, 
+        "nbtour" :0 ,
+        "gameid":1
+           
+    }
+
+]
+UnitConvoyBroken=[
+        
+    {  # unit in North sea 
+        "type_unit_id":2, #bateau
+        "src_region_id":2, #Norhe of the sea 
+        "cur_region_id":2,
+        "player_power_power_id":5, #italie
+        "player_power_player_id":5
+    },
+    
+    #Angleterre
+    {
+        "type_unit_id":2, #bateau
+        "src_region_id":39, #london
+        "cur_region_id":39,
+        "player_power_power_id":4,
+        "player_power_player_id":4
+    },
+    #Russ 
+    {
+        "type_unit_id":1, #Army
+        "src_region_id":22,#danMark
+        "cur_region_id":22, 
+        "player_power_power_id":6,
+        "player_power_player_id":6
+    },
+    
+    { # unit in baye de holland
+        "type_unit_id":2, #bateau
+        "src_region_id":32, #baye de holland
+        "type_unit_id":2, #bateau
+        "cur_region_id":32, 
+        "player_power_power_id":6, #Ruuss
+        "player_power_player_id":6
+    }
+]
+
+c=[
+    #unit in North sea convoy unit belgique  which go in  Norway 
+    {
+        "type_order_id": 4, #convoy
+        "src_region_id":2, #Northe sea 
+        "dst_region_id" :47,# Norway 
+        "unit_id":21,
+        "other_unit_id":16,
+        "nbtour" :2,
+        "gameid":1 #unit present smyrna
+    },
+]
+
+a=[
+    #unit in bay holland  attaque North sea
+    {
+        "type_order_id":1, #Attack
+        "src_region_id":32, #bay holland
+        "unit_id":24,
+        "dst_region_id" :2, #North sea
+        "nbtour" :2,
+        "gameid":1
+    },
+]
+
+s=[
+    #Londone soutient NRD
+    {
+        "type_order_id": 3, #support
+        "src_region_id":39, #London
+        "dst_region_id" :2, #NRD
+        "unit_id":22,
+        "other_unit_id": 21, 
+        "nbtour" :2 ,
+        "gameid":1
+           
+    }
+]
+
 
 
 def fillTableMap(data):
@@ -1028,4 +1385,9 @@ def insertOrderConvoy(orderConvoy,session,table):
     for o in orderConvoy :
         new_orderConvoy=table(id=o["id"],type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],num_tour=o["num_tour"])
         session.add(new_orderConvoy)
+        session.commit()
+def insertOrderSupport(orderSupport,session,table):
+    for o in orderSupport :
+        new_orderSupport=table(type_order_id=o["type_order_id"],src_region_id=o["src_region_id"], dst_region_id=o["dst_region_id"],unit_id=o["unit_id"],other_unit_id=o["other_unit_id"],nbtour=o["nbtour"],gameid=o["gameid"])
+        session.add(new_orderSupport)
         session.commit()

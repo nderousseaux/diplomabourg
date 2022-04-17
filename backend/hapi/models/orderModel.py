@@ -1,3 +1,4 @@
+from email.policy import default
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
@@ -13,9 +14,10 @@ class OrderModel(Base):
     dst_region_id = Column(Integer, ForeignKey('region.id'))
     unit_id = Column(Integer, ForeignKey('unit.id'))
     other_unit_id= Column(Integer, ForeignKey('unit.id'))
-    is_valid= Column(Boolean)
+    is_valid= Column(Boolean ,default=False)
     num_tour = Column(Integer, nullable=False)
-    
+    state=Column(Boolean, default=True)
+
     #Relationships
     type_order=relationship('TypeOrderModel',  back_populates='orders')
     src_region=relationship('RegionModel', 

@@ -36,7 +36,8 @@ def pre(argv):
     os.system("env/bin/python setup.py develop && env/bin/python setup.py install")
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
-    engine = load_engine(settings)
+    # engine = load_engine(settings)
+    engine=create_engine("mysql+pymysql://root:Amadou0899@127.0.0.1:3306/Diplomacy")
     return engine
 
 def main(argv=sys.argv):
@@ -74,3 +75,18 @@ def fill(argv=sys.argv):
     insertOrderAttack(orderAttack, session, OrderModel)
     insertOrderConvoy(orderConvoy, session, OrderModel)
     insertOrderAttack(floatAttack, session, OrderModel)
+    insertOrderSupport(ordreSoutient,session, OrderModel)
+    insertOrderAttack(AttackMutuel, session, OrderModel)
+    insertOrderAttack(CreatConflit, session, OrderModel)
+    insertOrderSupport(soutientCoupe,session, OrderModel)
+    insertUnite(UniteSoutient, session, UnitModel)
+    insertOrderSupport(orderSoutientAttackConflit,session, OrderModel)
+    insertUnite(UnitConvoyBroken, session, UnitModel)
+    insertOrderConvoy(c, session, OrderModel)
+    insertOrderAttack(a, session, OrderModel)
+    insertOrderSupport(s,session, OrderModel)
+    
+    
+
+    
+   
