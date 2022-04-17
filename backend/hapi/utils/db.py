@@ -10,7 +10,6 @@ import transaction
 from hapi.data.minimal import insert_minimal_data
 from hapi.data.test import insert_test_data
 from hapi.models import *
-from hapi.models.regionModel import adjoining
 
 
 def usage(argv):
@@ -34,7 +33,7 @@ def load_engine(settings):
 def pre(argv):
     if len(argv) != 2:
         usage(argv)
-    os.system("python setup.py develop && python setup.py install")
+    os.system("env/bin/python setup.py develop && env/bin/python setup.py install")
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
     engine = load_engine(settings)

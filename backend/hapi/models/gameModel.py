@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 import pyramid.httpexceptions as exception
 
 from hapi.models import Base, DBSession
-from hapi.models.unitModel import UnitModel
 from hapi.utils.validation import resolve_conflits
 
 class GameModel(Base):
@@ -40,22 +39,6 @@ class GameModel(Base):
         #On vérifie que la partie n'est pas pleine
         if len(self.players) >= len(self.map.powers):
             raise exception.HTTPForbidden("Max number of players is reached")
-
-    def place_units(self):
-        dispositions = []
-        for p in self.map.powers:
-            for disp in p.disposition_unit:
-                unit = UnitModel(
-                    type_unit_id=disp.type_unit_id,
-                    cur_region_id=disp.region_id,
-                    power=p,
-                    game=self,
-                    src_region_id=disp.region_id
-                )
-                players = [play for play in p.players if play.game == self]
-                if len(players)> 0:
-                    unit.player = players[0]
-            DBSession.add(unit)
 
     def orders(self):
         orders=[]

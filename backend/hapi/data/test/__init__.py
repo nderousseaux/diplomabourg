@@ -2,6 +2,7 @@
 Données de test
 """
 from hapi.models import *
+from hapi.models.gameModel import GameModel
 
 from .game_data import games
 from .player_data import players

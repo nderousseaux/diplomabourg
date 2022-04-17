@@ -1,7 +1,3 @@
-from hapi.utils.db import *
-from hapi.models import *
-
-
 """Retourne l'ordre gagnant dans une liste d'ordre
 """
 def resolve_conflits(liste_orders):
