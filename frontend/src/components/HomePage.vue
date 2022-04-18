@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default
 {
 	mounted()
@@ -143,7 +145,52 @@ export default
 
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
-				document.querySelector("form").submit()
+      {
+        document.querySelector("form").submit()
+        var username = "FRANCE";
+        var game_name = form["nom"].value;
+        var game_password = form["mdp"].value;
+        var map_id = 1;
+
+        const player = { username: `${username}` };
+
+        const game = {
+          name: `${game_name}`,
+          password: `${game_password}`,
+          map_id: `${map_id}`,
+        };
+
+        const jeu = {
+          player: player,
+          game: game,
+        };
+        axios.post("http://localhost:10005/games", jeu)
+        .then(() => {
+          this.$router.push({ name: "Lobby" });
+        })
+        .catch((err) => {
+          if (err.response.status == 400) 
+          {
+            var err_name;
+            var err_pwd;
+
+            if (err.response.data.error.message[0].game.name) 
+            {
+              err_name = err.response.data.error.message[0].game.name[0];
+                console.log(err_name);
+            }
+            if (err.response.data.error.message[0].game.password) 
+            {
+              err_pwd = err.response.data.error.message[0].game.password[0];
+              console.log(err_pwd);
+            }
+          } else if (err.response.status == 500) {
+            console.log(err.response.data);
+          } else {
+            console.log("ERREUR INCONNUE");
+          }
+        });
+      }
 		})
 	}
 }
@@ -215,31 +262,31 @@ export default
 	#pays > p{
 		font-size: 40px;
 	}
-
-	/* Boîte de dialogue pour paramétrer la partie */
-	#param > h1{
-		font-size: 30px;
-	}
-	#param > form > div{
-		flex-direction: column;
-		width: 90%;
-		align-items: center;
-	}
-	#param > form > div > label{
-		font-size: 25px;
-		width: 100%;
-		text-align: center;
-	}
-	#param > form > div > input{
-		width: 100%;
-		margin-bottom: 10px;
-	}
-	#param > form > div:last-child{
-		flex-direction: row;
-	}
-	#param > form > div > button,
-	#param > form > div > input[type=submit]{
-		font-size: 25px;
-	}
+  
+  /* Boîte de dialogue pour paramétrer la partie */
+  #param > h1 {
+    font-size: 30px;
+  }
+  #param > form > div {
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+  }
+  #param > form > div > label {
+    font-size: 25px;
+    width: 100%;
+    text-align: center;
+  }
+  #param > form > div > input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  #param > form > div:last-child {
+    flex-direction: row;
+  }
+  #param > form > div > button,
+  #param > form > div > input[type="submit"] {
+    font-size: 25px;
+  }
 }
 </style>
