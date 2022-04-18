@@ -1,24 +1,12 @@
 <template>
-	<!-- <HomePage/> -->
-	<!-- <LobbyPage/> -->
-	<GameMap/>
+  <router-view />
 </template>
 
 <script>
-// import HomePage from "./components/HomePage.vue"
-// import LobbyPage from "./components/LobbyPage.vue"
-import GameMap from "./components/GameMap.vue"
-
-export default
-{
-	name: "App",
-	components:
-	{
-		// HomePage
-		// LobbyPage
-		GameMap
-	}
-}
+export default {
+  name: "App",
+  components: {},
+};
 </script>
 
 <style>
