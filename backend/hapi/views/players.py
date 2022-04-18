@@ -96,15 +96,14 @@ class Players():
         #On ne peut pas être pret si on a pas sélectionné de puissance
         if self.player.is_ready and len(self.player.power) == 0:
             self.player.is_ready = False
-            DBSession.flush()
 
             raise exception.HTTPBadRequest("You cannot be ready : you don't have chose any power")
     
-        DBSession.flush()
+        DBSession().flush()
 
         #On vérifie si tout le monde est pret
         change_state(DBSession, self.game)
-
+    
         #TODO: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
         
         return self.request.si.build_response(exception.HTTPNoContent())

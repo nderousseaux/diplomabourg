@@ -22,11 +22,6 @@ class PlayerModel(Base):
         secondary=playerPower,
         back_populates="players"
     )
-    units=relationship(
-        "UnitModel",
-        primaryjoin='foreign(UnitModel.player_power_player_id) == PlayerModel.id',
-        back_populates='player'    
-    )
 
     def orders(self):
         orders = []
@@ -35,3 +30,6 @@ class PlayerModel(Base):
 
         num_tour = self.game.num_tour    
         return [o for o in orders if o.num_tour == num_tour]
+
+    def units(self):
+        return [u for u in self.game.units() if u.player() == self]

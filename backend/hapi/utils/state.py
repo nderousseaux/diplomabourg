@@ -8,22 +8,15 @@ def change_state(DBSession, game, forced = False):
         #Si le jeu est forcé ou que tout le monde à dit "pret" alors on passe en mode jeu
         if game.is_all_pret() or forced:
             
-             
-            dispositions = []
-            for p in game.map.powers:
-                for disp in p.disposition_unit:
+            for pui in game.map.powers:
+                for disp in pui.disposition_unit:
                     unit = UnitModel(
                         type_unit_id=disp.type_unit_id,
                         cur_region_id=disp.region_id,
-                        power=p,
+                        power=pui,
                         game=game,
                         src_region_id=disp.region_id
                     )
-                    players = [play for play in p.players if play.game == game]
-                    if len(players)> 0:
-                        unit.player = players[0]
-            
-            DBSession.add(unit)
 
             game.state = DBSession().query(StateModel).filter_by(name="GAME").one()
 
@@ -39,6 +32,9 @@ def change_state(DBSession, game, forced = False):
             resolution_orders(DBSession, game)
 
             game.num_tour+=1
+
+            for p in game.players:
+                p.is_ready = False
 
             #TODO: Définir quand est-ce qu'on finit ?
         

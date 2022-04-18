@@ -13,8 +13,7 @@ class UnitModel(Base):
     src_region_id = Column(Integer, ForeignKey('region.id'))
     cur_region_id = Column(Integer, ForeignKey('region.id'))
     life=Column(Boolean, default=True)
-    player_power_power_id = Column(Integer, ForeignKey('player_power.power_id'))
-    player_power_player_id = Column(Integer, ForeignKey('player_power.player_id'))
+    power_id = Column(Integer, ForeignKey('power.id'))
     game_id = Column(Integer, ForeignKey('game.id'))
     
     #Relationships
@@ -25,14 +24,9 @@ class UnitModel(Base):
     cur_region=relationship('RegionModel', 
         primaryjoin="UnitModel.cur_region_id == RegionModel.id",
         back_populates="units_cur_region")
-    player=relationship(
-        'PlayerModel',
-        primaryjoin='foreign(UnitModel.player_power_player_id) == PlayerModel.id',
-        back_populates="units"
-    )
     power=relationship(
         'PowerModel',
-        primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
+        primaryjoin='foreign(UnitModel.power_id) == PowerModel.id',
         back_populates='units'   
     )
     orders=relationship('OrderModel',
@@ -43,3 +37,9 @@ class UnitModel(Base):
                             back_populates='other_unit')
 
     game=relationship('GameModel', back_populates="units")
+
+    def player(self):
+        players = [p for p in game.players if self.power in p.power]
+        if len(players)>0:
+            return players[0]
+        return None

@@ -23,7 +23,7 @@ class PowerModel(Base):
         back_populates="power"
     )
     units=relationship("UnitModel", 
-        primaryjoin='foreign(UnitModel.player_power_power_id) == PowerModel.id',
+        primaryjoin='foreign(UnitModel.power_id) == PowerModel.id',
         back_populates="power"
     )
 
