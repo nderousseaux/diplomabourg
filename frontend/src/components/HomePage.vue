@@ -65,6 +65,12 @@ export default {
     },
     storePlayerId(id) {
       store.setPlayerId(Number(id))
+    },
+    storeToken(token) {
+      store.setToken(token)
+    },
+    storeJeu(jeu) {
+      store.setJeu(jeu)
     }
   },
   mounted() {
@@ -123,7 +129,7 @@ export default {
             player: player,
             game: game,
           };
-
+          this.storeJeu(jeu);
           api
             .post("/games", jeu)
             .then(response => {
@@ -136,6 +142,7 @@ export default {
               this.storePlayerId(this.player_id);
 
               //enregistre le token reçu
+              this.storeToken(response.data.token);
               api.defaults.headers.common['Authorization'] = response.data.token;
             })
             .then(() => {

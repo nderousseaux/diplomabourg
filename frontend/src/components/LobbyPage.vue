@@ -8,12 +8,12 @@
 					<div>
 						<img alt="Drapeau français" title="Drapeau français"
 						src="../assets/img/flags/france.png"/>
-						<button @click='ready()'>Prêt</button>
+						<button id="fr" @click='ready()'>Prêt</button>
 					</div>
 					<div>
 						<img alt="Drapeau allemand" title="Drapeau allemand"
 						src="../assets/img/flags/germany.png"/>
-						<button class="inactif">Prêt</button>
+						<button id="all" class="inactif">Prêt</button>
 					</div>
 					<div>
 						<img alt="Attente du joueur" title="Attente du joueur"
@@ -38,7 +38,7 @@
 				</div>
 				<div id="actions">
 					<button>Créer une partie</button>
-					<button>Commencer la partie</button>
+					<button @click='allReady()'>Commencer la partie</button>
 				</div>
 			</div>
 			<div id="chat">
@@ -56,7 +56,7 @@
 import api from '../api.js'
 import store from "../store.js"
 
-
+api.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`
 export default {
 	data() {
 		return {
@@ -68,7 +68,33 @@ export default {
 		ready() {
 			console.log(this.game_id)
 			console.log(this.player_id)
-			api.put('/games/' + this.game_id + '/players/' + this.player_id, {ready: true})
+			console.log(store.state.token)
+
+			const config =  {
+				headers: { Authorization: `Bearer ${store.state.token}` }
+			}
+
+			const bodyParameters = {
+				username: store.state.jeu.player.username,
+				power_id: 1,
+				is_ready: true
+			};
+
+			api
+				.put('/games/' + this.game_id + '/players/' + this.player_id,
+					bodyParameters,
+					config
+				)
+				.then(response => {
+					console.log(response);
+					if (response.status == 204) {
+						document.getElementById("fr").classList.add('inactif')
+						console.log("ok :)")
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				})
 		}
 	}
 }
