@@ -1,4 +1,4 @@
-from hapi.models import StateModel
+from hapi.models import StateModel, UnitModel
 from hapi.utils.validation import resolution_orders
 
 # Définit si il faut ou non changer d'état

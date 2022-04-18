@@ -79,8 +79,8 @@ class Players():
 
         newPlayer = PlayerSchema(only=["username", "power_id", "is_ready"]).load(self.request.json)
 
-        if len(newPlayer["power"]) == 0:
-            newPlayer.power = self.player.power
+        if "power" in newPlayer and len(newPlayer["power"]) == 0:
+            newPlayer["power"] = self.player.power
     
         #On vérifie que l'username est pas déjà pris
         PlayerSchema().check_username(newPlayer, self.game, self.player)
@@ -88,15 +88,18 @@ class Players():
         #On vérifie que la puissance n'est pas déjà prise
         PlayerSchema().check_power(newPlayer, self.game, self.player)
 
-        #On ne peut pas être pret si on a pas sélectionné de puissance
-        if newPlayer["is_ready"] and len(newPlayer["power"]) == 0:
-            raise exception.HTTPBadRequest("You cannot be ready : you don't have chose any power")
-
         #On modifie l'objet player      
         self.player.is_ready = False  
         for k, v in newPlayer.items():
             setattr(self.player,k,v)
 
+        #On ne peut pas être pret si on a pas sélectionné de puissance
+        if self.player.is_ready and len(self.player.power) == 0:
+            self.player.is_ready = False
+            DBSession.flush()
+
+            raise exception.HTTPBadRequest("You cannot be ready : you don't have chose any power")
+    
         DBSession.flush()
 
         #On vérifie si tout le monde est pret

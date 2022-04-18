@@ -42,7 +42,8 @@ class PlayerSchema(Schema):
 
 
     def check_power(self, player, game, you=None):
-        if len(player["power"]) > 0:
+
+        if "power" in player and len(player["power"]) > 0:
 
             #On vérifie que la puissance appartient à la carte
             if player["power"][0] not in game.map.powers:
