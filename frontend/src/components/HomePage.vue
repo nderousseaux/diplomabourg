@@ -142,9 +142,6 @@ export default {
           var game_password = mdpInput.value;
           var map_id = 1;
 
-          console.log(game_name);
-          console.log(game_password);
-
           const player = { username: `${username}` };
 
           const game = {
@@ -159,8 +156,10 @@ export default {
           };
           axios
             .post("http://localhost:10005/games", jeu)
-            .then(() => {
+            .then((data) => {
               this.$router.push({ name: "Lobby" });
+              var token = data.data.token;
+              document.cookie = "session_game=" + token;
             })
             .catch((err) => {
               if (err.response.status == 400) {
