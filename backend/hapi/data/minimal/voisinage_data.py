@@ -76,7 +76,7 @@ voisinages=[
     # {"src_region_id": 70, "dst_region_id": []},
     # {"src_region_id": 71, "dst_region_id": []},
     {"src_region_id": 72, "dst_region_id": [75]},
-    # {"src_region_id": 73, "dst_region_id": []}, #FIXME: Pourquoi ??
+    # {"src_region_id": 73, "dst_region_id": []},
     # {"src_region_id": 74, "dst_region_id": []},
     {"src_region_id": 74, "dst_region_id": [44]}
  ]

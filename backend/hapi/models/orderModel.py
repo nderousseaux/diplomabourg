@@ -82,7 +82,6 @@ class OrderModel(Base):
                         #Si les régions sont connexes
                         if self.dst_region in self.src_region.neighbours:
                             self.is_valid = True
-                            #FIXME: Un peut tot pour bouger l'unité non ? si oui changer les ifs
                             self.unit.cur_region_id=self.dst_region_id
                             return True
 
@@ -101,6 +100,7 @@ class OrderModel(Base):
                         #Si les régions sont connexes
                         if self.dst_region in self.src_region.neighbours:
                             self.is_valid = True
+                            self.unit.cur_region_id=self.dst_region_id
                             return True
 
         elif self.type_order.name == "CONVOY":            
@@ -130,8 +130,6 @@ class OrderModel(Base):
                     "SEA" in [t.name for t in self.dst_region.types] or
                     "COAST" in [t.name for t in self.dst_region.types]
                 ):
-                #FIXME: Pourquoi commenté ? Normal ?
-                # if (isUnitePresentInRegion(idUnit, idRegionSrc) == True and isUnitePresentInRegion(idOtherUnit, idRegionDst)==True):
                     if self.dst_region in self.src_region.neighbours:
                         self.is_valid = True
                         return True

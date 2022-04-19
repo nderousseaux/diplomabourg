@@ -44,7 +44,7 @@ def resolution_orders(DBSession,game):
 
     #On romp les convois
     for o in [o for o in game.orders_valid() if o.type_order.name == "CONVOY"]:
-       ConvoyBroken(o,DBSession, transaction)
+       o.broke_convoi()
 
     #On invalide les attaques dont les convois sont rompus
     for o in [o for o in game.orders_valid() if o.type_order.name == "SUPPORT" and o.state == False]:
