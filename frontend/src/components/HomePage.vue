@@ -41,9 +41,30 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "../api.js";
+import store from "../store.js"
 
 export default {
+  data() {
+    return {
+      game_id: '',
+      player_id: ''
+    }
+  },
+  methods: {
+    storeGameId(id) {
+      store.setGameId(Number(id))
+    },
+    storePlayerId(id) {
+      store.setPlayerId(Number(id))
+    },
+    storeToken(token) {
+      store.setToken(token)
+    },
+    storeJeu(jeu) {
+      store.setJeu(jeu)
+    }
+  },
   mounted() {
     // Pour paramétrer la partie
     let paramBtn = document.querySelector("div:first-child > button");
@@ -157,13 +178,22 @@ export default {
             player: player,
             game: game,
           };
-          axios
-            .post("http://localhost:10005/games", jeu)
+
+          this.storeJeu(jeu);
+
+          api
+            .post("/games", jeu)
+            .then(response => {
+              //store les infos utiles de la game dans un objet pour le récup dans le lobby
+              this.storeGameId(response.data.game.id);
+              this.storePlayerId(response.data.game.players[0].id);
+              this.storeToken(response.data.token);
+            })
             .then(() => {
               this.$router.push({ name: "Lobby" });
             })
             .catch((err) => {
-              if (err.response.status == 400) {
+              if (err.status == 400) {
                 var err_name;
                 var err_pwd;
 
@@ -175,7 +205,7 @@ export default {
                   err_pwd = err.response.data.error.message[0].game.password[0];
                   console.log(err_pwd);
                 }
-              } else if (err.response.status == 500) {
+              } else if (err.status == 500) {
                 console.log(err.response.data);
               } else {
                 console.log("ERREUR INCONNUE");
