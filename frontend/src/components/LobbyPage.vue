@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div id="actions">
-					<button>Générer le liens</button>
+					<button @click="copyLink()">Générer le lien</button>
 					<button>Commencer la partie</button>
 				</div>
 			</div>
@@ -83,6 +83,11 @@ export default
 		}
 	},
 	methods: {
+		copyLink() {
+			var link = `http://localhost:8080/games/${this.game_id}`;
+			navigator.clipboard.writeText(link);
+			alert("Copied : " + link);
+		},
 		ready() {
 			console.log(this.game_id);
 			console.log(this.player_id);
