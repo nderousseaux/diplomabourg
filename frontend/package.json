@@ -2,12 +2,16 @@
   "name": "Diplomabourg",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
   "scripts": {
+    "start": "vue-cli-service build && electron .",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "buildApp": "npx electron-packager --overwrite --icon=./public/electron-icon . Diplomabourg ",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13"
@@ -18,8 +22,11 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "electron": "^18.0.4",
+    "electron-packager": "^15.4.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "jquery": "^3.6.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0"
   }
