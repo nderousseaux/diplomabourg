@@ -4,7 +4,11 @@
 			<div id="minuteur">
 				<img id="params" alt="Paramètres" title="Paramètres"
 					src="../assets/img/settings.png"/>
-				<p>5:30</p>
+				<!-- <p>5:30</p> -->
+				<button value="valider">Valider</button>
+			</div>
+			<div>
+				
 			</div>
 			<div id="drapeaux">
 				<h1>Pays</h1>
