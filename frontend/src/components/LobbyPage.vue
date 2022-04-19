@@ -73,6 +73,7 @@
 <script>
 import api from "../api.js"
 import store from "../store.js"
+import router from "../router/index.js"
 
 export default
 {
