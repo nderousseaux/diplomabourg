@@ -2,7 +2,7 @@ import { createRouter ,createWebHistory  } from "vue-router"
 
 import HomePage from "../components/HomePage.vue"
 import LobbyPage from "../components/LobbyPage.vue"
-import GameMap from "../components/GameMap"
+import GameMap from "../components/GameMap.vue"
 
 const routes = [
   {
@@ -22,7 +22,7 @@ const routes = [
     }
   },
   {
-    path: "/lobby/jeu",
+    path: "/jeu",
     name: "Jeu",
     component: GameMap,
     meta: {

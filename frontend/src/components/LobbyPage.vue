@@ -38,7 +38,7 @@
 				</div>
 				<div id="actions">
 					<button>Générer le liens</button>
-					<button>Commencer la partie</button>
+					<button id="test">Commencer la partie</button>
 				</div>
 			</div>
 			<div id="chat">
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import router from '../router/index.js'
 export default
 {
 	mounted()
@@ -79,6 +80,13 @@ export default
 		let joindreBtn = document.getElementById("testJoindre")
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
+
+		let test = document.getElementById("test")
+
+		test.addEventListener("click",function magie() {
+			console.log(this.$router)
+			router.push({ name: "Jeu" });
+		})
 
 		// Ouvrir le formulaire
 		joindreBtn.addEventListener("click", function onOpen()

@@ -137,6 +137,7 @@ export default {
 				// Si tous les tests sont validés, on peut envoyer
 				if (erreurForm == false) {
 					document.querySelector("form").submit();
+	
 					var username = "FRANCE";
 					var game_name = nomInput.value;
 					var game_password = mdpInput.value;
