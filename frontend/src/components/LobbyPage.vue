@@ -127,6 +127,13 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
+		let test = document.getElementById("test")
+
+		test.addEventListener("click",function magie() {
+			console.log(this.$router)
+			router.push({ name: "Jeu" });
+		})
+
 		// Ouvrir le formulaire
 		joindreBtn.addEventListener("click", function onOpen()
 		{
