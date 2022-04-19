@@ -320,7 +320,8 @@ export default
 }
 
 /* Version mobile */
-@media screen and (max-width: 769px){
+@media only screen and (hover: none) and (pointer: coarse)
+and (max-width: 769px){
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 203px)

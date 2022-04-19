@@ -1,8 +1,8 @@
-import { createRouter ,createWebHistory  } from "vue-router"
+import {createRouter ,createWebHistory} from "vue-router"
 
 import HomePage from "../components/HomePage.vue"
 import LobbyPage from "../components/LobbyPage.vue"
-import GameMap from "../components/GameMap.vue"
+import GameMap from "../components/GameMap"
 
 const routes = [
   {
