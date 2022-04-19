@@ -158,7 +158,7 @@ export default {
 				// Si tous les tests sont validés, on peut envoyer
 				if (erreurForm == false) {
 					document.querySelector("form").submit();
-	
+
 					var username = "FRANCE";
 					var game_name = nomInput.value;
 					var game_password = mdpInput.value;
@@ -189,9 +189,8 @@ export default {
               this.storeGameId(response.data.game.id);
               this.storePlayerId(response.data.game.players[0].id);
               this.storeToken(response.data.token);
-            })
-            .then(() => {
-              this.$router.push({ name: "Lobby" });
+							document.cookie = "token=" + response.data.token;
+							this.$router.push({ path: `/games/${response.data.game.id}` });
             })
             .catch((err) => {
               if (err.status == 400) {

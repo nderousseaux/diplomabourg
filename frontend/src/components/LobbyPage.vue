@@ -73,7 +73,13 @@
 <script>
 import api from "../api.js"
 import store from "../store.js"
-import router from "../router/index.js"
+
+function getTokenCookie() {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; token=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 
 export default
 {
@@ -127,13 +133,6 @@ export default
 		let joindreBtn = document.getElementById("testJoindre")
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
-
-		let test = document.getElementById("test")
-
-		test.addEventListener("click",function magie() {
-			console.log(this.$router)
-			router.push({ name: "Jeu" });
-		})
 
 		// Ouvrir le formulaire
 		joindreBtn.addEventListener("click", function onOpen()
