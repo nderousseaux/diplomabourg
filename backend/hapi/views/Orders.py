@@ -8,7 +8,7 @@ from hapi.utils.cors import cors_policy
 from hapi.utils.service_informations import ServiceInformations
 
 
-@resource(collection_path='/games/{game_id:\d+}/orders',path='/games/{game_id:\d+}/orders/{order_id:\d+}')
+@resource(collection_path='/games/{game_id:\d+}/orders',path='/games/{game_id:\d+}/orders/{order_id:\d+}', cors_policy=cors_policy)
 class Order():
     def __init__(self,request,context=None):
         self.request = request
