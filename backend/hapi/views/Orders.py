@@ -47,7 +47,7 @@ class Order():
         #On recupère les données
         newOrder = OrderSchema().load(self.request.json)
 
-        if self.request.user != newOrder["unit"].player:
+        if self.request.user != newOrder["unit"].player():
             raise exception.HTTPUnauthorized()
 
         #On récupère l'ordre si il existe

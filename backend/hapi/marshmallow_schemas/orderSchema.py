@@ -15,7 +15,7 @@ class OrderSchema(Schema):
     other_unit_id = fields.Int()
     other_unit = fields.Nested("UnitSchema")
     src_region_id = fields.Int()
-    dst_region_id = fields.Int() 
+    dst_region_id = fields.Int(required=True) 
     src_region = fields.Nested("RegionSchema")
     dst_region = fields.Nested("RegionSchema")
     is_valid = fields.Boolean(default=False)

@@ -272,7 +272,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type_order\": \"CONVOY\",\n  \"src_region_id\": 2,\n  \"unit_id\": 17\n}",
+									"raw": "{\n  \"type_order\": \"ATTACK\",\n  \"dst_region_id\": 1,\n  \"unit_id\": 67\n}",
 									"options": {
 										"raw": {
 											"language": "json"
