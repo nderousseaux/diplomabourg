@@ -39,7 +39,7 @@ class UnitModel(Base):
     game=relationship('GameModel', back_populates="units")
 
     def player(self):
-        players = [p for p in game.players if self.power in p.power]
+        players = [p for p in self.game.players if self.power in p.power]
         if len(players)>0:
             return players[0]
         return None

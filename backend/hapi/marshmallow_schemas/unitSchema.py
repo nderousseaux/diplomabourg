@@ -1,6 +1,7 @@
 from marshmallow import (
     Schema,
-    fields
+    fields,
+    pre_dump
 )
 
 from hapi.models import MapModel
@@ -13,3 +14,8 @@ class UnitSchema(Schema):
     src_region_id = fields.Int()
     cur_region_id = fields.Int()
     player=fields.Nested("PlayerSchema")
+
+    @pre_dump()
+    def pre_dump(self, data, **kwargs):
+        data.player = data.player()
+        return data
