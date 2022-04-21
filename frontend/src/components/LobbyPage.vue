@@ -7,37 +7,37 @@
 				<div id="joueurs">
 					<div>
 						<img alt="Drapeau français" title="Drapeau français"
-							src="../assets/img/flags/france.png"/>
+							:src="getImgFlagUrl('france')"/>
 						<button id="fr" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img alt="Drapeau allemand" title="Drapeau allemand"
-							src="../assets/img/flags/germany.png"/>
+							:src="getImgFlagUrl('germany')"/>
 						<button class="inactif">Prêt</button>
 					</div>
 					<div>
 						<img value="2" alt="Attente du joueur" title="Attente du joueur"
-							src="../assets/img/flags/loading.png"/>
+							:src="getImgFlagUrl('loading')"/>
 					</div>
 					<div>
 						<img value="3" alt="Attente du joueur" title="Attente du joueur"
-							src="../assets/img/flags/loading.png"/>
+							:src="getImgFlagUrl('loading')"/>
 					</div>
 					<div>
 						<img value="4" alt="Attente du joueur" title="Attente du joueur"
-							src="../assets/img/flags/loading.png"/>
+							:src="getImgFlagUrl('loading')"/>
 					</div>
 					<div>
 						<img value="5" alt="Attente du joueur" title="Attente du joueur"
-							src="../assets/img/flags/loading.png"/>
+							:src="getImgFlagUrl('loading')"/>
 					</div>
 					<div>
 						<img value="6" alt="Attente du joueur" title="Attente du joueur"
-							src="../assets/img/flags/loading.png"/>
+							:src="getImgFlagUrl('loading')"/>
 					</div>
 				</div>
 				<div id="actions">
-					<button @click="copyLink()">Générer le lien</button>
+					<button id="test" @click="copyLink()">Générer le lien</button>
 					<button>Commencer la partie</button>
 				</div>
 			</div>
@@ -122,6 +122,9 @@ export default
 				.catch((err) => {
 					console.log(err);
 				})
+		},
+		getImgFlagUrl: function(imgName) {
+			return require('@/assets/img/flags/' + imgName + '.png');
 		}
 	},
 	mounted()
@@ -245,7 +248,7 @@ export default
 		})
 
 
-		// Sélectionne les images en attente
+		// Créé la liste des div "en attente"
 		let imgAttente = []
 		document.querySelectorAll("#joueurs > div > img").forEach(element =>
 		{
@@ -255,9 +258,12 @@ export default
 		})
 		console.log(imgAttente)
 
-		// var imgRejoins = imgAttente.shift()
-		// imgRejoins.setAttribute("src", "../assets/img/flags/italy.png")
+		// Récupère le premier élément de la liste à modifier
+		var imgRejoins = imgAttente.shift()
 
+		// Le modifie par le nouveau drapeau (le nom du pays est renvoyé par le back [?])
+		let nomPaysBack = 'russia'
+		imgRejoins.setAttribute("src", this.getImgFlagUrl(nomPaysBack))
 	}
 }
 </script>
