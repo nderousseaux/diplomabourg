@@ -64,7 +64,7 @@
 			<p>Tous les champs ne sont pas complétés correctement</p>
 			<div>
 				<button>Annuler</button>
-				<input type="submit" value="Joindre" @click="joinGame()"/>
+				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
 	</dialog>
@@ -72,7 +72,6 @@
 
 <script>
 import api from "../api.js"
-import store from "../store.js"
 
 const game_num = window.location.pathname.split('/')[2];
 
@@ -95,14 +94,17 @@ export default
 		}
 	},
 	methods: {
-		joinGame() {
+		joinGame(mdp) {
 			api
-				.post("/games/" + game_num + "/players?password=" + document.getElementById("mdp").value, {username: 'ALLEMAGNE'})
+				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: 'yael'})
 				.then(response => {
-					console.log(response)
+					console.log(response.data.players[response.data.players.length - 1]);
+					document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
+					location.reload();
 				})
 				.catch(function(error) {
-					console.log(error);
+					if (error.response.status == 400)
+						console.log(error.response.data.error.message[0]);
 				})
 		},
 		copyLink() {
@@ -149,7 +151,7 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
-		var cookie = getTokenCookie();
+		var cookie = this.token;
 		//récupère l'id de l'utilisateur courant
 		if (cookie == null) {
 			lancerDiag.showModal()
@@ -233,7 +235,7 @@ export default
 
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
-				document.querySelector("form").submit()
+				this.joinGame(mdpInput)
 		})
 
 		// Action effectuée quand on appuie sur "Entrer" dans le chat
