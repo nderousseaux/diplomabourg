@@ -189,11 +189,11 @@ export default {
               this.storeGameId(response.data.game.id);
               this.storePlayerId(response.data.game.players[0].id);
               this.storeToken(response.data.token);
-							document.cookie = "token=" + response.data.token;
+							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
 							this.$router.push({ path: `/games/${response.data.game.id}` });
             })
             .catch((err) => {
-              if (err.status == 400) {
+              if (err.response.status == 400) {
                 var err_name;
                 var err_pwd;
 
@@ -205,7 +205,7 @@ export default {
                   err_pwd = err.response.data.error.message[0].game.password[0];
                   console.log(err_pwd);
                 }
-              } else if (err.status == 500) {
+              } else if (err.response.status == 500) {
                 console.log(err.response.data);
               } else {
                 console.log("ERREUR INCONNUE");

@@ -64,7 +64,7 @@
 			<p>Tous les champs ne sont pas complétés correctement</p>
 			<div>
 				<button>Annuler</button>
-				<input type="submit" value="Joindre"/>
+				<input type="submit" value="Joindre" @click="joinGame()"/>
 			</div>
 		</form>
 	</dialog>
@@ -74,22 +74,36 @@
 import api from "../api.js"
 import store from "../store.js"
 
+const game_num = window.location.pathname.split('/')[2];
+
 function getTokenCookie() {
 	const value = `; ${document.cookie}`;
-	const parts = value.split(`; token=`);
-	if (parts.length === 2) return parts.pop().split(';').shift();
+	const parts = value.split(`; token${game_num}=`);
+	if (parts.length === 2) {
+		return parts.pop().split(';').shift();
+	}
 }
-
 
 export default
 {
 	data() {
 		return {
-			game_id: store.state.gameId,
-			player_id: store.state.playerId
+			game_id: game_num,
+			player_id: '',
+			has_token: false
 		}
 	},
 	methods: {
+		joinGame() {
+			api
+				.post("/games/" + game_num + "/players?password=" + document.getElementById("mdp").value, {username: 'ALLEMAGNE'})
+				.then(response => {
+					console.log(response)
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
+		},
 		copyLink() {
 			var link = `http://localhost:8080/games/${this.game_id}`;
 			navigator.clipboard.writeText(link);
@@ -133,6 +147,31 @@ export default
 		let joindreBtn = document.getElementById("testJoindre")
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
+
+		var cookie = getTokenCookie();
+		//récupère l'id de l'utilisateur courant
+		if (cookie == null) {
+			lancerDiag.showModal()
+		}
+		else {
+			const config = {
+				headers: {Authorization: `Bearer ${cookie}`}
+			};
+			var indexOfPlayer;
+			api
+				.get("/games/" + window.location.pathname.split('/')[2], config)
+				.then(response => {
+					indexOfPlayer = response.data.players.map(function(e) {
+						return e.is_you;
+					}).indexOf(true)
+					this.player_id = response.data.players[indexOfPlayer].id
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
+			}
+
+
 
 		// Ouvrir le formulaire
 		joindreBtn.addEventListener("click", function onOpen()
