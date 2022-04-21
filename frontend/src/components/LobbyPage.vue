@@ -90,7 +90,8 @@ export default
 		return {
 			game_id: game_num,
 			player_id: '',
-			has_token: false
+			token: getTokenCookie(),
+			username: ''
 		}
 	},
 	methods: {
@@ -112,14 +113,14 @@ export default
 		ready() {
 			console.log(this.game_id);
 			console.log(this.player_id);
-			console.log(store.state.token);
+			console.log(this.token);
 
 			const config = {
-				headers: { Authorization: `Bearer ${store.state.token}`}
+				headers: { Authorization: `Bearer ${this.token}`}
 			};
 
 			const bodyParameters = {
-				username: store.state.jeu.player.username,
+				username: this.username,
 				power_id: 1,
 				is_ready: true
 			};
@@ -165,6 +166,7 @@ export default
 						return e.is_you;
 					}).indexOf(true)
 					this.player_id = response.data.players[indexOfPlayer].id
+					this.username = response.data.players[indexOfPlayer].username
 				})
 				.catch(function(error) {
 					console.log(error);
