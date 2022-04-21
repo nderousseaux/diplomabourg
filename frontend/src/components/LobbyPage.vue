@@ -8,7 +8,7 @@
 					<div>
 						<img alt="Drapeau français" title="Drapeau français"
 							src="../assets/img/flags/france.png"/>
-						<button>Prêt</button>
+						<button id="fr" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img alt="Drapeau allemand" title="Drapeau allemand"
@@ -37,8 +37,8 @@
 					</div>
 				</div>
 				<div id="actions">
-					<button>Générer le liens</button>
-					<button id="test">Commencer la partie</button>
+					<button @click="copyLink()">Générer le lien</button>
+					<button>Commencer la partie</button>
 				</div>
 			</div>
 			<div id="chat">
@@ -74,9 +74,56 @@
 </template>
 
 <script>
-import router from '../router/index.js'
+import api from "../api.js"
+import store from "../store.js"
+import router from "../router/index.js"
+
 export default
 {
+	data() {
+		return {
+			game_id: store.state.gameId,
+			player_id: store.state.playerId
+		}
+	},
+	methods: {
+		copyLink() {
+			var link = `http://localhost:8080/games/${this.game_id}`;
+			navigator.clipboard.writeText(link);
+			alert("Copied : " + link);
+		},
+		ready() {
+			console.log(this.game_id);
+			console.log(this.player_id);
+			console.log(store.state.token);
+
+			const config = {
+				headers: { Authorization: `Bearer ${store.state.token}`}
+			};
+
+			const bodyParameters = {
+				username: store.state.jeu.player.username,
+				power_id: 1,
+				is_ready: true
+			};
+
+			api
+				.put("/games/" + this.game_id + "/players/" + this.player_id,
+					bodyParameters,
+					config
+				)
+				.then(response => {
+					console.log(response);
+					if (response.status == 204) {
+						document.getElementById("fr").classList.add("inactif");
+						console.log("France is ready");
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		}
+	},
 	mounted()
 	{
 		// Pour paramétrer la partie
@@ -325,7 +372,7 @@ and (max-width: 1370px){
 		height: 30vh;
 		margin: 0 0 10px 0;
 	}
-	
+
 	/* Pays des joueurs */
 	#joueurs{
 		width: 100%;
