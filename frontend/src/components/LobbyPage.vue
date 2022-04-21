@@ -16,23 +16,23 @@
 						<button class="inactif">Prêt</button>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur"
+						<img value="2" alt="Attente du joueur" title="Attente du joueur"
 							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur"
+						<img value="3" alt="Attente du joueur" title="Attente du joueur"
 							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur"
+						<img value="4" alt="Attente du joueur" title="Attente du joueur"
 							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur"
+						<img value="5" alt="Attente du joueur" title="Attente du joueur"
 							src="../assets/img/flags/loading.png"/>
 					</div>
 					<div>
-						<img alt="Attente du joueur" title="Attente du joueur"
+						<img value="6" alt="Attente du joueur" title="Attente du joueur"
 							src="../assets/img/flags/loading.png"/>
 					</div>
 				</div>
@@ -52,7 +52,10 @@
 		</div>
 
 		<!-- A SUPPRIMER !! -->
-		<button id="testJoindre">TEST JOINDRE MDP</button>
+		<div>
+			<button id="testJoindre">TEST JOINDRE MDP</button>
+			<button id="testPays">PAYS JOINS</button>
+		</div>
 	</div>
 	<dialog id="joindre">
 		<h1>Joindre la partie</h1>
@@ -77,7 +80,6 @@ export default
 	mounted()
 	{
 		// Pour paramétrer la partie
-		let joindreBtn = document.getElementById("testJoindre")
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
@@ -89,6 +91,7 @@ export default
 		})
 
 		// Ouvrir le formulaire
+		let joindreBtn = document.getElementById("testJoindre")
 		joindreBtn.addEventListener("click", function onOpen()
 		{
 			if (typeof lancerDiag.showModal === "function")
@@ -193,6 +196,21 @@ export default
 				$(document.querySelector("#chat > h1")).toggleClass("bas")
 			}
 		})
+
+
+		// Sélectionne les images en attente
+		let imgAttente = []
+		document.querySelectorAll("#joueurs > div > img").forEach(element =>
+		{
+			var valeur = element.getAttribute("value")
+			if (valeur != undefined)
+				imgAttente.push(element)
+		})
+		console.log(imgAttente)
+
+		// var imgRejoins = imgAttente.shift()
+		// imgRejoins.setAttribute("src", "../assets/img/flags/italy.png")
+
 	}
 }
 </script>
@@ -288,7 +306,8 @@ export default
 	}
 
 /* Version tablette */
-@media screen and (max-width: 1370px){
+@media only screen and (hover: none) and (pointer: coarse)
+and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
 		flex-direction: column-reverse;
