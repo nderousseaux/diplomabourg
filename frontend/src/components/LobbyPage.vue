@@ -51,19 +51,19 @@
 			</div>
 		</div>
 
-		<!-- A SUPPRIMER !! -->
-		<button id="testJoindre">TEST JOINDRE MDP</button>
+
 	</div>
 	<dialog id="joindre">
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
+				<label for="username">Username</label>
+				<input maxlength="15" id="username" name="username"/>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
 			<p>Tous les champs ne sont pas complétés correctement</p>
 			<div>
-				<button>Annuler</button>
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
@@ -94,17 +94,22 @@ export default
 		}
 	},
 	methods: {
-		joinGame(mdp) {
+		joinGame(mdp, username) {
 			api
-				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: 'yael'})
+				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: username.value})
 				.then(response => {
-					console.log(response.data.players[response.data.players.length - 1]);
+					console.log(response);
+					this.player_id = response.data.game.players[response.data.game.players.length - 1].id;
+					console.log(this.player_id);
 					document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
-					location.reload();
+					let ok_close = document.getElementById("joindre");
+					ok_close.close();
 				})
 				.catch(function(error) {
-					if (error.response.status == 400)
+					console.log(error);
+					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
+					}
 				})
 		},
 		copyLink() {
@@ -147,7 +152,6 @@ export default
 	mounted()
 	{
 		// Pour paramétrer la partie
-		let joindreBtn = document.getElementById("testJoindre")
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
@@ -169,23 +173,13 @@ export default
 					}).indexOf(true)
 					this.player_id = response.data.players[indexOfPlayer].id
 					this.username = response.data.players[indexOfPlayer].username
+					console.log(response);
 				})
 				.catch(function(error) {
 					console.log(error);
 				})
 			}
 
-
-
-		// Ouvrir le formulaire
-		joindreBtn.addEventListener("click", function onOpen()
-		{
-			if (typeof lancerDiag.showModal === "function")
-			{
-				erreur.style.display = "none"
-				lancerDiag.showModal()
-			}
-		})
 
 		// Gestion du formulaire
 		document.querySelector("form > div > input[type=submit]")
@@ -229,13 +223,14 @@ export default
 			}
 
 			// Mot de passe
-			let mdpInput = document.getElementById("mdp")
-			inputPreVerif(mdpInput)
+			let mdpInput = document.getElementById("mdp");
+			let usernameInput = document.getElementById("username");
+			inputPreVerif(mdpInput);
 			mdpInput.addEventListener("input", inputPostVerif)
 
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
-				this.joinGame(mdpInput)
+				this.joinGame(mdpInput, usernameInput)
 		})
 
 		// Action effectuée quand on appuie sur "Entrer" dans le chat
