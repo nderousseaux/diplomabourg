@@ -6,13 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "buildApp": "npx electron-packager --overwrite --icon=./icon/electron-icon . Diplomabourg",
-    "start": "vue-cli-service build && electron ."
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
-  "main": "main.js",
+  "main": "background.js",
   "dependencies": {
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "electron-builder": "^23.0.3",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13"
@@ -24,12 +27,18 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "electron": "^18.0.4",
-    "electron-packager": "^15.4.0",
+    "electron": "^13.0.0",
+    "electron-devtools-installer": "^3.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "jquery": "^3.6.0",
     "sass": "^1.32.7",
-    "sass-loader": "^12.0.0"
+    "sass-loader": "^12.0.0",
+    "vue-cli-plugin-electron-builder": "^2.1.1"
+  },
+  "overrides": {
+    "vue-cli-plugin-electron-builder": {
+      "electron-builder": "^23.0.3"
+    }
   }
 }

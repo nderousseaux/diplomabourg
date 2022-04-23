@@ -268,8 +268,7 @@ input[type="number"] {
 }
 
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 769px){
+@media only screen and (max-width: 769px){
 	/* Pays du joueur */
 	#pays {
 		display: flex;

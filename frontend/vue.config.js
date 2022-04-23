@@ -22,5 +22,11 @@ module.exports  =
 			msTileImage: "img/icons/msapplication-icon-144x144.png"
 		}
 	},
-	publicPath: process.env.NODE_ENV  ===  "production"  ?  "./"  :  "/"
+	pluginOptions:
+	{
+		electronBuilder:
+		{
+			customFileProtocol: './'
+		}
+	}
 }
