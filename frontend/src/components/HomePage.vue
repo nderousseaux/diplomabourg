@@ -194,8 +194,8 @@ export default {
               this.$router.push({ name: "Lobby" });
               var token = data.data.token;
               document.cookie = "session_game=" + token;
-							document.cookie = `token${data.game.id}=` + data.token + "; sameSite=Lax";
-							this.$router.push({ path: `/games/${data.game.id}` });
+							document.cookie = `token${data.data.game.id}=` + data.data.token + "; sameSite=Lax";
+							this.$router.push({ path: `/games/${data.data.game.id}` });
             })
             .catch((err) => {
               if (err.response.status == 400) {
