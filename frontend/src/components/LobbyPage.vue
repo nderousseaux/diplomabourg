@@ -442,8 +442,7 @@ export default
 	}
 
 /* Version tablette */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 1370px){
+@media only screen and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
 		flex-direction: column-reverse;
@@ -475,8 +474,7 @@ and (max-width: 1370px){
 }
 
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 769px){
+@media only screen and (max-width: 769px){
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 203px)

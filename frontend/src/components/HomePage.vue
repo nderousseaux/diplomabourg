@@ -189,8 +189,13 @@ export default {
               this.storeGameId(response.data.game.id);
               this.storePlayerId(response.data.game.players[0].id);
               this.storeToken(response.data.token);
-							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
-							this.$router.push({ path: `/games/${response.data.game.id}` });
+            })
+            .then((data) => {
+              this.$router.push({ name: "Lobby" });
+              var token = data.data.token;
+              document.cookie = "session_game=" + token;
+							document.cookie = `token${data.game.id}=` + data.token + "; sameSite=Lax";
+							this.$router.push({ path: `/games/${data.game.id}` });
             })
             .catch((err) => {
               if (err.response.status == 400) {
@@ -265,8 +270,7 @@ input[type="number"] {
 }
 
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 769px){
+@media only screen and (max-width: 769px){
 	/* Pays du joueur */
 	#pays {
 		display: flex;
