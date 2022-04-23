@@ -513,7 +513,8 @@ export default
 }
 
 /* Version tablette */
-@media screen and (min-width: 770px) and (max-width: 1370px){
+@media only screen and (hover: none) and (pointer: coarse) and
+(min-width: 770px) and (max-width: 1370px){
 	/* Div principale */
 	#app > div{
 		flex-wrap: wrap;
@@ -563,7 +564,8 @@ export default
 }
 
 /* Version mobile */
-@media screen and (max-width: 769px){
+@media only screen and (hover: none) and (pointer: coarse)
+and (max-width: 769px){
 	/* Div principale */
 	#app > div{
 		flex-direction: column;
