@@ -6,8 +6,8 @@
   "scripts": {
     "start": "vue-cli-service build && electron .",
     "serve": "vue-cli-service serve",
-    "build": "vue-clis sevice build",
-    "buildApp": "npx electron-packager --overwrite --icon=./public/electron-icon . Diplomabourg ",
+    "build": "vue-cli-service build",
+    "buildApp": "npx electron-packager --overwrite --icon=./public/electron-icon . Diplomabourg",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

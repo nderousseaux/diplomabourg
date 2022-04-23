@@ -10,6 +10,8 @@
 }
 body{
 	background: url("../img/map.jpeg");
+	background-repeat: no-repeat;
+	background-color: #000000;
 	margin: 0;
 	padding: 0;
 }
@@ -191,7 +193,8 @@ input.erreur{
 }
 
 /* Version mobile */
-@media screen and (max-width: 769px){
+@media only screen and (hover: none) and (pointer: coarse)
+and (max-width: 769px){
 	/* Div principale */
 	#logo{
 		width: 324px;

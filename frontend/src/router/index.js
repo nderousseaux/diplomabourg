@@ -1,4 +1,4 @@
-import { createRouter ,createWebHistory  } from "vue-router"
+import {createRouter, createWebHistory} from "vue-router"
 
 import HomePage from "../components/HomePage.vue"
 import LobbyPage from "../components/LobbyPage.vue"
@@ -22,7 +22,7 @@ const routes = [
     }
   },
   {
-    path: "/lobby/jeu",
+    path: "/jeu",
     name: "Jeu",
     component: GameMap,
     meta: {
