@@ -190,7 +190,7 @@ export default {
               this.storePlayerId(response.data.game.players[0].id);
               this.storeToken(response.data.token);
             })
-            .then(() => {
+            .then((data) => {
               this.$router.push({ name: "Lobby" });
               var token = data.data.token;
               document.cookie = "session_game=" + token;
