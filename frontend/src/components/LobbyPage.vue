@@ -38,7 +38,7 @@
 				</div>
 				<div id="actions">
 					<button id="test" @click="copyLink()">Générer le lien</button>
-					<button>Commencer la partie</button>
+					<button id="beginGame" @click="beginGame()">Commencer la partie</button>
 				</div>
 			</div>
 			<div id="chat">
@@ -72,6 +72,7 @@
 
 <script>
 import api from "../api.js"
+import router from "../router/index.js"
 
 const game_num = window.location.pathname.split('/')[2];
 
@@ -90,20 +91,59 @@ export default
 			game_id: game_num,
 			player_id: '',
 			token: getTokenCookie(),
-			username: ''
+			username: '',
+			//is_admin: false
 		}
 	},
 	methods: {
+		beginGame() {
+			const config = {
+				headers: {Authorization: `Bearer ${this.token}`}
+			}
+			api
+				.get("/games/" + window.location.pathname.split('/')[2], config)
+				.then(response => {
+					for (var player = 0; player < response.data.players.length - 1; player++){
+						var id = response.data.players[player].id;
+						var username = response.data.players[player].username;
+						var power_id = player + 1;
+
+						const bodyParameters = {
+							username: username,
+							power_id: power_id,
+							is_ready: true
+						};
+
+						api
+							.post("/games/" + this.game_id + "/players/" + id,
+								bodyParameters,
+								config
+							)
+							.then(() => {
+								console.log(username + ": ok");
+							})
+							.catch(function(error) {
+								console.log(error);
+							})
+					}
+					router.push({ name: "Jeu"})
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
+		},
 		joinGame(mdp, username) {
 			api
 				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: username.value})
 				.then(response => {
+					/*
 					console.log(response);
 					this.player_id = response.data.game.players[response.data.game.players.length - 1].id;
-					console.log(this.player_id);
+					console.log(this.player_id);*/
 					document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
 					let ok_close = document.getElementById("joindre");
 					ok_close.close();
+					location.reload();
 				})
 				.catch(function(error) {
 					console.log(error);
@@ -174,15 +214,24 @@ export default
 					indexOfPlayer = response.data.players.map(function(e) {
 						return e.is_you;
 					}).indexOf(true)
+					/*
+					if (indexOfPlayer == 0) {
+						this.is_admin = true;
+					}
+					*/
 					this.player_id = response.data.players[indexOfPlayer].id
 					this.username = response.data.players[indexOfPlayer].username
-					console.log(response);
+					console.log("player_id : " + this.player_id);
 				})
 				.catch(function(error) {
 					console.log(error);
 				})
-			}
-
+		}
+		/*
+		if (this.is_admin == false) {
+			document.getElementById("beginGame").disabled = true;
+		}
+		*/
 
 		// Gestion du formulaire
 		document.querySelector("form > div > input[type=submit]")
