@@ -63,6 +63,7 @@ class Players():
         data = PlayerModel(**data)
         data.game = self.game
         data.is_you = True
+        DBSession.flush()
 
         #TODO: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
 
