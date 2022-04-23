@@ -1,9 +1,7 @@
 .DS_Store
 node_modules
 /dist
-
-# Fichiers de compilation
-/Diplomabourg*
+/dist_electron
 
 # local env files
 .env.local
