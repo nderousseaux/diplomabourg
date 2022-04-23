@@ -51,22 +51,19 @@
 			</div>
 		</div>
 
-		<!-- A SUPPRIMER !! -->
-		<div>
-			<button id="testJoindre">TEST JOINDRE MDP</button>
-			<button id="testPays">PAYS JOINS</button>
-		</div>
+
 	</div>
 	<dialog id="joindre">
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
+				<label for="username">Username</label>
+				<input maxlength="15" id="username" name="username"/>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
 			<p>Tous les champs ne sont pas complétés correctement</p>
 			<div>
-				<button>Annuler</button>
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
@@ -75,18 +72,46 @@
 
 <script>
 import api from "../api.js"
-import store from "../store.js"
-import router from "../router/index.js"
+
+const game_num = window.location.pathname.split('/')[2];
+
+function getTokenCookie() {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; token${game_num}=`);
+	if (parts.length === 2) {
+		return parts.pop().split(';').shift();
+	}
+}
 
 export default
 {
 	data() {
 		return {
-			game_id: store.state.gameId,
-			player_id: store.state.playerId
+			game_id: game_num,
+			player_id: '',
+			token: getTokenCookie(),
+			username: ''
 		}
 	},
 	methods: {
+		joinGame(mdp, username) {
+			api
+				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: username.value})
+				.then(response => {
+					console.log(response);
+					this.player_id = response.data.game.players[response.data.game.players.length - 1].id;
+					console.log(this.player_id);
+					document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
+					let ok_close = document.getElementById("joindre");
+					ok_close.close();
+				})
+				.catch(function(error) {
+					console.log(error);
+					if (error.response.status == 400) {
+						console.log(error.response.data.error.message[0]);
+					}
+				})
+		},
 		copyLink() {
 			var link = `http://localhost:8080/games/${this.game_id}`;
 			navigator.clipboard.writeText(link);
@@ -95,14 +120,14 @@ export default
 		ready() {
 			console.log(this.game_id);
 			console.log(this.player_id);
-			console.log(store.state.token);
+			console.log(this.token);
 
 			const config = {
-				headers: { Authorization: `Bearer ${store.state.token}`}
+				headers: { Authorization: `Bearer ${this.token}`}
 			};
 
 			const bodyParameters = {
-				username: store.state.jeu.player.username,
+				username: this.username,
 				power_id: 1,
 				is_ready: true
 			};
@@ -133,23 +158,31 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
-		let test = document.getElementById("test")
-
-		test.addEventListener("click",function magie() {
-			console.log(this.$router)
-			router.push({ name: "Jeu" });
-		})
-
-		// Ouvrir le formulaire
-		let joindreBtn = document.getElementById("testJoindre")
-		joindreBtn.addEventListener("click", function onOpen()
-		{
-			if (typeof lancerDiag.showModal === "function")
-			{
-				erreur.style.display = "none"
-				lancerDiag.showModal()
+		var cookie = this.token;
+		//récupère l'id de l'utilisateur courant
+		if (cookie == null) {
+			lancerDiag.showModal()
+		}
+		else {
+			const config = {
+				headers: {Authorization: `Bearer ${cookie}`}
+			};
+			var indexOfPlayer;
+			api
+				.get("/games/" + window.location.pathname.split('/')[2], config)
+				.then(response => {
+					indexOfPlayer = response.data.players.map(function(e) {
+						return e.is_you;
+					}).indexOf(true)
+					this.player_id = response.data.players[indexOfPlayer].id
+					this.username = response.data.players[indexOfPlayer].username
+					console.log(response);
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
 			}
-		})
+
 
 		// Gestion du formulaire
 		document.querySelector("form > div > input[type=submit]")
@@ -193,13 +226,14 @@ export default
 			}
 
 			// Mot de passe
-			let mdpInput = document.getElementById("mdp")
-			inputPreVerif(mdpInput)
+			let mdpInput = document.getElementById("mdp");
+			let usernameInput = document.getElementById("username");
+			inputPreVerif(mdpInput);
 			mdpInput.addEventListener("input", inputPostVerif)
 
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
-				document.querySelector("form").submit()
+				this.joinGame(mdpInput, usernameInput)
 		})
 
 		// Action effectuée quand on appuie sur "Entrer" dans le chat
