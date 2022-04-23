@@ -192,6 +192,8 @@ export default {
             })
             .then(() => {
               this.$router.push({ name: "Lobby" });
+              var token = data.data.token;
+              document.cookie = "session_game=" + token;
             })
             .catch((err) => {
               if (err.status == 400) {
