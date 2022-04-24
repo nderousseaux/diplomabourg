@@ -57,8 +57,10 @@
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
-				<label for="username">Username</label>
-				<input maxlength="15" id="username" name="username"/>
+				<label for="pseudo">Pseudo</label>
+				<input type="text" maxlength="15" id="pseudo" name="pseudo"/>
+			</div>
+			<div>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
@@ -91,7 +93,7 @@ export default
 			game_id: game_num,
 			player_id: '',
 			token: getTokenCookie(),
-			username: '',
+			pseudo: '',
 			//is_admin: false
 		}
 	},
@@ -105,11 +107,11 @@ export default
 				.then(response => {
 					for (var player = 0; player < response.data.players.length - 1; player++){
 						var id = response.data.players[player].id;
-						var username = response.data.players[player].username;
+						var pseudo = response.data.players[player].pseudo;
 						var power_id = player + 1;
 
 						const bodyParameters = {
-							username: username,
+							pseudo: pseudo,
 							power_id: power_id,
 							is_ready: true
 						};
@@ -120,7 +122,7 @@ export default
 								config
 							)
 							.then(() => {
-								console.log(username + ": ok");
+								console.log(pseudo + ": ok");
 							})
 							.catch(function(error) {
 								console.log(error);
@@ -132,9 +134,9 @@ export default
 					console.log(error);
 				})
 		},
-		joinGame(mdp, username) {
+		joinGame(mdp, pseudo) {
 			api
-				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: username.value})
+				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {pseudo: pseudo.value})
 				.then(response => {
 					/*
 					console.log(response);
@@ -167,7 +169,7 @@ export default
 			};
 
 			const bodyParameters = {
-				username: this.username,
+				pseudo: this.pseudo,
 				power_id: 1,
 				is_ready: true
 			};
@@ -220,7 +222,7 @@ export default
 					}
 					*/
 					this.player_id = response.data.players[indexOfPlayer].id
-					this.username = response.data.players[indexOfPlayer].username
+					this.pseudo = response.data.players[indexOfPlayer].pseudo
 					console.log("player_id : " + this.player_id);
 				})
 				.catch(function(error) {
@@ -274,15 +276,20 @@ export default
 				}
 			}
 
+			// Nom de la partie
+			let pseudoJr = document.getElementById("pseudo");
+			inputPreVerif(pseudoJr);
+			pseudoJr.addEventListener("input", inputPostVerif);
+
 			// Mot de passe
 			let mdpInput = document.getElementById("mdp");
-			let usernameInput = document.getElementById("username");
+			let pseudoInput = document.getElementById("pseudo");
 			inputPreVerif(mdpInput);
 			mdpInput.addEventListener("input", inputPostVerif)
 
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
-				this.joinGame(mdpInput, usernameInput)
+				this.joinGame(mdpInput, pseudoInput)
 		})
 
 		// Action effectuée quand on appuie sur "Entrer" dans le chat
@@ -371,13 +378,13 @@ export default
 		justify-content: space-between;
 		align-items: center;
 		width: 80vw;
-		height: calc(100vh - 203px);
+		height: calc(100vh - 201px);
 	}
 
 	/* Chat */
 	#chat{
 		width: calc(25vw - 10px);
-		height: calc(100vh - 223px);
+		height: calc(100vh - 221px);
 	}
 	#chat > h1{
 		line-height: 64px;
@@ -439,6 +446,11 @@ export default
 	}
 	.inactif:active{
 		background-color: #000000;
+	}
+
+	/* Boîte de dialogue */
+	#joindre > form > div:last-child{
+		justify-content: center;
 	}
 
 /* Version tablette */
