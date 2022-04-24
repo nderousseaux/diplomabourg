@@ -115,7 +115,7 @@ export default
 						};
 
 						api
-							.post("/games/" + this.game_id + "/players/" + id,
+							.put("/games/" + this.game_id + "/players/" + id,
 								bodyParameters,
 								config
 							)
