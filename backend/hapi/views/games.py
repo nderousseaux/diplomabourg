@@ -52,6 +52,7 @@ class Games():
         #On renvoie les infos
         res = {
             "token": self.request.create_jwt_token(data["player"].id),
+            
             "game": GameSchema().dump(data['game'])
         }
         return self.request.si.build_response(exception.HTTPCreated(), res)

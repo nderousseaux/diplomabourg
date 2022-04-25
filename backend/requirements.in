@@ -12,3 +12,5 @@ python-dotenv
 cryptography
 pymysql
 pyramid_jwt
+python-socketio
+pyjwt

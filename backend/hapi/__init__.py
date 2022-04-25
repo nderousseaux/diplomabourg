@@ -7,6 +7,7 @@ from hapi.models import DBSession, Base
 from hapi.utils.auth import get_user
 from hapi.utils.db import load_engine
 from hapi.utils.service_informations import ServiceInformations
+from hapi.utils.socket import init_sio
 
 def main(global_config, **settings):
     config = Configurator(settings=settings)
@@ -32,5 +33,8 @@ def main(global_config, **settings):
     config.include('.routes')
     config.scan()
 
-    
-    return config.make_wsgi_app()
+    app = config.make_wsgi_app()
+
+    app = init_sio(app)
+
+    return app

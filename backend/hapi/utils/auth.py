@@ -3,16 +3,20 @@ import pyramid.httpexceptions as exception
 
 from hapi.models import DBSession, PlayerModel
 
+
 def get_user(request):
     id = request.authenticated_userid
     if id is not None:
-        try:
-            user = DBSession().query(PlayerModel).\
-                filter_by(id=id).one()
+        return get_user_by_id(id)
+        
+def get_user_by_id(id):
+    try:
+        user = DBSession().query(PlayerModel).\
+            filter_by(id=id).one()
 
-            user.is_you = True
-            return user
-        except NoResultFound:
+        user.is_you = True
+        return user
+    except NoResultFound:
             return None
 
 def check_member_of_game(user, game):

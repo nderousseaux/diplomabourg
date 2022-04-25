@@ -7,6 +7,7 @@ from hapi.utils.auth import *
 from hapi.utils.cors import cors_policy
 from hapi.utils.service_informations import ServiceInformations
 from hapi.utils.state import change_state
+from hapi.utils.socket import send_ping
 
 
 @resource(name="players", collection_path="/games/{id_game:\d+}/players", path="/games/{id_game:\d+}/players/{id_player:\d+}", cors_policy=cors_policy)
@@ -65,7 +66,7 @@ class Players():
         data.is_you = True
         DBSession.flush()
 
-        #TODO: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
+        send_ping(self.game)
 
         res = {
             "token": self.request.create_jwt_token(data.id),
@@ -78,7 +79,10 @@ class Players():
     def put(self):
         check_can_update_player(self.request.user, self.player)
 
-        newPlayer = PlayerSchema(only=["username", "power_id", "is_ready"]).load(self.request.json)
+        if self.game.state.name == "CONFIGURATION":
+            newPlayer = PlayerSchema(only=["username", "power_id", "is_ready"]).load(self.request.json)
+        else:
+            newPlayer = PlayerSchema(only=["is_ready"]).load(self.request.json)
 
         if "power" in newPlayer and len(newPlayer["power"]) == 0:
             newPlayer["power"] = self.player.power
@@ -105,6 +109,6 @@ class Players():
         #On vérifie si tout le monde est pret
         change_state(DBSession, self.game)
     
-        #TODO: Mettre au courrant le client qu'il y a des changement dans game. (dans tout les cas)
+        send_ping(self.game)
         
         return self.request.si.build_response(exception.HTTPNoContent())
