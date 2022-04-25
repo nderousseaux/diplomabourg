@@ -32,8 +32,8 @@ class Maps():
         #On transformme l'objet MapModel en JSON
         data = MapSchema(many=True).dump(maps)
 
-        game = DBSession.query(GameModel).get(1)
-        game.validation_orders()
+        # game = DBSession.query(GameModel).get(1) # debug: Utile pour vérifier la validation des ordres
+        # game.validation_orders()
 
         #On envoie la réponse
         return self.request.si.build_response(exception.HTTPOk, data)
