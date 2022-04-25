@@ -290,9 +290,6 @@ input[type="number"] {
 	}
 
 	/* Boîte de dialogue pour paramétrer la partie */
-	#param > h1 {
-		font-size: 30px;
-	}
 	#param > form > div {
 		flex-direction: column;
 		width: 90%;
@@ -304,15 +301,11 @@ input[type="number"] {
 		text-align: center;
 	}
 	#param > form > div > input {
-		width: 100%;
+		width: calc(100% - 10px);
 		margin-bottom: 10px;
 	}
 	#param > form > div:last-child {
 		flex-direction: row;
-	}
-	#param > form > div > button,
-	#param > form > div > input[type="submit"] {
-		font-size: 25px;
 	}
 }
 </style>

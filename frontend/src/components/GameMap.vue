@@ -506,7 +506,7 @@ export default
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
-		min-width: 25vw;
+		min-width: 35vw;
 	}
 
 /* Mode sombre */
@@ -634,7 +634,6 @@ export default
 	}
 	#infos > p{
 		margin: 30px 0;
-		font-size: 32px;
 	}
 	#ordres > p{
 		font-size: 22px;
@@ -649,8 +648,7 @@ export default
 	}
 
 	/* Boîte de dialogue pour quitter */
-	#quitter > form > button{
-		font-size: 22px;
+	#quitter > form > div > button{
 		margin: 10px;
 	}
 }
