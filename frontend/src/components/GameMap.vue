@@ -2,8 +2,8 @@
 	<div>
 		<div id="colonneInfos">
 			<div id="minuteur">
-				<img id="params" alt="Paramètres" title="Paramètres"
-					src="../assets/img/settings.png"/>
+				<img id="quit" alt="Quitter la partie" title="Quitter la partie"
+					src="../assets/img/quitter.png"/>
 				<!-- <p>5:30</p> -->
 				<button value="valider">Valider</button>
 			</div>
@@ -294,10 +294,10 @@ export default
 		}
 
 		// Pour quitter la partie
-		let paramBtn = document.getElementById("params")
+		let quitBtn = document.getElementById("quit")
 		let quitDialog = document.getElementById("quitter")
 
-		paramBtn.addEventListener("click", function onOpen()
+		quitBtn.addEventListener("click", function onOpen()
 		{
 			if (typeof quitDialog.showModal === "function")
 				quitDialog.showModal();
@@ -407,6 +407,11 @@ export default
 		width: 48px;
 		height: 48px;
 		margin: 20px 0 20px 20px;
+		transition: 0.6s;
+	}
+	#minuteur > img:hover{
+		transition: 0.6s;
+		filter: invert(35%);
 	}
 	#minuteur > p{
 		font-size: 40px;

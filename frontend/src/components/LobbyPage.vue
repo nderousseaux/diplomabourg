@@ -489,7 +489,7 @@ export default
 @media only screen and (max-width: 769px){
 	/* Div principale */
 	#lobby{
-		height: calc(80vh - 203px)
+		height: calc(80vh - 201px)
 	}
 
 	/* Bouton */
