@@ -41,7 +41,6 @@
 </template>
 
 <script>
-//import api from "../api/api.js";
 import api from "../api";
 import store from "../store.js";
 
@@ -159,18 +158,13 @@ export default {
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
           document.querySelector("form").submit();
-          //////////////////////////////////////////////////////////////////////////////////////////////////////////
-          var username = "FRANCE";
-          //var game_name = nomInput.value;
-          //var game_password = mdpInput.value;
-          var map_id = 1;
 
-          const player = { username: `${username}` };
+          const player = { username: "FRANCE" };
 
           const game = {
             name: `${nomInput.value}`,
             password: `${mdpInput.value}`,
-            map_id: `${map_id}`,
+            map_id: 1,
           };
 
           const jeu = {
@@ -179,9 +173,9 @@ export default {
           };
 
           this.storeJeu(jeu);
-          console.log(api.games);
+
           api.games
-            .create_game(username, nomInput, mdpInput, map_id)
+            .create_game(player.username, game.name, game.password, game.map_id)
             .then((response) => {
               //store les infos utiles de la game dans un objet pour le récup dans le lobby
               this.storeGameId(response.data.game.id);
@@ -211,14 +205,9 @@ export default {
               } else if (err.status == 500) {
                 console.log(err.response.data);
               } else {
-                //console.log(err.status);
                 console.log("ERREUR INCONNUE");
               }
             });
-
-          //.post("/games", jeu)
-          //api.games
-          //.create_game(username, game.name, game.password, map_id)
         }
       });
   },

@@ -71,7 +71,7 @@
     <div id="colonneOrdres">
       <h1>Informations</h1>
       <div id="ordres">
-        <p id="attaque">Attaquer</p>
+        <p id="ATTACK">Attaquer</p>
         <p id="tenir">Tenir</p>
         <p id="soutenir">Soutenir</p>
         <button id="valider_ordre">Valider</button>
@@ -99,8 +99,8 @@ import api from "../api";
 export default {
   mounted() {
     const order = {
-      type: "FRANCE",
-      region_id: 0,
+      type_order: "",
+      dst_region_id: 0,
       unit_id: 0,
     };
 
@@ -185,7 +185,6 @@ export default {
 
             conv.addEventListener("click", function convoyer_ordre() {
               ordre = conv.id;
-              console.log("vnjkfd");
               console.log("CONVOYER");
             });
           }
@@ -330,7 +329,7 @@ export default {
       //console.log("TENIR");
     });
 
-    let btn_attaque = document.getElementById("attaque");
+    let btn_attaque = document.getElementById("ATTACK");
     btn_attaque.addEventListener("click", function attaque_ordre() {
       ordre = btn_attaque.id;
       //console.log("ATTAQUE");
@@ -345,21 +344,30 @@ export default {
     // Validation d'un ordre
     let valider_ordre = document.getElementById("valider_ordre");
     valider_ordre.addEventListener("click", function valider() {
-      console.log(ordre);
+      var id_game = 7;
 
-      var id = 9;
-      order.type = "FRANCE";
-      order.region_id = 1;
+      order.type_order = ordre;
+      order.dst_region_id = 1;
       order.unit_id = 1;
 
       console.log(order);
-
-      api
-        .post(`/games/${id}/orders`, order)
+      //.post(`/games/${id}/orders`, order)
+      api.orders
+        .create(id_game, order.type_order, order.dst_region_id, order.unit_id)
         .then((response) => console.log(response.data))
         .catch((err) => {
-          console.log("HEY");
-          console.log(err);
+          if (err.status == 400) {
+            console.log(err.message);
+          }
+          if (err.status == 401) {
+            console.log(err.message);
+          }
+          if (err.status == 404) {
+            console.log(err.message);
+          }
+          if (err.status == 500) {
+            console.log(err.message);
+          }
         });
     });
 
