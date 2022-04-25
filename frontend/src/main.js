@@ -1,9 +1,9 @@
-import {createApp} from "vue"
-import App from "./App.vue"
+import {createApp} from "vue";
+import App from "./App.vue";
+import router from './router';
+import api from "./api/index.js";
 
-import router from './router'
+api.init("/backend");
 
-createApp(App)
-  .use(router)
-  //.use(VueSocketio, "http://localhost:6543/")
-  .mount('#app')
+createApp(App).use(router).mount('#app');
+//.use(VueSocketio, "http://localhost:6543/")

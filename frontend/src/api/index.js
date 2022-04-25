@@ -1,6 +1,4 @@
-import Vue from "vue";
 import Axios from "axios";
-import VueAxios from "vue-axios";
 
 import maps from "./maps";
 import games from "./games";
@@ -9,8 +7,6 @@ import units from "./units";
 import orders from "./orders";
 
 let axios = Axios.create();
-
-Vue.use(VueAxios, axios);
 
 const api = {
   init(server) {

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import api from "../api.js";
+import api from "../api";
 import store from "../store.js"
 
 export default {
@@ -159,20 +159,12 @@ export default {
 				if (erreurForm == false) {
 					document.querySelector("form").submit();
 
-					var username = "FRANCE";
-					var game_name = nomInput.value;
-					var game_password = mdpInput.value;
-					var map_id = 1;
-
-					console.log(game_name);
-					console.log(game_password);
-
-					const player = { username: `${username}` };
+					const player = { username: "FRANCE" };
 
 					const game = {
-						name: `${game_name}`,
-						password: `${game_password}`,
-						map_id: `${map_id}`,
+						name: `${nomInput.value}`,
+						password: `${mdpInput.value}`,
+						map_id: 1,
 					};
 
           const jeu = {
@@ -182,8 +174,8 @@ export default {
 
           this.storeJeu(jeu);
 
-          api
-            .post("/games", jeu)
+          api.games
+            .create_game(player.username, game.name, game.password, game.map_id)
             .then(response => {
               //store les infos utiles de la game dans un objet pour le récup dans le lobby
               this.storeGameId(response.data.game.id);

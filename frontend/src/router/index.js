@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router"
+import {createRouter, createWebHashHistory} from "vue-router"
 
 import HomePage from "../components/HomePage.vue"
 import LobbyPage from "../components/LobbyPage.vue"
@@ -10,7 +10,7 @@ const routes = [
     name: "Home",
     component: HomePage,
     meta: {
-      title: 'home'
+      title: 'Diplomabourg'
     }
   },
   {
@@ -18,7 +18,7 @@ const routes = [
     name: "Lobby",
     component: LobbyPage,
     meta: {
-      title: 'Lobby'
+      title: 'Diplomabourg - Lobby'
     }
   },
   {
@@ -26,13 +26,13 @@ const routes = [
     name: "Jeu",
     component: GameMap,
     meta: {
-      title: 'Jeu'
+      title: 'Diplomabourg - Jeu'
     }
   }
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 
