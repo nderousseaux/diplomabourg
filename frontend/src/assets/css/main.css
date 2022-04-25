@@ -137,7 +137,6 @@ input[type=submit]:active,
 	display: none;
 	font-size: 20px;
 	margin-bottom: 0;
-	color: lightcoral;
 	text-align: center;
 }
 #joindre > form > div > label,
@@ -192,6 +191,28 @@ input.erreur{
 	}
 }
 
+/* Version tablette */
+@media only screen and (min-width: 770px) and (max-width: 1370px){
+	/* Boîtes de dialogue */
+	#joindre > h1,
+	#param > h1,
+	#quitter > h1{
+		font-size: 32px;
+	}
+	#joindre > form > div,
+	#param > form > div,
+	#quitter > form > div{
+		width: 100%;
+		justify-content: space-around;
+	}
+	#joindre > form > div > input[type=submit],
+	#param > form > div > input[type=submit],
+	#param > form > div > button,
+	#quitter > form > div > button{
+		font-size: 22px;
+	}
+}
+
 /* Version mobile */
 @media only screen and (max-width: 769px){
 	/* Div principale */
@@ -212,5 +233,23 @@ input.erreur{
 	}
 	#chat > h1:after{
 		content: "⯅";
+	}
+
+	/* Boîtes de dialogue */
+	#joindre > h1,
+	#param > h1,
+	#quitter > h1{
+		font-size: 32px;
+	}
+	#joindre > form > div,
+	#param > form > div,
+	#quitter > form > div{
+		width: 100%;
+	}
+	#joindre > form > div > input[type=submit],
+	#param > form > div > input[type=submit],
+	#param > form > div > button,
+	#quitter > form > div > button{
+		font-size: 22px;
 	}
 }
