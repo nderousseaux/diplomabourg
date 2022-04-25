@@ -522,10 +522,13 @@ export default
 	/* Div principale */
 	#app > div{
 		flex-wrap: wrap;
+		justify-content: space-between;
 	}
+
 	/* Carte */
 	#carte{
 		width: calc(75vw - 3vw);
+		max-width: max-content;
 		margin: 1vh 1vw 1vh 0;
 		font-size: 10px;
 	}
@@ -556,12 +559,28 @@ export default
 	/* Colonne d'ordres */
 	#colonneOrdres{
 		width: 100%;
-		height: 35vh;
+		min-height: 35vh;
+		height: max-content;
+	}
+	#infos{
+		height: calc(35vh - 96px);
 	}
 	#ordres{
 		flex-direction: row;
+		height: max-content;
 	}
-	#ordres > p,
+	#ordres > p{
+		margin: 10px 5%;
+	}
+	#ordres > p:first-child,
+	#ordres > p:nth-child(2){
+		margin-top: 20px;
+	}
+	#ordres > p:last-child{
+		margin: 20px 5%;
+	}
+
+	/* Boîte de dialogue pour quitter */
 	#quitter > form > button{
 		width: 25%;
 	}
@@ -617,7 +636,19 @@ export default
 		margin: 30px 0;
 		font-size: 32px;
 	}
-	#ordres > p,
+	#ordres > p{
+		font-size: 22px;
+		margin: 10px;
+	}
+	#ordres > p:first-child,
+	#ordres > p:nth-child(2){
+		margin-top: 20px;
+	}
+	#ordres > p:last-child{
+		margin: 20px;
+	}
+
+	/* Boîte de dialogue pour quitter */
 	#quitter > form > button{
 		font-size: 22px;
 		margin: 10px;
