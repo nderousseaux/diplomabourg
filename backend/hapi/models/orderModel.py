@@ -46,7 +46,7 @@ class OrderModel(Base):
     """
     def exist_convoi(self):
         #Parmis tout les ordres de la partie et du joueur, on choppe ordre convoi
-        ordres_convoi = [o for o in self.unit.player.orders() if o.other_unit_id == self]
+        ordres_convoi = [o for o in self.unit.power.orders(self.unit.game) if o.other_unit_id == self]
 
         regions = []
         for o in ordres_convoi:
@@ -91,7 +91,7 @@ class OrderModel(Base):
                             return True
 
                 #Si c'est une flotte
-                elif self.unit.type_unit.name == "FLOAT":
+                elif self.unit.type_unit.name == "FLEET":
                     #Si c'est une région maritime ou cotière
                     if (
                         "SEA" in [t.name for t in self.dst_region.types] or
@@ -105,12 +105,12 @@ class OrderModel(Base):
 
         elif self.type_order.name == "CONVOY":            
             if (
-                self.unit.type_unit.name == "FLOAT" and
+                self.unit.type_unit.name == "FLEET" and
                 self.unit != self.other_unit and
-                self.unit.type_unit.name == "ARMY" and
+                self.other_unit.type_unit.name == "ARMY" and
                 "SEA" in [t.name for t in self.src_region.types] and
-                "COAST" in [t.name for t in self.other_unit.cur_region] and
-                "COAST" in [t.name for t in self.dst_region]
+                "COAST" in [t.name for t in self.other_unit.cur_region.types] and
+                "COAST" in [t.name for t in self.dst_region.types]
             ):      
                 self.is_valid = True
                 return True

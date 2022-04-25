@@ -37,7 +37,7 @@ class GameSchema(Schema):
                 raise ValidationError("Map not found", "map_id")
 
         #On vérifie que le nom n'est pas déja pris
-        if "name" in data:
+        if "name" in data and type(data["name"]) == str:
             game = DBSession().query(GameModel).filter_by(name=data["name"]).first()
 
             if game != None:

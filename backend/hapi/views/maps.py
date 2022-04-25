@@ -6,6 +6,8 @@ from hapi.marshmallow_schemas import MapSchema
 from hapi.models import MapModel, DBSession
 from hapi.utils.service_informations import ServiceInformations
 
+from hapi.models import GameModel, DBSession
+
 
 @resource(name="maps", collection_path='/maps', path='/maps/{id_map:\d+}', cors_policy=cors_policy)
 class Maps():
@@ -29,6 +31,9 @@ class Maps():
 
         #On transformme l'objet MapModel en JSON
         data = MapSchema(many=True).dump(maps)
+
+        game = DBSession.query(GameModel).get(1)
+        game.validation_orders()
 
         #On envoie la réponse
         return self.request.si.build_response(exception.HTTPOk, data)

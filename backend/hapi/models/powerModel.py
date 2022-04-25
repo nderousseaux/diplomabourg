@@ -37,3 +37,11 @@ class PowerModel(Base):
         if len(p) == 0 or p[0] == player:
             return True
         return False
+
+    #Liste des ordres de la puissance
+    def orders(self, game):
+        orders = []
+        for u in self.units:
+            orders = orders + u.orders
+
+        return [o for o in orders if o.num_tour == game.num_tour]

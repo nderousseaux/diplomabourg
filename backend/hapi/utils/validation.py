@@ -33,6 +33,8 @@ def resolution_orders(DBSession,game):
     # Validation des ordres
     game.validation_orders()
 
+    DBSession
+
     #On désactive toutes les attaques mutuelles
     for orders in game.attaques_mutuelles():
         for o in l:
