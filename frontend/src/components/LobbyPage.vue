@@ -73,10 +73,10 @@
 </template>
 
 <script>
-import api from "../api.js"
-import router from "../router/index.js"
+import api from "../api";
+import router from "../router/index.js";
 
-const game_num = window.location.pathname.split('/')[2];
+const game_num = window.location.hash.split('/')[2];
 
 function getTokenCookie() {
 	const value = `; ${document.cookie}`;
@@ -102,25 +102,16 @@ export default
 			const config = {
 				headers: {Authorization: `Bearer ${this.token}`}
 			}
-			api
-				.get("/games/" + window.location.pathname.split('/')[2], config)
+			api.games
+				.get_game(window.location.hash.split('/')[2], config)
 				.then(response => {
-					for (var player = 0; player < response.data.players.length - 1; player++){
+					for (var player = 0; player < response.data.players.length; player++){
 						var id = response.data.players[player].id;
 						var username = response.data.players[player].username;
 						var power_id = player + 1;
 
-						const bodyParameters = {
-							username: username,
-							power_id: power_id,
-							is_ready: true
-						};
-
-						api
-							.post("/games/" + this.game_id + "/players/" + id,
-								bodyParameters,
-								config
-							)
+						api.players
+							.update(this.game_id, id, username, power_id, true, config)
 							.then(() => {
 								console.log(username + ": ok");
 							})
@@ -135,8 +126,8 @@ export default
 				})
 		},
 		joinGame(mdp, username) {
-			api
-				.post("/games/" + this.game_id + "/players?password=" + mdp.value, {username: username.value})
+			api.games
+				.join_game(username.value, window.location.hash.split('/')[2], mdp.value)
 				.then(response => {
 					/*
 					console.log(response);
@@ -210,8 +201,8 @@ export default
 				headers: {Authorization: `Bearer ${cookie}`}
 			};
 			var indexOfPlayer;
-			api
-				.get("/games/" + window.location.pathname.split('/')[2], config)
+			api.games
+				.get_game(window.location.hash.split('/')[2], config)
 				.then(response => {
 					indexOfPlayer = response.data.players.map(function(e) {
 						return e.is_you;
@@ -454,7 +445,8 @@ export default
 	}
 
 /* Version tablette */
-@media only screen and (max-width: 1370px){
+@media only screen and (hover: none) and (pointer: coarse)
+and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
 		flex-direction: column-reverse;
@@ -486,7 +478,8 @@ export default
 }
 
 /* Version mobile */
-@media only screen and (max-width: 769px){
+@media only screen and (hover: none) and (pointer: coarse)
+and (max-width: 769px){
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 201px)

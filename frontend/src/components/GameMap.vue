@@ -1,361 +1,431 @@
 <template>
-	<div>
-		<div id="colonneInfos">
-			<div id="minuteur">
-				<img id="quit" alt="Quitter la partie" title="Quitter la partie"
-					src="../assets/img/quitter.png"/>
-				<!-- <p>5:30</p> -->
-				<button value="valider">Valider</button>
-			</div>
-			<div>
-				
-			</div>
-			<div id="drapeaux">
-				<h1>Pays</h1>
-				<div>
-					<img alt="Drapeau français" title="France"
-						src="../assets/img/flags/france.png"/>
-					<img alt="Drapeau allemand" title="Allemagne"
-						src="../assets/img/flags/germany.png"/>
-					<img alt="Drapeau italien" title="Italie"
-						src="../assets/img/flags/italy.png"/>
-					<img alt="Drapeau russe" title="Russie"
-						src="../assets/img/flags/russia.png"/>
-					<img alt="Drapeau turque" title="Turquie"
-						src="../assets/img/flags/turkey.png"/>
-					<img alt="Drapeau anglais" title="Angleterre"
-						src="../assets/img/flags/great-britain.png"/>
-					<img alt="Drapeau autrichien" title="Autriche"
-						src="../assets/img/flags/austria-hungary.png"/>
-				</div>
-			</div>
-			<div id="chat">
-				<h1>Chat</h1>
-				<div id="historique"></div>
-				<form name="message">
-					<input type="text" name="msg" id="msg"
-						placeholder="Entrez votre message"/>
-				</form>
-			</div>
-		</div>
-		<div id="carte">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559">
-			</svg>
-		</div>
-		<div id="colonneOrdres">
-			<h1>Informations</h1>
-			<div id="ordres">
-				<p>Ordre 1</p>
-				<p>Ordre 2</p>
-				<p>Ordre 3</p>
-				<p>Ordre 4</p>
-				<p>Valider</p>
-			</div>
-			<div id="infos">
-				<p>Sélectionnez une région pour choisir les ordres</p>
-			</div>
-		</div>
-	</div>
-	<dialog id="quitter">
-		<h1>Quitter la partie ?</h1>
-		<form method="dialog">
-			<div>
-				<button value="annuler">Annuler</button>
-				<button value="confirmer">Quitter</button>
-			</div>
-		</form>
-	</dialog>
+  <div>
+    <div id="colonneInfos">
+      <div id="minuteur">
+        <img
+          id="params"
+          alt="Paramètres"
+          title="Paramètres"
+          src="../assets/img/settings.png"
+        />
+        <!-- <p>5:30</p> -->
+        <button value="valider">Valider</button>
+      </div>
+      <div></div>
+      <div id="drapeaux">
+        <h1>Pays</h1>
+        <div>
+          <img
+            alt="Drapeau français"
+            title="France"
+            src="../assets/img/flags/france.png"
+          />
+          <img
+            alt="Drapeau allemand"
+            title="Allemagne"
+            src="../assets/img/flags/germany.png"
+          />
+          <img
+            alt="Drapeau italien"
+            title="Italie"
+            src="../assets/img/flags/italy.png"
+          />
+          <img
+            alt="Drapeau russe"
+            title="Russie"
+            src="../assets/img/flags/russia.png"
+          />
+          <img
+            alt="Drapeau turque"
+            title="Turquie"
+            src="../assets/img/flags/turkey.png"
+          />
+          <img
+            alt="Drapeau anglais"
+            title="Angleterre"
+            src="../assets/img/flags/great-britain.png"
+          />
+          <img
+            alt="Drapeau autrichien"
+            title="Autriche"
+            src="../assets/img/flags/austria-hungary.png"
+          />
+        </div>
+      </div>
+      <div id="chat">
+        <h1>Chat</h1>
+        <div id="historique"></div>
+        <form name="message">
+          <input
+            type="text"
+            name="msg"
+            id="msg"
+            placeholder="Entrez votre message"
+          />
+        </form>
+      </div>
+    </div>
+    <div id="carte">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 609 559"></svg>
+    </div>
+    <div id="colonneOrdres">
+      <h1>Informations</h1>
+      <div id="ordres">
+        <p id="ATTACK">Attaquer</p>
+        <p id="tenir">Tenir</p>
+        <p id="soutenir">Soutenir</p>
+        <button id="valider_ordre">Valider</button>
+      </div>
+
+      <div id="infos">
+        <p>Sélectionnez une région pour choisir les ordres</p>
+      </div>
+    </div>
+  </div>
+  <dialog id="quitter">
+    <h1>Quitter la partie ?</h1>
+    <form method="dialog">
+      <div>
+        <button value="annuler">Annuler</button>
+        <button value="confirmer">Quitter</button>
+      </div>
+    </form>
+  </dialog>
 </template>
 
 <script>
-export default
-{
-	mounted()
-	{
-		let ns = "http://www.w3.org/2000/svg"
-		let svg = document.querySelector("svg")
-		const carte = require("../assets/json/map.json")
+import api from "../api";
 
-		for (var j in carte["areas"])
-		{
-			let nomZone = carte["areas"][j].name
+export default {
+  mounted() {
+    const order = {
+      type_order: "",
+      dst_region_id: 0,
+      unit_id: 0,
+    };
 
-			// Zone de terre
-			let path = document.createElementNS(ns, "path")
-			if (carte["areas"][j].type == "land")
-			{
-				path.setAttribute("fill", "#fcf2d4")
+    let ns = "http://www.w3.org/2000/svg";
+    let svg = document.querySelector("svg");
+    const carte = require("../assets/json/map.json");
 
-				// Couleur et changement du curseur lors du passage de souris
-				path.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "pointer"
-					this.style.fill = "lightgreen"
-					this.style.transition = "0.2s"
-				})
-				path.addEventListener("mouseout", function()
-				{
-					this.style.fill = "#fcf2d4"
-				})
-				path.addEventListener("click", function()
-				{
-					document.querySelector("#colonneOrdres > h1")
-						.innerHTML = "Ordres"
-					document.querySelector("#infos").style.display = "none"
-					document.querySelector("#ordres").style.display = "flex"
-					console.log("Clic zone terrestre : ", nomZone)
-				})
-			}
+    var ordre;
 
-			// Zone neutre
-			else if (carte["areas"][j].type == "impassable")
-			{
-				path.setAttribute("fill", "#808080")
+    for (var j in carte["areas"]) {
+      let nomZone = carte["areas"][j].name;
 
-				// Changement du curseur
-				path.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "not-allowed"
-				})
-			}
+      // Zone de terre
+      let path = document.createElementNS(ns, "path");
+      if (carte["areas"][j].type == "land") {
+        path.setAttribute("fill", "#fcf2d4");
 
-			// Zone maritime
-			else
-			{
-				path.setAttribute("fill", "#b4b6cc")
+        // Couleur et changement du curseur lors du passage de souris
+        path.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+          this.style.fill = "lightgreen";
+          this.style.transition = "0.2s";
+        });
 
-				// Couleur et changement du curseur lors du passage de souris
-				path.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "pointer"
-					this.style.fill = "lightblue"
-					this.style.transition = "0.2s"
-				})
-				path.addEventListener("mouseout", function()
-				{
-					this.style.fill = "#b4b6cc"
-				})
-				path.addEventListener("click", function()
-				{
-					document.querySelector("#colonneOrdres > h1")
-						.innerHTML = "Ordres"
-					document.querySelector("#infos").style.display = "none"
-					document.querySelector("#ordres").style.display = "flex"
-					console.log("Clic zone maritime : ", nomZone)
-				})
-			}
+        path.addEventListener("mouseout", function () {
+          this.style.fill = "#fcf2d4";
+        });
 
-			path.setAttribute("d", carte["areas"][j].path)
-			path.setAttribute("name", carte["areas"][j].name)
-			svg.appendChild(path)
-		}
+        path.addEventListener("click", function () {
+          let convoyer = document.getElementById("convoyer");
+          if (convoyer) {
+            convoyer.remove();
+          }
 
-		for (var k in carte["infos"])
-		{
-			let pays = k // obligatoire, sinon toujours "Yor"
+          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+          document.querySelector("#infos").style.display = "none";
+          document.querySelector("#ordres").style.display = "flex";
+          console.log("Clic zone terrestre : ", nomZone);
+          console.log("Clic id: " + carte["areas"][j].id);
+        });
+      }
 
-			// Labels
-			let point = document.createElementNS(ns, "text")
-			var text = document.createTextNode(k)
-			point.setAttribute("x", carte["infos"][k].coords[0])
-			point.setAttribute("y", carte["infos"][k].coords[1])
-			point.appendChild(text)
+      // Zone neutre
+      else if (carte["areas"][j].type == "impassable") {
+        path.setAttribute("fill", "#808080");
 
-			// Empêche la selection du label
-			point.addEventListener("mouseover", function()
-			{
-				this.style.pointerEvents = "none"
-			})
-			svg.appendChild(point)
+        // Changement du curseur
+        path.addEventListener("mouseover", function () {
+          this.style.cursor = "not-allowed";
+        });
+      }
 
-			// Points de ravitaillement
-			if (typeof carte["infos"][k].coordsRav != "undefined")
-			{
-				let circleIn = document.createElementNS(ns, "circle")
-				let circleOut = document.createElementNS(ns, "circle")
-			
-				circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0])
-				circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1])
-				circleIn.setAttribute("r", 2)
-				circleIn.setAttribute("fill", "black")
-				circleIn.setAttribute("stroke", "none")
-				circleIn.setAttribute("stroke-width", 0)
+      // Zone maritime
+      else {
+        path.setAttribute("fill", "#b4b6cc");
 
-				circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0])
-				circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1])
-				circleOut.setAttribute("r", 4)
-				circleOut.setAttribute("fill", "none")
-				circleOut.setAttribute("stroke", "black")
+        // Couleur et changement du curseur lors du passage de souris
+        path.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+          this.style.fill = "lightblue";
+          this.style.transition = "0.2s";
+        });
 
-				// Couleur et changement du curseur lors du passage de souris
-				circleOut.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "pointer"
-					this.style.fill = "lightcoral"
-				})
-				circleOut.addEventListener("mouseout", function()
-				{
-					this.style.fill = "none"
-				})
-				circleOut.addEventListener("click", function()
-				{
-					console.log("Clic ravitaillement : ", pays)
-				})
+        path.addEventListener("mouseout", function () {
+          this.style.fill = "#b4b6cc";
+        });
 
-				svg.appendChild(circleIn)
-				svg.appendChild(circleOut)
-			}
+        path.addEventListener("click", function () {
+          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+          document.querySelector("#infos").style.display = "none";
+          document.querySelector("#ordres").style.display = "flex";
 
-			// Pion marqueur
-			if (k == "Par")
-			{
-				let marqueur = document.createElementNS(ns, "circle")
+          let btn_convoyer = document.getElementById("convoyer");
+          if (!btn_convoyer) {
+            const conv = document.createElement("p");
+            conv.innerText = "Convoyer";
+            conv.setAttribute("id", "convoyer");
 
-				marqueur.setAttribute("cx", carte["infos"][k].coords[0]-5)
-				marqueur.setAttribute("cy", carte["infos"][k].coords[1])
-				marqueur.setAttribute("r", 2.5)
-				marqueur.setAttribute("fill", "red")
-				marqueur.setAttribute("stroke", "red")
-				svg.appendChild(marqueur)
+            var btn_valider = document.querySelector("#soutenir");
 
-				// Couleur et changement du curseur lors du passage de souris
-				marqueur.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "pointer"
-					this.style.fill = "white"
-				})
-				marqueur.addEventListener("mouseout", function()
-				{
-					this.style.fill = "red"
-				})
-				marqueur.addEventListener("click", function()
-				{
-					console.log("Clic marqueur : ", pays)
-				})
-			}
+            btn_valider.after(conv);
 
-			// Pion flotte
-			if (k == "Nwg")
-			{
-				let flotte = document.createElementNS(ns, "ellipse")
+            conv.addEventListener("click", function convoyer_ordre() {
+              ordre = conv.id;
+              console.log("CONVOYER");
+            });
+          }
 
-				flotte.setAttribute("cx", carte["infos"][k].coords[0]-7.5)
-				flotte.setAttribute("cy", carte["infos"][k].coords[1])
-				flotte.setAttribute("rx", 5)
-				flotte.setAttribute("ry", 2)
-				flotte.setAttribute("fill", "blue")
-				flotte.setAttribute("stroke", "blue")
-				svg.appendChild(flotte)
+          console.log("Clic zone maritime : ", nomZone);
+        });
+      }
 
-				// Couleur et changement du curseur lors du passage de souris
-				flotte.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "pointer"
-					this.style.fill = "white"
-				})
-				flotte.addEventListener("mouseout", function()
-				{
-					this.style.fill = "blue"
-				})
-				flotte.addEventListener("click", function()
-				{
-					console.log("Clic flotte : ", pays)
-				})
-			}
+      path.setAttribute("d", carte["areas"][j].path);
+      path.setAttribute("name", carte["areas"][j].name);
+      svg.appendChild(path);
+    }
 
-			// Pion armée
-			if (k == "Gal")
-			{
-				let armee = document.createElementNS(ns, "rect")
+    for (var k in carte["infos"]) {
+      let pays = k; // obligatoire, sinon toujours "Yor"
 
-				armee.setAttribute("x", carte["infos"][k].coords[0]-7.5)
-				armee.setAttribute("y", carte["infos"][k].coords[1])
-				armee.setAttribute("width", 5)
-				armee.setAttribute("height", 5)
-				armee.setAttribute("fill", "green")
-				armee.setAttribute("stroke", "green")
-				svg.appendChild(armee)
+      // Labels
+      let point = document.createElementNS(ns, "text");
+      var text = document.createTextNode(k);
+      point.setAttribute("x", carte["infos"][k].coords[0]);
+      point.setAttribute("y", carte["infos"][k].coords[1]);
+      point.appendChild(text);
 
-				// Couleur et changement du curseur lors du passage de souris
-				armee.addEventListener("mouseover", function()
-				{
-					this.style.cursor = "pointer"
-					this.style.fill = "white"
-				})
-				armee.addEventListener("mouseout", function()
-				{
-					this.style.fill = "green"
-				})
-				armee.addEventListener("click", function()
-				{
-					console.log("Clic armee : ", pays)
-				})
-			}
-		}
+      // Empêche la selection du label
+      point.addEventListener("mouseover", function () {
+        this.style.pointerEvents = "none";
+      });
+      svg.appendChild(point);
 
-		// Pour quitter la partie
-		let quitBtn = document.getElementById("quit")
-		let quitDialog = document.getElementById("quitter")
+      // Points de ravitaillement
+      if (typeof carte["infos"][k].coordsRav != "undefined") {
+        let circleIn = document.createElementNS(ns, "circle");
+        let circleOut = document.createElementNS(ns, "circle");
 
-		quitBtn.addEventListener("click", function onOpen()
-		{
-			if (typeof quitDialog.showModal === "function")
-				quitDialog.showModal();
-		})
+        circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
+        circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
+        circleIn.setAttribute("r", 2);
+        circleIn.setAttribute("fill", "black");
+        circleIn.setAttribute("stroke", "none");
+        circleIn.setAttribute("stroke-width", 0);
 
-		// Action effectuée lors de l'appuie sur l'un des boutons
-		quitDialog.addEventListener("close", function onClose()
-		{
-			console.log(quitDialog.returnValue)
-		})
+        circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
+        circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
+        circleOut.setAttribute("r", 4);
+        circleOut.setAttribute("fill", "none");
+        circleOut.setAttribute("stroke", "black");
 
-		// Action effectuée quand on appuie sur "Entrer" dans le chat
-		let texte = document.querySelector("input[type=text]")
-		document.querySelector("form").onkeypress = function(e)
-		{
-			if (e.key === "Enter")
-			{
-				e.preventDefault()
-				if (texte.value != "")
-				{
-					// Récupérer le pseudo là dedans
-					var pseudo = "Patrick"
+        // Couleur et changement du curseur lors du passage de souris
+        circleOut.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+          this.style.fill = "lightcoral";
+        });
+        circleOut.addEventListener("mouseout", function () {
+          this.style.fill = "none";
+        });
+        circleOut.addEventListener("click", function () {
+          console.log("Clic ravitaillement : ", pays);
+        });
 
-					// Créer le message
-					var para = document.createElement("p")
-					var contenu = document.createTextNode(pseudo + " : " +
-						texte.value)
-					para.appendChild(contenu)
-					para.style.textAlign = "left"
-					para.style.margin = "0"
+        svg.appendChild(circleIn);
+        svg.appendChild(circleOut);
+      }
 
-					// Changer la couleur du joueur en fonction du pays
-					para.style.color = "wheat"
+      // Pion marqueur
+      if (k == "Par") {
+        let marqueur = document.createElementNS(ns, "circle");
 
-					let historique = document.getElementById("historique")
-					historique.appendChild(para)
+        marqueur.setAttribute("cx", carte["infos"][k].coords[0] - 5);
+        marqueur.setAttribute("cy", carte["infos"][k].coords[1]);
+        marqueur.setAttribute("r", 2.5);
+        marqueur.setAttribute("fill", "red");
+        marqueur.setAttribute("stroke", "red");
+        svg.appendChild(marqueur);
 
-					// Réinitialiser l'input et afficher le dernier message
-					texte.value = ""
-					historique.scrollTop = historique.scrollHeight
-				}
-			}
-		}
+        // Couleur et changement du curseur lors du passage de souris
+        marqueur.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+          this.style.fill = "white";
+        });
+        marqueur.addEventListener("mouseout", function () {
+          this.style.fill = "red";
+        });
+        marqueur.addEventListener("click", function () {
+          console.log("Clic marqueur : ", pays);
+        });
+      }
 
-		// Affiche ou masque l'historique et l'input
-		var $ = require("jquery")
-		document.querySelector("#chat > h1").addEventListener("click", () =>
-		{
-			if (window.innerWidth < 769)
-			{
-				$(document.getElementById("historique")).slideToggle(100)
-				$(document.getElementsByTagName("form")[0]).slideToggle(100)
-				$(document.querySelector("#chat > h1")).toggleClass("bas")
-			}
-		})
-	}
-}
+      // Pion flotte
+      if (k == "Nwg") {
+        let flotte = document.createElementNS(ns, "ellipse");
+
+        flotte.setAttribute("cx", carte["infos"][k].coords[0] - 7.5);
+        flotte.setAttribute("cy", carte["infos"][k].coords[1]);
+        flotte.setAttribute("rx", 5);
+        flotte.setAttribute("ry", 2);
+        flotte.setAttribute("fill", "blue");
+        flotte.setAttribute("stroke", "blue");
+        svg.appendChild(flotte);
+
+        // Couleur et changement du curseur lors du passage de souris
+        flotte.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+          this.style.fill = "white";
+        });
+        flotte.addEventListener("mouseout", function () {
+          this.style.fill = "blue";
+        });
+        flotte.addEventListener("click", function () {
+          console.log("Clic flotte : ", pays);
+        });
+      }
+
+      // Pion armée
+      if (k == "Gal") {
+        let armee = document.createElementNS(ns, "rect");
+
+        armee.setAttribute("x", carte["infos"][k].coords[0] - 7.5);
+        armee.setAttribute("y", carte["infos"][k].coords[1]);
+        armee.setAttribute("width", 5);
+        armee.setAttribute("height", 5);
+        armee.setAttribute("fill", "green");
+        armee.setAttribute("stroke", "green");
+        svg.appendChild(armee);
+
+        // Couleur et changement du curseur lors du passage de souris
+        armee.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+          this.style.fill = "white";
+        });
+        armee.addEventListener("mouseout", function () {
+          this.style.fill = "green";
+        });
+        armee.addEventListener("click", function () {
+          console.log("Clic armee : ", pays);
+        });
+      }
+    }
+
+    let btn_tenir = document.getElementById("tenir");
+    btn_tenir.addEventListener("click", function tenir_ordre() {
+      ordre = btn_tenir.id;
+      //console.log("TENIR");
+    });
+
+    let btn_attaque = document.getElementById("ATTACK");
+    btn_attaque.addEventListener("click", function attaque_ordre() {
+      ordre = btn_attaque.id;
+      //console.log("ATTAQUE");
+    });
+
+    let btn_soutenir = document.getElementById("soutenir");
+    btn_soutenir.addEventListener("click", function soutenir_ordre() {
+      ordre = btn_soutenir.id;
+      //console.log("SOUTENIR");
+    });
+
+    // Validation d'un ordre
+    let valider_ordre = document.getElementById("valider_ordre");
+    valider_ordre.addEventListener("click", function valider() {
+      var id_game = 7;
+
+      order.type_order = ordre;
+      order.dst_region_id = 1;
+      order.unit_id = 1;
+
+      console.log(order);
+      //.post(`/games/${id}/orders`, order)
+      api.orders
+        .create(id_game, order.type_order, order.dst_region_id, order.unit_id)
+        .then((response) => console.log(response.data))
+        .catch((err) => {
+          if (err.status == 400) {
+            console.log(err.message);
+          }
+          if (err.status == 401) {
+            console.log(err.message);
+          }
+          if (err.status == 404) {
+            console.log(err.message);
+          }
+          if (err.status == 500) {
+            console.log(err.message);
+          }
+        });
+    });
+
+    // Pour quitter la partie
+    let paramBtn = document.getElementById("params");
+    let quitDialog = document.getElementById("quitter");
+
+    paramBtn.addEventListener("click", function onOpen() {
+      if (typeof quitDialog.showModal === "function") quitDialog.showModal();
+    });
+
+    // Action effectuée lors de l'appuie sur l'un des boutons
+    quitDialog.addEventListener("close", function onClose() {
+      console.log(quitDialog.returnValue);
+    });
+
+    // Action effectuée quand on appuie sur "Entrer" dans le chat
+    let texte = document.querySelector("input[type=text]");
+    document.querySelector("form").onkeypress = function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (texte.value != "") {
+          // Récupérer le pseudo là dedans
+          var pseudo = "Patrick";
+
+          // Créer le message
+          var para = document.createElement("p");
+          var contenu = document.createTextNode(pseudo + " : " + texte.value);
+          para.appendChild(contenu);
+          para.style.textAlign = "left";
+          para.style.margin = "0";
+
+          // Changer la couleur du joueur en fonction du pays
+          para.style.color = "wheat";
+
+          let historique = document.getElementById("historique");
+          historique.appendChild(para);
+
+          // Réinitialiser l'input et afficher le dernier message
+          texte.value = "";
+          historique.scrollTop = historique.scrollHeight;
+        }
+      }
+    };
+
+    // Affiche ou masque l'historique et l'input
+    var $ = require("jquery");
+    document.querySelector("#chat > h1").addEventListener("click", () => {
+      if (window.innerWidth < 769) {
+        $(document.getElementById("historique")).slideToggle(100);
+        $(document.getElementsByTagName("form")[0]).slideToggle(100);
+        $(document.querySelector("#chat > h1")).toggleClass("bas");
+      }
+    });
+  },
+};
 </script>
+
 <style scoped>
 	/* Div principale */
 	#app > div{
@@ -510,11 +580,11 @@ export default
 	}
 
 /* Mode sombre */
-@media(prefers-color-scheme: dark){
-	/* Carte */
-	svg{
-		background-color: rgba(42, 58, 73, 0.9);
-	}
+@media (prefers-color-scheme: dark) {
+  /* Carte */
+  svg {
+    background-color: rgba(42, 58, 73, 0.9);
+  }
 }
 
 /* Version tablette */
