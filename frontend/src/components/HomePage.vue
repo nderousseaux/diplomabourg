@@ -250,6 +250,11 @@ export default {
   -moz-text-fill-color: transparent;
 }
 
+/* Bouton */
+button{
+  width: 25%;
+}
+
 /* Boîte de dialogue pour paramétrer la partie */
 #param {
   min-width: 35vw;
@@ -261,8 +266,16 @@ input[type="number"] {
   cursor: default;
 }
 
+/* Version tablette */
+@media only screen and (min-width: 770px) and (max-width: 1370px){
+  /* Bouton */
+  button{
+    width: 50%;
+  }
+}
+
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 769px) {
+@media only screen and (max-width: 769px){
   /* Pays du joueur */
   #pays {
     display: flex;
@@ -299,5 +312,10 @@ input[type="number"] {
 	#param > form > div:last-child {
 		flex-direction: row;
 	}
+
+  /* Bouton */
+button{
+  width: 80%;
+}
 }
 </style>

@@ -3,10 +3,10 @@
     <div id="colonneInfos">
       <div id="minuteur">
         <img
-          id="params"
-          alt="Paramètres"
-          title="Paramètres"
-          src="../assets/img/settings.png"
+          id="quit"
+          alt="Quitter la partie"
+          title="Quitter la partie"
+          src="../assets/img/quitter.png"
         />
         <!-- <p>5:30</p> -->
         <button value="valider">Valider</button>
@@ -178,6 +178,15 @@ export default {
             const conv = document.createElement("p");
             conv.innerText = "Convoyer";
             conv.setAttribute("id", "convoyer");
+            if (window.innerWidth < 769) {
+              conv.style.cssText = "width: 40%; line-height: 55px; font-size: 22px; margin: 10px 0; font-weight: bold;";
+            }
+            else if (window.innerWidth > 770 && window.innerWidth < 1370) {
+              conv.style.cssText = "width: 40%; line-height: 55px; margin: 10px 0; font-weight: bold;";
+            }
+            else {
+              conv.style.cssText = "width: 80%; line-height: 55px; margin: 0; font-weight: bold;"
+            }
 
             var btn_valider = document.querySelector("#soutenir");
 
@@ -372,10 +381,10 @@ export default {
     });
 
     // Pour quitter la partie
-    let paramBtn = document.getElementById("params");
+    let quitBtn = document.getElementById("quit");
     let quitDialog = document.getElementById("quitter");
 
-    paramBtn.addEventListener("click", function onOpen() {
+    quitBtn.addEventListener("click", function onOpen() {
       if (typeof quitDialog.showModal === "function") quitDialog.showModal();
     });
 
@@ -496,6 +505,11 @@ export default {
 		padding-right: 20px;
 	}
 
+
+  #minuteur > button{
+    width: 45%;
+  }
+
 	/* Drapeaux */
 	#drapeaux{
 		display: flex;
@@ -558,19 +572,22 @@ export default {
 		display: none;
 	}
 	#ordres > p{
+		width: 80%;
 		margin: 0 10px;
-		padding: 0 10% 0 10%;
+		padding: 0;
 		line-height: 55px;
 		font-weight: bold;
 	}
-	#ordres > p:last-child{
+	#ordres > button{
+    line-height: 55px;
 		background-color: #808080;
-		padding: 0 20% 0 20%;
+		padding: 0;
+    width: 90%;
 	}
-	#ordres > p:last-child:hover{
+	#ordres > button:hover{
 		background-color: #686868;
 	}
-	#ordres > p:last-child:active{
+	#ordres > button:active{
 		background-color: #535353;
 	}
 
@@ -640,14 +657,16 @@ export default {
 		height: max-content;
 	}
 	#ordres > p{
-		margin: 10px 5%;
+    width: 40%;
+		margin: 10px 0;
 	}
 	#ordres > p:first-child,
 	#ordres > p:nth-child(2){
 		margin-top: 20px;
 	}
-	#ordres > p:last-child{
-		margin: 20px 5%;
+	#ordres > button{
+    width: 80%;
+		margin: 20px 0;
 	}
 
 	/* Boîte de dialogue pour quitter */
@@ -706,15 +725,16 @@ export default {
 		margin: 30px 0;
 	}
 	#ordres > p{
+    width: 40%;
 		font-size: 22px;
-		margin: 10px;
+		margin: 10px 0;
 	}
 	#ordres > p:first-child,
 	#ordres > p:nth-child(2){
 		margin-top: 20px;
 	}
 	#ordres > p:last-child{
-		margin: 20px;
+		margin: 20px 0;
 	}
 
 	/* Boîte de dialogue pour quitter */

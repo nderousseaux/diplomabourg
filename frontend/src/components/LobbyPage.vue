@@ -50,10 +50,8 @@
 				</form>
 			</div>
 		</div>
-
-
 	</div>
-	<dialog id="joindre">
+	<!-- <dialog id="joindre">
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
@@ -69,7 +67,7 @@
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
-	</dialog>
+	</dialog> -->
 </template>
 
 <script>
@@ -410,6 +408,7 @@ export default
 	}
 	#joueurs > div > button{
 		margin-bottom: 0;
+		width: 80%;
 	}
 	#joueurs > div > img{
 		width: 98px;
@@ -445,8 +444,7 @@ export default
 	}
 
 /* Version tablette */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 1370px){
+@media only screen and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
 		flex-direction: column-reverse;
@@ -469,17 +467,24 @@ and (max-width: 1370px){
 	#joueurs{
 		width: 100%;
 	}
+	#joueurs > div > button{
+		margin-bottom: 0;
+		width: 100%;
+	}
 
 	/* Bouton */
 	#actions{
+		justify-content: space-between;
 		width: 100%;
 		margin-top: 5vh;
+	}
+	#actions > button{
+		width: 45%;
 	}
 }
 
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 769px){
+@media only screen and (max-width: 769px){
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 201px)
