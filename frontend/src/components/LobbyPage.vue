@@ -51,7 +51,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- <dialog id="joindre">
+	<dialog id="joindre">
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
@@ -67,7 +67,7 @@
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
-	</dialog> -->
+	</dialog>
 </template>
 
 <script>
@@ -469,7 +469,7 @@ export default
 	}
 	#joueurs > div > button{
 		margin-bottom: 0;
-		width: 100%;
+		width: 60%;
 	}
 
 	/* Bouton */
@@ -479,7 +479,7 @@ export default
 		margin-top: 5vh;
 	}
 	#actions > button{
-		width: 45%;
+		width: 40%;
 	}
 }
 
@@ -488,6 +488,11 @@ export default
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 201px)
+	}
+
+	/* Pays des joueurs */
+	#joueurs > div > button{
+		width: 90%;
 	}
 
 	/* Bouton */

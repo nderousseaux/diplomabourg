@@ -14,7 +14,10 @@
       />
       <p>France</p>
     </div>
-    <button>Créer une partie</button>
+    <div id="actions">
+      <button>Créer une partie</button>
+      <button>Rejoindre une partie</button>
+    </div>
   </div>
   <dialog id="param">
     <h1>Paramètres de la partie</h1>
@@ -38,6 +41,19 @@
       </div>
     </form>
   </dialog>
+  <dialog id="rejoindre">
+		<h1>Rejoindre une partie</h1>
+		<form method="dialog">
+			<div>
+				<label for="jdr">Numéro de partie</label>
+				<input type="text" id="jdr" name="jdr"/>
+			</div>
+			<div>
+        <button>Annuler</button>
+				<input type="submit" value="Rejoindre"/>
+			</div>
+		</form>
+	</dialog>
 </template>
 
 <script>
@@ -66,8 +82,18 @@ export default {
     },
   },
   mounted() {
+    // Pour rejoindre une partie
+    let rejoindreBtn = document.querySelector("div:first-child > div > button:last-child");
+    let lancerJoin = document.getElementById("rejoindre");
+
+    rejoindreBtn.addEventListener("click", function onOpen() {
+      if (typeof lancerJoin.showModal === "function") {
+        lancerJoin.showModal();
+      }
+    });
+
     // Pour paramétrer la partie
-    let paramBtn = document.querySelector("div:first-child > button");
+    let paramBtn = document.querySelector("div:first-child > div > button:first-child");
     let lancerDiag = document.getElementById("param");
     let erreur = document.querySelector("form > p");
 
@@ -244,21 +270,29 @@ export default {
   margin: 0;
   font-weight: bold;
   background-image: linear-gradient(0.25turn, #002843, #800124);
+  background-clip: text;
   -webkit-background-clip: text;
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
 
-/* Bouton */
-button{
-  width: 25%;
+/* Boutons */
+#actions{
+  display: flex;
+  justify-content: space-around;
+  width: 60vw;
+}
+#actions > button{
+  width: 45%;
 }
 
-/* Boîte de dialogue pour paramétrer la partie */
-#param {
+/* Boîte de dialogue pour paramétrer et rejoindre la partie */
+#param,
+#rejoindre {
   min-width: 35vw;
 }
+
 input[type="number"] {
   text-align: center;
   caret-color: transparent;
@@ -268,9 +302,12 @@ input[type="number"] {
 
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
-  /* Bouton */
-  button{
-    width: 50%;
+  /* Boutons */
+  #actions{
+    width: 80vw;
+  }
+  #actions > button{
+		font-size: 22px;
   }
 }
 
@@ -294,28 +331,42 @@ input[type="number"] {
     font-size: 40px;
   }
 
-	/* Boîte de dialogue pour paramétrer la partie */
-	#param > form > div {
+  /* Boîte de dialogue pour paramétrer et rejoindre la partie */
+  #param,
+  #rejoindre {
+    width: 80vw;
+  }
+	#param > form > div,
+  #rejoindre > form > div {
 		flex-direction: column;
 		width: 90%;
 		align-items: center;
 	}
-	#param > form > div > label {
+	#param > form > div > label,
+  #rejoindre > form > div > label {
 		font-size: 25px;
 		width: 100%;
 		text-align: center;
 	}
-	#param > form > div > input {
+	#param > form > div > input,
+  #rejoindre > form > div > input {
 		width: calc(100% - 10px);
 		margin-bottom: 10px;
 	}
-	#param > form > div:last-child {
+	#param > form > div:last-child,
+  #rejoindre > form > div:last-child{
 		flex-direction: row;
 	}
 
-  /* Bouton */
-button{
-  width: 80%;
-}
+  /* Boutons */
+  #actions{
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+  }
+  #actions > button{
+    font-size: 22px;
+    width: 100%;
+  }
 }
 </style>
