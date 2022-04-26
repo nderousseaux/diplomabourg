@@ -4,7 +4,8 @@ module.exports  =
 	devServer: {
 		proxy: {
 			'backend': {
-				target: "http://localhost:10005",
+				//target: "http://localhost:10005",
+				target: 'http://home.nathanaelderousseaux.fr:10005',
 				changeOrigin: true,
 				pathRewrite: {
 					"^/backend": ""
@@ -12,7 +13,7 @@ module.exports  =
 			}
 		}
 	},
-	
+
 	publicPath: process.env.NODE_ENV  ===  'production'  ?  './'  :  '/',
 
 	pwa:
@@ -45,6 +46,3 @@ module.exports  =
 		}
 	}
 }
-
-
-

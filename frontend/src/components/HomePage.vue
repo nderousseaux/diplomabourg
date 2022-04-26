@@ -158,7 +158,6 @@ export default {
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
           document.querySelector("form").submit();
-
           const player = { username: "FRANCE" };
 
           const game = {
@@ -177,15 +176,15 @@ export default {
           api.games
             .create_game(player.username, game.name, game.password, game.map_id)
             .then(response => {
+              console.log("coucou");
               //store les infos utiles de la game dans un objet pour le récup dans le lobby
               this.storeGameId(response.data.game.id);
               this.storePlayerId(response.data.game.players[0].id);
               this.storeToken(response.data.token);
 
-              console.log(response);
-              this.$router.push({ name: "Lobby" });
-              var token = response.data.token;
-              document.cookie = "session_game=" + token;
+							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
+							document.cookie = "game_id=" + response.data.game.id + "; sameSite=Lax";
+							this.$router.push({ path: `/games/${response.data.game.id}` });
             })
             .catch((err) => {
               console.log(err);

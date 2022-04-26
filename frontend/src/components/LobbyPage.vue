@@ -75,7 +75,15 @@ import api from "../api";
 import router from "../router/index.js";
 
 const game_num = window.location.hash.split('/')[2];
-
+/*
+function getGameId() {
+	const value = `; ${document.cookie}`;
+	const parts = value.split("; game_id=");
+	if (parts.length === 2) {
+		return parts.pop().split(";").shift();
+	}
+}
+*/
 function getTokenCookie() {
 	const value = `; ${document.cookie}`;
 	const parts = value.split(`; token${game_num}=`);
@@ -101,8 +109,9 @@ export default
 				headers: {Authorization: `Bearer ${this.token}`}
 			}
 			api.games
-				.get_game(window.location.hash.split('/')[2], config)
+				.get_game(this.game_id, config)
 				.then(response => {
+					console.log(response.data);
 					for (var player = 0; player < response.data.players.length; player++){
 						var id = response.data.players[player].id;
 						var username = response.data.players[player].username;
@@ -117,7 +126,7 @@ export default
 								console.log(error);
 							})
 					}
-					router.push({ name: "Jeu"})
+					//router.push({ name: "Jeu"})
 				})
 				.catch(function(error) {
 					console.log(error);
@@ -144,7 +153,7 @@ export default
 				})
 		},
 		copyLink() {
-			var link = `http://localhost:8080/games/${this.game_id}`;
+			var link = `http://localhost:8080/#/games/${this.game_id}`;
 			navigator.clipboard.writeText(link);
 			alert("Copied : " + link);
 		},
@@ -156,18 +165,8 @@ export default
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
-
-			const bodyParameters = {
-				username: this.username,
-				power_id: 1,
-				is_ready: true
-			};
-
-			api
-				.put("/games/" + this.game_id + "/players/" + this.player_id,
-					bodyParameters,
-					config
-				)
+			api.players
+				.update(this.game_id, this.player_id, this.username, 1, true, config)
 				.then(response => {
 					console.log(response);
 					if (response.status == 204) {
@@ -189,7 +188,7 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
-		var cookie = this.token;
+		var cookie = getTokenCookie(window.location.hash.split('/')[2]);
 		//récupère l'id de l'utilisateur courant
 		if (cookie == null) {
 			lancerDiag.showModal()
@@ -200,7 +199,7 @@ export default
 			};
 			var indexOfPlayer;
 			api.games
-				.get_game(window.location.hash.split('/')[2], config)
+				.get_game(this.game_id, config)
 				.then(response => {
 					indexOfPlayer = response.data.players.map(function(e) {
 						return e.is_you;
