@@ -27,7 +27,7 @@ p{
 /* Div principale */
 #logo{
 	width: 430px;
-	height: 163px;
+	height: 161px;
 	margin: 20px 0;
 }
 
@@ -193,12 +193,11 @@ input.erreur{
 }
 
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse)
-and (max-width: 769px){
+@media only screen and (max-width: 769px){
 	/* Div principale */
 	#logo{
-		width: 324px;
-		height: 123px;
+		width: 95vw;
+		height: unset;
 	}
 
 	/* Chat */

@@ -71,8 +71,8 @@
 </template>
 
 <script>
-import api from "../api"
-import router from "../router/index.js"
+import api from "../api";
+import router from "../router/index.js";
 
 const game_num = window.location.hash.split('/')[2];
 
