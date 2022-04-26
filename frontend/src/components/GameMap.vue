@@ -3,10 +3,10 @@
     <div id="colonneInfos">
       <div id="minuteur">
         <img
-          id="params"
-          alt="Paramètres"
-          title="Paramètres"
-          src="../assets/img/settings.png"
+          id="quit"
+          alt="Quitter la partie"
+          title="Quitter la partie"
+          src="../assets/img/quitter.png"
         />
         <!-- <p>5:30</p> -->
         <button value="valider">Valider</button>
@@ -178,6 +178,15 @@ export default {
             const conv = document.createElement("p");
             conv.innerText = "Convoyer";
             conv.setAttribute("id", "convoyer");
+            if (window.innerWidth < 769) {
+              conv.style.cssText = "width: 40%; line-height: 55px; font-size: 22px; margin: 10px 0; font-weight: bold;";
+            }
+            else if (window.innerWidth > 770 && window.innerWidth < 1370) {
+              conv.style.cssText = "width: 40%; line-height: 55px; margin: 10px 0; font-weight: bold;";
+            }
+            else {
+              conv.style.cssText = "width: 80%; line-height: 55px; margin: 0; font-weight: bold;"
+            }
 
             var btn_valider = document.querySelector("#soutenir");
 
@@ -372,10 +381,10 @@ export default {
     });
 
     // Pour quitter la partie
-    let paramBtn = document.getElementById("params");
+    let quitBtn = document.getElementById("quit");
     let quitDialog = document.getElementById("quitter");
 
-    paramBtn.addEventListener("click", function onOpen() {
+    quitBtn.addEventListener("click", function onOpen() {
       if (typeof quitDialog.showModal === "function") quitDialog.showModal();
     });
 
@@ -427,152 +436,165 @@ export default {
 </script>
 
 <style scoped>
-/* Div principale */
-#app > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-img {
-  cursor: pointer;
-}
+	/* Div principale */
+	#app > div{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	img{
+		cursor: pointer;
+	}
 
-/* Carte */
-#carte {
-  border-radius: 10px;
-  width: fit-content;
-  height: 98vh;
-  margin: 1vh 0 1vh 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  font-size: 13px;
-  user-select: none;
-  cursor: not-allowed;
-}
-svg {
-  background-color: rgba(112, 128, 143, 0.9);
-  height: 100%;
-}
-.bloque {
-  pointer-events: none;
-  filter: grayscale(1) invert(0.1);
-}
+	/* Carte */
+	#carte{
+		border-radius: 10px;
+		width: fit-content;
+		height: 98vh;
+		margin: 1vh 0 1vh 0;
+		overflow-x: auto;
+		overflow-y: hidden;
+		font-size: 13px;
+		user-select: none;
+		cursor: not-allowed;
+	}
+	svg{
+		background-color: rgba(112, 128, 143, 0.9);
+		height: 100%;
+	}
+	.bloque{
+		pointer-events: none;
+		filter: grayscale(1) invert(0.1);
+	}
 
-/* Colonnes */
-#colonneInfos,
-#colonneOrdres {
-  width: 25vw;
-  height: 98vh;
-  border-radius: 10px;
-  margin: 1vh 1vw 1vh 1vw;
-}
+	/* Colonnes */
+	#colonneInfos,
+	#colonneOrdres{
+		width: 25vw;
+		height: 98vh;
+		border-radius: 10px;
+		margin: 1vh 1vw 1vh 1vw;
+	}
 
-/* Minuteur */
-#minuteur {
-  display: flex;
-  justify-content: space-between;
-  height: 88px;
-}
-#minuteur > img {
-  width: 48px;
-  height: 48px;
-  margin: 20px 0 20px 20px;
-}
-#minuteur > p {
-  font-size: 40px;
-  line-height: 88px;
-  margin: 0;
-  font-weight: bold;
-  text-align: center;
-}
-#minuteur:first-child:after {
-  content: "";
-  width: 48px;
-  padding-right: 20px;
-}
+	/* Minuteur */
+	#minuteur{
+		display: flex;
+		justify-content: space-between;
+		height: 88px;
+	}
+	#minuteur > img{
+		width: 48px;
+		height: 48px;
+		margin: 20px 0 20px 20px;
+		transition: 0.6s;
+	}
+	#minuteur > img:hover{
+		transition: 0.6s;
+		filter: invert(35%);
+	}
+	#minuteur > p{
+		font-size: 40px;
+		line-height: 88px;
+		margin: 0;
+		font-weight: bold;
+		text-align: center;
+	}
+	#minuteur:first-child:after{
+		content: "";
+		width: 48px;
+		padding-right: 20px;
+	}
 
-/* Drapeaux */
-#drapeaux {
-  display: flex;
-  flex-direction: column;
-  height: 35%;
-  overflow-x: auto;
-}
-#drapeaux > h1 {
-  font-size: 35px;
-  font-weight: bold;
-  margin: 20px 0;
-}
-#drapeaux > div {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-#drapeaux > div > img {
-  width: 17%;
-  margin: 10px;
-  user-select: none;
-}
 
-/* Chat */
-#chat {
-  width: 100%;
-  height: calc(65% - 92px);
-  background-color: unset;
-}
-#chat > h1 {
-  padding-top: 20px;
-  border-style: solid;
-  border-width: 4px 0 0;
-  border-image: radial-gradient(#ae0132, #1c0043) 1;
-}
+  #minuteur > button{
+    width: 45%;
+  }
 
-/* Colonne d'ordres */
-#colonneOrdres {
-  width: 18vw;
-  height: 98vh;
-}
-#colonneOrdres > h1 {
-  line-height: 88px;
-  margin: 0;
-}
-#infos,
-#ordres {
-  display: flex;
-  flex-wrap: wrap;
-  height: calc(100% - 88px);
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-#infos > p {
-  margin: 0;
-}
-#ordres {
-  display: none;
-}
-#ordres > p {
-  margin: 0 10px;
-  padding: 0 10% 0 10%;
-  line-height: 55px;
-  font-weight: bold;
-}
-#ordres > p:last-child {
-  background-color: #808080;
-  padding: 0 20% 0 20%;
-}
-#ordres > p:last-child:hover {
-  background-color: #686868;
-}
-#ordres > p:last-child:active {
-  background-color: #535353;
-}
+	/* Drapeaux */
+	#drapeaux{
+		display: flex;
+		flex-direction: column;
+		height: 35%;
+		overflow-x: auto;
+	}
+	#drapeaux > h1{
+		font-size: 35px;
+		font-weight: bold;
+		margin: 20px 0;
+	}
+	#drapeaux > div{
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+	}
+	#drapeaux > div > img{
+		width: 17%;
+		margin: 10px;
+		user-select: none;
+	}
 
-/* Boîte de dialogue pour quitter */
-#quitter {
-  min-width: 25vw;
-}
+	/* Chat */
+	#chat{
+		width: 100%;
+		height: calc(65% - 92px);
+		background-color: unset;
+	}
+	#chat > h1{
+		padding-top: 20px;
+		border-style: solid;
+		border-width: 4px 0 0;
+		border-image: radial-gradient(#ae0132, #1c0043) 1;
+	}
+
+	/* Colonne d'ordres */
+	#colonneOrdres{
+		width: 18vw;
+		height: 98vh;
+	}
+	#colonneOrdres > h1{
+		line-height: 88px;
+		margin: 0;
+	}
+	#infos,
+	#ordres{
+		display: flex;
+		flex-wrap: wrap;
+		height: calc(100% - 88px);
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+	#infos > p{
+		margin: 0;
+	}
+	#ordres{
+		display: none;
+	}
+	#ordres > p{
+		width: 80%;
+		margin: 0 10px;
+		padding: 0;
+		line-height: 55px;
+		font-weight: bold;
+	}
+	#ordres > button{
+    line-height: 55px;
+		background-color: #808080;
+		padding: 0;
+    width: 90%;
+	}
+	#ordres > button:hover{
+		background-color: #686868;
+	}
+	#ordres > button:active{
+		background-color: #535353;
+	}
+
+	/* Boîte de dialogue pour quitter */
+	#quitter{
+		min-width: 35vw;
+	}
 
 /* Mode sombre */
 @media (prefers-color-scheme: dark) {
@@ -583,109 +605,141 @@ svg {
 }
 
 /* Version tablette */
-@media only screen and (hover: none) and (pointer: coarse) and (min-width: 770px) and (max-width: 1370px) {
-  /* Div principale */
-  #app > div {
-    flex-wrap: wrap;
-  }
-  /* Carte */
-  #carte {
-    width: calc(75vw - 3vw);
-    margin: 1vh 1vw 1vh 0;
-    font-size: 10px;
-  }
+@media only screen and (min-width: 770px) and (max-width: 1370px){
+	/* Div principale */
+	#app > div{
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
 
-  /* Colonnes */
-  #colonneInfos {
-    height: 98vh;
-  }
+	/* Carte */
+	#carte{
+		width: calc(75vw - 3vw);
+		max-width: max-content;
+		margin: 1vh 1vw 1vh 0;
+		font-size: 10px;
+	}
 
-  /* Minuteur */
-  #minuteur > img {
-    width: 36px;
-    height: 36px;
-  }
-  #minuteur > p {
-    font-size: 40px;
-    line-height: 76px;
-  }
-  #minuteur:first-child:after {
-    width: 18px;
-  }
+	/* Colonnes */
+	#colonneInfos{
+		height: 98vh;
+	}
 
-  /* Drapeaux */
-  #drapeaux > div > img {
-    width: 30%;
-  }
+	/* Minuteur */
+	#minuteur > img{
+		width: 36px;
+		height: 36px;
+	}
+	#minuteur > p{
+		font-size: 40px;
+		line-height: 76px;
+	}
+	#minuteur:first-child:after{
+		width: 18px;
+	}
 
-  /* Colonne d'ordres */
-  #colonneOrdres {
-    width: 100%;
-    height: 35vh;
-  }
-  #ordres {
-    flex-direction: row;
-  }
-  #ordres > p,
-  #quitter > form > button {
-    width: 25%;
-  }
+	/* Drapeaux */
+	#drapeaux > div > img{
+		width: 30%;
+	}
+
+	/* Colonne d'ordres */
+	#colonneOrdres{
+		width: 100%;
+		min-height: 35vh;
+		height: max-content;
+	}
+	#infos{
+		height: calc(35vh - 96px);
+	}
+	#ordres{
+		flex-direction: row;
+		height: max-content;
+	}
+	#ordres > p{
+    width: 40%;
+		margin: 10px 0;
+	}
+	#ordres > p:first-child,
+	#ordres > p:nth-child(2){
+		margin-top: 20px;
+	}
+	#ordres > button{
+    width: 80%;
+		margin: 20px 0;
+	}
+
+	/* Boîte de dialogue pour quitter */
+	#quitter > form > button{
+		width: 25%;
+	}
 }
 
 /* Version mobile */
-@media only screen and (hover: none) and (pointer: coarse) and (max-width: 769px) {
-  /* Div principale */
-  #app > div {
-    flex-direction: column;
-  }
+@media only screen and (max-width: 769px){
+	/* Div principale */
+	#app > div{
+		flex-direction: column;
+	}
 
-  /* Carte */
-  #carte {
-    width: unset;
-    margin: 0 2vw 1vh 2vw;
-    font-size: 11px;
-  }
+	/* Carte */
+	#carte{
+		width: unset;
+		margin: 0 2vw 1vh 2vw;
+		font-size: 11px;
+	}
 
-  /* Colonnes */
-  #colonneInfos,
-  #colonneOrdres {
-    width: 96vw;
-    height: max-content;
-    margin: 1vh 2vw 1vh 2vw;
-  }
+	/* Colonnes */
+	#colonneInfos,
+	#colonneOrdres{
+		width: 96vw;
+		height: max-content;
+		margin: 1vh 2vw 1vh 2vw;
+	}
 
-  /* Minuteur */
-  #minuteur > img {
-    width: 36px;
-    height: 36px;
-  }
-  #minuteur > p {
-    line-height: 76px;
-  }
-  #minuteur:first-child:after {
-    width: 36px;
-  }
+	/* Minuteur */
+	#minuteur > img{
+		width: 36px;
+		height: 36px;
+	}
+	#minuteur > p{
+		line-height: 76px;
+	}
+	#minuteur:first-child:after{
+		width: 36px;
+	}
 
-  /* Drapeaux */
-  #drapeaux > div > img {
-    width: 15%;
-  }
+	/* Drapeaux */
+	#drapeaux > div > img{
+		width: 15%;
+	}
 
-  /* Colonne d'ordres */
-  #colonneOrdres {
-    margin: 1vh 2vw 1vh 2vw;
-  }
-  #ordres {
-    flex-direction: row;
-  }
-  #infos > p {
-    margin: 30px 0;
-    font-size: 32px;
-  }
-  #ordres > p,
-  #quitter > form > button {
-    font-size: 22px;
-    margin: 10px;
-  }
+	/* Colonne d'ordres */
+	#colonneOrdres{
+		margin: 1vh 2vw 1vh 2vw;
+	}
+	#ordres{
+		flex-direction: row;
+	}
+	#infos > p{
+		margin: 30px 0;
+	}
+	#ordres > p{
+    width: 40%;
+		font-size: 22px;
+		margin: 10px 0;
+	}
+	#ordres > p:first-child,
+	#ordres > p:nth-child(2){
+		margin-top: 20px;
+	}
+	#ordres > p:last-child{
+		margin: 20px 0;
+	}
+
+	/* Boîte de dialogue pour quitter */
+	#quitter > form > div > button{
+		margin: 10px;
+	}
 }
 </style>
