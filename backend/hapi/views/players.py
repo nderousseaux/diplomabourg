@@ -79,10 +79,11 @@ class Players():
     def put(self):
         check_can_update_player(self.request.user, self.player)
 
-        if self.game.state.name == "CONFIGURATION":
-            newPlayer = PlayerSchema(only=["username", "power_id", "is_ready"]).load(self.request.json)
-        else:
-            newPlayer = PlayerSchema(only=["is_ready"]).load(self.request.json)
+        newPlayer = PlayerSchema(only=["username", "power_id", "is_ready"]).load(self.request.json)
+
+        if self.game.state.name != "CONFIGURATION":
+            del newPlayer["username"]
+            del newPlayer["power"]
 
         if "power" in newPlayer and len(newPlayer["power"]) == 0:
             newPlayer["power"] = self.player.power
