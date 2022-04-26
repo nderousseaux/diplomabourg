@@ -490,7 +490,7 @@ export default {
 	}
 	#minuteur > img:hover{
 		transition: 0.6s;
-		filter: invert(35%);
+		filter: invert(40%);
 	}
 	#minuteur > p{
 		font-size: 40px;

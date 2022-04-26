@@ -60,6 +60,7 @@ p{
 	background-color: rgb(112, 128, 143);
 	width: calc(100% - 20px);
 	padding: 0 10px;
+	margin: 0;
 	font-size: 24px;
 	border-radius: 0 0 10px 10px;
 	outline: none;
