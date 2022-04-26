@@ -51,7 +51,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- <dialog id="joindre">
+	<dialog id="joindre">
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
@@ -67,7 +67,7 @@
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
-	</dialog> -->
+	</dialog>
 </template>
 
 <script>
