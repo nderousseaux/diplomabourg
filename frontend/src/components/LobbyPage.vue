@@ -57,8 +57,10 @@
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
-				<label for="username">Username</label>
-				<input maxlength="15" id="username" name="username"/>
+				<label for="username">Pseudo</label>
+				<input type="text" maxlength="15" id="username" name="username"/>
+			</div>
+			<div>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
@@ -265,6 +267,11 @@ export default
 				}
 			}
 
+			// Nom de la partie
+			let pseudoJr = document.getElementById("username");
+			inputPreVerif(pseudoJr);
+			pseudoJr.addEventListener("input", inputPostVerif);
+
 			// Mot de passe
 			let mdpInput = document.getElementById("mdp");
 			let usernameInput = document.getElementById("username");
@@ -285,12 +292,12 @@ export default
 				e.preventDefault()
 				if (texte.value != "")
 				{
-					// Récupérer le pseudo là dedans
-					var pseudo = "Patrick"
+					// Récupérer le username là dedans
+					var username = "Patrick"
 
 					// Créer le message
 					var para = document.createElement("p")
-					var contenu = document.createTextNode(pseudo + " : " +
+					var contenu = document.createTextNode(username + " : " +
 						texte.value)
 					para.appendChild(contenu)
 					para.style.textAlign = "left"
@@ -362,13 +369,13 @@ export default
 		justify-content: space-between;
 		align-items: center;
 		width: 80vw;
-		height: calc(100vh - 203px);
+		height: calc(100vh - 201px);
 	}
 
 	/* Chat */
 	#chat{
 		width: calc(25vw - 10px);
-		height: calc(100vh - 223px);
+		height: calc(100vh - 221px);
 	}
 	#chat > h1{
 		line-height: 64px;
@@ -432,6 +439,11 @@ export default
 		background-color: #000000;
 	}
 
+	/* Boîte de dialogue */
+	#joindre > form > div:last-child{
+		justify-content: center;
+	}
+
 /* Version tablette */
 @media only screen and (hover: none) and (pointer: coarse)
 and (max-width: 1370px){
@@ -470,7 +482,7 @@ and (max-width: 1370px){
 and (max-width: 769px){
 	/* Div principale */
 	#lobby{
-		height: calc(80vh - 203px)
+		height: calc(80vh - 201px)
 	}
 
 	/* Bouton */

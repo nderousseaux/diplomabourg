@@ -281,30 +281,23 @@ input[type="number"] {
     font-size: 40px;
   }
 
-  /* Boîte de dialogue pour paramétrer la partie */
-  #param > h1 {
-    font-size: 30px;
-  }
-  #param > form > div {
-    flex-direction: column;
-    width: 90%;
-    align-items: center;
-  }
-  #param > form > div > label {
-    font-size: 25px;
-    width: 100%;
-    text-align: center;
-  }
-  #param > form > div > input {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  #param > form > div:last-child {
-    flex-direction: row;
-  }
-  #param > form > div > button,
-  #param > form > div > input[type="submit"] {
-    font-size: 25px;
-  }
+	/* Boîte de dialogue pour paramétrer la partie */
+	#param > form > div {
+		flex-direction: column;
+		width: 90%;
+		align-items: center;
+	}
+	#param > form > div > label {
+		font-size: 25px;
+		width: 100%;
+		text-align: center;
+	}
+	#param > form > div > input {
+		width: calc(100% - 10px);
+		margin-bottom: 10px;
+	}
+	#param > form > div:last-child {
+		flex-direction: row;
+	}
 }
 </style>
