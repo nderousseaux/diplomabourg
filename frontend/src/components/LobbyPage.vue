@@ -144,9 +144,10 @@ export default
 				})
 		},
 		copyLink() {
+			// var link = window.location.protocol + '//' + window.location.hostname + `/games/${this.game_id}`;
 			var link = `http://localhost:8080/games/${this.game_id}`;
 			navigator.clipboard.writeText(link);
-			alert("Copied : " + link);
+			alert("Lien copié : " + link);
 		},
 		ready() {
 			console.log(this.game_id);
