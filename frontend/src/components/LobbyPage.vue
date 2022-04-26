@@ -166,7 +166,7 @@ export default
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
 			api.players
-				.update(this.game_id, this.player_id, this.username, 1, true, config)
+				.update(this.game_id, this.player_id, 'FRANCE', 1, true, config)
 				.then(response => {
 					console.log(response);
 					if (response.status == 204) {

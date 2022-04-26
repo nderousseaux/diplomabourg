@@ -176,7 +176,6 @@ export default {
           api.games
             .create_game(player.username, game.name, game.password, game.map_id)
             .then(response => {
-              console.log("coucou");
               //store les infos utiles de la game dans un objet pour le récup dans le lobby
               this.storeGameId(response.data.game.id);
               this.storePlayerId(response.data.game.players[0].id);
