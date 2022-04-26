@@ -12,15 +12,15 @@ const games = {
         }
         return axios.post(base_url,data);
     },
-    get_game(game_id)
+    get_game(game_id, config)
     {
         var new_url = base_url + "/" + game_id;
-        return axios.get(new_url);
+        return axios.get(new_url, config);
     },
-    join_game(username,game_id, pwd)
+    join_game(username, game_id, pwd)
     {
         var new_url = base_url + "/" + game_id + url_playeur + pwd;
-        return axios(new_url,username);
+        return axios.post(new_url, {username: `${username}`});
     }
 };
 
