@@ -51,7 +51,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- <dialog id="joindre">
+	<dialog id="joindre">
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
@@ -67,12 +67,15 @@
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
-	</dialog> -->
+	</dialog>
 </template>
 
 <script>
 import api from "../api";
 import router from "../router/index.js";
+import { io } from "socket.io-client";
+
+var socket;
 
 const game_num = window.location.hash.split('/')[2];
 /*
@@ -113,6 +116,7 @@ export default
 				.then(response => {
 					console.log(response.data);
 					for (var player = 0; player < response.data.players.length; player++){
+						console.log(player);
 						var id = response.data.players[player].id;
 						var username = response.data.players[player].username;
 						var power_id = player + 1;
@@ -194,6 +198,14 @@ export default
 			lancerDiag.showModal()
 		}
 		else {
+			//socket = io("http://localhost:10005",
+			socket = io("http://home.nathanaelderousseaux.fr:10005",
+				{ auth: cookie }
+			);
+			socket.on('ping', () => {
+				console.log("game update")
+			})
+
 			const config = {
 				headers: {Authorization: `Bearer ${cookie}`}
 			};
