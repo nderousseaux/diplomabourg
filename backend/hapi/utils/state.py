@@ -1,5 +1,5 @@
 from hapi.models import StateModel, UnitModel
-from hapi.utils.validation import resolution_orders
+from hapi.validation import *
 
 # Définit si il faut ou non changer d'état
 def change_state(DBSession, game, forced = False):
@@ -29,7 +29,7 @@ def change_state(DBSession, game, forced = False):
         if game.is_all_pret() or forced:
             
             #On résout les conflit
-            resolution_orders(DBSession, game)
+            OrderResolutions(DBSession, game.num_tour, game.id, 0)
 
             game.num_tour+=1
 

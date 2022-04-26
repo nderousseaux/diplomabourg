@@ -2,7 +2,7 @@ from email.policy import default
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
-from hapi.models import *
+from hapi.models import Base
 from hapi.utils.validation import resolve_conflits
 
 class OrderModel(Base):
