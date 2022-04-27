@@ -137,9 +137,12 @@ input[type=submit]:active,
 }
 
 #joindre > form > p,
-#param > form > p{
+#param > form > p,
+#rejoindre > form > p{
 	display: none;
 	font-size: 20px;
+	font-weight: bold;
+	color: rgb(238, 34, 34);
 	margin-bottom: 0;
 	text-align: center;
 }

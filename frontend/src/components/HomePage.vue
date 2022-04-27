@@ -45,9 +45,10 @@
 		<h1>Rejoindre une partie</h1>
 		<form method="dialog">
 			<div>
-				<label for="jdr">Numéro de partie</label>
-				<input type="text" id="jdr" name="jdr"/>
+				<label for="numPart">Numéro de partie</label>
+				<input type="text" id="numPart" name="numPart"/>
 			</div>
+      <p>Le numéro de partie doit être supérieur à 0 et n'être composé que de chiffres !</p>
 			<div>
         <button>Annuler</button>
 				<input type="submit" value="Rejoindre"/>
@@ -82,9 +83,10 @@ export default {
     },
   },
   mounted() {
-    // Pour rejoindre une partie
+    // Formulaire pour rejoindre une partie
     let rejoindreBtn = document.querySelector("div:first-child > div > button:last-child");
     let lancerJoin = document.getElementById("rejoindre");
+    let erreurJoin = document.querySelector("#rejoindre > form > p");
 
     rejoindreBtn.addEventListener("click", function onOpen() {
       if (typeof lancerJoin.showModal === "function") {
@@ -92,22 +94,69 @@ export default {
       }
     });
 
-    // Pour paramétrer la partie
-    let paramBtn = document.querySelector("div:first-child > div > button:first-child");
+    // Gestion du formulaire pour rejoindre une partie
+    document
+      .querySelector("#rejoindre > form > div > input[type=submit]")
+      .addEventListener("click", (event) => {
+        event.preventDefault();
+        let erreurForm = false;
+
+        // Regex
+        const regexInputRjd = /^\d+$/;
+
+        const inputPostVerifNbrJr = function () {
+          if (this.value.match(regexInputRjd) == null) {
+            this.classList.add("erreur");
+            this.previousElementSibling.classList.add("erreur");
+            erreurForm = true;
+            erreurJoin.style.display = "block";
+          } else {
+            this.classList.remove("erreur");
+            this.previousElementSibling.classList.remove("erreur");
+            erreurForm = false;
+            if (document.querySelectorAll("input.erreur").length == 0)
+              erreurJoin.style.display = "none";
+          }
+        };
+        function inputPreVerifNbrJr(donnee) {
+          if (donnee.value.match(regexInputRjd) == null) {
+            donnee.classList.add("erreur");
+            donnee.previousElementSibling.classList.add("erreur");
+            erreurForm = true;
+            erreurJoin.style.display = "block";
+          }
+        }
+
+        // Nom de la partie
+        let numPartie = document.getElementById("numPart");
+        inputPreVerifNbrJr(numPartie);
+        numPartie.addEventListener("input", inputPostVerifNbrJr);
+
+        // Si tous les tests sont validés, on peut envoyer
+        if (erreurForm == false) {
+          document.querySelector("form").submit();
+          console.log("ok");
+        }
+      });
+
+
+    // Formulaire pour paramétrer la partie
+    let paramBtn = document
+                  .querySelector("div:first-child > div > button:first-child");
     let lancerDiag = document.getElementById("param");
-    let erreur = document.querySelector("form > p");
+    let erreurCreer = document.querySelector("#param > form > p");
 
     // Ouvrir le formulaire
     paramBtn.addEventListener("click", function onOpen() {
       if (typeof lancerDiag.showModal === "function") {
-        erreur.style.display = "none";
+        erreurCreer.style.display = "none";
         lancerDiag.showModal();
       }
     });
 
-    // Gestion du formulaire
+    // Gestion du formulaire pour créer une partie
     document
-      .querySelector("form > div > input[type=submit]")
+      .querySelector("#param > form > div > input[type=submit]")
       .addEventListener("click", (event) => {
         event.preventDefault();
         let erreurForm = false;
@@ -125,13 +174,13 @@ export default {
             this.classList.add("erreur");
             this.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           } else {
             this.classList.remove("erreur");
             this.previousElementSibling.classList.remove("erreur");
             erreurForm = false;
             if (document.querySelectorAll("input.erreur").length == 0)
-              erreur.style.display = "none";
+              erreurCreer.style.display = "none";
           }
         };
         const inputPostVerifNbr = function () {
@@ -139,13 +188,13 @@ export default {
             this.classList.add("erreur");
             this.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           } else {
             this.classList.remove("erreur");
             this.previousElementSibling.classList.remove("erreur");
             erreurForm = false;
             if (document.querySelectorAll("input.erreur").length == 0)
-              erreur.style.display = "none";
+              erreurCreer.style.display = "none";
           }
         };
 
@@ -154,15 +203,15 @@ export default {
             donnee.classList.add("erreur");
             donnee.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           }
         }
         function inputPreVerifNbr(donnee) {
-          if (donnee.value < 2 || donnee.value > 7) {
+          if (donnee.value < minJoueurs || donnee.value > maxJoueurs) {
             donnee.classList.add("erreur");
             donnee.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           }
         }
 
