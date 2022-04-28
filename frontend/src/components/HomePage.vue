@@ -64,18 +64,18 @@
     <form method="dialog">
       <div>
         <h2>MacOS</h2>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
       </div>
       <div>
         <h2>Windows</h2>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x64</a>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x86</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x64</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x86</a>
       </div>
       <div>
         <h2>Linux</h2>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x86</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x86</a>
       </div>
       
       <button>Fermer</button>
@@ -350,13 +350,16 @@ export default {
   align-items: flex-start;
   width: 100vw;
 }
-#bandeau > button{
+#bandeau > button,
+#bandeau::before{
   width: 15%;
+  margin-right: 20px;
+}
+#bandeau > button{
   height: max-content;
 }
 #bandeau::before{
   content: "";
-  width: 15%;
 }
 
 #telecharger{
