@@ -551,6 +551,7 @@ def testConvoyBroke(idOrder, DBSession, transaction) :
 def BreakSomeConvoy(DBSession,nbtour,gameid,transaction):
     #recupére tous les ordres de convois valides
     print(" debut break convoy")
+    OrderModel.gameid
     orderConvoy= DBSession.query(OrderModel).filter(OrderModel.type_order_id.like(4),OrderModel.num_tour.like(nbtour),OrderModel.is_valid==True)
     orders = [o for o in orderConvoy if o.unit.game.id == gameid]
     for o in orderConvoy:
@@ -564,13 +565,29 @@ def removeAttaqueByConvoy(DBSession,nbtour,gameid,transaction):
     orderConvoy= DBSession.query(OrderModel).filter(OrderModel.type_order_id.like(4),OrderModel.num_tour.like(nbtour),OrderModel.is_valid==True,OrderModel.state==False)
     orders = [o for o in orderConvoy if o.unit.game.id == gameid]
 
-    for o in orderConvoy:
-        orderAttack=DBSession.query(OrderModel).filter(OrderModel.type_order_id.like(1),OrderModel.nbtour.like(nbtour),OrderModel.gameid.like(gameid),OrderModel.is_valid==True,OrderModel.unit_id==o.other_unit_id).first()
-        orderAttack.is_valide=False
-    # transaction.commit()
+    for o in orders:
+        orderAttack=DBSession.query(OrderModel).filter(OrderModel.type_order_id.like(1),OrderModel.num_tour.like(nbtour),OrderModel.is_valid==True,OrderModel.unit_id==o.other_unit_id)
+        gameOrderAttack=[o for o in orderAttack if o.unit.game_id==gameid]
+        if(gameOrderAttack is not None):
+            gameOrderAttack[0].is_valide=False
+    transaction.commit()
     print("relocalisation")
 
-def()
+def take_center(gameId,DBSession,transaction):
+    allUnits = DBSession.query(UnitModel).filter(UnitModel.game_id==gameId,UnitModel.life==True)
+    # pour tous les unités appartenant à une partie :
+    for u in allUnits:
+        #vérifié si l'unité est présent dans un région  qui à un centre
+            if(u.cur_region.hasCenter==True):
+                print("l'unité est présent dans une région centrée")
+                #recupérer le centre qui est présent sur cette région
+                uCenter=DBSession.query(UnitModel).filter(UnitModel.game_id.like(gameId),UnitModel.type_unit_id==3,UnitModel.src_region==u.cur_region).first()
+                #fait : center.puissance=unit.puissance
+                if(uCenter is not None):
+                     uCenter.power_id=u.power_id
+                print("puissance center changer")
+    transaction.commit()
+
 def OrderResolutions(DBSession,nbtour,gameid,transaction):
     #je valide d'abord les ordres
     Validation(DBSession,nbtour,gameid,transaction)
@@ -596,3 +613,6 @@ def OrderResolutions(DBSession,nbtour,gameid,transaction):
     
     #je retire les unités 
     removeUnitsLost(DBSession,nbtour,gameid ,transaction)
+
+    #ecupération des centres
+    take_center(gameid, DBSession,transaction)
