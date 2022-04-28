@@ -72,12 +72,11 @@
 
 <script>
 import api from "../api";
-import router from "../router/index.js";
+//import router from "../router/index.js";
 import { io } from "socket.io-client";
-
 var socket;
 
-const game_num = window.location.hash.split('/')[2];
+const game_num = window.location.pathname.split('/')[2];
 /*
 function getGameId() {
 	const value = `; ${document.cookie}`;
@@ -138,7 +137,7 @@ export default
 		},
 		joinGame(mdp, username) {
 			api.games
-				.join_game(username.value, window.location.hash.split('/')[2], mdp.value)
+				.join_game(username.value, window.location.pathname.split('/')[2], mdp.value)
 				.then(response => {
 					/*
 					console.log(response);
@@ -157,7 +156,7 @@ export default
 				})
 		},
 		copyLink() {
-			var link = `http://localhost:8080/#/games/${this.game_id}`;
+			var link = window.location.host + "/games/" + this.game_id;
 			navigator.clipboard.writeText(link);
 			alert("Copied : " + link);
 		},
@@ -198,13 +197,15 @@ export default
 			lancerDiag.showModal()
 		}
 		else {
-			//socket = io("http://localhost:10005",
-			socket = io("http://home.nathanaelderousseaux.fr:10005",
+			socket = io("http://localhost:8080",
+				{path: "/backend/"},
+			//socket = io("http://127.0.0.1:6543",
 				{ auth: cookie }
 			);
 			socket.on('ping', () => {
 				console.log("game update")
 			})
+
 
 			const config = {
 				headers: {Authorization: `Bearer ${cookie}`}
