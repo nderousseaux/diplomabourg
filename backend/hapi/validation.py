@@ -88,7 +88,8 @@ def ExisteConvoy(idUniteConvoye,idRegionSource,idRegionDest,DBSession): # alreed
 def isAttaqueMyself(idJoueur,idRegionDest): #already tested
     region = DBSession.query(RegionModel).filter(RegionModel.id == idRegionDest).first()
     for u in region.units_cur_region:
-        if(u.player.id==idJoueur):
+        j=u.player()
+        if(j.id==idJoueur):
             print("isAttaqueMyself")
             return True
     return False
@@ -96,8 +97,8 @@ def isAttaqueMyself(idJoueur,idRegionDest): #already tested
 
 def isYourOwnUnity(idJoueur,idUnite): #already tested
     unite = DBSession.query(UnitModel).filter(UnitModel.id == idUnite).first()
-    unite
-    if(unite.player.id==idJoueur):
+    joueur =unite.player()
+    if(joueur.id==idJoueur):
         print("isYourOwnUnity:")
         return True
 
@@ -128,7 +129,8 @@ def updateOrder(order,DBSession,transaction):
     
 
 def valideAttaque(order,DBSession,transaction): #already tested
-    idJoueur=order.unit.player.id
+    joueur=order.unit.player()
+    idJoueur=joueur.id
     print("hello")
     if (isYourOwnUnity(idJoueur,order.unit.id)==True and isAttaqueMyself(idJoueur,order.dst_region_id)==False):
         print(order.unit.type_unit_id) 
@@ -179,7 +181,8 @@ def tesvalideAttaque(idOrder,DBSession,transaction):
 #5  -région source de l'unité convoyé est  cotiére
 
 def ValideConvoyArmy(order, DBSession,transaction): #already tested
-    idJoueur=order.unit.player.id
+    joueur=order.unit.player()
+    idJoueur=joueur.id
     if (isYourOwnUnity(idJoueur,order.unit.id)):
         if(isFleet(order.unit.id,DBSession) ):
             if(order.unit_id != order.other_unit_id):
@@ -198,7 +201,8 @@ def testValideConvoy(idOrder,DBSession,transaction):
 
 
 def valideSoutien(order,DBSession,transaction):  # already tested 
-    idJoueur = order.unit.player.id
+    joueur = order.unit.player()
+    idJoueur=joueur.id
     idUnit = order.unit.id
     idOtherUnit = order.other_unit.id
     idRegionSrc = order.src_region_id
@@ -274,7 +278,7 @@ def AttaqueMutuelle(orders, DBSession): #already testeed
         
         
         # La liste des ordres en conflit avec l'ordre source
-        found = DBSession.query(OrderModel).filter(OrderModel.id.not_like(o.id),OrderModel.type_order_id .like(1), OrderModel.src_region_id.like(o.dst_region_id), OrderModel.dst_region_id.like(o.src_region_id), OrderModel.nbtour.like(o.nbtour),OrderModel.gameid.like(o.gameid))
+        found = DBSession.query(OrderModel).filter(OrderModel.id.not_like(o.id),OrderModel.type_order_id .like(1), OrderModel.src_region_id.like(o.dst_region_id), OrderModel.dst_region_id.like(o.src_region_id))
         
         if(found.count()!=0):
             if o not in redondencyListe:
@@ -283,8 +287,9 @@ def AttaqueMutuelle(orders, DBSession): #already testeed
                 redondencyListe.append(o)
 
                 for f in found:
-                    data.append(f)
-                    redondencyListe.append(f)
+                    if(f.unit.game.num_tour==o.unit.game.num_tour and f.unit.game.id==o.unit.game.id):
+                        data.append(f)
+                        redondencyListe.append(f)
                 MutualAttack.append(data)  
 
     return MutualAttack 
@@ -550,7 +555,7 @@ def BreakSomeConvoy(DBSession,nbtour,gameid,transaction):
     orders = [o for o in orderConvoy if o.unit.game.id == gameid]
     for o in orderConvoy:
        ConvoyBroken(o,DBSession, transaction)
-    # transaction.commit()
+    transaction.commit()
     print(" fin break convoy")
 
 def removeAttaqueByConvoy(DBSession,nbtour,gameid,transaction):
@@ -564,7 +569,8 @@ def removeAttaqueByConvoy(DBSession,nbtour,gameid,transaction):
         orderAttack.is_valide=False
     # transaction.commit()
     print("relocalisation")
-    
+
+def()
 def OrderResolutions(DBSession,nbtour,gameid,transaction):
     #je valide d'abord les ordres
     Validation(DBSession,nbtour,gameid,transaction)
