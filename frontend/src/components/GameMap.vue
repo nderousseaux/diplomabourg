@@ -78,7 +78,12 @@
       </div>
 
       <div id="infos">
-        <p>Sélectionnez une région pour choisir les ordres</p>
+        <!-- <p>Sélectionnez une région pour choisir les ordres</p> -->
+        <p>Vous avez x pions à placer sur la carte</p>
+        <div>
+          <button>Réinitialiser</button>
+          <button class="bloqueBtn">Valider</button>
+        </div>
       </div>
     </div>
   </div>
@@ -98,6 +103,41 @@ import api from "../api";
 
 export default {
   mounted() {
+    // Modèle de code pour changer le nombre de pions à poser
+    var nbrPions = 2;
+    var btnBloque = true;
+    let infosPions = document.querySelector("#infos > p")
+    let btnValider = document.querySelector("#infos > div > button:last-child")
+    infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+
+    document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
+      if (nbrPions > 0)
+      {
+        nbrPions--
+      }
+      if (nbrPions == 1)
+      {
+        infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+      }
+      else if (nbrPions == 0 && btnBloque == true)
+      {
+        infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
+        btnValider.classList.toggle("bloqueBtn")
+        btnBloque = false
+      }
+      else if (nbrPions > 0)
+        infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+    })
+    document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
+      if (btnBloque == false)
+      {
+        nbrPions = 2
+        infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+        btnValider.classList.toggle("bloqueBtn")
+        btnBloque = true;
+      }
+    })
+
     const order = {
       type_order: "",
       dst_region_id: 0,
@@ -462,10 +502,20 @@ export default {
 		background-color: rgba(112, 128, 143, 0.9);
 		height: 100%;
 	}
-	.bloque{
-		pointer-events: none;
-		filter: grayscale(1) invert(0.1);
+	.bloqueBtn{
+		background-color: #555555 !important;
+    cursor: not-allowed !important;
 	}
+  .bloqueBtn:hover{
+		background-color: #555555 !important;
+	}
+  .bloqueBtn:active{
+		background-color: #555555 !important;
+	}
+  .bloque{
+    pointer-events: none;
+		filter: grayscale(1) invert(0.1);
+  }
 
 	/* Colonnes */
 	#colonneInfos,
@@ -490,7 +540,7 @@ export default {
 	}
 	#minuteur > img:hover{
 		transition: 0.6s;
-		filter: invert(35%);
+		filter: invert(40%);
 	}
 	#minuteur > p{
 		font-size: 40px;
@@ -565,29 +615,45 @@ export default {
 		justify-content: space-evenly;
 		align-items: center;
 	}
+  #infos{
+    justify-content: space-between;
+  }
+  #infos > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 	#infos > p{
-		margin: 0;
+    padding: 0 4px;
 	}
 	#ordres{
 		display: none;
 	}
-	#ordres > p{
+	#ordres > p,
+  #infos > div > button{
 		width: 80%;
 		margin: 0 10px;
 		padding: 0;
 		line-height: 55px;
 		font-weight: bold;
 	}
-	#ordres > button{
+  #infos > div > button{
+    margin: 10px 0 !important;
+  }
+	#ordres > button,
+  #infos > div > button:last-child{
     line-height: 55px;
 		background-color: #808080;
 		padding: 0;
     width: 90%;
 	}
-	#ordres > button:hover{
+	#ordres > button:hover,
+  #infos > div > button:last-child:hover{
 		background-color: #686868;
 	}
-	#ordres > button:active{
+	#ordres > button:active
+  #infos > div > button:last-child:active{
 		background-color: #535353;
 	}
 
@@ -595,14 +661,6 @@ export default {
 	#quitter{
 		min-width: 35vw;
 	}
-
-/* Mode sombre */
-@media (prefers-color-scheme: dark) {
-  /* Carte */
-  svg {
-    background-color: rgba(42, 58, 73, 0.9);
-  }
-}
 
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
@@ -656,6 +714,16 @@ export default {
 		flex-direction: row;
 		height: max-content;
 	}
+  #infos > div{
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+  #infos > div > button:first-child{
+    width: 35%;
+  }
+  #infos > div > button:last-child{
+    width: 35%;
+  }
 	#ordres > p{
     width: 40%;
 		margin: 10px 0;
@@ -724,6 +792,15 @@ export default {
 	#infos > p{
 		margin: 30px 0;
 	}
+  #infos > div:last-child > button{
+    font-size: 22px;
+  }
+  #infos > div:last-child > button:first-child{
+    width: 50%;
+  }
+  #infos > div:last-child > button:last-child{
+    width: 70%;
+  }
 	#ordres > p{
     width: 40%;
 		font-size: 22px;
@@ -741,5 +818,13 @@ export default {
 	#quitter > form > div > button{
 		margin: 10px;
 	}
+}
+
+/* Mode sombre */
+@media (prefers-color-scheme: dark) {
+  /* Carte */
+  svg {
+    background-color: rgba(42, 58, 73, 0.9);
+  }
 }
 </style>

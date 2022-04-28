@@ -158,7 +158,7 @@ export default
 		copyLink() {
 			var link = window.location.host + "/games/" + this.game_id;
 			navigator.clipboard.writeText(link);
-			alert("Copied : " + link);
+			alert("Lien copié : " + link);
 		},
 		ready() {
 			console.log(this.game_id);

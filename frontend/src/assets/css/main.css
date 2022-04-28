@@ -60,6 +60,7 @@ p{
 	background-color: rgb(112, 128, 143);
 	width: calc(100% - 20px);
 	padding: 0 10px;
+	margin: 0;
 	font-size: 24px;
 	border-radius: 0 0 10px 10px;
 	outline: none;
@@ -180,23 +181,6 @@ input.erreur{
 	background-color: rgba(255, 0, 0, 0.4);
 }
 
-/* Mode sombre */
-@media(prefers-color-scheme: dark){
-	/* Couleur de fond transparente */
-	#pays,
-	#joueurs,
-	#chat,
-	#colonneInfos,
-	#colonneOrdres{
-		background-color: rgba(42, 58, 73, 0.7);
-	}
-
-	/* Chat */
-	#chat > form > input[type=text]{
-		background-color: rgb(42, 58, 73);
-	}
-}
-
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
 	/* Boîtes de dialogue */
@@ -265,5 +249,22 @@ input.erreur{
 	#rejoindre > form > div > button,
 	#rejoindre > form > div > input[type=submit]{
 		font-size: 22px;
+	}
+}
+
+/* Mode sombre */
+@media(prefers-color-scheme: dark){
+	/* Couleur de fond transparente */
+	#pays,
+	#joueurs,
+	#chat,
+	#colonneInfos,
+	#colonneOrdres{
+		background-color: rgba(42, 58, 73, 0.7);
+	}
+
+	/* Chat */
+	#chat > form > input[type=text]{
+		background-color: rgb(42, 58, 73);
 	}
 }

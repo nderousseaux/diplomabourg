@@ -279,7 +279,7 @@ export default {
 #actions{
   display: flex;
   justify-content: space-around;
-  width: 60vw;
+  width: 45vw;
 }
 #actions > button{
   width: 45%;
@@ -365,6 +365,7 @@ input[type="number"] {
   #actions > button{
     font-size: 22px;
     width: 100%;
+    margin-top: 0;
   }
 }
 </style>
