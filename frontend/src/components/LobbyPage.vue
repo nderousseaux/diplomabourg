@@ -397,6 +397,7 @@ export default
 		height: max-content;
 		border-radius: 10px;
 		overflow-x: auto;
+		margin: auto;
 	}
 	#joueurs > div{
 		display: flex;
