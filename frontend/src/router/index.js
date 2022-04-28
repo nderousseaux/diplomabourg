@@ -14,7 +14,7 @@ const routes = [
     }
   },
   {
-    path: "/lobby",
+    path: "/games/:id",
     name: "Lobby",
     component: LobbyPage,
     meta: {
