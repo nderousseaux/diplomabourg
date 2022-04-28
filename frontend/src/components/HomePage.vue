@@ -1,11 +1,15 @@
 <template>
   <div>
-    <img
-      id="logo"
-      alt="Logo Diplomabourg"
-      title="Logo Diplomabourg"
-      src="../assets/img/logo.png"
-    />
+    <div id="bandeau">
+      <img
+        id="logo"
+        alt="Logo Diplomabourg"
+        title="Logo Diplomabourg"
+        src="../assets/img/logo.png"
+      />
+      <button>Télécharger</button>
+    </div>
+    
     <div id="pays">
       <img
         alt="Drapeau français"
@@ -55,6 +59,28 @@
 			</div>
 		</form>
 	</dialog>
+  <dialog id="telecharger">
+    <h1>Télécharger le jeu</h1>
+    <form method="dialog">
+      <div>
+        <h2>MacOS</h2>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
+      </div>
+      <div>
+        <h2>Windows</h2>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x64</a>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x86</a>
+      </div>
+      <div>
+        <h2>Linux</h2>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x86</a>
+      </div>
+      
+      <button>Fermer</button>
+    </form>
+  </dialog>
 </template>
 
 <script>
@@ -83,8 +109,25 @@ export default {
     },
   },
   mounted() {
+    // Liste des téléchargements
+    let teleBtn = document.querySelector("#bandeau > button");
+
+    // Masquer le bouton si on est déjà sur le logiciel
+    var userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.indexOf("electron/") > -1) {
+      teleBtn.style.visibility = "hidden";
+    }
+
+    
+    let lancerTele = document.getElementById("telecharger")
+    teleBtn.addEventListener("click", function onOpen() {
+      if (typeof lancerTele.showModal === "function") {
+        lancerTele.showModal();
+      }
+    });
+
     // Formulaire pour rejoindre une partie
-    let rejoindreBtn = document.querySelector("div:first-child > div > button:last-child");
+    let rejoindreBtn = document.querySelector("#actions > button:last-child");
     let lancerJoin = document.getElementById("rejoindre");
     let erreurJoin = document.querySelector("#rejoindre > form > p");
 
@@ -142,7 +185,7 @@ export default {
 
     // Formulaire pour paramétrer la partie
     let paramBtn = document
-                  .querySelector("div:first-child > div > button:first-child");
+                  .querySelector("#actions > button:first-child");
     let lancerDiag = document.getElementById("param");
     let erreurCreer = document.querySelector("#param > form > p");
 
@@ -300,6 +343,33 @@ export default {
   align-items: center;
 }
 
+/* Télécharger le jeu */
+#bandeau{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100vw;
+}
+#bandeau > button{
+  width: 15%;
+  height: max-content;
+}
+#bandeau::before{
+  content: "";
+  width: 15%;
+}
+
+#telecharger{
+  min-width: 25vw;
+}
+#telecharger > form > div{
+  display: flex;
+  flex-direction: column;
+}
+#telecharger > form > div:first-child > h2{
+  margin-top: 0;
+}
+
 /* Pays du joueur */
 #pays {
   display: flex;
@@ -351,6 +421,15 @@ input[type="number"] {
 
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
+  /* Télécharger le jeu */
+  #bandeau > button,
+  #bandeau::before{
+    display: none;
+  }
+  #bandeau{
+    justify-content: center;
+  }
+
   /* Boutons */
   #actions{
     width: 80vw;
@@ -362,6 +441,15 @@ input[type="number"] {
 
 /* Version mobile */
 @media only screen and (max-width: 769px){
+  /* Télécharger le jeu */
+  #bandeau > button,
+  #bandeau::before{
+    display: none;
+  }
+  #bandeau{
+    justify-content: center;
+  }
+
   /* Pays du joueur */
   #pays {
     display: flex;

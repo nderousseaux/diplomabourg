@@ -78,8 +78,7 @@
       </div>
 
       <div id="infos">
-        <!-- <p>Sélectionnez une région pour choisir les ordres</p> -->
-        <p>Vous avez x pions à placer sur la carte</p>
+        <p>Sélectionnez une région pour choisir les ordres</p>
         <div>
           <button>Réinitialiser</button>
           <button class="bloqueBtn">Valider</button>
