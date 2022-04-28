@@ -365,9 +365,16 @@ export default {
 #telecharger > form > div{
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+#telecharger > form > div > h2{
+  font-size: 32px;
 }
 #telecharger > form > div:first-child > h2{
   margin-top: 0;
+}
+#telecharger > form > div > a{
+  font-size: 18px;
 }
 
 /* Pays du joueur */
