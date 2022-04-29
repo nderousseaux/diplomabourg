@@ -72,10 +72,10 @@
 
 <script>
 import api from "../api";
-//import router from "../router/index.js";
-import { io } from "socket.io-client";
+import router from "../router/index.js";
+/*import { io } from "socket.io-client";
 var socket;
-
+*/
 const game_num = window.location.pathname.split('/')[2];
 /*
 function getGameId() {
@@ -106,6 +106,21 @@ export default
 		}
 	},
 	methods: {
+		getChange(game_id, config) {
+			api.games
+				.get_game(game_id, config)
+				.then(response => {
+					console.log(response.data);
+					if (response.data.state == "GAME")
+					{
+						router.push({ name: "Jeu"});
+					}
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
+		},
+
 		beginGame() {
 			const config = {
 				headers: {Authorization: `Bearer ${this.token}`}
@@ -197,6 +212,12 @@ export default
 			lancerDiag.showModal()
 		}
 		else {
+			const config = {
+				headers: {Authorization: `Bearer ${cookie}`}
+			};
+
+			setInterval(this.getChange, 5000, game_num, config);
+			/*
 			socket = io("http://localhost:8080",
 				{path: "/backend/"},
 			//socket = io("http://127.0.0.1:6543",
@@ -205,11 +226,8 @@ export default
 			socket.on('ping', () => {
 				console.log("game update")
 			})
+			*/
 
-
-			const config = {
-				headers: {Authorization: `Bearer ${cookie}`}
-			};
 			var indexOfPlayer;
 			api.games
 				.get_game(this.game_id, config)
