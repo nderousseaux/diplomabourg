@@ -70,10 +70,12 @@
     </div>
     <div id="colonneOrdres">
       <h1>Informations</h1>
-      <div id="ordres">
-        <p id="ATTACK">Attaquer</p>
-        <p id="tenir">Tenir</p>
-        <p id="soutenir">Soutenir</p>
+      <div id="ordres"> 
+        <div>
+          <p id="ATTACK">Attaquer</p>
+          <p id="tenir">Tenir</p>
+          <p id="soutenir">Soutenir</p>
+        </div>
         <button id="valider_ordre">Valider</button>
       </div>
 
@@ -221,10 +223,10 @@ export default {
               conv.style.cssText = "width: 40%; line-height: 55px; font-size: 22px; margin: 10px 0; font-weight: bold;";
             }
             else if (window.innerWidth > 770 && window.innerWidth < 1370) {
-              conv.style.cssText = "width: 40%; line-height: 55px; margin: 10px 0; font-weight: bold;";
+              conv.style.cssText = "width: 40%; line-height: 55px; margin: 0; font-weight: bold;";
             }
             else {
-              conv.style.cssText = "width: 80%; line-height: 55px; margin: 0; font-weight: bold;"
+              conv.style.cssText = "width: 60%; line-height: 55px; margin: 0; font-weight: bold;"
             }
 
             var btn_valider = document.querySelector("#soutenir");
@@ -519,7 +521,7 @@ export default {
 	/* Colonnes */
 	#colonneInfos,
 	#colonneOrdres{
-		width: 25vw;
+		width: 22vw;
 		height: 98vh;
 		border-radius: 10px;
 		margin: 1vh 1vw 1vh 1vw;
@@ -597,10 +599,6 @@ export default {
 	}
 
 	/* Colonne d'ordres */
-	#colonneOrdres{
-		width: 18vw;
-		height: 98vh;
-	}
 	#colonneOrdres > h1{
 		line-height: 88px;
 		margin: 0;
@@ -629,16 +627,24 @@ export default {
 	#ordres{
 		display: none;
 	}
-	#ordres > p,
+  #ordres > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 95px);
+  }
+	#ordres > div > p,
   #infos > div > button{
-		width: 80%;
-		margin: 0 10px;
+		width: 60%;
+		margin: 0;
 		padding: 0;
 		line-height: 55px;
 		font-weight: bold;
 	}
   #infos > div > button{
-    margin: 10px 0 !important;
+    margin: 20px 0;
   }
 	#ordres > button,
   #infos > div > button:last-child{
@@ -683,9 +689,15 @@ export default {
 	}
 
 	/* Minuteur */
+  #minuteur{
+    flex-direction: column;
+    align-items: center;
+    height: 142px;
+  }
 	#minuteur > img{
 		width: 36px;
 		height: 36px;
+    margin-bottom: 0;
 	}
 	#minuteur > p{
 		font-size: 40px;
@@ -700,19 +712,24 @@ export default {
 		width: 30%;
 	}
 
+  /* Chat */
+	#chat{
+    height: calc(65% - 142px);
+	}
+
 	/* Colonne d'ordres */
 	#colonneOrdres{
 		width: 100%;
-		min-height: 35vh;
 		height: max-content;
-	}
-	#infos{
-		height: calc(35vh - 96px);
 	}
 	#ordres{
 		flex-direction: row;
 		height: max-content;
 	}
+  #ordres > div{
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
   #infos > div{
     flex-direction: row;
     justify-content: space-evenly;
@@ -723,12 +740,12 @@ export default {
   #infos > div > button:last-child{
     width: 35%;
   }
-	#ordres > p{
+	#ordres > div > p{
     width: 40%;
 		margin: 10px 0;
 	}
-	#ordres > p:first-child,
-	#ordres > p:nth-child(2){
+	#ordres > div > p:first-child,
+	#ordres > div > p:nth-child(2){
 		margin-top: 20px;
 	}
 	#ordres > button{
@@ -788,6 +805,10 @@ export default {
 	#ordres{
 		flex-direction: row;
 	}
+  #ordres > div{
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
 	#infos > p{
 		margin: 30px 0;
 	}
@@ -800,17 +821,14 @@ export default {
   #infos > div:last-child > button:last-child{
     width: 70%;
   }
-	#ordres > p{
+	#ordres > div > p{
     width: 40%;
 		font-size: 22px;
 		margin: 10px 0;
 	}
-	#ordres > p:first-child,
-	#ordres > p:nth-child(2){
+	#ordres > div > p:first-child,
+	#ordres > div > p:nth-child(2){
 		margin-top: 20px;
-	}
-	#ordres > p:last-child{
-		margin: 20px 0;
 	}
 
 	/* Boîte de dialogue pour quitter */
