@@ -10,7 +10,7 @@ const routes = [
     name: "Home",
     component: HomePage,
     meta: {
-      title: 'Diplomabourg'
+      title: "Diplomabourg"
     }
   },
   {
@@ -18,7 +18,7 @@ const routes = [
     name: "Lobby",
     component: LobbyPage,
     meta: {
-      title: 'Diplomabourg - Lobby'
+      title: "Diplomabourg - Lobby"
     }
   },
   {
@@ -26,7 +26,7 @@ const routes = [
     name: "Jeu",
     component: GameMap,
     meta: {
-      title: 'Diplomabourg - Jeu'
+      title: "Diplomabourg - Jeu"
     }
   }
 ];

@@ -445,7 +445,7 @@ input[type="number"] {
     width: 80vw;
   }
   #actions > button{
-		font-size: 22px;
+		font-size: 26px;
   }
 }
 

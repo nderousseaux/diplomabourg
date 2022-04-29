@@ -609,8 +609,6 @@ export default {
   #ordres > div > p,
   #infos > div > button{
 		width: 60%;
-		margin: 0;
-		padding: 0;
 		line-height: 55px;
 		font-weight: bold;
 	}
@@ -618,7 +616,6 @@ export default {
   #infos > div > button:last-child{
     line-height: 55px;
 		background-color: #808080;
-		padding: 0;
     width: 90%;
 	}
 	#ordres > button:hover,
@@ -660,9 +657,6 @@ export default {
 	#infos > p{
     padding: 0 4px;
 	}
-  #infos > div > button{
-    margin: 20px 0;
-  }
 
 	/* Boîte de dialogue pour quitter */
 	#quitter{
@@ -694,7 +688,7 @@ export default {
 	#minuteur > img{
 		width: 36px;
 		height: 36px;
-    margin-bottom: 0;
+    margin: 20px 0 0 0;
 	}
 	#minuteur > p{
 		font-size: 40px;
@@ -745,7 +739,6 @@ export default {
 	}
 	#ordres > button{
     width: 80%;
-		margin: 20px 0;
 	}
 
   /* Colonne d'infos */

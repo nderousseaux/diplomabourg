@@ -78,6 +78,7 @@ button,
 input[type=submit],
 #ordres > div > p{
 	margin: 20px 0;
+	padding: 0;
 	line-height: 44px;
 	font-size: 28px;
 	background-color: #800124;
@@ -210,7 +211,7 @@ input.erreur{
 	#param > form > div > input[type=submit],
 	#rejoindre > form > div > button,
 	#rejoindre > form > div > input[type=submit]{
-		font-size: 22px;
+		font-size: 26px;
 	}
 }
 
