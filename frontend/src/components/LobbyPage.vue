@@ -436,7 +436,8 @@ export default
 		justify-content: space-evenly;
 	}
 	#actions > button{
-		width: 35%;
+		width: 30%;
+		padding: 0 10px;
 		min-width: fit-content;
 	}
 	.inactif{
