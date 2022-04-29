@@ -408,6 +408,7 @@ export default
 		height: max-content;
 		border-radius: 10px;
 		overflow-x: auto;
+		margin: auto;
 	}
 	#joueurs > div{
 		display: flex;
@@ -420,7 +421,7 @@ export default
 	}
 	#joueurs > div > button{
 		margin-bottom: 0;
-		width: 80%;
+		width: 138px;
 	}
 	#joueurs > div > img{
 		width: 98px;
@@ -481,7 +482,7 @@ export default
 	}
 	#joueurs > div > button{
 		margin-bottom: 0;
-		width: 60%;
+		width: 108px
 	}
 
 	/* Bouton */
@@ -500,11 +501,6 @@ export default
 	/* Div principale */
 	#lobby{
 		height: calc(80vh - 201px)
-	}
-
-	/* Pays des joueurs */
-	#joueurs > div > button{
-		width: 90%;
 	}
 
 	/* Bouton */
