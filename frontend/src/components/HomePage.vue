@@ -422,16 +422,20 @@ export default {
 }
 
 /* Boîte de dialogue pour paramétrer et rejoindre la partie */
-#param,
-#rejoindre {
-  min-width: 35vw;
+#param > form > div > label{
+  margin-right: 10px;
+  width: 50%;
 }
-
 input[type="number"] {
   text-align: center;
   caret-color: transparent;
   user-select: none;
   cursor: default;
+}
+input[type=number],
+input[type=password],
+input[type=text]{
+	width: calc(50% - 20px);
 }
 
 /* Version tablette */
