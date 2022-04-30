@@ -42,7 +42,8 @@ p{
 
 /* Barre de séparation */
 #minuteur,
-#colonneOrdres > h1{
+#colonneOrdres > h1,
+#telecharger > form > div > h2{
 	border-style: solid;
 	border-width: 0 0 4px;
 	border-image: radial-gradient(#ae0132, #1c0043) 1;
@@ -75,8 +76,9 @@ p{
 /* Boutons */
 button,
 input[type=submit],
-#ordres > p{
+#ordres > div > p{
 	margin: 20px 0;
+	padding: 0;
 	line-height: 44px;
 	font-size: 28px;
 	background-color: #800124;
@@ -89,12 +91,12 @@ input[type=submit],
 }
 button:hover,
 input[type=submit]:hover,
-#ordres > p:hover{
+#ordres > div > p:hover{
 	background-color: #4682b4;
 }
 button:active,
 input[type=submit]:active,
-#ordres > p:active{
+#ordres > div > p:active{
 	background-color: #376890;
 }
 
@@ -102,7 +104,8 @@ input[type=submit]:active,
 #joindre,
 #param,
 #quitter,
-#rejoindre{
+#rejoindre,
+#telecharger{
 	background-color: #2a3a49;
 	border-radius: 10px;
 	border-style: none;
@@ -111,7 +114,8 @@ input[type=submit]:active,
 #joindre > h1,
 #param > h1,
 #quitter > h1,
-#rejoindre > h1{
+#rejoindre > h1,
+#telecharger > h1{
 	font-size: 40px;
 	margin: 10px 0 30px;
 	text-align: center;
@@ -119,7 +123,8 @@ input[type=submit]:active,
 #joindre > form,
 #param > form,
 #quitter > form,
-#rejoindre > form{
+#rejoindre > form,
+#telecharger > form{
 	display: flex;
 	flex-direction: column;
 	margin: 0;
@@ -135,11 +140,13 @@ input[type=submit]:active,
 	align-items: center;
 	width: 80%;
 }
-
 #joindre > form > p,
-#param > form > p{
+#param > form > p,
+#rejoindre > form > p{
 	display: none;
 	font-size: 20px;
+	font-weight: bold;
+	color: rgb(238, 34, 34);
 	margin-bottom: 0;
 	text-align: center;
 }
@@ -169,7 +176,8 @@ input[type=text]{
 #quitter > form > div > button,
 #quitter > form > div > input[type=submit],
 #rejoindre > form > div > button,
-#rejoindre > form > div > input[type=submit]{
+#rejoindre > form > div > input[type=submit],
+#telecharger > form > button{
 	flex-basis: 40%;
 	margin: 30px 0 10px;
 	padding: 4px 22px;
@@ -203,7 +211,7 @@ input.erreur{
 	#param > form > div > input[type=submit],
 	#rejoindre > form > div > button,
 	#rejoindre > form > div > input[type=submit]{
-		font-size: 22px;
+		font-size: 26px;
 	}
 }
 

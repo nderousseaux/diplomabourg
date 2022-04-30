@@ -3,6 +3,7 @@ frontend/node_modules/
 node_modules
 /dist
 /dist_electron
+/src/installers
 
 # local env files
 .env.local

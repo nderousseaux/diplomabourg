@@ -70,16 +70,17 @@
     </div>
     <div id="colonneOrdres">
       <h1>Informations</h1>
-      <div id="ordres">
-        <p id="ATTACK">Attaquer</p>
-        <p id="tenir">Tenir</p>
-        <p id="soutenir">Soutenir</p>
+      <div id="ordres"> 
+        <div>
+          <p id="ATTACK">Attaquer</p>
+          <p id="tenir">Tenir</p>
+          <p id="soutenir">Soutenir</p>
+        </div>
         <button id="valider_ordre">Valider</button>
       </div>
 
       <div id="infos">
-        <!-- <p>Sélectionnez une région pour choisir les ordres</p> -->
-        <p>Vous avez x pions à placer sur la carte</p>
+        <p>Sélectionnez une région pour choisir les ordres</p>
         <div>
           <button>Réinitialiser</button>
           <button class="bloqueBtn">Valider</button>
@@ -222,10 +223,10 @@ export default {
               conv.style.cssText = "width: 40%; line-height: 55px; font-size: 22px; margin: 10px 0; font-weight: bold;";
             }
             else if (window.innerWidth > 770 && window.innerWidth < 1370) {
-              conv.style.cssText = "width: 40%; line-height: 55px; margin: 10px 0; font-weight: bold;";
+              conv.style.cssText = "width: 40%; line-height: 55px; margin: 0; font-weight: bold;";
             }
             else {
-              conv.style.cssText = "width: 80%; line-height: 55px; margin: 0; font-weight: bold;"
+              conv.style.cssText = "width: 60%; line-height: 55px; margin: 0; font-weight: bold;"
             }
 
             var btn_valider = document.querySelector("#soutenir");
@@ -517,15 +518,6 @@ export default {
 		filter: grayscale(1) invert(0.1);
   }
 
-	/* Colonnes */
-	#colonneInfos,
-	#colonneOrdres{
-		width: 25vw;
-		height: 98vh;
-		border-radius: 10px;
-		margin: 1vh 1vw 1vh 1vw;
-	}
-
 	/* Minuteur */
 	#minuteur{
 		display: flex;
@@ -554,8 +546,6 @@ export default {
 		width: 48px;
 		padding-right: 20px;
 	}
-
-
   #minuteur > button{
     width: 45%;
   }
@@ -564,7 +554,7 @@ export default {
 	#drapeaux{
 		display: flex;
 		flex-direction: column;
-		height: 35%;
+		height: 30%;
 		overflow-x: auto;
 	}
 	#drapeaux > h1{
@@ -587,24 +577,25 @@ export default {
 	/* Chat */
 	#chat{
 		width: 100%;
-		height: calc(65% - 92px);
+		height: calc(70% - 92px);
 		background-color: unset;
+    margin: 0;
 	}
 	#chat > h1{
 		padding-top: 20px;
+    margin: 20px 0;
 		border-style: solid;
 		border-width: 4px 0 0;
 		border-image: radial-gradient(#ae0132, #1c0043) 1;
 	}
 
-	/* Colonne d'ordres */
+	/* Colonnes */
+	#colonneInfos,
 	#colonneOrdres{
-		width: 18vw;
+		width: 22vw;
 		height: 98vh;
-	}
-	#colonneOrdres > h1{
-		line-height: 88px;
-		margin: 0;
+		border-radius: 10px;
+		margin: 1vh 1vw 1vh 1vw;
 	}
 	#infos,
 	#ordres{
@@ -615,6 +606,45 @@ export default {
 		justify-content: space-evenly;
 		align-items: center;
 	}
+  #ordres > div > p,
+  #infos > div > button{
+		width: 60%;
+		line-height: 55px;
+		font-weight: bold;
+	}
+	#ordres > button,
+  #infos > div > button:last-child{
+    line-height: 55px;
+		background-color: #808080;
+    width: 90%;
+	}
+	#ordres > button:hover,
+  #infos > div > button:last-child:hover{
+		background-color: #686868;
+	}
+	#ordres > button:active
+  #infos > div > button:last-child:active{
+		background-color: #535353;
+	}
+
+	/* Colonne d'ordres */
+	#colonneOrdres > h1{
+		line-height: 88px;
+		margin: 0;
+	}
+	#ordres{
+		display: none;
+	}
+  #ordres > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - 95px);
+  }
+
+  /* Colonne d'infos */
   #infos{
     justify-content: space-between;
   }
@@ -626,35 +656,6 @@ export default {
   }
 	#infos > p{
     padding: 0 4px;
-	}
-	#ordres{
-		display: none;
-	}
-	#ordres > p,
-  #infos > div > button{
-		width: 80%;
-		margin: 0 10px;
-		padding: 0;
-		line-height: 55px;
-		font-weight: bold;
-	}
-  #infos > div > button{
-    margin: 10px 0 !important;
-  }
-	#ordres > button,
-  #infos > div > button:last-child{
-    line-height: 55px;
-		background-color: #808080;
-		padding: 0;
-    width: 90%;
-	}
-	#ordres > button:hover,
-  #infos > div > button:last-child:hover{
-		background-color: #686868;
-	}
-	#ordres > button:active
-  #infos > div > button:last-child:active{
-		background-color: #535353;
 	}
 
 	/* Boîte de dialogue pour quitter */
@@ -674,19 +675,20 @@ export default {
 	#carte{
 		width: calc(75vw - 3vw);
 		max-width: max-content;
-		margin: 1vh 1vw 1vh 0;
+		margin: 1vh 1vw 0 0;
 		font-size: 10px;
 	}
 
-	/* Colonnes */
-	#colonneInfos{
-		height: 98vh;
-	}
-
 	/* Minuteur */
+  #minuteur{
+    flex-direction: column;
+    align-items: center;
+    height: 142px;
+  }
 	#minuteur > img{
 		width: 36px;
 		height: 36px;
+    margin: 20px 0 0 0;
 	}
 	#minuteur > p{
 		font-size: 40px;
@@ -701,19 +703,45 @@ export default {
 		width: 30%;
 	}
 
+  /* Chat */
+	#chat{
+    height: calc(70% - 146px);
+	}
+
+  /* Colonnes */
+	#colonneInfos{
+		width: 25vw;
+		height: 98vh;
+    margin-bottom: 0;
+	}
+
+	#ordres > div > p:first-child,
+	#ordres > div > p:nth-child(2){
+		margin-top: 20px;
+	}
+
 	/* Colonne d'ordres */
 	#colonneOrdres{
 		width: 100%;
-		min-height: 35vh;
 		height: max-content;
-	}
-	#infos{
-		height: calc(35vh - 96px);
 	}
 	#ordres{
 		flex-direction: row;
 		height: max-content;
 	}
+  #ordres > div{
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  #ordres > div > p{
+    width: 40%;
+		margin: 10px 0;
+	}
+	#ordres > button{
+    width: 80%;
+	}
+
+  /* Colonne d'infos */
   #infos > div{
     flex-direction: row;
     justify-content: space-evenly;
@@ -724,18 +752,6 @@ export default {
   #infos > div > button:last-child{
     width: 35%;
   }
-	#ordres > p{
-    width: 40%;
-		margin: 10px 0;
-	}
-	#ordres > p:first-child,
-	#ordres > p:nth-child(2){
-		margin-top: 20px;
-	}
-	#ordres > button{
-    width: 80%;
-		margin: 20px 0;
-	}
 
 	/* Boîte de dialogue pour quitter */
 	#quitter > form > button{
@@ -753,16 +769,8 @@ export default {
 	/* Carte */
 	#carte{
 		width: unset;
-		margin: 0 2vw 1vh 2vw;
+		margin: 0 2vw 0 2vw;
 		font-size: 11px;
-	}
-
-	/* Colonnes */
-	#colonneInfos,
-	#colonneOrdres{
-		width: 96vw;
-		height: max-content;
-		margin: 1vh 2vw 1vh 2vw;
 	}
 
 	/* Minuteur */
@@ -782,6 +790,18 @@ export default {
 		width: 15%;
 	}
 
+  /* Colonnes */
+	#colonneInfos,
+	#colonneOrdres{
+		width: 96vw;
+		height: max-content;
+		margin: 1vh 2vw 1vh 2vw;
+	}
+	#ordres > div > p:first-child,
+	#ordres > div > p:nth-child(2){
+		margin-top: 20px;
+	}
+
 	/* Colonne d'ordres */
 	#colonneOrdres{
 		margin: 1vh 2vw 1vh 2vw;
@@ -789,6 +809,17 @@ export default {
 	#ordres{
 		flex-direction: row;
 	}
+  #ordres > div{
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+	#ordres > div > p{
+    width: 40%;
+		font-size: 22px;
+		margin: 10px 0;
+	}
+
+  /* Colonne d'infos */
 	#infos > p{
 		margin: 30px 0;
 	}
@@ -801,18 +832,6 @@ export default {
   #infos > div:last-child > button:last-child{
     width: 70%;
   }
-	#ordres > p{
-    width: 40%;
-		font-size: 22px;
-		margin: 10px 0;
-	}
-	#ordres > p:first-child,
-	#ordres > p:nth-child(2){
-		margin-top: 20px;
-	}
-	#ordres > p:last-child{
-		margin: 20px 0;
-	}
 
 	/* Boîte de dialogue pour quitter */
 	#quitter > form > div > button{

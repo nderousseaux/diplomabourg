@@ -1,11 +1,15 @@
 <template>
   <div>
-    <img
-      id="logo"
-      alt="Logo Diplomabourg"
-      title="Logo Diplomabourg"
-      src="../assets/img/logo.png"
-    />
+    <div id="bandeau">
+      <img
+        id="logo"
+        alt="Logo Diplomabourg"
+        title="Logo Diplomabourg"
+        src="../assets/img/logo.png"
+      />
+      <button>Télécharger</button>
+    </div>
+    
     <div id="pays">
       <img
         alt="Drapeau français"
@@ -45,15 +49,38 @@
 		<h1>Rejoindre une partie</h1>
 		<form method="dialog">
 			<div>
-				<label for="jdr">Numéro de partie</label>
-				<input type="text" id="jdr" name="jdr"/>
+				<label for="numPart">Numéro de partie</label>
+				<input type="text" id="numPart" name="numPart"/>
 			</div>
+      <p>Le numéro de partie doit être supérieur à 0 et n'être composé que de chiffres !</p>
 			<div>
         <button>Annuler</button>
 				<button @click='rejoindreGame()'>Rejoindre</button>
 			</div>
 		</form>
 	</dialog>
+  <dialog id="telecharger">
+    <h1>Télécharger le jeu</h1>
+    <form method="dialog">
+      <div>
+        <h2>MacOS</h2>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
+      </div>
+      <div>
+        <h2>Windows</h2>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x64</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x86</a>
+      </div>
+      <div>
+        <h2>Linux</h2>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
+        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x86</a>
+      </div>
+      
+      <button>Fermer</button>
+    </form>
+  </dialog>
 </template>
 
 <script>
@@ -86,9 +113,27 @@ export default {
     },
   },
   mounted() {
-    // Pour rejoindre une partie
-    let rejoindreBtn = document.querySelector("div:first-child > div > button:last-child");
+    // Liste des téléchargements
+    let teleBtn = document.querySelector("#bandeau > button");
+
+    // Masquer le bouton si on est déjà sur le logiciel
+    var userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.indexOf("electron/") > -1) {
+      teleBtn.style.visibility = "hidden";
+    }
+
+    
+    let lancerTele = document.getElementById("telecharger")
+    teleBtn.addEventListener("click", function onOpen() {
+      if (typeof lancerTele.showModal === "function") {
+        lancerTele.showModal();
+      }
+    });
+
+    // Formulaire pour rejoindre une partie
+    let rejoindreBtn = document.querySelector("#actions > button:last-child");
     let lancerJoin = document.getElementById("rejoindre");
+    let erreurJoin = document.querySelector("#rejoindre > form > p");
 
     rejoindreBtn.addEventListener("click", function onOpen() {
       if (typeof lancerJoin.showModal === "function") {
@@ -96,22 +141,69 @@ export default {
       }
     });
 
-    // Pour paramétrer la partie
-    let paramBtn = document.querySelector("div:first-child > div > button:first-child");
+    // Gestion du formulaire pour rejoindre une partie
+    document
+      .querySelector("#rejoindre > form > div > input[type=submit]")
+      .addEventListener("click", (event) => {
+        event.preventDefault();
+        let erreurForm = false;
+
+        // Regex
+        const regexInputRjd = /^\d+$/;
+
+        const inputPostVerifNbrJr = function () {
+          if (this.value.match(regexInputRjd) == null) {
+            this.classList.add("erreur");
+            this.previousElementSibling.classList.add("erreur");
+            erreurForm = true;
+            erreurJoin.style.display = "block";
+          } else {
+            this.classList.remove("erreur");
+            this.previousElementSibling.classList.remove("erreur");
+            erreurForm = false;
+            if (document.querySelectorAll("input.erreur").length == 0)
+              erreurJoin.style.display = "none";
+          }
+        };
+        function inputPreVerifNbrJr(donnee) {
+          if (donnee.value.match(regexInputRjd) == null) {
+            donnee.classList.add("erreur");
+            donnee.previousElementSibling.classList.add("erreur");
+            erreurForm = true;
+            erreurJoin.style.display = "block";
+          }
+        }
+
+        // Nom de la partie
+        let numPartie = document.getElementById("numPart");
+        inputPreVerifNbrJr(numPartie);
+        numPartie.addEventListener("input", inputPostVerifNbrJr);
+
+        // Si tous les tests sont validés, on peut envoyer
+        if (erreurForm == false) {
+          document.querySelector("form").submit();
+          console.log("ok");
+        }
+      });
+
+
+    // Formulaire pour paramétrer la partie
+    let paramBtn = document
+                  .querySelector("#actions > button:first-child");
     let lancerDiag = document.getElementById("param");
-    let erreur = document.querySelector("form > p");
+    let erreurCreer = document.querySelector("#param > form > p");
 
     // Ouvrir le formulaire
     paramBtn.addEventListener("click", function onOpen() {
       if (typeof lancerDiag.showModal === "function") {
-        erreur.style.display = "none";
+        erreurCreer.style.display = "none";
         lancerDiag.showModal();
       }
     });
 
-    // Gestion du formulaire
+    // Gestion du formulaire pour créer une partie
     document
-      .querySelector("form > div > input[type=submit]")
+      .querySelector("#param > form > div > input[type=submit]")
       .addEventListener("click", (event) => {
         event.preventDefault();
         let erreurForm = false;
@@ -129,13 +221,13 @@ export default {
             this.classList.add("erreur");
             this.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           } else {
             this.classList.remove("erreur");
             this.previousElementSibling.classList.remove("erreur");
             erreurForm = false;
             if (document.querySelectorAll("input.erreur").length == 0)
-              erreur.style.display = "none";
+              erreurCreer.style.display = "none";
           }
         };
         const inputPostVerifNbr = function () {
@@ -143,13 +235,13 @@ export default {
             this.classList.add("erreur");
             this.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           } else {
             this.classList.remove("erreur");
             this.previousElementSibling.classList.remove("erreur");
             erreurForm = false;
             if (document.querySelectorAll("input.erreur").length == 0)
-              erreur.style.display = "none";
+              erreurCreer.style.display = "none";
           }
         };
 
@@ -158,15 +250,15 @@ export default {
             donnee.classList.add("erreur");
             donnee.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           }
         }
         function inputPreVerifNbr(donnee) {
-          if (donnee.value < 2 || donnee.value > 7) {
+          if (donnee.value < minJoueurs || donnee.value > maxJoueurs) {
             donnee.classList.add("erreur");
             donnee.previousElementSibling.classList.add("erreur");
             erreurForm = true;
-            erreur.style.display = "block";
+            erreurCreer.style.display = "block";
           }
         }
 
@@ -256,6 +348,43 @@ export default {
   align-items: center;
 }
 
+/* Télécharger le jeu */
+#bandeau{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100vw;
+}
+#bandeau > button,
+#bandeau::before{
+  width: 15%;
+  margin-right: 20px;
+}
+#bandeau > button{
+  height: max-content;
+}
+#bandeau::before{
+  content: "";
+}
+
+#telecharger{
+  min-width: 25vw;
+}
+#telecharger > form > div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#telecharger > form > div > h2{
+  font-size: 32px;
+}
+#telecharger > form > div:first-child > h2{
+  margin-top: 0;
+}
+#telecharger > form > div > a{
+  font-size: 18px;
+}
+
 /* Pays du joueur */
 #pays {
   display: flex;
@@ -307,17 +436,35 @@ input[type="number"] {
 
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
+  /* Télécharger le jeu */
+  #bandeau > button,
+  #bandeau::before{
+    display: none;
+  }
+  #bandeau{
+    justify-content: center;
+  }
+
   /* Boutons */
   #actions{
     width: 80vw;
   }
   #actions > button{
-		font-size: 22px;
+		font-size: 26px;
   }
 }
 
 /* Version mobile */
 @media only screen and (max-width: 769px){
+  /* Télécharger le jeu */
+  #bandeau > button,
+  #bandeau::before{
+    display: none;
+  }
+  #bandeau{
+    justify-content: center;
+  }
+
   /* Pays du joueur */
   #pays {
     display: flex;
