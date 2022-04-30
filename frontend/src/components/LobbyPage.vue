@@ -94,6 +94,12 @@ function getTokenCookie() {
 	}
 }
 
+function getRefresh()  {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; refreshed=`);
+	return parts.pop().split(';').shift();
+}
+
 export default
 {
 	data() {
@@ -208,13 +214,7 @@ export default
 
 		var cookie = getTokenCookie();
 
-		var is_refreshed = function() {
-			const value = `; ${document.cookie}`;
-			const parts = value.split(`; refreshed=`);
-			if (parts.length === 2) {
-				return parts.pop().split(';').shift();
-			}
-		}
+		var is_refreshed = getRefresh();
 		//récupère l'id de l'utilisateur courant
 		if (cookie == null) {
 			if (is_refreshed == 'true') {
