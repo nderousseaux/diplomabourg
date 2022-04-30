@@ -196,8 +196,8 @@ input[type=text],
 #telecharger > form > button{
 	width: 40%;
 	margin: 30px 0 10px;
-	padding: 4px 22px;
-	line-height: 40px;
+	padding: 0 22px;
+	line-height: 44px;
 	border: none;
 	outline: inherit;
 }
@@ -221,12 +221,10 @@ input.erreur{
 		width: 100%;
 		justify-content: space-around;
 	}
-	#param > form > div > button,
-	#joindre > form > div > input[type=submit],
-	#quitter > form > div > button,
-	#param > form > div > input[type=submit],
-	#rejoindre > form > div > button,
-	#rejoindre > form > div > input[type=submit]{
+	button,
+	input[type=submit],
+	#ordres > div > p,
+	#ordres > div > div > p{
 		font-size: 26px;
 	}
 }
@@ -235,8 +233,8 @@ input.erreur{
 @media only screen and (max-width: 769px){
 	/* Div principale */
 	#logo{
-		width: 95vw;
-		height: unset;
+		width: 340px;
+		height: 128px;
 	}
 
 	/* Chat */
@@ -254,6 +252,12 @@ input.erreur{
 	}
 
 	/* Boîtes de dialogue */
+	#joindre,
+	#param,
+	#quitter,
+	#rejoindre{
+		width: 85vw;
+	}
 	#joindre > h1,
 	#param > h1,
 	#quitter > h1,
@@ -266,13 +270,11 @@ input.erreur{
 	#rejoindre > form > div{
 		width: 100%;
 	}
-	#param > form > div > button,
-	#joindre > form > div > input[type=submit],
-	#quitter > form > div > button,
-	#param > form > div > input[type=submit],
-	#rejoindre > form > div > button,
-	#rejoindre > form > div > input[type=submit]{
-		font-size: 22px;
+	button,
+	input[type=submit],
+	#ordres > div > p,
+	#ordres > div > div > p{
+		font-size: 23px;
 	}
 }
 
