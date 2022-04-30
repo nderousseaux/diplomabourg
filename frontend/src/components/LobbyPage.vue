@@ -206,10 +206,24 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
-		var cookie = getTokenCookie(window.location.hash.split('/')[2]);
+		var cookie = getTokenCookie();
+
+		var is_refreshed = function() {
+			const value = `; ${document.cookie}`;
+			const parts = value.split(`; refreshed=`);
+			if (parts.length === 2) {
+				return parts.pop().split(';').shift();
+			}
+		}
 		//récupère l'id de l'utilisateur courant
 		if (cookie == null) {
-			lancerDiag.showModal()
+			if (is_refreshed == 'true') {
+				lancerDiag.showModal();
+			}
+			else {
+				document.cookie = "refreshed=true; sameSite=Lax"
+				location.reload();
+			}
 		}
 		else {
 			const config = {

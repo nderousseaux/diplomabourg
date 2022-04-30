@@ -50,7 +50,7 @@
 			</div>
 			<div>
         <button>Annuler</button>
-				<input type="submit" value="Rejoindre"/>
+				<button @click='rejoindreGame()'>Rejoindre</button>
 			</div>
 		</form>
 	</dialog>
@@ -68,6 +68,10 @@ export default {
     };
   },
   methods: {
+    rejoindreGame() {
+      var id = document.getElementById('jdr')
+      window.location = (window.location.origin + '/games/' + id.value)
+    },
     storeGameId(id) {
       store.setGameId(Number(id));
     },
@@ -209,6 +213,9 @@ export default {
 
 							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
 							document.cookie = "game_id=" + response.data.game.id + "; sameSite=Lax";
+              let now = Date.now();
+              let end = now + 1000;
+              while (end > now) {now = Date.now()}
 							this.$router.push({ path: `/games/${response.data.game.id}` });
             })
             .catch((err) => {
