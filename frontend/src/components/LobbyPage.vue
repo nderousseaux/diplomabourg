@@ -73,15 +73,31 @@
 <script>
 import api from "../api";
 import router from "../router/index.js";
-
-const game_num = window.location.hash.split('/')[2];
-
+/*import { io } from "socket.io-client";
+var socket;
+*/
+const game_num = window.location.pathname.split('/')[2];
+/*
+function getGameId() {
+	const value = `; ${document.cookie}`;
+	const parts = value.split("; game_id=");
+	if (parts.length === 2) {
+		return parts.pop().split(";").shift();
+	}
+}
+*/
 function getTokenCookie() {
 	const value = `; ${document.cookie}`;
 	const parts = value.split(`; token${game_num}=`);
 	if (parts.length === 2) {
 		return parts.pop().split(';').shift();
 	}
+}
+
+function getRefresh()  {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; refreshed=`);
+	return parts.pop().split(';').shift();
 }
 
 export default
@@ -96,14 +112,31 @@ export default
 		}
 	},
 	methods: {
+		getChange(game_id, config) {
+			api.games
+				.get_game(game_id, config)
+				.then(response => {
+					console.log(response.data);
+					if (response.data.state == "GAME")
+					{
+						router.push({ name: "Jeu"});
+					}
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
+		},
+
 		beginGame() {
 			const config = {
 				headers: {Authorization: `Bearer ${this.token}`}
 			}
 			api.games
-				.get_game(window.location.hash.split('/')[2], config)
+				.get_game(this.game_id, config)
 				.then(response => {
+					console.log(response.data);
 					for (var player = 0; player < response.data.players.length; player++){
+						console.log(player);
 						var id = response.data.players[player].id;
 						var username = response.data.players[player].username;
 						var power_id = player + 1;
@@ -117,7 +150,7 @@ export default
 								console.log(error);
 							})
 					}
-					router.push({ name: "Jeu"})
+					//router.push({ name: "Jeu"})
 				})
 				.catch(function(error) {
 					console.log(error);
@@ -125,7 +158,7 @@ export default
 		},
 		joinGame(mdp, username) {
 			api.games
-				.join_game(username.value, window.location.hash.split('/')[2], mdp.value)
+				.join_game(username.value, window.location.pathname.split('/')[2], mdp.value)
 				.then(response => {
 					/*
 					console.log(response);
@@ -144,8 +177,7 @@ export default
 				})
 		},
 		copyLink() {
-			// var link = window.location.protocol + '//' + window.location.hostname + `/games/${this.game_id}`;
-			var link = `http://localhost:8080/games/${this.game_id}`;
+			var link = window.location.host + "/games/" + this.game_id;
 			navigator.clipboard.writeText(link);
 			alert("Lien copié : " + link);
 		},
@@ -157,18 +189,8 @@ export default
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
-
-			const bodyParameters = {
-				username: this.username,
-				power_id: 1,
-				is_ready: true
-			};
-
-			api
-				.put("/games/" + this.game_id + "/players/" + this.player_id,
-					bodyParameters,
-					config
-				)
+			api.players
+				.update(this.game_id, this.player_id, 'FRANCE', 1, true, config)
 				.then(response => {
 					console.log(response);
 					if (response.status == 204) {
@@ -190,18 +212,39 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
-		var cookie = this.token;
+		var cookie = getTokenCookie();
+
+		var is_refreshed = getRefresh();
 		//récupère l'id de l'utilisateur courant
 		if (cookie == null) {
-			lancerDiag.showModal()
+			if (is_refreshed == 'true') {
+				lancerDiag.showModal();
+			}
+			else {
+				document.cookie = "refreshed=true; sameSite=Lax"
+				location.reload();
+			}
 		}
 		else {
 			const config = {
 				headers: {Authorization: `Bearer ${cookie}`}
 			};
+
+			setInterval(this.getChange, 5000, game_num, config);
+			/*
+			socket = io("http://localhost:8080",
+				{path: "/backend/"},
+			//socket = io("http://127.0.0.1:6543",
+				{ auth: cookie }
+			);
+			socket.on('ping', () => {
+				console.log("game update")
+			})
+			*/
+
 			var indexOfPlayer;
 			api.games
-				.get_game(window.location.hash.split('/')[2], config)
+				.get_game(this.game_id, config)
 				.then(response => {
 					indexOfPlayer = response.data.players.map(function(e) {
 						return e.is_you;
