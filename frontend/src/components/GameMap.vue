@@ -627,6 +627,7 @@ export default {
 	}
   #minuteur > button{
     width: 45%;
+    line-height: 48px;
   }
 
 	/* Drapeaux */
@@ -831,6 +832,9 @@ export default {
 	#minuteur:first-child:after{
 		width: 18px;
 	}
+  #minuteur > button{
+    width: 70%;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
@@ -926,8 +930,8 @@ export default {
 
 	/* Minuteur */
 	#minuteur > img{
-		width: 36px;
-		height: 36px;
+		width: 48px;
+		height: 48px;
 	}
 	#minuteur > p{
 		line-height: 76px;
@@ -944,7 +948,7 @@ export default {
   /* Colonnes */
 	#colonneInfos,
 	#colonneOrdres{
-		width: 96vw;
+		width: calc(100vw - 2vw - 2vw);
 		height: max-content;
 		margin: 1vh 2vw 1vh 2vw;
 	}
@@ -968,7 +972,6 @@ export default {
   #ordres > div > p,
   #attaquer,
   #convoyer{
-		font-size: 22px;
 		margin: 10px 0;
   }
 	#ordres > div > div:first-child > p,
@@ -1000,9 +1003,6 @@ export default {
 	#infos > p{
 		margin: 30px 0;
 	}
-  #infos > div:last-child > button{
-    font-size: 22px;
-  }
   #infos > div:last-child > button:first-child{
     width: 50%;
   }
