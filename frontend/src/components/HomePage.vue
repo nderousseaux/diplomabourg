@@ -55,7 +55,7 @@
       <p>Le numéro de partie doit être supérieur à 0 et n'être composé que de chiffres !</p>
 			<div>
         <button>Annuler</button>
-				<input type="submit" value="Rejoindre"/>
+				<button @click='rejoindreGame()'>Rejoindre</button>
 			</div>
 		</form>
 	</dialog>
@@ -95,6 +95,10 @@ export default {
     };
   },
   methods: {
+    rejoindreGame() {
+      var id = document.getElementById('numPart')
+      window.location = (window.location.origin + '/games/' + id.value)
+    },
     storeGameId(id) {
       store.setGameId(Number(id));
     },
@@ -139,7 +143,7 @@ export default {
 
     // Gestion du formulaire pour rejoindre une partie
     document
-      .querySelector("#rejoindre > form > div > input[type=submit]")
+      .querySelector("#rejoindre > form > div > input[type=text]")
       .addEventListener("click", (event) => {
         event.preventDefault();
         let erreurForm = false;
@@ -301,6 +305,9 @@ export default {
 
 							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
 							document.cookie = "game_id=" + response.data.game.id + "; sameSite=Lax";
+              let now = Date.now();
+              let end = now + 1000;
+              while (end > now) {now = Date.now()}
 							this.$router.push({ path: `/games/${response.data.game.id}` });
             })
             .catch((err) => {

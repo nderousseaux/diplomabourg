@@ -72,10 +72,10 @@
 
 <script>
 import api from "../api";
-//import router from "../router/index.js";
-import { io } from "socket.io-client";
+import router from "../router/index.js";
+/*import { io } from "socket.io-client";
 var socket;
-
+*/
 const game_num = window.location.pathname.split('/')[2];
 /*
 function getGameId() {
@@ -94,6 +94,12 @@ function getTokenCookie() {
 	}
 }
 
+function getRefresh()  {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; refreshed=`);
+	return parts.pop().split(';').shift();
+}
+
 export default
 {
 	data() {
@@ -106,6 +112,21 @@ export default
 		}
 	},
 	methods: {
+		getChange(game_id, config) {
+			api.games
+				.get_game(game_id, config)
+				.then(response => {
+					console.log(response.data);
+					if (response.data.state == "GAME")
+					{
+						router.push({ name: "Jeu"});
+					}
+				})
+				.catch(function(error) {
+					console.log(error);
+				})
+		},
+
 		beginGame() {
 			const config = {
 				headers: {Authorization: `Bearer ${this.token}`}
@@ -191,12 +212,26 @@ export default
 		let lancerDiag = document.getElementById("joindre")
 		let erreur = document.querySelector("form > p")
 
-		var cookie = getTokenCookie(window.location.hash.split('/')[2]);
+		var cookie = getTokenCookie();
+
+		var is_refreshed = getRefresh();
 		//récupère l'id de l'utilisateur courant
 		if (cookie == null) {
-			lancerDiag.showModal()
+			if (is_refreshed == 'true') {
+				lancerDiag.showModal();
+			}
+			else {
+				document.cookie = "refreshed=true; sameSite=Lax"
+				location.reload();
+			}
 		}
 		else {
+			const config = {
+				headers: {Authorization: `Bearer ${cookie}`}
+			};
+
+			setInterval(this.getChange, 5000, game_num, config);
+			/*
 			socket = io("http://localhost:8080",
 				{path: "/backend/"},
 			//socket = io("http://127.0.0.1:6543",
@@ -205,11 +240,8 @@ export default
 			socket.on('ping', () => {
 				console.log("game update")
 			})
+			*/
 
-
-			const config = {
-				headers: {Authorization: `Bearer ${cookie}`}
-			};
 			var indexOfPlayer;
 			api.games
 				.get_game(this.game_id, config)
