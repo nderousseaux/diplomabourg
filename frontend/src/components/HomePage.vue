@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     rejoindreGame() {
-      var id = document.getElementById('jdr')
+      var id = document.getElementById('numPart')
       window.location = (window.location.origin + '/games/' + id.value)
     },
     storeGameId(id) {
