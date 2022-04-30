@@ -221,7 +221,8 @@ export default
 				lancerDiag.showModal();
 			}
 			else {
-				document.cookie = "refreshed=true; sameSite=Lax"
+				var expiration = new Date(Date.now() + 10000).toUTCString();
+				document.cookie = `refreshed=true; expires=${expiration}; sameSite=Lax`
 				location.reload();
 			}
 		}
