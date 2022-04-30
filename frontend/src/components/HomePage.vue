@@ -143,7 +143,7 @@ export default {
 
     // Gestion du formulaire pour rejoindre une partie
     document
-      .querySelector("#rejoindre > form > div > input[type=submit]")
+      .querySelector("#rejoindre > form > div > input[type=text]")
       .addEventListener("click", (event) => {
         event.preventDefault();
         let erreurForm = false;
