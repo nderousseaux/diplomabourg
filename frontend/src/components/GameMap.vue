@@ -726,9 +726,12 @@ export default {
   #ordres > div > div{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 60%;
     align-items: center;
     justify-content: center;
+  } 
+  .enCours{
+    background-color: #376890 !important;
   }
   .ciblage{
     display: none;
@@ -737,31 +740,28 @@ export default {
   }
   .ciblage > div{
     display: flex;
-    width: calc(30px + 30px + 30px);
+    width: calc(30px + 30px + 10px);
     justify-content: space-evenly;
   }
   .ciblage > label{
-    width: 20%;
+    min-width: fit-content;
+    width: calc(60% - 70px - 20px);
+    height: 30px;
     text-align: center;
     margin: 0;
   }
-  
-  .enCours{
-    background-color: #376890 !important;
-  }
-  
-
   .ciblage > div > button{
     width: 30px;
+    line-height: 30px;
     margin: 0;
     font-size: 15px;
-    line-height: 30px;
     border-radius: 5px;
     color: transparent;
     text-shadow: 0 0 0 #ffffff;
   }
   .ciblage > div > button:first-child{
     background-color: #008000;
+    margin-right: 10px;
   }
   .ciblage > div > button:first-child:hover{
     background-color: #006e00;
@@ -778,7 +778,10 @@ export default {
   .ciblage > div > button:last-child:active{
     background-color: #a00000;
   }
-
+  #attaquer,
+  #convoyer{
+    width: 100% !important;
+  }
 
   /* Colonne d'infos */
   #infos{
@@ -863,14 +866,31 @@ export default {
   #ordres > div{
     flex-wrap: wrap;
     flex-direction: row;
+    align-items: baseline;
   }
-  #ordres > div > p{
+  #ordres > div > p,
+  #ordres > div > div{
     width: 40%;
 		margin: 10px 0;
 	}
 	#ordres > button{
     width: 80%;
 	}
+  .ciblage > div{
+    width: calc(35px + 35px + 20px);
+  }
+  .ciblage > label{
+    font-size: 28px;
+    height: 35px;
+  }
+  .ciblage > div > button{
+    width: 35px;
+    line-height: 35px;
+    font-size: 20px;
+  }
+  .ciblage > div > button:first-child{
+    margin-right: 20px;
+  }
 
   /* Colonne d'infos */
   #infos > div{
@@ -928,10 +948,6 @@ export default {
 		height: max-content;
 		margin: 1vh 2vw 1vh 2vw;
 	}
-	#ordres > div > p:first-child,
-	#ordres > div > p:nth-child(2){
-		margin-top: 20px;
-	}
 
 	/* Colonne d'ordres */
 	#colonneOrdres{
@@ -943,12 +959,42 @@ export default {
   #ordres > div{
     flex-wrap: wrap;
     flex-direction: row;
+    align-items: baseline;
   }
-	#ordres > div > p{
+	#ordres > div > p,
+  #ordres > div > div{
     width: 40%;
+	}
+  #ordres > div > p,
+  #attaquer,
+  #convoyer{
 		font-size: 22px;
 		margin: 10px 0;
+  }
+	#ordres > div > div:first-child > p,
+	#ordres > div > p:nth-child(2){
+		margin-top: 20px !important;
 	}
+  .ciblage{
+    flex-direction: column;
+    align-items: center;
+  }
+  .ciblage > div{
+    width: 100%;
+  }
+  .ciblage > label{
+    width: 80%;
+    margin: 10px 0;
+    height: 35px;
+  }
+  .ciblage > div > button{
+    width: 35px;
+    line-height: 35px;
+    margin-bottom: 10px;
+  }
+  .ciblage > div > button:first-child{
+    margin-right: 0;
+  }
 
   /* Colonne d'infos */
 	#infos > p{
