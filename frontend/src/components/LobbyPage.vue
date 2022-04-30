@@ -486,6 +486,9 @@ export default
 	}
 
 	/* Boîte de dialogue */
+	#joindre{
+		width: max-content;
+	}
 	#joindre > form > div:last-child{
 		justify-content: center;
 	}

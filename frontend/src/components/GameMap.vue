@@ -72,9 +72,30 @@
       <h1>Informations</h1>
       <div id="ordres"> 
         <div>
-          <p id="ATTACK">Attaquer</p>
+          <div>
+            <p id="attaquer">Attaquer</p>
+            <div class="ciblage" id="att">
+              <label>Par</label>
+              <div>
+                <button>✔️</button>
+                <button>✖️</button>
+              </div>
+            </div>
+          </div>
+          
           <p id="tenir">Tenir</p>
           <p id="soutenir">Soutenir</p>
+
+          <div>
+            <p id="convoyer">Convoyer</p>
+            <div class="ciblage" id="conv">
+              <label>Mun</label>
+              <div>
+                <button>✔️</button>
+                <button>✖️</button>
+              </div>
+            </div>
+          </div>
         </div>
         <button id="valider_ordre">Valider</button>
       </div>
@@ -171,16 +192,12 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          let convoyer = document.getElementById("convoyer");
-          if (convoyer) {
-            convoyer.remove();
-          }
+          $(document.getElementById("convoyer")).hide();
 
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
           console.log("Clic zone terrestre : ", nomZone);
-          console.log("Clic id: " + carte["areas"][j].id);
         });
       }
 
@@ -214,30 +231,32 @@ export default {
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
 
-          let btn_convoyer = document.getElementById("convoyer");
-          if (!btn_convoyer) {
-            const conv = document.createElement("p");
-            conv.innerText = "Convoyer";
-            conv.setAttribute("id", "convoyer");
-            if (window.innerWidth < 769) {
-              conv.style.cssText = "width: 40%; line-height: 55px; font-size: 22px; margin: 10px 0; font-weight: bold;";
-            }
-            else if (window.innerWidth > 770 && window.innerWidth < 1370) {
-              conv.style.cssText = "width: 40%; line-height: 55px; margin: 0; font-weight: bold;";
-            }
-            else {
-              conv.style.cssText = "width: 60%; line-height: 55px; margin: 0; font-weight: bold;"
-            }
+          // DEVENU INUTILE, JE SAVAIS PAS SI VOUS AVIEZ DU CODE A RECUP
 
-            var btn_valider = document.querySelector("#soutenir");
+          $(document.getElementById("convoyer")).show();
+          // if (!btn_convoyer) {
+          //   const conv = document.createElement("p");
+          //   conv.innerText = "Convoyer";
+          //   conv.setAttribute("id", "convoyer");
+          //   if (window.innerWidth < 769) {
+          //     conv.style.cssText = "width: 40%; line-height: 55px; font-size: 22px; margin: 10px 0; font-weight: bold;";
+          //   }
+          //   else if (window.innerWidth > 770 && window.innerWidth < 1370) {
+          //     conv.style.cssText = "width: 40%; line-height: 55px; margin: 0; font-weight: bold;";
+          //   }
+          //   else {
+          //     conv.style.cssText = "width: 60%; line-height: 55px; margin: 0; font-weight: bold;"
+          //   }
 
-            btn_valider.after(conv);
+          //   var btn_valider = document.querySelector("#soutenir");
 
-            conv.addEventListener("click", function convoyer_ordre() {
-              ordre = conv.id;
-              console.log("CONVOYER");
-            });
-          }
+          //   btn_valider.after(conv);
+
+          //   conv.addEventListener("click", function convoyer_ordre() {
+          //     ordre = conv.id;
+          //     console.log("CONVOYER");
+          //   });
+          // }
 
           console.log("Clic zone maritime : ", nomZone);
         });
@@ -373,22 +392,82 @@ export default {
       }
     }
 
+    // Attaquer
+    let btn_attaque = document.getElementById("attaquer");
+    btn_attaque.addEventListener("click", function attaque_ordre() {
+      ordre = btn_attaque.id;
+      if (btn_attaque.classList.contains("enCours")) {
+        btn_attaque.classList.remove("enCours");
+        $(document.getElementById("att")).hide()
+      }
+      else {
+        btn_attaque.classList.add("enCours");
+        $(document.getElementById("att")).css("display", "flex")
+      }
+    });
+      // Bouton validation
+    let btn_ok_att = document.querySelector("#att > div > button:first-child");
+    btn_ok_att.addEventListener("click", function convoyer_ordre() {
+      btn_attaque.classList.remove("enCours");
+      $(document.getElementById("att")).hide()
+
+      let valLab = document.querySelector("#att > label").textContent;
+      console.log(valLab);
+    });
+      // Bouton annulation
+    let btn_notok_att = document.querySelector("#att > div > button:last-child");
+    btn_notok_att.addEventListener("click", function convoyer_ordre() {
+      btn_attaque.classList.remove("enCours");
+      $(document.getElementById("att")).hide()
+
+      console.log("Mission annulée !");
+    });
+
+
+    // Tenir
     let btn_tenir = document.getElementById("tenir");
     btn_tenir.addEventListener("click", function tenir_ordre() {
       ordre = btn_tenir.id;
       //console.log("TENIR");
     });
 
-    let btn_attaque = document.getElementById("ATTACK");
-    btn_attaque.addEventListener("click", function attaque_ordre() {
-      ordre = btn_attaque.id;
-      //console.log("ATTAQUE");
-    });
 
+    // Soutenir
     let btn_soutenir = document.getElementById("soutenir");
     btn_soutenir.addEventListener("click", function soutenir_ordre() {
       ordre = btn_soutenir.id;
       //console.log("SOUTENIR");
+    });
+
+    // Convoyer
+    let btn_convoyer = document.getElementById("convoyer");
+    btn_convoyer.addEventListener("click", function convoyer_ordre() {
+      ordre = btn_convoyer.id;
+      if (btn_convoyer.classList.contains("enCours")) {
+        btn_convoyer.classList.remove("enCours");
+        $(document.getElementById("conv")).hide()
+      }
+      else {
+        btn_convoyer.classList.add("enCours");
+        $(document.getElementById("conv")).css("display", "flex")
+      }
+    });
+      // Bouton validation
+    let btn_ok_conv = document.querySelector("#conv > div > button:first-child");
+    btn_ok_conv.addEventListener("click", function convoyer_ordre() {
+      btn_convoyer.classList.remove("enCours");
+      $(document.getElementById("conv")).hide()
+
+      let valLab = document.querySelector("#conv > label").textContent;
+      console.log(valLab);
+    });
+      // Bouton annulation
+    let btn_notok_conv = document.querySelector("#conv > div > button:last-child");
+    btn_notok_conv.addEventListener("click", function convoyer_ordre() {
+      btn_convoyer.classList.remove("enCours");
+      $(document.getElementById("conv")).hide()
+
+      console.log("Mission annulée !");
     });
 
     // Validation d'un ordre
@@ -607,6 +686,7 @@ export default {
 		align-items: center;
 	}
   #ordres > div > p,
+  #ordres > div > div > p,
   #infos > div > button{
 		width: 60%;
 		line-height: 55px;
@@ -643,6 +723,62 @@ export default {
     width: 100%;
     height: calc(100% - 95px);
   }
+  #ordres > div > div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .ciblage{
+    display: none;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  .ciblage > div{
+    display: flex;
+    width: calc(30px + 30px + 30px);
+    justify-content: space-evenly;
+  }
+  .ciblage > label{
+    width: 20%;
+    text-align: center;
+    margin: 0;
+  }
+  
+  .enCours{
+    background-color: #376890 !important;
+  }
+  
+
+  .ciblage > div > button{
+    width: 30px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 30px;
+    border-radius: 5px;
+    color: transparent;
+    text-shadow: 0 0 0 #ffffff;
+  }
+  .ciblage > div > button:first-child{
+    background-color: #008000;
+  }
+  .ciblage > div > button:first-child:hover{
+    background-color: #006e00;
+  }
+  .ciblage > div> button:first-child:active{
+    background-color: #005200;
+  }
+  .ciblage > div > button:last-child{
+    background-color: #ff0000;
+  }
+  .ciblage > div > button:last-child:hover{
+    background-color: #c90000;
+  }
+  .ciblage > div > button:last-child:active{
+    background-color: #a00000;
+  }
+
 
   /* Colonne d'infos */
   #infos{
@@ -656,11 +792,6 @@ export default {
   }
 	#infos > p{
     padding: 0 4px;
-	}
-
-	/* Boîte de dialogue pour quitter */
-	#quitter{
-		min-width: 35vw;
 	}
 
 /* Version tablette */
