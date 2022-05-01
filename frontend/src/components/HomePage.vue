@@ -280,7 +280,7 @@ export default {
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
           document.querySelector("form").submit();
-          const player = { username: "FRANCE" };
+          const player = { username: "France" };
 
           const game = {
             name: `${nomInput.value}`,
