@@ -231,6 +231,9 @@ export default
 		if (cookie == null) {
 			if (is_refreshed == 'true') {
 				lancerDiag.showModal();
+				lancerDiag.addEventListener("cancel", (event) => {
+					event.preventDefault();
+				});
 			}
 			else {
 				var expiration = new Date(Date.now() + 10000).toUTCString();
@@ -540,7 +543,7 @@ export default
 	@media not all and (min-resolution:.001dpcm) {
 		@supports (-webkit-appearance:none) and (stroke-color:transparent) {
 			select:active {
-				font-size: 20px;
+				font-size: 18px;
 			}
 		}
 	}
