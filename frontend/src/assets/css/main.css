@@ -76,7 +76,8 @@ p{
 /* Boutons */
 button,
 input[type=submit],
-#ordres > div > p{
+#ordres > div > p,
+#ordres > div > div > p{
 	margin: 20px 0;
 	padding: 0;
 	line-height: 44px;
@@ -91,12 +92,14 @@ input[type=submit],
 }
 button:hover,
 input[type=submit]:hover,
-#ordres > div > p:hover{
+#ordres > div > p:hover,
+#ordres > div > div > p:hover{
 	background-color: #4682b4;
 }
 button:active,
 input[type=submit]:active,
-#ordres > div > p:active{
+#ordres > div > p:active,
+#ordres > div > div > p:active{
 	background-color: #376890;
 }
 
@@ -110,6 +113,12 @@ input[type=submit]:active,
 	border-radius: 10px;
 	border-style: none;
 	box-shadow: 0px 0px 15px 5px #002843;
+}
+#param,
+#rejoindre,
+#quitter{
+	width: 25vw;
+	min-width: max-content;
 }
 #joindre > h1,
 #param > h1,
@@ -136,9 +145,15 @@ input[type=submit]:active,
 #rejoindre > form > div{
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	width: 80%;
+}
+#joindre > form > div:last-child,
+#param > form > div:last-child,
+#quitter > form > div:last-child,
+#rejoindre > form > div:last-child{
+	width: 100%;
 }
 #joindre > form > p,
 #param > form > p,
@@ -159,7 +174,8 @@ input[type=submit]:active,
 }
 input[type=number],
 input[type=password],
-input[type=text]{
+input[type=text],
+.ciblage > label{
 	background-color: #3b5167;
 	width: calc(50% - 10px);
 	height: 30px;
@@ -178,10 +194,10 @@ input[type=text]{
 #rejoindre > form > div > button,
 #rejoindre > form > div > input[type=submit],
 #telecharger > form > button{
-	flex-basis: 40%;
+	width: 40%;
 	margin: 30px 0 10px;
-	padding: 4px 22px;
-	line-height: 40px;
+	padding: 0 22px;
+	line-height: 44px;
 	border: none;
 	outline: inherit;
 }
@@ -205,12 +221,10 @@ input.erreur{
 		width: 100%;
 		justify-content: space-around;
 	}
-	#param > form > div > button,
-	#joindre > form > div > input[type=submit],
-	#quitter > form > div > button,
-	#param > form > div > input[type=submit],
-	#rejoindre > form > div > button,
-	#rejoindre > form > div > input[type=submit]{
+	button,
+	input[type=submit],
+	#ordres > div > p,
+	#ordres > div > div > p{
 		font-size: 26px;
 	}
 }
@@ -219,8 +233,8 @@ input.erreur{
 @media only screen and (max-width: 769px){
 	/* Div principale */
 	#logo{
-		width: 95vw;
-		height: unset;
+		width: 340px;
+		height: 128px;
 	}
 
 	/* Chat */
@@ -238,6 +252,12 @@ input.erreur{
 	}
 
 	/* Boîtes de dialogue */
+	#joindre,
+	#param,
+	#quitter,
+	#rejoindre{
+		width: 85vw;
+	}
 	#joindre > h1,
 	#param > h1,
 	#quitter > h1,
@@ -250,13 +270,11 @@ input.erreur{
 	#rejoindre > form > div{
 		width: 100%;
 	}
-	#param > form > div > button,
-	#joindre > form > div > input[type=submit],
-	#quitter > form > div > button,
-	#param > form > div > input[type=submit],
-	#rejoindre > form > div > button,
-	#rejoindre > form > div > input[type=submit]{
-		font-size: 22px;
+	button,
+	input[type=submit],
+	#ordres > div > p,
+	#ordres > div > div > p{
+		font-size: 23px;
 	}
 }
 

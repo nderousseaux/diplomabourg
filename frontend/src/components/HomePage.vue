@@ -419,16 +419,20 @@ export default {
 }
 
 /* Boîte de dialogue pour paramétrer et rejoindre la partie */
-#param,
-#rejoindre {
-  min-width: 35vw;
+#param > form > div > label{
+  margin-right: 10px;
+  width: 50%;
 }
-
 input[type="number"] {
   text-align: center;
   caret-color: transparent;
   user-select: none;
   cursor: default;
+}
+input[type=number],
+input[type=password],
+input[type=text]{
+	width: calc(50% - 20px);
 }
 
 /* Version tablette */
@@ -504,18 +508,28 @@ input[type="number"] {
 	}
 	#param > form > div:last-child,
   #rejoindre > form > div:last-child{
-		flex-direction: row;
+		flex-direction: column;
 	}
+  #param > form > div:last-child > button,
+  #param > form > div:last-child > input[type=submit],
+  #rejoindre > form > div:last-child > button{
+    width: 60%;
+	}
+  #param > form > div:last-child > input[type=submit],
+  #rejoindre > form > div:last-child > button:last-child{
+    margin-top: 10px;
+  }
 
   /* Boutons */
   #actions{
     width: 90vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   #actions > button{
     font-size: 22px;
-    width: 100%;
+    width: 80%;
     margin-top: 0;
   }
 }

@@ -489,6 +489,9 @@ export default
 	}
 
 	/* Boîte de dialogue */
+	#joindre{
+		width: max-content;
+	}
 	#joindre > form > div:last-child{
 		justify-content: center;
 	}
@@ -503,14 +506,14 @@ export default
 	}
 	#lobby{
 		width: 80vw;
-		height: unset;
+		height: calc(100vh - 201px - 33vh);
 	}
 
 	/* Chat */
 	#chat{
 		width: 80vw;
 		height: 30vh;
-		margin: 0 0 10px 0;
+		margin: 3vh 0 0 0;
 	}
 
 	/* Pays des joueurs */
@@ -526,7 +529,6 @@ export default
 	#actions{
 		justify-content: space-between;
 		width: 100%;
-		margin-top: 5vh;
 	}
 	#actions > button{
 		width: 40%;
@@ -537,16 +539,23 @@ export default
 @media only screen and (max-width: 769px){
 	/* Div principale */
 	#lobby{
-		height: calc(80vh - 201px)
+		width: calc(100vw - 2vw - 2vw);
+		height: calc(100vh - 168px - 25vh);
+	}
+
+	/* Chat */
+	#chat{
+		width: calc(100vw - 2vw - 2vw);
+		margin-bottom: 20px;
 	}
 
 	/* Bouton */
 	#actions{
 		margin-top: unset;
+		width: 80%;
 	}
 	#actions > button{
 		width: 100%;
-		font-size: 25px;
 	}
 	#actions > button:first-child{
 		margin-bottom: 0;
