@@ -9,7 +9,7 @@
       />
       <button>Télécharger</button>
     </div>
-    
+
     <div id="pays">
       <img
         alt="Drapeau français"
@@ -77,7 +77,7 @@
         <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
         <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x86</a>
       </div>
-      
+
       <button>Fermer</button>
     </form>
   </dialog>
@@ -122,7 +122,7 @@ export default {
       teleBtn.style.visibility = "hidden";
     }
 
-    
+
     let lancerTele = document.getElementById("telecharger")
     teleBtn.addEventListener("click", function onOpen() {
       if (typeof lancerTele.showModal === "function") {
@@ -305,9 +305,6 @@ export default {
 
 							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
 							document.cookie = "game_id=" + response.data.game.id + "; sameSite=Lax";
-              let now = Date.now();
-              let end = now + 1000;
-              while (end > now) {now = Date.now()}
 							this.$router.push({ path: `/games/${response.data.game.id}` });
             })
             .catch((err) => {
