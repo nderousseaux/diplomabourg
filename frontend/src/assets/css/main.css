@@ -164,6 +164,7 @@ input[type=submit]:active,
 	color: rgb(238, 34, 34);
 	margin-bottom: 0;
 	text-align: center;
+	width: 80;
 }
 #joindre > form > div > label,
 #param > form > div > label,
@@ -175,7 +176,8 @@ input[type=submit]:active,
 input[type=number],
 input[type=password],
 input[type=text],
-.ciblage > label{
+.ciblage > label,
+select{
 	background-color: #3b5167;
 	width: calc(50% - 10px);
 	height: 30px;
