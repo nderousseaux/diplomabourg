@@ -100,6 +100,8 @@ function getRefresh()  {
 	return parts.pop().split(';').shift();
 }
 
+var interId;
+
 export default
 {
 	data() {
@@ -119,6 +121,7 @@ export default
 					console.log(response.data);
 					if (response.data.state == "GAME")
 					{
+						clearInterval(interId)
 						router.push({ name: "Jeu"});
 					}
 				})
@@ -231,7 +234,7 @@ export default
 				headers: {Authorization: `Bearer ${cookie}`}
 			};
 
-			setInterval(this.getChange, 5000, game_num, config);
+			interId = setInterval(this.getChange, 5000, game_num, config);
 			/*
 			socket = io("http://localhost:8080",
 				{path: "/backend/"},
