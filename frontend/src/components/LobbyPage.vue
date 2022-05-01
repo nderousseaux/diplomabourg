@@ -55,23 +55,22 @@
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
-				<label for="username">Pseudo</label>
-				<!--<input type="text" maxlength="15" id="username" name="username"/>-->
+				<label for="username">Pays</label>
 				<select name="country" id="username">
-					<option value="Germany">Germany</option>
-					<option value="Russia">Russia</option>
-					<option value="Austria-Hungary">Austria-Hungary</option>
-					<option value="Turkey">Turkey</option>
-					<option value="Great-Britain">Great-Britain</option>
-					<option value="Italy">Italy</option>
+					<option value="Germany">Allemagne</option>
+					<option value="Italy">Italie</option>
+					<option value="Russia">Russie</option>
+					<option value="Turkey">Turquie</option>
+					<option value="Great-Britain">Royaume-Uni</option>
+					<option value="Austria-Hungary">Autriche-Hongrie</option>
 				</select>
-				<p id="already_taken"></p>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
-			<p>Tous les champs ne sont pas complétés correctement</p>
+			<p>Les champs ne sont pas complétés correctement</p>
+			<p id="already_taken">Ce pays est déjà pris par un joueur !</p>
 			<div>
 				<input type="submit" value="Joindre"/>
 			</div>
@@ -190,7 +189,7 @@ export default
 				})
 		},
 		copyLink() {
-			var link = window.location.host + "/games/" + this.game_id;
+			var link = window.location.host + "/lobby/" + this.game_id;
 			navigator.clipboard.writeText(link);
 			alert("Lien copié : " + link);
 		},
@@ -529,6 +528,25 @@ export default
 	}
 	#joindre > form > div:last-child{
 		justify-content: center;
+	}
+	select{
+		width: 50%;
+		border-radius: 0;
+		text-align: center;
+		-webkit-appearance: none;
+	}
+
+	/* Régler bug de Safari 11 */
+	@media not all and (min-resolution:.001dpcm) {
+		@supports (-webkit-appearance:none) and (stroke-color:transparent) {
+			select:active {
+				font-size: 20px;
+			}
+		}
+	}
+	option{
+		font-family: "Iceland";
+		font-size: 20px;
 	}
 
 /* Version tablette */
