@@ -56,7 +56,16 @@
 		<form method="dialog">
 			<div>
 				<label for="username">Pseudo</label>
-				<input type="text" maxlength="15" id="username" name="username"/>
+				<!--<input type="text" maxlength="15" id="username" name="username"/>-->
+				<select name="country" id="username">
+					<option value="Germany">Germany</option>
+					<option value="Russia">Russia</option>
+					<option value="Austria-Hungary">Austria-Hungary</option>
+					<option value="Turkey">Turkey</option>
+					<option value="Great-Britain">Great-Britain</option>
+					<option value="Italy">Italy</option>
+				</select>
+				<p id="already_taken"></p>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
@@ -100,6 +109,8 @@ function getRefresh()  {
 	return parts.pop().split(';').shift();
 }
 
+var interId;
+
 export default
 {
 	data() {
@@ -108,6 +119,7 @@ export default
 			player_id: '',
 			token: getTokenCookie(),
 			username: '',
+			power_id: ''
 			//is_admin: false
 		}
 	},
@@ -119,6 +131,7 @@ export default
 					console.log(response.data);
 					if (response.data.state == "GAME")
 					{
+						clearInterval(interId)
 						router.push({ name: "Jeu"});
 					}
 				})
@@ -170,9 +183,9 @@ export default
 					location.reload();
 				})
 				.catch(function(error) {
-					console.log(error);
 					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
+						document.getElementById("already_taken").innerText = error.response.data.error.message[0];
 					}
 				})
 		},
@@ -190,7 +203,7 @@ export default
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
 			api.players
-				.update(this.game_id, this.player_id, 'FRANCE', 1, true, config)
+				.update(this.game_id, this.player_id, this.username, this.power_id, true, config)
 				.then(response => {
 					console.log(response);
 					if (response.status == 204) {
@@ -221,7 +234,8 @@ export default
 				lancerDiag.showModal();
 			}
 			else {
-				document.cookie = "refreshed=true; sameSite=Lax"
+				var expiration = new Date(Date.now() + 10000).toUTCString();
+				document.cookie = `refreshed=true; expires=${expiration}; sameSite=Lax`
 				location.reload();
 			}
 		}
@@ -230,7 +244,7 @@ export default
 				headers: {Authorization: `Bearer ${cookie}`}
 			};
 
-			setInterval(this.getChange, 5000, game_num, config);
+			interId = setInterval(this.getChange, 5000, game_num, config);
 			/*
 			socket = io("http://localhost:8080",
 				{path: "/backend/"},
@@ -254,9 +268,34 @@ export default
 						this.is_admin = true;
 					}
 					*/
-					this.player_id = response.data.players[indexOfPlayer].id
-					this.username = response.data.players[indexOfPlayer].username
-					console.log("player_id : " + this.player_id);
+					this.player_id = response.data.players[indexOfPlayer].id;
+					this.username = response.data.players[indexOfPlayer].username;
+
+					switch (this.username) {
+						case 'France':
+							this.power_id = 3;
+							break;
+						case 'Germany':
+							this.power_id = 1;
+							break;
+						case 'Russia':
+							this.power_id = 6;
+							break;
+						case 'Austria-Hungary':
+							this.power_id = 2;
+							break;
+						case 'Great-Britain':
+							this.power_id = 4;
+							break;
+						case 'Italy':
+							this.power_id = 5;
+							break;
+						case 'Turkey':
+							this.power_id = 7;
+							break;
+						default:
+							console.log("erreur pseudo");
+					}
 				})
 				.catch(function(error) {
 					console.log(error);
