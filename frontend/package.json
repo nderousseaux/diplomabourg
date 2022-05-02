@@ -1,0 +1,52 @@
+{
+  "name": "Diplomabourg",
+  "author": "Projet intégrateur - Groupe 1A",
+  "description": "La version de Diplomacy la plus Strasbourgeoise !",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "electron:build": "vue-cli-service electron:build",
+    "_comment": "Pour Windows ou Linux",
+    "electron:buildWinLin": "vue-cli-service electron:build --ia32 --x64",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
+  },
+  "main": "background.js",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "core-js": "^3.8.3",
+    "electron-builder": "^23.0.3",
+    "lodash": "^4.17.21",
+    "register-service-worker": "^1.7.2",
+    "socket.io": "^4.5.0",
+    "socket.io-client": "^4.5.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.14",
+    "vue-socket.io": "^3.0.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "electron": "^13.0.0",
+    "electron-devtools-installer": "^3.1.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "jquery": "^3.6.0",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-cli-plugin-electron-builder": "^2.1.1"
+  },
+  "overrides": {
+    "vue-cli-plugin-electron-builder": {
+      "electron-builder": "^23.0.3"
+    }
+  }
+}
