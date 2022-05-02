@@ -182,7 +182,6 @@ export default {
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
           document.querySelector("form").submit();
-          console.log("ok");
         }
       });
 

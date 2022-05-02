@@ -125,6 +125,7 @@
 
 <script>
 import api from "../api";
+import router from "../router/index.js";
 
 export default {
   mounted() {
@@ -546,7 +547,8 @@ export default {
 
     // Action effectuée lors de l'appuie sur l'un des boutons
     quitDialog.addEventListener("close", function onClose() {
-      console.log(quitDialog.returnValue);
+      // Prévenir le back que le joueur quitte
+      router.push({ path: `/`})
     });
 
     // Action effectuée quand on appuie sur "Entrer" dans le chat

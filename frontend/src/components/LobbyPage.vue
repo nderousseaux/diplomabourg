@@ -187,13 +187,16 @@ export default
 					location.reload();
 				})
 				.catch(function(error) {
+					let erreur = document.querySelector("form > p")
 					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
-						document.getElementById("err_join").innerText = "Pays déjà choisi, veuillez en prendre un autre";
+						erreur.innerText = "Le pays est déjà séléctionné"
+						erreur.style.display = "block"
 					}
 					else if (error.response.status == 401) {
 						console.log(error.response.data.error.message[0]);
-						document.getElementById("err_join").innerText = "Mot de passe erroné";
+						erreur.innerText = "Le mot de passe est incorrect"
+						erreur.style.display = "block"
 					}
 				})
 		},
@@ -357,12 +360,10 @@ export default
 					donnee.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
-					/*
 					if (donnee.value == mdpInput.value)
 					{
-						document.getElementById("err_join").innerText = "Mot de passe erroné"
+						erreur.innerText = "Les champs ne sont pas complétés correctement"
 					}
-					*/
 				}
 			}
 
