@@ -15,7 +15,7 @@ def change_state(DBSession, game, forced = False):
                         cur_region_id=disp.region_id,
                         power=pui,
                         game=game,
-                        src_region_id=disp.region_id
+                        src_region_id=disp.region_id #FIXME: Reste à null ?
                     )
 
             game.state = DBSession().query(StateModel).filter_by(name="GAME").one()

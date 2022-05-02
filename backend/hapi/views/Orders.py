@@ -63,6 +63,9 @@ class Order():
             order = OrderModel(**newOrder)
 
         order.num_tour = self.game.num_tour
+        DBSession().flush()
+
+        order.src_region = order.unit.cur_region
         order.validation()
 
         DBSession().flush()
