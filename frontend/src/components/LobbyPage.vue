@@ -8,37 +8,42 @@
 					<div>
 						<img alt="Drapeau français" title="Drapeau français"
 							:src="getImgFlagUrl('france')"/>
-						<button id="fr" @click="ready()">Prêt</button>
+						<button v-if="this.username == 'France'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img alt="Drapeau allemand" title="Drapeau allemand"
 							:src="getImgFlagUrl('germany')"/>
-						<button class="inactif">Prêt</button>
+						<button v-if="this.username == 'Germany'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img value="2" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('loading')"/>
+							:src="getImgFlagUrl('russia')"/>
+						<button v-if="this.username == 'Russia'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img value="3" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('loading')"/>
+							:src="getImgFlagUrl('great-britain')"/>
+						<button v-if="this.username == 'Great-Britain'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img value="4" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('loading')"/>
+							:src="getImgFlagUrl('italy')"/>
+						<button v-if="this.username == 'Italy'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img value="5" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('loading')"/>
+							:src="getImgFlagUrl('austria-hungary')"/>
+						<button v-if="this.username == 'Austria-Hungary'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
 						<img value="6" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('loading')"/>
+							:src="getImgFlagUrl('turkey')"/>
+						<button v-if="this.username == 'Turkey'" id="ready" @click="ready()">Prêt</button>
 					</div>
 				</div>
 				<div id="actions">
 					<button id="test" @click="copyLink()">Générer le lien</button>
-					<button id="beginGame" @click="beginGame()">Commencer la partie</button>
+					<button v-if="this.username == 'France'" id="beginGame" @click="beginGame()">Commencer la partie</button>
 				</div>
 			</div>
 			<div id="chat">
@@ -55,22 +60,22 @@
 		<h1>Joindre la partie</h1>
 		<form method="dialog">
 			<div>
-				<label for="username">Pays</label>
+				<label for="username">Pays souhaité</label>
+				<!--<input type="text" maxlength="15" id="username" name="username"/>-->
 				<select name="country" id="username">
 					<option value="Germany">Allemagne</option>
-					<option value="Italy">Italie</option>
 					<option value="Russia">Russie</option>
-					<option value="Turkey">Turquie</option>
-					<option value="Great-Britain">Royaume-Uni</option>
 					<option value="Austria-Hungary">Autriche-Hongrie</option>
+					<option value="Turkey">Turquie</option>
+					<option value="Great-Britain">Grande-Bretagne</option>
+					<option value="Italy">Italie</option>
 				</select>
 			</div>
 			<div>
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
-			<p>Les champs ne sont pas complétés correctement</p>
-			<p id="already_taken">Ce pays est déjà pris par un joueur !</p>
+			<p id="err_join"></p>
 			<div>
 				<input type="submit" value="Joindre"/>
 			</div>
@@ -184,7 +189,11 @@ export default
 				.catch(function(error) {
 					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
-						document.getElementById("already_taken").innerText = error.response.data.error.message[0];
+						document.getElementById("err_join").innerText = "Pays déjà choisi, veuillez en prendre un autre";
+					}
+					else if (error.response.status == 401) {
+						console.log(error.response.data.error.message[0]);
+						document.getElementById("err_join").innerText = "Mot de passe erroné";
 					}
 				})
 		},
@@ -206,8 +215,8 @@ export default
 				.then(response => {
 					console.log(response);
 					if (response.status == 204) {
-						document.getElementById("fr").classList.add("inactif");
-						console.log("France is ready");
+						document.getElementById("ready").classList.add("inactif");
+						console.log(this.username + " is ready");
 					}
 				})
 				.catch((err) => {
@@ -234,6 +243,7 @@ export default
 				lancerDiag.addEventListener("cancel", (event) => {
 					event.preventDefault();
 				});
+
 			}
 			else {
 				var expiration = new Date(Date.now() + 10000).toUTCString();
@@ -347,6 +357,12 @@ export default
 					donnee.previousElementSibling.classList.add("erreur")
 					erreurForm = true
 					erreur.style.display = "block"
+					/*
+					if (donnee.value == mdpInput.value)
+					{
+						document.getElementById("err_join").innerText = "Mot de passe erroné"
+					}
+					*/
 				}
 			}
 
@@ -551,6 +567,7 @@ export default
 		font-family: "Iceland";
 		font-size: 20px;
 	}
+
 
 /* Version tablette */
 @media only screen and (max-width: 1370px){
