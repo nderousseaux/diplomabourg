@@ -38,7 +38,7 @@
         <label for="mdp">Mot de passe</label>
         <input type="password" maxlength="15" id="mdp" name="mdp" />
       </div>
-      <p>Tous les champs ne sont pas complétés correctement</p>
+      <p>Les champs ne sont pas complétés correctement</p>
       <div>
         <button>Annuler</button>
         <input type="submit" value="Créer" />
@@ -97,7 +97,7 @@ export default {
   methods: {
     rejoindreGame() {
       var id = document.getElementById('numPart')
-      window.location = (window.location.origin + '/games/' + id.value)
+      window.location = (window.location.origin + '/lobby/' + id.value)
     },
     storeGameId(id) {
       store.setGameId(Number(id));
@@ -305,7 +305,7 @@ export default {
 
 							document.cookie = `token${response.data.game.id}=` + response.data.token + "; sameSite=Lax";
 							document.cookie = "game_id=" + response.data.game.id + "; sameSite=Lax";
-							this.$router.push({ path: `/games/${response.data.game.id}` });
+							this.$router.push({ path: `/lobby/${response.data.game.id}` });
             })
             .catch((err) => {
               console.log(err);

@@ -76,8 +76,8 @@ p{
 /* Boutons */
 button,
 input[type=submit],
-#ordres > div > p,
-#ordres > div > div > p{
+#ordres > div:first-child > p,
+#ordres > div:first-child > div > p{
 	margin: 20px 0;
 	padding: 0;
 	line-height: 44px;
@@ -92,14 +92,14 @@ input[type=submit],
 }
 button:hover,
 input[type=submit]:hover,
-#ordres > div > p:hover,
-#ordres > div > div > p:hover{
+#ordres > div:first-child > p:hover,
+#ordres > div:first-child > div > p:hover{
 	background-color: #4682b4;
 }
 button:active,
 input[type=submit]:active,
-#ordres > div > p:active,
-#ordres > div > div > p:active{
+#ordres > div:first-child > p:active,
+#ordres > div:first-child > div > p:active{
 	background-color: #376890;
 }
 
@@ -175,7 +175,8 @@ input[type=submit]:active,
 input[type=number],
 input[type=password],
 input[type=text],
-.ciblage > label{
+.ciblage > label,
+select{
 	background-color: #3b5167;
 	width: calc(50% - 10px);
 	height: 30px;
@@ -223,8 +224,8 @@ input.erreur{
 	}
 	button,
 	input[type=submit],
-	#ordres > div > p,
-	#ordres > div > div > p{
+	#ordres > div:first-child > p,
+	#ordres > div:first-child > div > p{
 		font-size: 26px;
 	}
 }
@@ -272,8 +273,8 @@ input.erreur{
 	}
 	button,
 	input[type=submit],
-	#ordres > div > p,
-	#ordres > div > div > p{
+	#ordres > div:first-child > p,
+	#ordres > div:first-child > div > p{
 		font-size: 23px;
 	}
 }
