@@ -49,7 +49,7 @@ regions=[
     {"id":44,"name" : "Naples", "map_id" : 1, "hasCenter": True},
     {"id":45,"name" : "North Atlantic Ocean", "map_id" : 1, "hasCenter": False},
     {"id":46,"name" : "North Africa", "map_id" : 1, "hasCenter": False},
-    {"id":47,"name" : "Norway", "map_id" : 1, "hasCenter": False},
+    {"id":47,"name" : "Norway", "map_id" : 1, "hasCenter": True},
     {"id":48,"name" : "Paris", "map_id" : 1, "hasCenter": True},
     {"id":49,"name" : "Picardy", "map_id" : 1, "hasCenter": False},
     {"id":50,"name" : "Piedmont", "map_id" : 1, "hasCenter": False},
