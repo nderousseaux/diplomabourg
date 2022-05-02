@@ -97,7 +97,10 @@
             </div>
           </div>
         </div>
-        <button id="valider_ordre">Valider</button>
+        <div>
+          <button id="annuler_ordres">✖️</button>
+          <button id="valider_ordres">✔️</button>
+        </div>
       </div>
 
       <div id="infos">
@@ -192,7 +195,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          $(document.getElementById("convoyer")).hide();
+          $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
 
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
@@ -233,7 +236,8 @@ export default {
 
           // DEVENU INUTILE, JE SAVAIS PAS SI VOUS AVIEZ DU CODE A RECUP
 
-          $(document.getElementById("convoyer")).show();
+          $(document.querySelector("#ordres > div:first-child > div:last-child")).show();
+          // $(document.getElementById("convoyer")).show();
           // if (!btn_convoyer) {
           //   const conv = document.createElement("p");
           //   conv.innerText = "Convoyer";
@@ -471,8 +475,8 @@ export default {
     });
 
     // Validation d'un ordre
-    let valider_ordre = document.getElementById("valider_ordre");
-    valider_ordre.addEventListener("click", function valider() {
+    let valider_ordres = document.getElementById("valider_ordres");
+    valider_ordres.addEventListener("click", function valider() {
       var id_game = 7;
 
       order.type_order = ordre;
@@ -499,6 +503,14 @@ export default {
           }
         });
     });
+
+    // Quitter les ordres
+    let quitterOrdres = document.getElementById("annuler_ordres");
+    quitterOrdres.addEventListener("click", () => {
+      document.querySelector("#colonneOrdres > h1").innerHTML = "Informations";
+      document.querySelector("#infos").style.display = "flex";
+      document.querySelector("#ordres").style.display = "none";
+    })
 
     // Pour quitter la partie
     let quitBtn = document.getElementById("quit");
@@ -686,14 +698,14 @@ export default {
 		justify-content: space-evenly;
 		align-items: center;
 	}
-  #ordres > div > p,
-  #ordres > div > div > p,
+  #ordres > div:first-child > p,
+  #ordres > div:first-child > div > p,
   #infos > div > button{
 		width: 60%;
 		line-height: 55px;
 		font-weight: bold;
 	}
-	#ordres > button,
+	#ordres > div:first-child > button,
   #infos > div > button:last-child{
     line-height: 55px;
 		background-color: #808080;
@@ -716,15 +728,21 @@ export default {
 	#ordres{
 		display: none;
 	}
-  #ordres > div{
+  #ordres > div:first-child{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
     height: calc(100% - 95px);
+    overflow-y: auto;
   }
-  #ordres > div > div{
+  #ordres > div:last-child{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  #ordres > div:first-child > div{
     display: flex;
     flex-direction: column;
     width: 60%;
@@ -751,7 +769,8 @@ export default {
     text-align: center;
     margin: 0;
   }
-  .ciblage > div > button{
+  .ciblage > div > button,
+  #ordres > div:last-child > button{
     width: 30px;
     line-height: 30px;
     margin: 0;
@@ -760,23 +779,37 @@ export default {
     color: transparent;
     text-shadow: 0 0 0 #ffffff;
   }
+  #ordres > div:last-child > button{
+    font-size: 25px;
+    width: 30%;
+    line-height: 55px;
+    border-radius: 10px;
+  }
   .ciblage > div > button:first-child{
-    background-color: #008000;
     margin-right: 10px;
   }
-  .ciblage > div > button:first-child:hover{
+  .ciblage > div > button:first-child,
+  #ordres > div:last-child > button:last-child{
+    background-color: #008000;
+  }
+  .ciblage > div > button:first-child:hover,
+  #ordres > div:last-child > button:last-child:hover{
     background-color: #006e00;
   }
-  .ciblage > div> button:first-child:active{
+  .ciblage > div> button:first-child:active,
+  #ordres > div:last-child > button:last-child:active{
     background-color: #005200;
   }
-  .ciblage > div > button:last-child{
+  .ciblage > div > button:last-child,
+  #ordres > div:last-child > button:first-child{
     background-color: #ff0000;
   }
-  .ciblage > div > button:last-child:hover{
+  .ciblage > div > button:last-child:hover,
+  #ordres > div:last-child > button:first-child:hover{
     background-color: #c90000;
   }
-  .ciblage > div > button:last-child:active{
+  .ciblage > div > button:last-child:active,
+  #ordres > div:last-child > button:first-child:active{
     background-color: #a00000;
   }
   #attaquer,
@@ -853,8 +886,8 @@ export default {
     margin-bottom: 0;
 	}
 
-	#ordres > div > p:first-child,
-	#ordres > div > p:nth-child(2){
+	#ordres > div:first-child > p:first-child,
+	#ordres > div:first-child > p:nth-child(2){
 		margin-top: 20px;
 	}
 
@@ -867,18 +900,31 @@ export default {
 		flex-direction: row;
 		height: max-content;
 	}
-  #ordres > div{
+  #ordres > div:first-child{
     flex-wrap: wrap;
     flex-direction: row;
     align-items: baseline;
   }
-  #ordres > div > p,
-  #ordres > div > div{
+  #ordres > div:first-child > p,
+  #ordres > div:first-child > div{
     width: 40%;
 		margin: 10px 0;
 	}
-	#ordres > button{
-    width: 80%;
+
+  #ordres > div:first-child > p:nth-child(3){
+    margin-bottom: 20px;
+  }
+  #ordres > div:first-child > div{
+    margin: 0;
+  }
+  #ordres > div:first-child > div:last-child > p{
+    margin-top: 10px;
+  }
+  #ordres > div:first-child > p:nth-child(2){
+    margin-bottom: 20px;
+  }
+	#ordres > div:last-child{
+    margin: 10px 0;
 	}
   .ciblage > div{
     width: calc(35px + 35px + 20px);
@@ -960,23 +1006,26 @@ export default {
 	#ordres{
 		flex-direction: row;
 	}
-  #ordres > div{
+  #ordres > div:first-child{
     flex-wrap: wrap;
     flex-direction: row;
     align-items: baseline;
   }
-	#ordres > div > p,
-  #ordres > div > div{
+	#ordres > div:first-child > p,
+  #ordres > div:first-child > div{
     width: 40%;
 	}
-  #ordres > div > p,
+  #ordres > div:first-child > p,
   #attaquer,
   #convoyer{
-		margin: 10px 0;
+		margin: 10px 0 !important;
   }
-	#ordres > div > div:first-child > p,
-	#ordres > div > p:nth-child(2){
+	#ordres > div:first-child > div:first-child > p,
+	#ordres > div:first-child > p:nth-child(2){
 		margin-top: 20px !important;
+	}
+  #ordres > div:last-child{
+    margin: 20px 0;
 	}
   .ciblage{
     flex-direction: column;
