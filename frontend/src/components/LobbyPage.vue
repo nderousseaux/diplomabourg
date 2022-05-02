@@ -63,12 +63,12 @@
 				<label for="username">Pays souhaité</label>
 				<!--<input type="text" maxlength="15" id="username" name="username"/>-->
 				<select name="country" id="username">
-					<option value="Germany">Germany</option>
-					<option value="Russia">Russia</option>
-					<option value="Austria-Hungary">Austria-Hungary</option>
-					<option value="Turkey">Turkey</option>
-					<option value="Great-Britain">Great-Britain</option>
-					<option value="Italy">Italy</option>
+					<option value="Germany">Allemagne</option>
+					<option value="Russia">Russie</option>
+					<option value="Austria-Hungary">Autriche-Hongrie</option>
+					<option value="Turkey">Turquie</option>
+					<option value="Great-Britain">Grande-Bretagne</option>
+					<option value="Italy">Italie</option>
 				</select>
 			</div>
 			<div>
@@ -240,6 +240,10 @@ export default
 		if (cookie == null) {
 			if (is_refreshed == 'true') {
 				lancerDiag.showModal();
+				lancerDiag.addEventListener("cancel", (event) => {
+					event.preventDefault();
+				});
+
 			}
 			else {
 				var expiration = new Date(Date.now() + 10000).toUTCString();
@@ -544,6 +548,26 @@ export default
 	#joindre > form > div:last-child{
 		justify-content: center;
 	}
+	select{
+		width: 50%;
+		border-radius: 0;
+		text-align: center;
+		-webkit-appearance: none;
+	}
+
+	/* Régler bug de Safari 11 */
+	@media not all and (min-resolution:.001dpcm) {
+		@supports (-webkit-appearance:none) and (stroke-color:transparent) {
+			select:active {
+				font-size: 18px;
+			}
+		}
+	}
+	option{
+		font-family: "Iceland";
+		font-size: 20px;
+	}
+
 
 /* Version tablette */
 @media only screen and (max-width: 1370px){
