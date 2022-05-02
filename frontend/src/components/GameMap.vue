@@ -128,6 +128,17 @@ import api from "../api";
 
 export default {
   mounted() {
+    // Fonction pour réinitialiser la colonne d'ordres
+    function reinitOrdres() {
+      if (btn_attaque.classList.contains("enCours")) {
+        btn_attaque.classList.remove("enCours");
+        $(document.getElementById("att")).hide();
+      }
+      if (btn_convoyer.classList.contains("enCours")) {
+        btn_convoyer.classList.remove("enCours");
+        $(document.getElementById("conv")).hide();
+      }
+    }
     // Modèle de code pour changer le nombre de pions à poser
     var nbrPions = 2;
     var btnBloque = true;
@@ -195,6 +206,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
+          reinitOrdres()
           $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
 
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
@@ -230,6 +242,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
+          reinitOrdres()
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
@@ -314,6 +327,7 @@ export default {
           this.style.fill = "none";
         });
         circleOut.addEventListener("click", function () {
+          reinitOrdres()
           console.log("Clic ravitaillement : ", pays);
         });
 
@@ -341,6 +355,7 @@ export default {
           this.style.fill = "red";
         });
         marqueur.addEventListener("click", function () {
+          reinitOrdres()
           console.log("Clic marqueur : ", pays);
         });
       }
@@ -366,6 +381,7 @@ export default {
           this.style.fill = "blue";
         });
         flotte.addEventListener("click", function () {
+          reinitOrdres()
           console.log("Clic flotte : ", pays);
         });
       }
@@ -391,6 +407,7 @@ export default {
           this.style.fill = "green";
         });
         armee.addEventListener("click", function () {
+          reinitOrdres()
           console.log("Clic armee : ", pays);
         });
       }
@@ -504,12 +521,19 @@ export default {
         });
     });
 
+    
     // Quitter les ordres
     let quitterOrdres = document.getElementById("annuler_ordres");
     quitterOrdres.addEventListener("click", () => {
       document.querySelector("#colonneOrdres > h1").innerHTML = "Informations";
       document.querySelector("#infos").style.display = "flex";
       document.querySelector("#ordres").style.display = "none";
+      reinitOrdres();
+    })
+    let validerOrdres = document.getElementById("valider_ordres");
+    validerOrdres.addEventListener("click", () => {
+      console.log("Ordres validés");
+      reinitOrdres();
     })
 
     // Pour quitter la partie
@@ -573,9 +597,6 @@ export default {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-	}
-	img{
-		cursor: pointer;
 	}
 
 	/* Carte */
