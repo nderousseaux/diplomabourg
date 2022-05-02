@@ -16,37 +16,37 @@
         <h1>Pays</h1>
         <div>
           <img
-            alt="Drapeau français"
+            alt="Drapeau de la France"
             title="France"
             src="../assets/img/flags/france.png"
           />
           <img
-            alt="Drapeau allemand"
+            alt="Drapeau de l'Allemagne"
             title="Allemagne"
             src="../assets/img/flags/germany.png"
           />
           <img
-            alt="Drapeau italien"
+            alt="Drapeau d'Italie"
             title="Italie"
             src="../assets/img/flags/italy.png"
           />
           <img
-            alt="Drapeau russe"
+            alt="Drapeau de Russie"
             title="Russie"
             src="../assets/img/flags/russia.png"
           />
           <img
-            alt="Drapeau turque"
+            alt="Drapeau de Turquie"
             title="Turquie"
             src="../assets/img/flags/turkey.png"
           />
           <img
-            alt="Drapeau anglais"
-            title="Angleterre"
+            alt="Drapeau du Royaume-Uni"
+            title="Royaume-Uni"
             src="../assets/img/flags/great-britain.png"
           />
           <img
-            alt="Drapeau autrichien"
+            alt="Drapeau d'Autriche"
             title="Autriche"
             src="../assets/img/flags/austria-hungary.png"
           />
@@ -82,10 +82,8 @@
               </div>
             </div>
           </div>
-          
           <p id="tenir">Tenir</p>
           <p id="soutenir">Soutenir</p>
-
           <div>
             <p id="convoyer">Convoyer</p>
             <div class="ciblage" id="conv">
@@ -125,6 +123,7 @@
 
 <script>
 import api from "../api";
+import router from "../router/index.js";
 
 export default {
   mounted() {
@@ -544,9 +543,9 @@ export default {
       if (typeof quitDialog.showModal === "function") quitDialog.showModal();
     });
 
-    // Action effectuée lors de l'appuie sur l'un des boutons
-    quitDialog.addEventListener("close", function onClose() {
-      console.log(quitDialog.returnValue);
+    document.querySelector("#quitter > form > div > button:last-child").addEventListener("click", function onClose() {
+      // Prévenir le back que le joueur quitte
+      router.push({ path: `/`})
     });
 
     // Action effectuée quand on appuie sur "Entrer" dans le chat
