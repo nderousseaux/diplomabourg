@@ -3,10 +3,8 @@ import { axios } from "@/api";
 let url = "/units";
 
 const units = {
-  get_all() {
-    return axios.get(url, {
-      headers: { Authorization: `Bearer ${axios.token}` }
-    });
+  get_all(config) {
+    return axios.get(url, config);
   },
 };
 
