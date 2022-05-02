@@ -6,39 +6,39 @@
 			<div id="lobby">
 				<div id="joueurs">
 					<div>
-						<img alt="Drapeau français" title="Drapeau français"
+						<img alt="Drapeau de la France" title="France"
 							:src="getImgFlagUrl('france')"/>
 						<button v-if="this.username == 'France'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
-						<img alt="Drapeau allemand" title="Drapeau allemand"
+						<img alt="Drapeau de l'Allemagne" title="Allemagne"
 							:src="getImgFlagUrl('germany')"/>
 						<button v-if="this.username == 'Germany'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
-						<img value="2" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('russia')"/>
-						<button v-if="this.username == 'Russia'" id="ready" @click="ready()">Prêt</button>
-					</div>
-					<div>
-						<img value="3" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('great-britain')"/>
-						<button v-if="this.username == 'Great-Britain'" id="ready" @click="ready()">Prêt</button>
-					</div>
-					<div>
-						<img value="4" alt="Attente du joueur" title="Attente du joueur"
+						<img alt="Drapeau d'Italie" title="Italie"
 							:src="getImgFlagUrl('italy')"/>
 						<button v-if="this.username == 'Italy'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
-						<img value="5" alt="Attente du joueur" title="Attente du joueur"
-							:src="getImgFlagUrl('austria-hungary')"/>
-						<button v-if="this.username == 'Austria-Hungary'" id="ready" @click="ready()">Prêt</button>
+						<img alt="Drapeau de Russie" title="Russie"
+							:src="getImgFlagUrl('russia')"/>
+						<button v-if="this.username == 'Russia'" id="ready" @click="ready()">Prêt</button>
 					</div>
 					<div>
-						<img value="6" alt="Attente du joueur" title="Attente du joueur"
+						<img alt="Drapeau de Turquie" title="Turquie"
 							:src="getImgFlagUrl('turkey')"/>
 						<button v-if="this.username == 'Turkey'" id="ready" @click="ready()">Prêt</button>
+					</div>
+					<div>
+						<img alt="Drapeau du Royaume-Uni" title="Royaume-Uni"
+							:src="getImgFlagUrl('great-britain')"/>
+						<button v-if="this.username == 'Great-Britain'" id="ready" @click="ready()">Prêt</button>
+					</div>
+					<div>
+						<img alt="Drapeau d'Autriche" title="Autriche"
+							:src="getImgFlagUrl('austria-hungary')"/>
+						<button v-if="this.username == 'Austria-Hungary'" id="ready" @click="ready()">Prêt</button>
 					</div>
 				</div>
 				<div id="actions">
@@ -61,13 +61,12 @@
 		<form method="dialog">
 			<div>
 				<label for="username">Pays souhaité</label>
-				<!--<input type="text" maxlength="15" id="username" name="username"/>-->
 				<select name="country" id="username">
 					<option value="Germany">Allemagne</option>
 					<option value="Russia">Russie</option>
-					<option value="Austria-Hungary">Autriche-Hongrie</option>
+					<option value="Austria-Hungary">Autriche</option>
 					<option value="Turkey">Turquie</option>
-					<option value="Great-Britain">Grande-Bretagne</option>
+					<option value="Great-Britain">Royaume-Uni</option>
 					<option value="Italy">Italie</option>
 				</select>
 			</div>
@@ -75,9 +74,19 @@
 				<label for="mdp">Mot de passe</label>
 				<input type="password" maxlength="15" id="mdp" name="mdp"/>
 			</div>
-			<p id="err_join"></p>
+			<p></p>
 			<div>
 				<input type="submit" value="Joindre"/>
+			</div>
+		</form>
+	</dialog>
+	<dialog id="lienCopie">
+		<h1>Lien de la partie</h1>
+		<form method="dialog">
+			<div>
+			</div>
+			<div>
+				<button>Fermer</button>
 			</div>
 		</form>
 	</dialog>
@@ -190,7 +199,7 @@ export default
 					let erreur = document.querySelector("form > p")
 					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
-						erreur.innerText = "Le pays est déjà séléctionné"
+						erreur.innerText = "Le pays est déjà sélectionné"
 						erreur.style.display = "block"
 					}
 					else if (error.response.status == 401) {
@@ -203,7 +212,8 @@ export default
 		copyLink() {
 			var link = window.location.host + "/lobby/" + this.game_id;
 			navigator.clipboard.writeText(link);
-			alert("Lien copié : " + link);
+			document.querySelector("#lienCopie > form > div").innerHTML = "Copié dans le presse-papier :\n" + link
+			document.getElementById("lienCopie").showModal();
 		},
 		ready() {
 			console.log(this.game_id);
@@ -438,13 +448,6 @@ export default
 				imgAttente.push(element)
 		})
 		console.log(imgAttente)
-
-		// Récupère le premier élément de la liste à modifier
-		var imgRejoins = imgAttente.shift()
-
-		// Le modifie par le nouveau drapeau (le nom du pays est renvoyé par le back [?])
-		let nomPaysBack = 'russia'
-		imgRejoins.setAttribute("src", this.getImgFlagUrl(nomPaysBack))
 	}
 }
 </script>
@@ -542,10 +545,7 @@ export default
 		background-color: #000000;
 	}
 
-	/* Boîte de dialogue */
-	#joindre{
-		width: max-content;
-	}
+	/* Boîtes de dialogue */
 	#joindre > form > div:last-child{
 		justify-content: center;
 	}
@@ -569,6 +569,10 @@ export default
 		font-size: 20px;
 	}
 
+	#lienCopie > form > div:first-child{
+		text-align: center;
+		font-size: 18px;
+	}
 
 /* Version tablette */
 @media only screen and (max-width: 1370px){
@@ -601,7 +605,6 @@ export default
 
 	/* Bouton */
 	#actions{
-		justify-content: space-between;
 		width: 100%;
 	}
 	#actions > button{
@@ -633,6 +636,14 @@ export default
 	}
 	#actions > button:first-child{
 		margin-bottom: 0;
+	}
+
+	/* Boîtes de dialogue */
+	#lienCopie > form > div:first-child{
+		width: 80%;
+		font-size: 18px;
+		white-space: pre-wrap;
+
 	}
 }
 </style>
