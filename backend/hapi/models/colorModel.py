@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 
 from hapi.models import Base
 
-
 class ColorModel(Base):
     __tablename__ = "color"
 

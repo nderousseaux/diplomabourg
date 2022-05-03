@@ -1,14 +1,13 @@
 from marshmallow import (
     Schema,
-    fields
+    fields,
 )
-from hapi.marshmallow_schemas import RegionSchema
 
 class PowerSchema(Schema):
-    id = fields.Int(dump_only=True)
+    id = fields.Int()
     name = fields.Str()
-    regions=fields.List(fields.nested(RegionSchema))
 
-    
-    class Meta:
-        ordered = True
+    # @post_load
+    # def post_load(self, data, **kwargs):
+    #     power = DBSession.query(PowerModel).get(data["id"])
+    #     return power

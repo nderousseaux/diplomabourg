@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "25ae939a-ed55-4462-a041-c85a9bc95fe6",
+		"name": "Hapi v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "maps",
+			"item": [
+				{
+					"name": "ALL MAPS",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"map_id\", r[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/maps",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"maps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ONE MAP",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/maps/:map_id",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"maps",
+								":map_id"
+							],
+							"variable": [
+								{
+									"key": "map_id",
+									"value": "{{map_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "games",
+			"item": [
+				{
+					"name": "players",
+					"item": [
+						{
+							"name": "ALL PLAYERS",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_base}}/games/:game_id/players",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"games",
+										":game_id",
+										"players"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "{{game_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREATE PLAYER (JOIN GAME)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"player_name\", Date.now());",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"{{player_name}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_base}}/games/:game_id/players?password={{game_password}}",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"games",
+										":game_id",
+										"players"
+									],
+									"query": [
+										{
+											"key": "password",
+											"value": "{{game_password}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "{{game_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE PLAYER",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"Joueur admin\",\n  \"power_id\": 1,\n  \"is_ready\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_base}}/games/:game_id/players/:player_id",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"games",
+										":game_id",
+										"players",
+										":player_id"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "{{game_id}}"
+										},
+										{
+											"key": "player_id",
+											"value": "{{player_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "orders",
+					"item": [
+						{
+							"name": "ALL ORDERS",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_base}}/games/:game_id/orders",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"games",
+										":game_id",
+										"orders"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "{{game_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREATE ORDER",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"type_order\": \"ATTACK\",\n  \"dst_region_id\": 1,\n  \"unit_id\": 67\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_base}}/games/:game_id/orders",
+									"host": [
+										"{{url_base}}"
+									],
+									"path": [
+										"games",
+										":game_id",
+										"orders"
+									],
+									"variable": [
+										{
+											"key": "game_id",
+											"value": "{{game_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CREATE GAME",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"player_name\", \"Joueur admin\");",
+									"pm.collectionVariables.set(\"game_name\", Date.now());",
+									"pm.collectionVariables.set(\"game_password\", Date.now());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"user_token_admin\", r.token);",
+									"pm.collectionVariables.set(\"game_id\", r.game.id);",
+									"pm.collectionVariables.set(\"player_id\", r.game.players[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"player\": {\n    \"username\": \"{{player_name}}\"\n  },\n  \"game\": {\n    \"name\": \"{{game_name}}\",\n    \"password\": \"{{game_password}}\",\n    \"map_id\": \"{{map_id}}\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/games",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"games"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ONE GAME",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/games/:game_id",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"games",
+								":game_id"
+							],
+							"variable": [
+								{
+									"key": "game_id",
+									"value": "{{game_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE GAME",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"game_name\", Date.now());",
+									"pm.collectionVariables.set(\"game_password\", Date.now());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{game_name}}\",\n  \"password\": \"{{game_password}}\",\n  \"map_id\": \"{{map_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/games/:game_id",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"games",
+								":game_id"
+							],
+							"variable": [
+								{
+									"key": "game_id",
+									"value": "{{game_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET UNITS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/units",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"units"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "map_id",
+			"value": "1"
+		},
+		{
+			"key": "player_name",
+			"value": ""
+		},
+		{
+			"key": "map_name",
+			"value": ""
+		},
+		{
+			"key": "game_password",
+			"value": ""
+		},
+		{
+			"key": "game_name",
+			"value": ""
+		},
+		{
+			"key": "token_admin",
+			"value": ""
+		},
+		{
+			"key": "user_token_admin",
+			"value": ""
+		},
+		{
+			"key": "game_id",
+			"value": ""
+		},
+		{
+			"key": "player_id",
+			"value": ""
+		}
+	]
+}

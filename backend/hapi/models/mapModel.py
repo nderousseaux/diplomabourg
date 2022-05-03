@@ -14,3 +14,4 @@ class MapModel(Base):
     #Relationships
     powers=relationship("PowerModel", back_populates="map") 
     games=relationship("GameModel", back_populates="map")
+    regions=relationship("RegionModel", back_populates="map")

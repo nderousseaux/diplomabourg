@@ -1,14 +1,10 @@
 from marshmallow import (
     Schema,
-    fields,
+    fields
 )
 
 class RegionSchema(Schema):
-    id = fields.Int(dump_only=True)
+    id = fields.Int()
     name = fields.Str()
     types=fields.List(fields.Str())
     has_centre=fields.Boolean()
-
-    
-    class Meta:
-        ordered = True

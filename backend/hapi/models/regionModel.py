@@ -16,18 +16,18 @@ class RegionModel(Base):
     #Attributes
     id = Column(Integer, primary_key=True )    
     name=Column(String(45), nullable=False)
-    abreviation=Column(String(10), nullable=False)
-    power_id=Column(Integer, ForeignKey('power.id'))
-    hasCenter=Column(Boolean)
+    map_id=Column(Integer, ForeignKey('map.id'))
+   
+    hasCenter=Column(Boolean, nullable=False)
 
     
     #Relationships
-    power = relationship('PowerModel',  back_populates="regions")
+    map=relationship('MapModel', back_populates="regions")
     types = relationship('TypeRegionModel',
         secondary=typeRegionRegion,
         back_populates="regions"
     )
-    dispositions_unit=relationship('DispositionUnitModel', back_populates="region")   
+    disposition_unit=relationship('DispositionUnitModel', back_populates="region")   
 
     units_src_region = relationship('UnitModel',
         primaryjoin="UnitModel.src_region_id == RegionModel.id",
@@ -52,5 +52,21 @@ class RegionModel(Base):
 
     def beNeigbours(self, neighbour):
         if neighbour not in self.neighbours:
-            self.neighbours.append(neighbours)
+            self.neighbours.append(neighbour)
             neighbour.neighbours.append(self)
+
+    def can_accept_center(self, game):
+        """True si la région peut accepter un centre mais n'en possède pas encore
+        """
+        if not self.hasCenter:
+            return False
+
+        if self in [u.cur_region for u in game.units if u.type_unit.name == "CENTER"]:
+            return False
+
+        return True
+
+    def nb_units(self, game):
+        """Renvoie le nombre d'unité sur la région
+        """
+        return len([u for u in game.units if u.cur_region==self])

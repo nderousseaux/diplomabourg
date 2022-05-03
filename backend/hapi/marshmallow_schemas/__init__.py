@@ -1,3 +1,4 @@
+"""Import global des schémas marshmallow"""
 from .gameSchema import GameSchema
 from .joinGameSchema import JoinGameSchema
 from .mapSchema import MapSchema

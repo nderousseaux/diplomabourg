@@ -23,13 +23,12 @@ class ServiceInformations:
             data_log['body'] = self.request.json_body
         except:
             pass
-
+        
         #On ajoute la réponse si elle existe
         try:
             data_log['response_content'] = response.json_body
         except:
             pass
-
         self.logger.info(data_log)
 
     def build_response(self, http_exception, data=None, message=None, details=None):
@@ -60,6 +59,10 @@ class ServiceInformations:
     def catch_error(self, e):
         if type(e) is type(exception.HTTPNotFound()):
             response = self.build_response(exception.HTTPNotFound())
+        elif type(e) is type(exception.HTTPUnauthorized()):
+            response = self.build_response(exception.HTTPUnauthorized())
+        elif type(e) is type(exception.HTTPGone()):
+            response = self.build_response(exception.HTTPGone())
 
         else:
             try:
@@ -84,8 +87,9 @@ class ServiceInformations:
         switcher = {
             400: "Bad Request.",
             401: "Bad credentials.",
-            403: "You do not have permission to perform this action using the credentials that you supplied.",
+            403: "You do not have permission to perform this action.",
             404: "Requested resource is not found.",
+            410: "Requested resource is no longer available",
             415: "Unsupported media type.",
             500: "The server encountred an internal error and was unable to complete your request.",
         }

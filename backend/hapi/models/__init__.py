@@ -10,20 +10,18 @@ register(DBSession)
 Base = declarative_base()
 
 from .colorModel import ColorModel
-from .dispositionModel import DispositionModel
-from .gameModel import GameModel
 from .mapModel import MapModel
-from .orderModel import OrderModel
-from .playerModel import PlayerModel
+from .typeOrderModel import TypeOrderModel
+from .stateModel import StateModel
+from .dipositionUnitModel import DispositionUnitModel
+from .regionModel import RegionModel
+from .typeUnitModel import TypeUnitModel
 from .powerModel import PowerModel
 from .typeRegionModel import TypeRegionModel
-from .regionModel import RegionModel
-from .stateModel import StateModel
-from .typeOrderModel import TypeOrderModel
-from .typeUnitModel import TypeUnitModel
-from .dipositionUnitModel import DispositionUnitModel
+from .orderModel import OrderModel
+from .playerModel import PlayerModel
 from .unitModel import UnitModel
+from .gameModel import GameModel
 
 from .typeRegionRegion import typeRegionRegion
 from .playerPower import playerPower
-#TODO: Changer tout les "" en ''

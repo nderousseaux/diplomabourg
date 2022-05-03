@@ -1,25 +1,16 @@
+from dotenv import load_dotenv
+from pyramid.paster import get_appsettings, setup_logging
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import datetime
 import os
 import sys
 import transaction
-import datetime
 
-from sqlalchemy import create_engine
+from hapi.data.minimal import insert_minimal_data
+from hapi.data.test import insert_test_data
+from hapi.models import *
 
-from sqlalchemy.orm import sessionmaker
-
-from pyramid.paster import (
-    get_appsettings,
-    setup_logging,
-)
-
-from .models import (
-    DBSession,
-    Base,
-)
-
-from .models import *
-
-from dotenv import load_dotenv
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -46,21 +37,29 @@ def pre(argv):
     config_uri = argv[1]
     settings = get_appsettings(config_uri)
     engine = load_engine(settings)
-
     return engine
-
-
 
 def main(argv=sys.argv):
     engine = pre(argv)
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
 
-
-def fill(argv=sys.argv):
-    engine = pre(argv)
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
-    color = ColorModel(rgb="aaaaa")
-    session.add(color)
-    session.commit()
+
+    cleen(Base, session)
+
+    insert_minimal_data(session)
+
+    return session
+
+def fill_test_data(argv=sys.argv):
+    session = main()
+
+    insert_test_data(session)
+
+def cleen(Base, session):
+    meta = Base.metadata
+    for table in reversed(meta.sorted_tables):
+        session.execute(table.delete())
+    session.flush()
