@@ -208,6 +208,11 @@ export default
 						erreur.innerText = "Le mot de passe est incorrect"
 						erreur.style.display = "block"
 					}
+					else if (error.response.status == 410) {
+						console.log(error.response.data.error.message[0]);
+						erreur.innerText = "La partie est déjà en cours"
+						erreur.style.display = "block"
+					}
 				})
 		},
 		copyLink() {

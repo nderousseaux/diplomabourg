@@ -293,16 +293,16 @@ export default {
 
 ////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
-    function reinitOrdres() {
-      if (btn_attaque.classList.contains("enCours")) {
-        btn_attaque.classList.remove("enCours");
-        $(document.getElementById("att")).hide();
-      }
-      if (btn_convoyer.classList.contains("enCours")) {
-        btn_convoyer.classList.remove("enCours");
-        $(document.getElementById("conv")).hide();
-      }
-    }
+    // function reinitOrdres() {
+    //   if (btn_attaque.classList.contains("enCours")) {
+    //     btn_attaque.classList.remove("enCours");
+    //     $(document.getElementById("att")).hide();
+    //   }
+    //   if (btn_convoyer.classList.contains("enCours")) {
+    //     btn_convoyer.classList.remove("enCours");
+    //     $(document.getElementById("conv")).hide();
+    //   }
+    // }
 
 ////////////////////////
 
@@ -653,7 +653,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          reinitOrdres()  /////////////////////////////////////////////////
+          // reinitOrdres()  /////////////////////////////////////////////////
           /////////////////////////////////////////////////$(document.getElementById("convoyer")).hide();
           $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
 
@@ -696,13 +696,13 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          reinitOrdres() /////////////////////////////////////////////////
+          // reinitOrdres() /////////////////////////////////////////////////
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
 
           $(document.querySelector("#ordres > div:first-child > div:last-child")).show();
-          /////////////////////////////////////////////////$(document.getElementById("convoyer")).show();
+          $(document.getElementById("convoyer")).show();
 
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
@@ -936,12 +936,12 @@ export default {
       document.querySelector("#colonneOrdres > h1").innerHTML = "Informations";
       document.querySelector("#infos").style.display = "flex";
       document.querySelector("#ordres").style.display = "none";
-      reinitOrdres();
+      // reinitOrdres();
     })
     let validerOrdres = document.getElementById("valider_ordres");
     validerOrdres.addEventListener("click", () => {
       console.log("Ordres validés");
-      reinitOrdres();
+      // reinitOrdres();
     })
 
     // Pour quitter la partie
@@ -1195,7 +1195,7 @@ export default {
   }
   .ciblage > label{
     min-width: fit-content;
-    width: calc(60% - 70px - 20px);
+    width: calc(80% - 70px - 20px);
     height: 30px;
     text-align: center;
     margin: 0;
