@@ -15,37 +15,37 @@
       <div id="drapeaux">
         <h1>Pays</h1>
         <div>
-          <img
+          <img v-if="this.fr == true"
             alt="Drapeau de la France"
             title="France"
             src="../assets/img/flags/france.png"
           />
-          <img
+          <img v-if="this.ge"
             alt="Drapeau de l'Allemagne"
             title="Allemagne"
             src="../assets/img/flags/germany.png"
           />
-          <img
+          <img v-if="this.it"
             alt="Drapeau d'Italie"
             title="Italie"
             src="../assets/img/flags/italy.png"
           />
-          <img
+          <img v-if="this.ru"
             alt="Drapeau de Russie"
             title="Russie"
             src="../assets/img/flags/russia.png"
           />
-          <img
+          <img v-if="this.tu"
             alt="Drapeau de Turquie"
             title="Turquie"
             src="../assets/img/flags/turkey.png"
           />
-          <img
+          <img v-if="this.en"
             alt="Drapeau du Royaume-Uni"
             title="Royaume-Uni"
             src="../assets/img/flags/great-britain.png"
           />
-          <img
+          <img v-if="this.au"
             alt="Drapeau d'Autriche"
             title="Autriche"
             src="../assets/img/flags/austria-hungary.png"
@@ -70,7 +70,7 @@
     </div>
     <div id="colonneOrdres">
       <h1>Informations</h1>
-      <div id="ordres"> 
+      <div id="ordres">
         <div>
           <div>
             <p id="attaquer">Attaquer</p>
@@ -163,6 +163,13 @@ export default {
       username: '',
       dst: '',
       num_tour: 0,
+      fr: '',
+      en: '',
+      it: '',
+      ru: '',
+      au: '',
+      tu: '',
+      ge: '',
     }
   },
   methods: {
@@ -174,7 +181,7 @@ export default {
 
 			api.players
 				.update(this.game_id, this.player_id, this.username, this.power_id, true, config)
-				.then(response => 
+				.then(response =>
 				{
 					console.log(response);
 					// désactiver tous les boutons
@@ -182,8 +189,8 @@ export default {
 				.catch((err) => {
 					console.log(err);
 				})
-    }, 
-    changeTour(game_id,config) // attendre qu'on passe au prochain tour 
+    },
+    changeTour(game_id,config) // attendre qu'on passe au prochain tour
     {
       // on prends les infos de la game
       api.games.get_game(game_id,config)
@@ -192,12 +199,12 @@ export default {
         if(response.players[0].is_admin && response.players[0].is_you)
         {
           // si le tour s'est incrémenté
-          if(response.num_tour == (this.num_tour+1)) // si on passe au prochain tour 
+          if(response.num_tour == (this.num_tour+1)) // si on passe au prochain tour
           {
             // update le plateau
             //init_pion();
 
-            // maj le num tour de notre côté 
+            // maj le num tour de notre côté
             this.num_tour = response.num_tour;
           }
         }
@@ -220,12 +227,68 @@ export default {
         }
     }
 
-    
     const config = {
         headers: {Authorization: `Bearer ${cookie}`}
     };
 
     var game_id = game_num;
+
+    api.games
+      .get_game(game_id, config)
+      .then(response => {
+        console.log(response.data);
+        for (var p in response.data.players) {
+          console.log("aaa");
+          switch (response.data.players[p].username.toLowerCase()) {
+            case 'france':
+              this.fr = true;
+              console.log("dshfkdkusf");
+              break;
+            case 'germany':
+              this.ge = true;
+              break;
+            case 'russia':
+              this.ru = true;
+              break;
+            case 'austria-hungary':
+              this.au = true;
+              break;
+            case 'great-britain':
+              this.en = true;
+              break;
+            case 'turkey':
+              this.tu = true;
+              break;
+            case 'italy':
+              this.it = true;
+              break;
+            default:
+              break;
+          }
+        }
+        console.log(this.fr);
+      })
+      .catch(function(error) {
+        console.log(error);
+        if (error.response.status == 401) {
+          // Partie non accessible
+          let inaccDialog = document.getElementById("inaccessible");
+          let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
+
+          if (typeof inaccDialog.showModal === "function") {
+            document.querySelector("body").style.filter = "grayscale(1) invert(0.1)";
+            inaccDialog.showModal();
+          }
+          inaccDialog.addEventListener('cancel', (event) => {
+            event.preventDefault();
+          });
+          inaccQuit.addEventListener("click", function () {
+            document.querySelector("body").style.filter = "unset";
+            router.push({ path: `/`})
+          });
+        }
+      })
+
 
 
 ////////////////////////
@@ -246,7 +309,7 @@ export default {
 
 
     function color_armee(x,y, p,couleur, id)
-    { 
+    {
       let armee = document.createElementNS(ns, "rect");
 
       armee.setAttribute("x", x - 7.5);
@@ -257,7 +320,7 @@ export default {
       armee.setAttribute("stroke", couleur);
       armee.setAttribute("id",id);
       svg.appendChild(armee);
-      
+
       // Couleur et changement du curseur lors du passage de souris
       armee.addEventListener("mouseover", function () {
         this.style.cursor = "pointer";
@@ -364,7 +427,7 @@ export default {
 
           svg.appendChild(circleIn);
           svg.appendChild(circleOut);
-        } 
+        }
     }
 
 
@@ -378,17 +441,17 @@ export default {
     }
 
     function init_rav(){
-        for(var k in carte["infos"]){         
+        for(var k in carte["infos"]){
           //France
           if ((k=="Par")||(k=="Bre")||(k=="Mar")){
             ravitaillement(k,"blue");
           }
-          
+
           //Allemagne
           else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
             ravitaillement(k,"black");
           }
-          
+
           //Italie
           else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
             ravitaillement(k,"red");
@@ -416,7 +479,7 @@ export default {
         }
     }
 /*
-    function delete_pion() 
+    function delete_pion()
     {
       //console.log(unite)
       var taille = Object.keys(unite).length
@@ -427,7 +490,7 @@ export default {
         var id = unite[i].id;
         //console.log(id)
         let ex = document.getElementById(id);
-      
+
         ex.remove();
       }
     }
@@ -435,7 +498,7 @@ export default {
     function init_pion()
     {
       for(var i in unite){
-        
+
         init_rav();
         let id = unite[i].id;
         let power = unite[i].power_id;
@@ -446,7 +509,7 @@ export default {
         {
               let x = carte["infos"][pays].coords[0];
               let y = carte["infos"][pays].coords[1];
-            
+
               if (power == 1){
                 if (type == "ARMY"){
                   color_armee(x, y, pays, "black", id);
@@ -454,7 +517,7 @@ export default {
                 if (type == "FLEET"){
                   color_flotte(x, y, pays, "black", id);
                 }
-              } 
+              }
               else  if (power == 2){
                 if (type == "ARMY"){
                   color_armee(x, y, pays, "orange", id);
@@ -463,7 +526,7 @@ export default {
                   color_flotte(x, y, pays, "orange", id);
                 }
               }
-              
+
               else if (power == 3){
                 if (type == "ARMY"){
                   color_armee(x, y, pays, "blue", id);
@@ -471,7 +534,7 @@ export default {
                 if (type == "FLEET"){
                   color_flotte(x, y, pays, "blue", id);
                 }
-              } 
+              }
               else if (power == 4){
                 if (type == "ARMY"){
                   color_armee(x, y, pays, "pink", id);
@@ -504,10 +567,10 @@ export default {
                   color_flotte(x, y, pays, "green", id);
                 }
               }
-      
+
         }
       }
-    }  
+    }
 
 
 
@@ -561,10 +624,11 @@ export default {
     let ns = "http://www.w3.org/2000/svg";
     let svg = document.querySelector("svg");
     const carte = require("../assets/json/map.json");
-    let unite; 
+    let unite;
+
 
 ///////////////////////////////////////////////////////////////////////////////
-    // Création de territoire 
+    // Création de territoire
     for (var j in carte["areas"]) {
       let nomZone = carte["areas"][j].name;
       let etiquette = j;
@@ -710,9 +774,9 @@ export default {
     }
 
 /////////////////////// DEBUT ALGO
-    //init plateau de jeu 
+    //init plateau de jeu
     api.games.get_game(game_id,config)
-    .then(response => 
+    .then(response =>
     {
         for(var p in response.data.players)
         {
@@ -727,18 +791,18 @@ export default {
 
 
         // si on est bien à l'init du plateau
-        if(response.data.num_tour == 0) 
+        if(response.data.num_tour == 0)
         {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
             .then(response => {
               unite = response.data; // response contient ce qu'à normalement exallunits.json
-              init_pion();  
+              init_pion();
             })
             .catch((erreur) => {
               console.log(erreur);
             })
-        } 
+        }
     })
     .catch((err) => {
       console.log(err);
@@ -886,26 +950,6 @@ export default {
 
     quitBtn.addEventListener("click", function onOpen() {
       if (typeof quitDialog.showModal === "function") quitDialog.showModal();
-    });
-
-
-    // Partie non accessible
-    let inaccBtn = document.querySelector("#drapeaux > h1");
-    let inaccDialog = document.getElementById("inaccessible");
-    let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
-
-    inaccBtn.addEventListener("click", function onOpen() {
-      if (typeof inaccDialog.showModal === "function") {
-        document.querySelector("body").style.filter = "grayscale(1) invert(0.1)";
-        inaccDialog.showModal();
-      }
-    });
-    inaccDialog.addEventListener('cancel', (event) => {
-      event.preventDefault();
-    });
-    inaccQuit.addEventListener("click", function () {
-      document.querySelector("body").style.filter = "unset";
-      router.push({ path: `/`})
     });
 
     document.querySelector("#quitter > form > div > button:last-child").addEventListener("click", function onClose() {
@@ -1135,7 +1179,7 @@ export default {
     width: 60%;
     align-items: center;
     justify-content: center;
-  } 
+  }
   .enCours{
     background-color: #376890 !important;
   }
