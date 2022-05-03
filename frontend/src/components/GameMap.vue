@@ -119,6 +119,17 @@
       </div>
     </form>
   </dialog>
+  <dialog id="inaccessible">
+		<h1>Partie inaccessible</h1>
+		<form method="dialog">
+			<div>
+        Cette partie est en cours.... mais vous pouvez en créer une !
+			</div>
+			<div>
+				<button>Accueil</button>
+			</div>
+		</form>
+	</dialog>
 </template>
 
 <script>
@@ -855,7 +866,6 @@ export default {
         });
     });
 
- ////////////////////DEB//////////////////////////   
     // Quitter les ordres
     let quitterOrdres = document.getElementById("annuler_ordres");
     quitterOrdres.addEventListener("click", () => {
@@ -869,7 +879,6 @@ export default {
       console.log("Ordres validés");
       reinitOrdres();
     })
-////////////////////FIN//////////////////////////
 
     // Pour quitter la partie
     let quitBtn = document.getElementById("quit");
@@ -880,13 +889,29 @@ export default {
     });
 
 
-/////////////////////DEB/////////////////////////
+    // Partie non accessible
+    let inaccBtn = document.querySelector("#drapeaux > h1");
+    let inaccDialog = document.getElementById("inaccessible");
+    let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
+
+    inaccBtn.addEventListener("click", function onOpen() {
+      if (typeof inaccDialog.showModal === "function") {
+        document.querySelector("body").style.filter = "grayscale(1) invert(0.1)";
+        inaccDialog.showModal();
+      }
+    });
+    inaccDialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+    });
+    inaccQuit.addEventListener("click", function () {
+      document.querySelector("body").style.filter = "unset";
+      router.push({ path: `/`})
+    });
+
     document.querySelector("#quitter > form > div > button:last-child").addEventListener("click", function onClose() {
       // Prévenir le back que le joueur quitte
       router.push({ path: `/`})
     });
-///////////////////FIN///////////////////////////
-
 
     // Action effectuée quand on appuie sur "Entrer" dans le chat
     let texte = document.querySelector("input[type=text]");
