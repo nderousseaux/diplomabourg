@@ -23,3 +23,4 @@ coverage
 dev.env
 prod.env
 *.log
+db_folder
