@@ -27,38 +27,37 @@ def resolve_conflits(liste_orders):
         order.unit.cur_region=order.dst_region
         return order
 
+#region oldfunction
+# def resolution_orders(DBSession,game):
 
-def resolution_orders(DBSession,game):
+#     # Validation des ordres
+#     game.validation_orders()
 
-    # Validation des ordres
-    game.validation_orders()
+#     #On désactive toutes les attaques mutuelles
+#     for orders in game.attaques_mutuelles():
+#         for o in l:
+#             o.state = False 
 
-    DBSession
+#     #On brise les support
+#     for o in [o for o in game.orders_valid() if o.type_order.name == "SUPPORT"]:
+#         o.coupe_soutien() 
 
-    #On désactive toutes les attaques mutuelles
-    for orders in game.attaques_mutuelles():
-        for o in l:
-            o.state = False 
+#     #On romp les convois
+#     for o in [o for o in game.orders_valid() if o.type_order.name == "CONVOY"]:
+#        o.broke_convoi()
 
-    #On brise les support
-    for o in [o for o in game.orders_valid() if o.type_order.name == "SUPPORT"]:
-        o.coupe_soutien() 
+#     #On invalide les attaques dont les convois sont rompus
+#     for o in [o for o in game.orders_valid() if o.type_order.name == "SUPPORT" and o.state == False]:
+#         order = [o2 for o2 in game.orders_valid() if o2.type_order.name == "ATTACK" and o2.unit == o.other_unit]
+#         if len(order) > 0:
+#             order[0].is_valid = False
 
-    #On romp les convois
-    for o in [o for o in game.orders_valid() if o.type_order.name == "CONVOY"]:
-       o.broke_convoi()
-
-    #On invalide les attaques dont les convois sont rompus
-    for o in [o for o in game.orders_valid() if o.type_order.name == "SUPPORT" and o.state == False]:
-        order = [o2 for o2 in game.orders_valid() if o2.type_order.name == "ATTACK" and o2.unit == o.other_unit]
-        if len(order) > 0:
-            order[0].is_valid = False
-
-    #On déplace les unités
-    game.move_units()
+#     #On déplace les unités
+#     game.move_units()
     
-    #On résout les conflit
-    game.resolve_all_conflits()
+#     #On résout les conflit
+#     game.resolve_all_conflits()
     
-    #On supprime les unités
-    game.remove_units_lost()
+#     #On supprime les unités
+#     game.remove_units_lost()
+#endregion

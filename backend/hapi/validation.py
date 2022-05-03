@@ -1,10 +1,11 @@
 from this import d
 import transaction
-
+import random
 
 from hapi.models import *
 from sqlalchemy import or_, and_
 #from sqlalchemy.sql import or_, and_
+
 
 
 def typeRegion(regionId,DBSession,type_region): #already tested
@@ -240,7 +241,7 @@ def testeValideSoutien(idOrder, DBSession,transaction):
 def Validation(DBSession,nbtour,gameid,transaction):
     
     orders= DBSession.query(OrderModel).filter(OrderModel.num_tour.like(nbtour))
-
+    
     orders = [o for o in orders if o.unit.game.id == gameid]
     #orders= DBSession.query(OrderModel).filter((OrderModel.gameid == game.id), (OrderModel.nbtour == game.nbtour))
 
@@ -589,31 +590,87 @@ def take_center(gameId,DBSession,transaction):
                 print("puissance center changer")
     
 
-def OrderResolutions(DBSession,nbtour,gameid,transaction):
+
+def create_centers(DBSession, game):
+    """Crée un centre si une unité est sur une région qui peut acceuillir un centre et qui n'en a pas encore
+    """
+    
+    for u in game.units:
+        #Si l'unité se trouve une région qui peut avoir un centre mais qu'elle n'en à pas
+        if u.cur_region.can_accept_center(game):
+            type_center = DBSession().query(TypeUnitModel).filter_by(name="CENTER").first()
+            UnitModel(
+                type_unit=type_center,
+                src_region=u.cur_region,
+                cur_region=u.cur_region,
+                power=u.power,
+                game=game
+            )
+
+
+def create_units(DBSession, game):
+    """Génère de nouvelles unités
+    """
+    type_army = DBSession().query(TypeUnitModel).filter_by(name="ARMY").first()
+    for p in game.players:
+        centers = [u for u in p.units() if u.type_unit.name == "CENTER"]
+        nb_units = len(p.units()) - len(centers)
+        #Si le nombre de centres est supérieur au nombre d'unités
+        if len(centers) > nb_units:
+            nb_units_a_creer = nb_center-nb_units
+
+            centers_libre = [c for c in centers if centers.cur_region.nb_units(game) == 1]
+            random.shuffle(centers_libre)
+
+            nb_units_cree = 0
+            for c in centers_libre:
+                
+                UnitModel(
+                    type_unit=type_army,
+                    src_region=c.cur_region,
+                    cur_region=c.cur_region,
+                    power=c.power,
+                    game=game
+                )
+
+                nb_units_cree += 1
+                if nb_units_cree >= nb_units_a_creer:
+                    break
+            
+
+def OrderResolutions(DBSession,game):
+
+    transaction = 0
     #je valide d'abord les ordres
-    Validation(DBSession,nbtour,gameid,transaction)
+    Validation(DBSession,game.num_tour,game.id,transaction)
     
     #j'annule les attaques mutuelles 
-    AnnuleAllAttMutuelle(DBSession, nbtour,gameid ,transaction)
+    AnnuleAllAttMutuelle(DBSession, game.num_tour,game.id ,transaction)
     
     #je brise les soutients 
-    BreakSupport(DBSession,nbtour,gameid,transaction)
+    BreakSupport(DBSession,game.num_tour,game.id,transaction)
     
     #je romps les covois 
-    BreakSomeConvoy(DBSession,nbtour,gameid,transaction)
+    BreakSomeConvoy(DBSession,game.num_tour,game.id,transaction)
     
     #j'invalide les attaques dont les convois sont rompus 
-    removeAttaqueByConvoy(DBSession,nbtour,gameid,transaction)
+    removeAttaqueByConvoy(DBSession,game.num_tour,game.id,transaction)
     
     #je déplace les unités 
-    moveUnits(DBSession,nbtour,gameid,transaction)
+    moveUnits(DBSession,game.num_tour,game.id,transaction)
     
     
     #je résous les conflits
-    ResolveAllConflicts(DBSession,nbtour,gameid,transaction)
+    ResolveAllConflicts(DBSession,game.num_tour,game.id,transaction)
     
     #je retire les unités 
-    removeUnitsLost(DBSession,nbtour,gameid ,transaction)
+    removeUnitsLost(DBSession,game.num_tour,game.id ,transaction)
 
     #ecupération des centres
-    take_center(gameid, DBSession,transaction)
+    take_center(game.id, DBSession,transaction)
+
+    #On crée un centre si une unité est sur une région qui peut acceuillir un centre et qui n'en a pas encore
+    create_centers(DBSession, game)
+
+    #On génére des nouvelles unités si besoin
+    create_units(DBSession, game)

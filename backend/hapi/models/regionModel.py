@@ -54,3 +54,19 @@ class RegionModel(Base):
         if neighbour not in self.neighbours:
             self.neighbours.append(neighbour)
             neighbour.neighbours.append(self)
+
+    def can_accept_center(self, game):
+        """True si la région peut accepter un centre mais n'en possède pas encore
+        """
+        if not self.hasCenter:
+            return False
+
+        if self in [u.cur_region for u in game.units if u.type_unit.name == "CENTER"]:
+            return False
+
+        return True
+
+    def nb_units(self, game):
+        """Renvoie le nombre d'unité sur la région
+        """
+        return len([u for u in game.units if u.cur_region==self])

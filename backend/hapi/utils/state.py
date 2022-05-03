@@ -29,7 +29,7 @@ def change_state(DBSession, game, forced = False):
         if game.is_all_pret() or forced:
             
             #On résout les conflit
-            OrderResolutions(DBSession, game.num_tour, game.id, 0)
+            OrderResolutions(DBSession, game)
 
             end_state = DBSession().query(StateModel).filter_by(name="END").one()
 
