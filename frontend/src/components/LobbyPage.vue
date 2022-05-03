@@ -208,6 +208,11 @@ export default
 						erreur.innerText = "Le mot de passe est incorrect"
 						erreur.style.display = "block"
 					}
+					else if (error.response.status == 410) {
+						console.log(error.response.data.error.message[0]);
+						erreur.innerText = "La partie est déjà en cours"
+						erreur.style.display = "block"
+					}
 				})
 		},
 		copyLink() {
@@ -570,11 +575,6 @@ export default
 		font-size: 20px;
 	}
 
-	#lienCopie > form > div:first-child{
-		text-align: center;
-		font-size: 18px;
-	}
-
 /* Version tablette */
 @media only screen and (max-width: 1370px){
 	/* Div principale */
@@ -637,14 +637,6 @@ export default
 	}
 	#actions > button:first-child{
 		margin-bottom: 0;
-	}
-
-	/* Boîtes de dialogue */
-	#lienCopie > form > div:first-child{
-		width: 80%;
-		font-size: 18px;
-		white-space: pre-wrap;
-
 	}
 }
 </style>

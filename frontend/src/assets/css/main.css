@@ -183,6 +183,12 @@ input.erreur{
 	background-color: rgba(255, 0, 0, 0.4);
 }
 
+#lienCopie > form > div:first-child,
+#inaccessible > form > div:first-child{
+	text-align: center;
+	font-size: 18px;
+}
+
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
 	/* Boîtes de dialogue */
@@ -255,5 +261,13 @@ input.erreur{
 	/* Chat */
 	#chat > form > input[type=text]{
 		background-color: rgb(42, 58, 73);
+	}
+	
+	/* Boîte de dialogue */
+	#lienCopie > form > div:first-child,
+	#inaccessible > form > div:first-child{
+		width: 80%;
+		font-size: 18px;
+		white-space: pre-wrap;
 	}
 }

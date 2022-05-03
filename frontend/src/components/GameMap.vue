@@ -119,6 +119,17 @@
       </div>
     </form>
   </dialog>
+  <dialog id="inaccessible">
+		<h1>Partie inaccessible</h1>
+		<form method="dialog">
+			<div>
+        Cette partie est en cours.... mais vous pouvez en créer une !
+			</div>
+			<div>
+				<button>Accueil</button>
+			</div>
+		</form>
+	</dialog>
 </template>
 
 <script>
@@ -260,7 +271,21 @@ export default {
       .catch(function(error) {
         console.log(error);
         if (error.response.status == 401) {
-          console.log("lancer ici");
+          // Partie non accessible
+          let inaccDialog = document.getElementById("inaccessible");
+          let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
+
+          if (typeof inaccDialog.showModal === "function") {
+            document.querySelector("body").style.filter = "grayscale(1) invert(0.1)";
+            inaccDialog.showModal();
+          }
+          inaccDialog.addEventListener('cancel', (event) => {
+            event.preventDefault();
+          });
+          inaccQuit.addEventListener("click", function () {
+            document.querySelector("body").style.filter = "unset";
+            router.push({ path: `/`})
+          });
         }
       })
 
@@ -268,16 +293,16 @@ export default {
 
 ////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
-    function reinitOrdres() {
-      if (btn_attaque.classList.contains("enCours")) {
-        btn_attaque.classList.remove("enCours");
-        $(document.getElementById("att")).hide();
-      }
-      if (btn_convoyer.classList.contains("enCours")) {
-        btn_convoyer.classList.remove("enCours");
-        $(document.getElementById("conv")).hide();
-      }
-    }
+    // function reinitOrdres() {
+    //   if (btn_attaque.classList.contains("enCours")) {
+    //     btn_attaque.classList.remove("enCours");
+    //     $(document.getElementById("att")).hide();
+    //   }
+    //   if (btn_convoyer.classList.contains("enCours")) {
+    //     btn_convoyer.classList.remove("enCours");
+    //     $(document.getElementById("conv")).hide();
+    //   }
+    // }
 
 ////////////////////////
 
@@ -628,7 +653,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          reinitOrdres()  /////////////////////////////////////////////////
+          // reinitOrdres()  /////////////////////////////////////////////////
           /////////////////////////////////////////////////$(document.getElementById("convoyer")).hide();
           $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
 
@@ -671,13 +696,13 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          reinitOrdres() /////////////////////////////////////////////////
+          // reinitOrdres() /////////////////////////////////////////////////
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
 
           $(document.querySelector("#ordres > div:first-child > div:last-child")).show();
-          /////////////////////////////////////////////////$(document.getElementById("convoyer")).show();
+          $(document.getElementById("convoyer")).show();
 
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
@@ -905,21 +930,19 @@ export default {
         });
     });
 
- ////////////////////DEB//////////////////////////
     // Quitter les ordres
     let quitterOrdres = document.getElementById("annuler_ordres");
     quitterOrdres.addEventListener("click", () => {
       document.querySelector("#colonneOrdres > h1").innerHTML = "Informations";
       document.querySelector("#infos").style.display = "flex";
       document.querySelector("#ordres").style.display = "none";
-      reinitOrdres();
+      // reinitOrdres();
     })
     let validerOrdres = document.getElementById("valider_ordres");
     validerOrdres.addEventListener("click", () => {
       console.log("Ordres validés");
-      reinitOrdres();
+      // reinitOrdres();
     })
-////////////////////FIN//////////////////////////
 
     // Pour quitter la partie
     let quitBtn = document.getElementById("quit");
@@ -929,14 +952,10 @@ export default {
       if (typeof quitDialog.showModal === "function") quitDialog.showModal();
     });
 
-
-/////////////////////DEB/////////////////////////
     document.querySelector("#quitter > form > div > button:last-child").addEventListener("click", function onClose() {
       // Prévenir le back que le joueur quitte
       router.push({ path: `/`})
     });
-///////////////////FIN///////////////////////////
-
 
     // Action effectuée quand on appuie sur "Entrer" dans le chat
     let texte = document.querySelector("input[type=text]");
@@ -1176,7 +1195,7 @@ export default {
   }
   .ciblage > label{
     min-width: fit-content;
-    width: calc(60% - 70px - 20px);
+    width: calc(80% - 70px - 20px);
     height: 30px;
     text-align: center;
     margin: 0;
