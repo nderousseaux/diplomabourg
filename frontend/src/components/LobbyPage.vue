@@ -145,7 +145,8 @@ export default
 					if (response.data.state == "GAME")
 					{
 						clearInterval(interId)
-						router.push({ name: "Jeu"});
+						//router.push({ name: "Jeu"});
+						router.push({ path: `/jeu/${response.data.id}` })
 					}
 				})
 				.catch(function(error) {
