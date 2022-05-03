@@ -73,7 +73,7 @@
       <div id="ordres">
         <div>
           <div>
-            <p id="ATTACK">Attaquer</p>
+            <p id="attaquer">Attaquer</p>
             <div class="ciblage" id="att">
               <label id="cible_attaque"></label>
               <div>
@@ -479,7 +479,6 @@ export default {
         let pays = trouver_pays(region);
         if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
         {
-
               let x = carte["infos"][pays].coords[0];
               let y = carte["infos"][pays].coords[1];
 
@@ -549,41 +548,44 @@ export default {
 
 
 
+    ////////////////////////////////////////////////////////////////////////////
+        // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
 
     // Modèle de code pour changer le nombre de pions à poser
-    var nbrPions = 2;
-    var btnBloque = true;
-    let infosPions = document.querySelector("#infos > p")
-    let btnValider = document.querySelector("#infos > div > button:last-child")
-    infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+    // var nbrPions = 2;
+    // var btnBloque = true;
+    // let infosPions = document.querySelector("#infos > p")
+    // let btnValider = document.querySelector("#infos > div > button:last-child")
+    // infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
 
-    document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
-      if (nbrPions > 0)
-      {
-        nbrPions--
-      }
-      if (nbrPions == 1)
-      {
-        infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-      }
-      else if (nbrPions == 0 && btnBloque == true)
-      {
-        infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
-        btnValider.classList.toggle("bloqueBtn")
-        btnBloque = false
-      }
-      else if (nbrPions > 0)
-        infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
-    })
-    document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
-      if (btnBloque == false)
-      {
-        nbrPions = 2
-        infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-        btnValider.classList.toggle("bloqueBtn")
-        btnBloque = true;
-      }
-    })
+    // document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
+    //   if (nbrPions > 0)
+    //   {
+    //     nbrPions--
+    //   }
+    //   if (nbrPions == 1)
+    //   {
+    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+    //   }
+    //   else if (nbrPions == 0 && btnBloque == true)
+    //   {
+    //     infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
+    //     btnValider.classList.toggle("bloqueBtn")
+    //     btnBloque = false
+    //   }
+    //   else if (nbrPions > 0)
+    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+    // })
+    // document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
+    //   if (btnBloque == false)
+    //   {
+    //     nbrPions = 2
+    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+    //     btnValider.classList.toggle("bloqueBtn")
+    //     btnBloque = true;
+    //   }
+    // })
+    ////////////////////////////////////////////////////////////////////////////
 
     const order = {
       type_order: "",
@@ -601,6 +603,7 @@ export default {
     // Création de territoire
     for (var j in carte["areas"]) {
       let nomZone = carte["areas"][j].name;
+      let etiquette = j;
 
       // Zone de terre
       let path = document.createElementNS(ns, "path");
@@ -634,7 +637,8 @@ export default {
 
           this.dst = nomZone;
           order.dst_region_id = id_zone;
-          document.getElementById("cible_attaque").innerText = this.dst;
+          console.log(etiquette)
+          document.getElementById("cible_attaque").innerText = etiquette;
         });
       }
 
@@ -675,8 +679,8 @@ export default {
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
           order.dst_region_id = id_zone;
-
-          document.getElementById("cible_convoyer").innerText = this.dst;
+          console.log(etiquette);
+          document.getElementById("cible_convoyer").innerText = etiquette;
         });
       }
 
@@ -785,7 +789,7 @@ export default {
 
 
     // Attaquer
-    let btn_attaque = document.getElementById("ATTACK");
+    let btn_attaque = document.getElementById("attaquer");
     btn_attaque.addEventListener("click", function attaque_ordre() {
       order.type_order = btn_attaque.id;
       if (btn_attaque.classList.contains("enCours")) {
@@ -844,7 +848,7 @@ export default {
     // Convoyer
     let btn_convoyer = document.getElementById("convoyer");
     btn_convoyer.addEventListener("click", function convoyer_ordre() {
-       order.type_order = btn_convoyer.id;
+      order.type_order = btn_convoyer.id;
       if (btn_convoyer.classList.contains("enCours")) {
         btn_convoyer.classList.remove("enCours");
         $(document.getElementById("conv")).hide()
@@ -1024,6 +1028,7 @@ export default {
 		height: 48px;
 		margin: 20px 0 20px 20px;
 		transition: 0.6s;
+    cursor: pointer;
 	}
 	#minuteur > img:hover{
 		transition: 0.6s;
