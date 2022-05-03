@@ -325,7 +325,7 @@ export default {
         if (typeof carte["infos"][k].coordsRav != "undefined") {
           let circleIn = document.createElementNS(ns, "circle");
           let circleOut = document.createElementNS(ns, "circle");
-  
+
           circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
           circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
           circleIn.setAttribute("r", 2);

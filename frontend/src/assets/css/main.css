@@ -72,6 +72,18 @@ p{
 	padding: 10px;
 	overflow-y: auto;
 }
+::-webkit-input-placeholder{
+    color: #ffffff;
+}
+::-moz-placeholder{
+    color: #ffffff;
+}
+::-ms-placeholder{
+    color: #ffffff;
+}
+::placeholder{
+    color: #ffffff;
+}
 
 /* Boutons */
 button,
