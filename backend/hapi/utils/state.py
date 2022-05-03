@@ -31,12 +31,16 @@ def change_state(DBSession, game, forced = False):
             #On résout les conflit
             OrderResolutions(DBSession, game.num_tour, game.id, 0)
 
+            end_state = DBSession().query(StateModel).filter_by(name="END").one()
+
             game.num_tour+=1
+
+            if game.num_tour >= 15:
+                game.state = end_state
 
             for p in game.players:
                 p.is_ready = False
+                if p.nb_center() >= 18:
+                    game.state = end_state
 
-            #TODO: Définir quand est-ce qu'on finit ?
-        
-    
     DBSession.flush()

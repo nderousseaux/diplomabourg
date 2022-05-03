@@ -125,7 +125,7 @@ def isRegionOccupedByOtherUnit(idRegion,DBSession): #already tested
 def updateOrder(order,DBSession,transaction):
     get_order = DBSession.query(OrderModel).filter(OrderModel.id == order.id).first()
     get_order.is_valid=True
-    transaction.commit()
+    
     
 
 def valideAttaque(order,DBSession,transaction): #already tested
@@ -557,7 +557,7 @@ def BreakSomeConvoy(DBSession,nbtour,gameid,transaction):
     orders = [o for o in orderConvoy if o.unit.game.id == gameid]
     for o in orderConvoy:
        ConvoyBroken(o,DBSession, transaction)
-    transaction.commit()
+    
     print(" fin break convoy")
 
 def removeAttaqueByConvoy(DBSession,nbtour,gameid,transaction):
@@ -571,7 +571,7 @@ def removeAttaqueByConvoy(DBSession,nbtour,gameid,transaction):
         gameOrderAttack=[o for o in orderAttack if o.unit.game_id==gameid]
         if(gameOrderAttack is not None):
             gameOrderAttack[0].is_valide=False
-    transaction.commit()
+    
     print("relocalisation")
 
 def take_center(gameId,DBSession,transaction):
@@ -587,7 +587,7 @@ def take_center(gameId,DBSession,transaction):
                 if(uCenter is not None):
                      uCenter.power_id=u.power_id
                 print("puissance center changer")
-    transaction.commit()
+    
 
 def OrderResolutions(DBSession,nbtour,gameid,transaction):
     #je valide d'abord les ordres

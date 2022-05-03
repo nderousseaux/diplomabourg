@@ -120,4 +120,3 @@ class GameModel(Base):
     def remove_units_lost(self):
         for o in [o for o in self.orders() if not o.state]:
             o.retrait()
-    

@@ -3,6 +3,7 @@ from marshmallow import (
     fields,
     validate,
     post_load,
+    post_dump,
     ValidationError,
 )
 
@@ -23,6 +24,7 @@ class PlayerSchema(Schema):
     is_ready = fields.Boolean()
     power = fields.List(fields.Nested("PowerSchema", dump_only=True))
     power_id = fields.Int(load_only=True)
+    is_winner = fields.Boolean(dump_only=True)
 
     @post_load
     def post_load(self, data, **kwargs):
@@ -40,6 +42,13 @@ class PlayerSchema(Schema):
 
         return data
 
+    @post_dump
+    def post_dump(self, data, **kwargs):
+
+        is_winner = DBSession().query(PlayerModel).get(data["id"]).is_winner()
+        if is_winner != None:
+            data["is_winner"] = is_winner
+        return data
 
     def check_power(self, player, game, you=None):
 
