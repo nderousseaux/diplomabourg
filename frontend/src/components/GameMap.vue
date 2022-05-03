@@ -102,7 +102,7 @@
       </div>
 
       <div id="infos">
-        <p>Sélectionnez une région pour choisir les ordres</p>
+        <p>Sélectionnez un pion pour choisir les ordres</p>
         <div>
           <button>Réinitialiser</button>
           <button class="bloqueBtn">Valider</button>
@@ -123,7 +123,7 @@
 		<h1>Partie inaccessible</h1>
 		<form method="dialog">
 			<div>
-        Cette partie est en cours.... mais vous pouvez en créer une !
+        Cette partie est en cours.... mais vous pouvez en créer une nouvelle !
 			</div>
 			<div>
 				<button>Accueil</button>
