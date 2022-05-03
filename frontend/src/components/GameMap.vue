@@ -124,12 +124,13 @@
 
 <script>
 import api from "../api";
-import router from "../router/index.js"; // ATTENTION
+import router from "../router/index.js"; 
 
 const game_num = window.location.pathname.split('/')[2];
 let ns;
 let svg;
-let num_tour;
+
+var unite; 
 
 const order = {
   type_order: "",
@@ -155,7 +156,6 @@ function getRefresh()  {
 
 function delete_pion(unite){
   var taille = Object.keys(unite).length
-  console.log(taille)
   for(var i=0; i < taille; i++){
     var id = unite[i].id;
     let ex = document.getElementById(id);
@@ -400,8 +400,6 @@ function init_pion(carte, unite){
   }
 }  
 
-
-
 export default {
   data() {
     return {
@@ -410,6 +408,7 @@ export default {
       power_id: '',
       username: '',
       dst: '',
+      num_tour: '',
     }
   },
   methods: {
@@ -418,8 +417,7 @@ export default {
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
-      console.log("ID PLAYER : "+this.player_id)
-      console.log(this.power_id)
+
 			api.players
 				.update(game_num, this.player_id, this.username, this.power_id, true, config)
 				.then(response => 
@@ -430,27 +428,35 @@ export default {
 				.catch((err) => {
 					console.log(err);
 				})
-
-
     }, 
+
     changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour 
-      console.log("HEEEEEEEEEEEEEY");
       // on prends les infos de la game
       api.games.get_game(game_id,config)
       .then(response => {
-        console.log("IN GAME");
-        console.log(response.data); // TOUR QUI NE PASSE PAS AU SUIVANT???
-        console.log(this.token);
-        // L'AUTRE NE PEUT PAS GAMES/:id ???? 401 
+        console.log(this.num_tour)
+        console.log(response.data.num_tour)
+
         // si le tour s'est incrémenté
         if(response.data.state == "END"){
+          console.log("FIN")
           // Annoncer le vainqueur 
-        }else if(response.data.num_tour == (num_tour+1)){ // si on passe au prochain tour 
+        }else if(response.data.num_tour == (this.num_tour+1)){ // si on passe au prochain tour 
             delete_pion(unite) 
-            // update le plateau
-            init_pion(carte,unite);
-            // maj le num tour de notre côté 
-            num_tour = response.data.num_tour;
+
+            api.units.get_all(config)
+            .then(response => {
+              var test = response.data; // response contient ce qu'à normalement exallunits.json
+              // update le plateau
+              init_pion(carte,test);
+              // maj le num tour de notre côté 
+              
+              this.num_tour = response.data.num_tour;
+              console.log(this.num_tour)
+            })
+            .catch((erreur) => {
+              console.log(erreur);
+            })
         }
       })
       .catch(err => {
@@ -459,7 +465,7 @@ export default {
     }
   },
   mounted() {
-    num_tour = 0;
+    this.num_tour = 0;
     svg = document.querySelector("svg");
     ns = "http://www.w3.org/2000/svg";
     var cookie = getTokenCookie();
@@ -479,7 +485,6 @@ export default {
     };
     var game_id = game_num;
 
-////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
     function reinitOrdres() {
       if (btn_attaque.classList.contains("enCours")) {
@@ -491,8 +496,6 @@ export default {
         $(document.getElementById("conv")).hide();
       }
     }
-
-////////////////////////
 
     // Modèle de code pour changer le nombre de pions à poser
     var nbrPions = 2;
@@ -530,9 +533,7 @@ export default {
     })
 
     const carte = require("../assets/json/map.json");
-    let unite; 
-
- 
+     
 ///////////////////////////////////////////////////////////////////////////////
     // Création de territoire 
     for (var j in carte["areas"]) {
@@ -679,24 +680,24 @@ export default {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
             .then(response => {
-              unite = response.data; // response contient ce qu'à normalement exallunits.json
-              init_pion(carte, unite);  
+              unite = response.data; 
+              init_pion(carte, unite); 
+              setInterval(this.changeTour,5000,carte, unite,game_id, config);
             })
             .catch((erreur) => {
               console.log(erreur);
             })
         } 
+
     })
     .catch((err) => {
       console.log(err);
     })
 
-    // On commence le jeu 
     //var win = 15;
     //while(num_tour < 15){
       // vérifier si on passe au prochain 
-      setInterval(this.changeTour,50000,carte, unite,game_id, config);
-      console.log("TEST ICI")
+
     //}
 
 ////////////////////////////////////////////////////
@@ -731,7 +732,6 @@ export default {
 
       console.log("Mission annulée !");
     });
-
 
     // Tenir
     let btn_tenir = document.getElementById("HOLD");
@@ -814,7 +814,6 @@ export default {
         });
     });
 
- ////////////////////DEB//////////////////////////   
     // Quitter les ordres
     let quitterOrdres = document.getElementById("annuler_ordres");
     quitterOrdres.addEventListener("click", () => {
@@ -828,7 +827,6 @@ export default {
       console.log("Ordres validés");
       //reinitOrdres();
     })
-////////////////////FIN//////////////////////////
 
     // Pour quitter la partie
     let quitBtn = document.getElementById("quit");
@@ -838,14 +836,10 @@ export default {
       if (typeof quitDialog.showModal === "function") quitDialog.showModal();
     });
 
-
-/////////////////////DEB/////////////////////////
     document.querySelector("#quitter > form > div > button:last-child").addEventListener("click", function onClose() {
       // Prévenir le back que le joueur quitte
       router.push({ path: `/`})
     });
-///////////////////FIN///////////////////////////
-
 
     // Action effectuée quand on appuie sur "Entrer" dans le chat
     let texte = document.querySelector("input[type=text]");
