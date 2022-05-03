@@ -1,14 +1,16 @@
 /* Général */
-@font-face{
+@font-face {
 	font-family: "Iceland";
 	font-display: swap;
 	src: url("../font/iceland.ttf") format("truetype")
 }
-*{
+
+* {
 	font-family: "Iceland", cursive;
 	color: #ffffff;
 }
-body{
+
+body {
 	background: url("../img/map.jpeg");
 	background-repeat: no-repeat;
 	background-color: #000000;
@@ -17,15 +19,17 @@ body{
 }
 
 /* Divers */
-h1, p{
+h1,
+p {
 	text-align: center;
 }
-p{
+
+p {
 	font-size: 25px;
 }
 
 /* Div principale */
-#logo{
+#logo {
 	width: 430px;
 	height: 161px;
 	margin: 20px 0;
@@ -36,28 +40,29 @@ p{
 #joueurs,
 #chat,
 #colonneInfos,
-#colonneOrdres{
+#colonneOrdres {
 	background-color: rgba(112, 128, 143, 0.7);
 }
 
 /* Barre de séparation */
 #minuteur,
-#colonneOrdres > h1,
-#telecharger > form > div > h2{
+#colonneOrdres>h1,
+#telecharger>form>div>h2 {
 	border-style: solid;
 	border-width: 0 0 4px;
 	border-image: radial-gradient(#ae0132, #1c0043) 1;
 }
 
 /* Chat */
-#chat{
+#chat {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 10px 0 0;
 	border-radius: 10px;
 }
-#chat > form > input[type=text]{
+
+#chat>form>input[type=text] {
 	background-color: rgb(112, 128, 143);
 	width: calc(100% - 20px);
 	padding: 0 10px;
@@ -67,7 +72,8 @@ p{
 	outline: none;
 	border-style: none;
 }
-#chat > div:nth-child(2){
+
+#chat>div:nth-child(2) {
 	height: 100%;
 	padding: 10px;
 	overflow-y: auto;
@@ -88,8 +94,8 @@ p{
 /* Boutons */
 button,
 input[type=submit],
-#ordres > div:first-child > p,
-#ordres > div:first-child > div > p{
+#ordres>div:first-child>p,
+#ordres>div:first-child>div>p {
 	margin: 20px 0;
 	padding: 0;
 	line-height: 44px;
@@ -102,48 +108,55 @@ input[type=submit],
 	border-style: none;
 	cursor: pointer;
 }
+
 button:hover,
 input[type=submit]:hover,
-#ordres > div:first-child > p:hover,
-#ordres > div:first-child > div > p:hover{
+#ordres>div:first-child>p:hover,
+#ordres>div:first-child>div>p:hover {
 	background-color: #4682b4;
 }
+
 button:active,
 input[type=submit]:active,
-#ordres > div:first-child > p:active,
-#ordres > div:first-child > div > p:active{
+#ordres>div:first-child>p:active,
+#ordres>div:first-child>div>p:active {
 	background-color: #376890;
 }
 
 /* Boîtes de dialogue */
-dialog{
+dialog {
 	background-color: #2a3a49;
 	border-radius: 10px;
 	border-style: none;
 	box-shadow: 0px 0px 15px 5px #002843;
 }
-dialog > h1{
+
+dialog>h1 {
 	font-size: 40px;
 	margin: 10px 0 30px;
 	text-align: center;
 }
-dialog > form{
+
+dialog>form {
 	display: flex;
 	flex-direction: column;
 	margin: 0;
 	align-items: center;
 }
-dialog > form > div{
+
+dialog>form>div {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
 	width: 80%;
 }
-dialog > form > div:last-child{
+
+dialog>form>div:last-child {
 	width: 100%;
 }
-dialog > form > p{
+
+dialog>form>p {
 	display: none;
 	font-size: 20px;
 	font-weight: bold;
@@ -151,16 +164,18 @@ dialog > form > p{
 	margin-bottom: 0;
 	text-align: center;
 }
-dialog > form > div > label{
+
+dialog>form>div>label {
 	font-size: 25px;
 	width: 49%;
 	text-align: left;
 }
+
 input[type=number],
 input[type=password],
 input[type=text],
-.ciblage > label,
-select{
+.ciblage>label,
+select {
 	background-color: #3b5167;
 	width: calc(50% - 10px);
 	height: 30px;
@@ -170,16 +185,18 @@ select{
 	border-style: none;
 	outline: none;
 }
-dialog > form > div > button,
-dialog > form > div > input[type=submit],
-#telecharger > form > button{
+
+dialog>form>div>button,
+dialog>form>div>input[type=submit],
+#telecharger>form>button {
 	width: 40%;
 	margin: 30px 0 10px;
 	line-height: 44px;
 	border: none;
 	outline: inherit;
 }
-input.erreur{
+
+input.erreur {
 	background-color: rgba(255, 0, 0, 0.4);
 }
 
@@ -190,76 +207,87 @@ input.erreur{
 }
 
 /* Version tablette */
-@media only screen and (min-width: 770px) and (max-width: 1370px){
+@media only screen and (min-width: 770px) and (max-width: 1370px) {
+
 	/* Boîtes de dialogue */
-	dialog > h1{
+	dialog>h1 {
 		font-size: 32px;
 	}
-	dialog > form > div{
+
+	dialog>form>div {
 		width: 100%;
 		justify-content: space-around;
 	}
+
 	button,
 	input[type=submit],
-	#ordres > div:first-child > p,
-	#ordres > div:first-child > div > p{
+	#ordres>div:first-child>p,
+	#ordres>div:first-child>div>p {
 		font-size: 26px;
 	}
 }
 
 /* Version mobile */
-@media only screen and (max-width: 769px){
+@media only screen and (max-width: 769px) {
+
 	/* Div principale */
-	#logo{
+	#logo {
 		width: 340px;
 		height: 128px;
 	}
 
 	/* Chat */
-	#chat{
+	#chat {
 		height: max-content !important;
 	}
-	#historique{
+
+	#historique {
 		min-height: 15vh !important;
 	}
-	#chat > h1.bas:after{
+
+	#chat>h1.bas:after {
 		content: "⯆";
 	}
-	#chat > h1:after{
+
+	#chat>h1:after {
 		content: "⯅";
 	}
 
 	/* Boîtes de dialogue */
-	dialog{
+	dialog {
 		width: 85vw;
 	}
-	dialog > h1{
+
+	dialog>h1 {
 		font-size: 32px;
 	}
-	dialog > form > div{
+
+	dialog>form>div {
 		width: 100%;
 	}
+
 	button,
 	input[type=submit],
-	#ordres > div:first-child > p,
-	#ordres > div:first-child > div > p{
+	#ordres>div:first-child>p,
+	#ordres>div:first-child>div>p {
 		font-size: 23px;
 	}
 }
 
 /* Mode sombre */
-@media(prefers-color-scheme: dark){
+@media(prefers-color-scheme: dark) {
+
 	/* Couleur de fond transparente */
 	#pays,
 	#joueurs,
 	#chat,
 	#colonneInfos,
-	#colonneOrdres{
+	#colonneOrdres {
 		background-color: rgba(42, 58, 73, 0.7);
 	}
 
 	/* Chat */
-	#chat > form > input[type=text]{
+	#chat>form>input[type=text] {
 		background-color: rgb(42, 58, 73);
 	}
 	
