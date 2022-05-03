@@ -1,11 +1,11 @@
-module.exports  =
+module.exports =
 {
 	transpileDependencies: true,
 	devServer: {
 		proxy: {
 			'backend': {
-				//target: "http://localhost:10005",
-				target: 'http://hephaistos.nathanaelderousseaux.fr:3306',
+				target: "http://localhost:10005",
+				//target: 'http://hephaistos.nathanaelderousseaux.fr:3306',
 				changeOrigin: true,
 				pathRewrite: {
 					"^/backend": ""
@@ -14,7 +14,7 @@ module.exports  =
 		}
 	},
 
-	publicPath: process.env.NODE_ENV  ===  'production'  ?  './'  :  '/',
+	publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
 	pwa:
 	{
