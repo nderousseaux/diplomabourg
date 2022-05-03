@@ -182,7 +182,6 @@ export default {
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
           document.querySelector("form").submit();
-          console.log("ok");
         }
       });
 
@@ -485,9 +484,8 @@ input[type=text]{
   }
 
   /* Boîte de dialogue pour paramétrer et rejoindre la partie */
-  #param,
-  #rejoindre {
-    width: 80vw;
+  #param{
+    min-width: unset;
   }
 	#param > form > div,
   #rejoindre > form > div {
@@ -499,6 +497,7 @@ input[type=text]{
   #rejoindre > form > div > label {
 		font-size: 25px;
 		width: 100%;
+    margin: 0;
 		text-align: center;
 	}
 	#param > form > div > input,

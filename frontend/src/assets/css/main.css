@@ -104,60 +104,34 @@ input[type=submit]:active,
 }
 
 /* Boîtes de dialogue */
-#joindre,
-#param,
-#quitter,
-#rejoindre,
-#telecharger{
+dialog{
 	background-color: #2a3a49;
 	border-radius: 10px;
 	border-style: none;
 	box-shadow: 0px 0px 15px 5px #002843;
 }
-#param,
-#rejoindre,
-#quitter{
-	width: 25vw;
-	min-width: max-content;
-}
-#joindre > h1,
-#param > h1,
-#quitter > h1,
-#rejoindre > h1,
-#telecharger > h1{
+dialog > h1{
 	font-size: 40px;
 	margin: 10px 0 30px;
 	text-align: center;
 }
-#joindre > form,
-#param > form,
-#quitter > form,
-#rejoindre > form,
-#telecharger > form{
+dialog > form{
 	display: flex;
 	flex-direction: column;
 	margin: 0;
 	align-items: center;
 }
-#joindre > form > div,
-#param > form > div,
-#quitter > form > div,
-#rejoindre > form > div{
+dialog > form > div{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
 	width: 80%;
 }
-#joindre > form > div:last-child,
-#param > form > div:last-child,
-#quitter > form > div:last-child,
-#rejoindre > form > div:last-child{
+dialog > form > div:last-child{
 	width: 100%;
 }
-#joindre > form > p,
-#param > form > p,
-#rejoindre > form > p{
+dialog > form > p{
 	display: none;
 	font-size: 20px;
 	font-weight: bold;
@@ -165,9 +139,7 @@ input[type=submit]:active,
 	margin-bottom: 0;
 	text-align: center;
 }
-#joindre > form > div > label,
-#param > form > div > label,
-#rejoindre > form > div > label{
+dialog > form > div > label{
 	font-size: 25px;
 	width: 49%;
 	text-align: left;
@@ -186,18 +158,11 @@ select{
 	border-style: none;
 	outline: none;
 }
-#joindre > form > div > button,
-#joindre > form > div > input[type=submit],
-#param > form > div > button,
-#param > form > div > input[type=submit],
-#quitter > form > div > button,
-#quitter > form > div > input[type=submit],
-#rejoindre > form > div > button,
-#rejoindre > form > div > input[type=submit],
+dialog > form > div > button,
+dialog > form > div > input[type=submit],
 #telecharger > form > button{
 	width: 40%;
 	margin: 30px 0 10px;
-	padding: 0 22px;
 	line-height: 44px;
 	border: none;
 	outline: inherit;
@@ -209,16 +174,10 @@ input.erreur{
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
 	/* Boîtes de dialogue */
-	#joindre > h1,
-	#param > h1,
-	#quitter > h1
-	#rejoindre > h1{
+	dialog > h1{
 		font-size: 32px;
 	}
-	#joindre > form > div,
-	#param > form > div,
-	#quitter > form > div,
-	#rejoindre > form > div{
+	dialog > form > div{
 		width: 100%;
 		justify-content: space-around;
 	}
@@ -253,22 +212,13 @@ input.erreur{
 	}
 
 	/* Boîtes de dialogue */
-	#joindre,
-	#param,
-	#quitter,
-	#rejoindre{
+	dialog{
 		width: 85vw;
 	}
-	#joindre > h1,
-	#param > h1,
-	#quitter > h1,
-	#rejoindre > h1{
+	dialog > h1{
 		font-size: 32px;
 	}
-	#joindre > form > div,
-	#param > form > div,
-	#quitter > form > div,
-	#rejoindre > form > div{
+	dialog > form > div{
 		width: 100%;
 	}
 	button,
