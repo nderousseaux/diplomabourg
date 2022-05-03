@@ -302,6 +302,8 @@ def AttaqueMutuelle(orders, DBSession): #already testeed
 def testAttaqueMutuelle(idGame, DBSession,transaction):
     game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()
     orders= DBSession.query(OrderModel).filter(OrderModel.gameid.like(game.id),OrderModel.nbtour.like(game.nbtour))
+    orders = [o for o in orders if o.unit.game == game]
+    orders = [o for o in orders if o.unit.game_num_tour == game.num_tour]
     list=AttaqueMutuelle(orders, DBSession)
     return list
     
@@ -459,7 +461,7 @@ def testnbValidSupportForOrder(idOrder, DBSession):
 
 # Verifier qu'une zone est attaque : Utilisez pour le soutien spécifiquement ici
 def isAttacked(order , DBSession):
-    AllAttacksOrders = getAllAttackOrders(order.gameid, DBSession)
+    AllAttacksOrders = getAllAttackOrders(order.unit.game.id, DBSession)
     for o in AllAttacksOrders:
         if (o.dst_region_id == order.src_region_id) and (o.other_unit_id == order.unit_id) :
             True
@@ -551,7 +553,6 @@ def testConvoyBroke(idOrder, DBSession, transaction) :
 def BreakSomeConvoy(DBSession,nbtour,gameid,transaction):
     #recupére tous les ordres de convois valides
     print(" debut break convoy")
-    OrderModel.gameid
     orderConvoy= DBSession.query(OrderModel).filter(OrderModel.type_order_id.like(4),OrderModel.num_tour.like(nbtour),OrderModel.is_valid==True)
     orders = [o for o in orderConvoy if o.unit.game.id == gameid]
     for o in orderConvoy:
