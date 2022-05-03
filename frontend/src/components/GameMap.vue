@@ -14,39 +14,38 @@
       <div></div>
       <div id="drapeaux">
         <h1>Pays</h1>
-        <div id="joueurs">
-        <!--
-          <img
+        <div>
+          <img v-if="this.fr == true"
             alt="Drapeau de la France"
             title="France"
             src="../assets/img/flags/france.png"
           />
-          <img
+          <img v-if="this.ge"
             alt="Drapeau de l'Allemagne"
             title="Allemagne"
             src="../assets/img/flags/germany.png"
           />
-          <img
+          <img v-if="this.it"
             alt="Drapeau d'Italie"
             title="Italie"
             src="../assets/img/flags/italy.png"
           />
-          <img
+          <img v-if="this.ru"
             alt="Drapeau de Russie"
             title="Russie"
             src="../assets/img/flags/russia.png"
           />
-          <img
+          <img v-if="this.tu"
             alt="Drapeau de Turquie"
             title="Turquie"
             src="../assets/img/flags/turkey.png"
           />
-          <img
+          <img v-if="this.en"
             alt="Drapeau du Royaume-Uni"
             title="Royaume-Uni"
             src="../assets/img/flags/great-britain.png"
           />
-          <img
+          <img v-if="this.au"
             alt="Drapeau d'Autriche"
             title="Autriche"
             src="../assets/img/flags/austria-hungary.png"
@@ -71,10 +70,10 @@
     </div>
     <div id="colonneOrdres">
       <h1>Informations</h1>
-      <div id="ordres"> 
+      <div id="ordres">
         <div>
           <div>
-            <p id="ATTACK">Attaquer</p>
+            <p id="attaquer">Attaquer</p>
             <div class="ciblage" id="att">
               <label id="cible_attaque"></label>
               <div>
@@ -120,6 +119,17 @@
       </div>
     </form>
   </dialog>
+  <dialog id="inaccessible">
+		<h1>Partie inaccessible</h1>
+		<form method="dialog">
+			<div>
+        Cette partie est en cours.... mais vous pouvez en créer une !
+			</div>
+			<div>
+				<button>Accueil</button>
+			</div>
+		</form>
+	</dialog>
 </template>
 
 <script>
@@ -408,7 +418,14 @@ export default {
       power_id: '',
       username: '',
       dst: '',
-      num_tour: '',
+      num_tour: 0,
+      fr: '',
+      en: '',
+      it: '',
+      ru: '',
+      au: '',
+      tu: '',
+      ge: '',
     }
   },
   methods: {
@@ -485,59 +502,395 @@ export default {
     };
     var game_id = game_num;
 
+    api.games
+      .get_game(game_id, config)
+      .then(response => {
+        console.log(response.data);
+        for (var p in response.data.players) {
+          console.log("aaa");
+          switch (response.data.players[p].username.toLowerCase()) {
+            case 'france':
+              this.fr = true;
+              console.log("dshfkdkusf");
+              break;
+            case 'germany':
+              this.ge = true;
+              break;
+            case 'russia':
+              this.ru = true;
+              break;
+            case 'austria-hungary':
+              this.au = true;
+              break;
+            case 'great-britain':
+              this.en = true;
+              break;
+            case 'turkey':
+              this.tu = true;
+              break;
+            case 'italy':
+              this.it = true;
+              break;
+            default:
+              break;
+          }
+        }
+        console.log(this.fr);
+      })
+      .catch(function(error) {
+        console.log(error);
+        if (error.response.status == 401) {
+          // Partie non accessible
+          let inaccDialog = document.getElementById("inaccessible");
+          let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
+
+          if (typeof inaccDialog.showModal === "function") {
+            document.querySelector("body").style.filter = "grayscale(1) invert(0.1)";
+            inaccDialog.showModal();
+          }
+          inaccDialog.addEventListener('cancel', (event) => {
+            event.preventDefault();
+          });
+          inaccQuit.addEventListener("click", function () {
+            document.querySelector("body").style.filter = "unset";
+            router.push({ path: `/`})
+          });
+        }
+      })
+
+
+
+////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
-    function reinitOrdres() {
-      if (btn_attaque.classList.contains("enCours")) {
-        btn_attaque.classList.remove("enCours");
-        $(document.getElementById("att")).hide();
-      }
-      if (btn_convoyer.classList.contains("enCours")) {
-        btn_convoyer.classList.remove("enCours");
-        $(document.getElementById("conv")).hide();
+    // function reinitOrdres() {
+    //   if (btn_attaque.classList.contains("enCours")) {
+    //     btn_attaque.classList.remove("enCours");
+    //     $(document.getElementById("att")).hide();
+    //   }
+    //   if (btn_convoyer.classList.contains("enCours")) {
+    //     btn_convoyer.classList.remove("enCours");
+    //     $(document.getElementById("conv")).hide();
+    //   }
+    // }
+
+////////////////////////
+
+
+
+    function color_armee(x,y, p,couleur, id)
+    {
+      let armee = document.createElementNS(ns, "rect");
+
+      armee.setAttribute("x", x - 7.5);
+      armee.setAttribute("y", y);
+      armee.setAttribute("width", 5);
+      armee.setAttribute("height", 5);
+      armee.setAttribute("fill", couleur);
+      armee.setAttribute("stroke", couleur);
+      armee.setAttribute("id",id);
+      svg.appendChild(armee);
+
+      // Couleur et changement du curseur lors du passage de souris
+      armee.addEventListener("mouseover", function () {
+        this.style.cursor = "pointer";
+      });
+      armee.addEventListener("click", function () {
+        console.log("Clic armee : ", p);
+        console.log("Id de l'armée: ", id);
+        order.unit_id = id;
+      });
+      // Ordre
+      armee.addEventListener("click", function () {
+          let convoyer = document.getElementById("convoyer");
+          if (convoyer) {
+            convoyer.remove();
+          }
+
+          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+          document.querySelector("#infos").style.display = "none";
+          document.querySelector("#ordres").style.display = "flex";
+          console.log("Clic zone terrestre : ", p);
+
+        });
+    }
+
+    function color_flotte(x,y, p,couleur, id)
+    {
+      let flotte = document.createElementNS(ns, "ellipse");
+
+      flotte.setAttribute("cx", x - 7.5);
+      flotte.setAttribute("cy", y);
+      flotte.setAttribute("rx", 5);
+      flotte.setAttribute("ry", 2);
+      flotte.setAttribute("fill", couleur);
+      flotte.setAttribute("stroke", couleur);
+      flotte.setAttribute("id",id);
+      svg.appendChild(flotte);
+
+      // Couleur et changement du curseur lors du passage de souris
+      flotte.addEventListener("mouseover", function () {
+        this.style.cursor = "pointer";
+      })
+      flotte.addEventListener("click", function () {
+        console.log("Clic flotte : ", p);
+        console.log("Id de la flotte: ", id);
+        order.unit_id = id;
+      })
+      // Ordre
+      flotte.addEventListener("click", function () {
+          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+          document.querySelector("#infos").style.display = "none";
+          document.querySelector("#ordres").style.display = "flex";
+
+          let btn_convoyer = document.getElementById("convoyer");
+          if (!btn_convoyer) {
+            const conv = document.createElement("p");
+            conv.innerText = "Convoyer";
+            conv.setAttribute("id", "convoyer");
+
+            var btn_valider = document.querySelector("#soutenir");
+
+            btn_valider.after(conv);
+
+            conv.addEventListener("click", function convoyer_ordre() {
+              order.type_order = conv.id;
+            });
+          }
+
+          console.log("Clic zone maritime : ", p);
+      });
+    }
+
+
+    function ravitaillement(pays, couleur)
+    {
+      let k = pays;
+        if (typeof carte["infos"][k].coordsRav != "undefined") {
+          let circleIn = document.createElementNS(ns, "circle");
+          let circleOut = document.createElementNS(ns, "circle");
+
+          circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
+          circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
+          circleIn.setAttribute("r", 2);
+          circleIn.setAttribute("fill", couleur);
+          circleIn.setAttribute("stroke", "none");
+          circleIn.setAttribute("stroke-width", 0);
+
+          circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
+          circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
+          circleOut.setAttribute("r", 4);
+          circleOut.setAttribute("fill", "none");
+          circleOut.setAttribute("stroke", "black");
+
+          // Couleur et changement du curseur lors du passage de souris
+          circleOut.addEventListener("mouseover", function () {
+            this.style.cursor = "pointer";
+            this.style.fill = "lightcoral";
+          });
+          circleOut.addEventListener("mouseout", function () {
+            this.style.fill = "none";
+          });
+          circleOut.addEventListener("click", function () {
+            console.log("Clic ravitaillement : ", pays);
+          });
+
+          svg.appendChild(circleIn);
+          svg.appendChild(circleOut);
+        }
+    }
+
+
+    function trouver_pays(src_region){
+      for (var j in carte["areas"]){
+        if (src_region == carte["areas"][j].id){
+          let pays = j;
+          return pays;
+        }
       }
     }
 
-    // Modèle de code pour changer le nombre de pions à poser
-    var nbrPions = 2;
-    var btnBloque = true;
-    let infosPions = document.querySelector("#infos > p")
-    let btnValider = document.querySelector("#infos > div > button:last-child")
-    infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+    function init_rav(){
+        for(var k in carte["infos"]){
+          //France
+          if ((k=="Par")||(k=="Bre")||(k=="Mar")){
+            ravitaillement(k,"blue");
+          }
 
-    document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
-      if (nbrPions > 0)
+          //Allemagne
+          else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
+            ravitaillement(k,"black");
+          }
+
+          //Italie
+          else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
+            ravitaillement(k,"red");
+          }
+          //Russie
+          else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
+            ravitaillement(k,"purple");
+          }
+          //Turquie
+          else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
+            ravitaillement(k,"green");
+          }
+
+          //Angleterre
+          else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
+            ravitaillement(k,"pink");
+          }
+          //Autriche
+          else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
+            ravitaillement(k,"orange");
+          }
+          else{
+            ravitaillement(k,"white");
+          }
+        }
+    }
+/*
+    function delete_pion()
+    {
+      //console.log(unite)
+      var taille = Object.keys(unite).length
+      console.log(taille)
+      //= unite.length
+      for(var i=0; i < taille; i++)
       {
-        nbrPions--
+        var id = unite[i].id;
+        //console.log(id)
+        let ex = document.getElementById(id);
+
+        ex.remove();
       }
-      if (nbrPions == 1)
-      {
-        infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+    }
+*/
+    function init_pion()
+    {
+      for(var i in unite){
+
+        init_rav();
+        let id = unite[i].id;
+        let power = unite[i].power_id;
+        let type = unite[i].type_unit;
+        let region = unite[i].cur_region_id;
+        let pays = trouver_pays(region);
+        if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
+        {
+              let x = carte["infos"][pays].coords[0];
+              let y = carte["infos"][pays].coords[1];
+
+              if (power == 1){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "black", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "black", id);
+                }
+              }
+              else  if (power == 2){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "orange", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "orange", id);
+                }
+              }
+
+              else if (power == 3){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "blue", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "blue", id);
+                }
+              }
+              else if (power == 4){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "pink", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "pink", id);
+                }
+              }
+              else if (power == 5){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "red", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "red", id);
+                }
+              }
+              else if (power == 6){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "purple", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "purple", id);
+                }
+              }
+              else if (power == 7){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "green", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "green", id);
+                }
+              }
+
+        }
       }
-      else if (nbrPions == 0 && btnBloque == true)
-      {
-        infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
-        btnValider.classList.toggle("bloqueBtn")
-        btnBloque = false
-      }
-      else if (nbrPions > 0)
-        infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
-    })
-    document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
-      if (btnBloque == false)
-      {
-        nbrPions = 2
-        infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-        btnValider.classList.toggle("bloqueBtn")
-        btnBloque = true;
-      }
-    })
+    }
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+        // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
+
+    // Modèle de code pour changer le nombre de pions à poser
+    // var nbrPions = 2;
+    // var btnBloque = true;
+    // let infosPions = document.querySelector("#infos > p")
+    // let btnValider = document.querySelector("#infos > div > button:last-child")
+    // infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+
+    // document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
+    //   if (nbrPions > 0)
+    //   {
+    //     nbrPions--
+    //   }
+    //   if (nbrPions == 1)
+    //   {
+    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+    //   }
+    //   else if (nbrPions == 0 && btnBloque == true)
+    //   {
+    //     infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
+    //     btnValider.classList.toggle("bloqueBtn")
+    //     btnBloque = false
+    //   }
+    //   else if (nbrPions > 0)
+    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
+    // })
+    // document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
+    //   if (btnBloque == false)
+    //   {
+    //     nbrPions = 2
+    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
+    //     btnValider.classList.toggle("bloqueBtn")
+    //     btnBloque = true;
+    //   }
+    // })
+    ////////////////////////////////////////////////////////////////////////////
 
     const carte = require("../assets/json/map.json");
      
 ///////////////////////////////////////////////////////////////////////////////
-    // Création de territoire 
+    // Création de territoire
     for (var j in carte["areas"]) {
       let nomZone = carte["areas"][j].name;
+      let etiquette = j;
 
       // Zone de terre
       let path = document.createElementNS(ns, "path");
@@ -559,7 +912,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          //reinitOrdres()  /////////////////////////////////////////////////
+          // reinitOrdres()  /////////////////////////////////////////////////
           /////////////////////////////////////////////////$(document.getElementById("convoyer")).hide();
           $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
 
@@ -571,7 +924,8 @@ export default {
 
           this.dst = nomZone;
           order.dst_region_id = id_zone;
-          document.getElementById("cible_attaque").innerText = this.dst;
+          console.log(etiquette)
+          document.getElementById("cible_attaque").innerText = etiquette;
         });
       }
 
@@ -601,19 +955,19 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          //reinitOrdres() /////////////////////////////////////////////////
+          // reinitOrdres() /////////////////////////////////////////////////
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
 
           $(document.querySelector("#ordres > div:first-child > div:last-child")).show();
-          /////////////////////////////////////////////////$(document.getElementById("convoyer")).show();
+          $(document.getElementById("convoyer")).show();
 
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
           order.dst_region_id = id_zone;
-
-          document.getElementById("cible_convoyer").innerText = this.dst;
+          console.log(etiquette);
+          document.getElementById("cible_convoyer").innerText = etiquette;
         });
       }
 
@@ -640,9 +994,9 @@ export default {
     }
 
 /////////////////////// DEBUT ALGO
-    //init plateau de jeu 
+    //init plateau de jeu
     api.games.get_game(game_id,config)
-    .then(response => 
+    .then(response =>
     {
         for(var p in response.data.players)
         {
@@ -675,7 +1029,7 @@ export default {
 
         //console.log(response.data.players)
         // si on est bien à l'init du plateau
-        if(response.data.num_tour == 0) 
+        if(response.data.num_tour == 0)
         {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
@@ -703,7 +1057,7 @@ export default {
 ////////////////////////////////////////////////////
 
     // Attaquer
-    let btn_attaque = document.getElementById("ATTACK");
+    let btn_attaque = document.getElementById("attaquer");
     btn_attaque.addEventListener("click", function attaque_ordre() {
       order.type_order = btn_attaque.id;
       if (btn_attaque.classList.contains("enCours")) {
@@ -761,7 +1115,7 @@ export default {
     // Convoyer
     let btn_convoyer = document.getElementById("CONVOY");
     btn_convoyer.addEventListener("click", function convoyer_ordre() {
-       order.type_order = btn_convoyer.id;
+      order.type_order = btn_convoyer.id;
       if (btn_convoyer.classList.contains("enCours")) {
         btn_convoyer.classList.remove("enCours");
         $(document.getElementById("conv")).hide()
@@ -820,12 +1174,12 @@ export default {
       document.querySelector("#colonneOrdres > h1").innerHTML = "Informations";
       document.querySelector("#infos").style.display = "flex";
       document.querySelector("#ordres").style.display = "none";
-      reinitOrdres();
+      // reinitOrdres();
     })
     let validerOrdres = document.getElementById("valider_ordres");
     validerOrdres.addEventListener("click", () => {
       console.log("Ordres validés");
-      //reinitOrdres();
+      // reinitOrdres();
     })
 
     // Pour quitter la partie
@@ -934,6 +1288,7 @@ export default {
 		height: 48px;
 		margin: 20px 0 20px 20px;
 		transition: 0.6s;
+    cursor: pointer;
 	}
 	#minuteur > img:hover{
 		transition: 0.6s;
@@ -1062,7 +1417,7 @@ export default {
     width: 60%;
     align-items: center;
     justify-content: center;
-  } 
+  }
   .enCours{
     background-color: #376890 !important;
   }
@@ -1078,7 +1433,7 @@ export default {
   }
   .ciblage > label{
     min-width: fit-content;
-    width: calc(60% - 70px - 20px);
+    width: calc(80% - 70px - 20px);
     height: 30px;
     text-align: center;
     margin: 0;

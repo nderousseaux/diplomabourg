@@ -5,7 +5,6 @@ module.exports =
 		proxy: {
 			'backend': {
 				target: "http://localhost:10005",
-				//target: 'http://hephaistos.nathanaelderousseaux.fr:3306',
 				changeOrigin: true,
 				pathRewrite: {
 					"^/backend": ""
