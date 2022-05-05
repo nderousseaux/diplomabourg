@@ -1,17 +1,20 @@
 <template>
   <div>
     <div id="colonneInfos">
-      <div id="minuteur">
-        <img
-          id="quit"
-          alt="Quitter la partie"
-          title="Quitter la partie"
-          src="../assets/img/quitter.png"
-        />
-        <!-- <p>5:30</p> -->
-        <button value="valider" @click="ready()">Prêt</button>
+      <div>
+        <div id="minuteur">
+          <img
+            id="quit"
+            alt="Quitter la partie"
+            title="Quitter la partie"
+            src="../assets/img/quitter.png"
+          />
+          <!-- <p>5:30</p> -->
+          <button value="valider" @click="ready()">Prêt</button>
+        </div>
+        <div id="tour">
+        </div>
       </div>
-      <div></div>
       <div id="drapeaux">
         <h1>Pays</h1>
         <div>
@@ -102,7 +105,7 @@
       </div>
 
       <div id="infos">
-        <p>Sélectionnez une région pour choisir les ordres</p>
+        <p>Sélectionnez un pion pour choisir les ordres</p>
         <div>
           <button>Réinitialiser</button>
           <button class="bloqueBtn">Valider</button>
@@ -123,7 +126,7 @@
 		<h1>Partie inaccessible</h1>
 		<form method="dialog">
 			<div>
-        Cette partie est en cours.... mais vous pouvez en créer une !
+        Cette partie est inaccessible.... mais vous pouvez en créer une nouvelle !
 			</div>
 			<div>
 				<button>Accueil</button>
@@ -431,6 +434,7 @@ export default {
   methods: {
 	// si le joueur clique sur valider tous les ordres
     ready() {
+      document.querySelector("#minuteur > button").classList.add("bloqueBtn");
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
@@ -540,7 +544,8 @@ export default {
       })
       .catch(function(error) {
         console.log(error);
-        if (error.response.status == 401) {
+        if ((error.response.status == 401) ||
+            (error.response.status == 404)) {
           // Partie non accessible
           let inaccDialog = document.getElementById("inaccessible");
           let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
@@ -575,6 +580,285 @@ export default {
     // }
 
 ////////////////////////
+
+
+
+    function color_armee(x,y, p,couleur, id)
+    {
+      let armee = document.createElementNS(ns, "rect");
+
+      armee.setAttribute("x", x - 7.5);
+      armee.setAttribute("y", y);
+      armee.setAttribute("width", 5);
+      armee.setAttribute("height", 5);
+      armee.setAttribute("fill", couleur);
+      armee.setAttribute("stroke", couleur);
+      armee.setAttribute("id",id);
+      svg.appendChild(armee);
+
+      // Couleur et changement du curseur lors du passage de souris
+      armee.addEventListener("mouseover", function () {
+        this.style.cursor = "pointer";
+        this.style.fill = "lightgreen";
+      });
+      armee.addEventListener("mouseout", function () {
+        this.style.fill = couleur;
+      });
+      armee.addEventListener("click", function () {
+        console.log("Clic armee : ", p);
+        console.log("Id de l'armée: ", id);
+        order.unit_id = id;
+      });
+      // Ordre
+      armee.addEventListener("click", function () {
+          let convoyer = document.getElementById("convoyer");
+          if (convoyer) {
+            convoyer.remove();
+          }
+
+          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+          document.querySelector("#infos").style.display = "none";
+          document.querySelector("#ordres").style.display = "flex";
+          console.log("Clic zone terrestre : ", p);
+
+        });
+    }
+
+    function color_flotte(x,y, p,couleur, id)
+    {
+      let flotte = document.createElementNS(ns, "ellipse");
+
+      flotte.setAttribute("cx", x - 7.5);
+      flotte.setAttribute("cy", y);
+      flotte.setAttribute("rx", 5);
+      flotte.setAttribute("ry", 2);
+      flotte.setAttribute("fill", couleur);
+      flotte.setAttribute("stroke", couleur);
+      flotte.setAttribute("id",id);
+      svg.appendChild(flotte);
+
+      // Couleur et changement du curseur lors du passage de souris
+      flotte.addEventListener("mouseover", function () {
+        this.style.cursor = "pointer";
+        this.style.fill = "lightseagreen";
+      });
+      flotte.addEventListener("mouseout", function () {
+        this.style.fill = couleur;
+      });
+      flotte.addEventListener("click", function () {
+        console.log("Clic flotte : ", p);
+        console.log("Id de la flotte: ", id);
+        order.unit_id = id;
+      })
+      // Ordre
+      flotte.addEventListener("click", function () {
+          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+          document.querySelector("#infos").style.display = "none";
+          document.querySelector("#ordres").style.display = "flex";
+
+          let btn_convoyer = document.getElementById("convoyer");
+          if (!btn_convoyer) {
+            const conv = document.createElement("p");
+            conv.innerText = "Convoyer";
+            conv.setAttribute("id", "convoyer");
+
+            var btn_valider = document.querySelector("#soutenir");
+
+            btn_valider.after(conv);
+
+            conv.addEventListener("click", function convoyer_ordre() {
+              order.type_order = conv.id;
+            });
+          }
+
+          console.log("Clic zone maritime : ", p);
+      });
+    }
+
+
+    function ravitaillement(pays, couleur)
+    {
+      let k = pays;
+        if (typeof carte["infos"][k].coordsRav != "undefined") {
+          let circleIn = document.createElementNS(ns, "circle");
+          let circleOut = document.createElementNS(ns, "circle");
+
+          circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
+          circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
+          circleIn.setAttribute("r", 2);
+          circleIn.setAttribute("fill", couleur);
+          circleIn.setAttribute("stroke", "none");
+          circleIn.setAttribute("stroke-width", 0);
+
+          circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
+          circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
+          circleOut.setAttribute("r", 4);
+          circleOut.setAttribute("fill", "none");
+          circleOut.setAttribute("stroke", "black");
+
+          // Couleur et changement du curseur lors du passage de souris
+          circleOut.addEventListener("mouseover", function () {
+            this.style.cursor = "pointer";
+            this.style.fill = "lightcoral";
+          });
+          circleOut.addEventListener("mouseout", function () {
+            this.style.fill = "none";
+          });
+          circleOut.addEventListener("click", function () {
+            console.log("Clic ravitaillement : ", pays);
+          });
+
+          svg.appendChild(circleIn);
+          svg.appendChild(circleOut);
+        }
+    }
+
+
+    function trouver_pays(src_region){
+      for (var j in carte["areas"]){
+        if (src_region == carte["areas"][j].id){
+          let pays = j;
+          return pays;
+        }
+      }
+    }
+
+    function init_rav(){
+        for(var k in carte["infos"]){
+          //France
+          if ((k=="Par")||(k=="Bre")||(k=="Mar")){
+            ravitaillement(k,"blue");
+          }
+
+          //Allemagne
+          else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
+            ravitaillement(k,"black");
+          }
+
+          //Italie
+          else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
+            ravitaillement(k,"red");
+          }
+          //Russie
+          else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
+            ravitaillement(k,"purple");
+          }
+          //Turquie
+          else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
+            ravitaillement(k,"green");
+          }
+
+          //Angleterre
+          else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
+            ravitaillement(k,"pink");
+          }
+          //Autriche
+          else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
+            ravitaillement(k,"orange");
+          }
+          else{
+            ravitaillement(k,"white");
+          }
+        }
+    }
+/*
+    function delete_pion()
+    {
+      //console.log(unite)
+      var taille = Object.keys(unite).length
+      console.log(taille)
+      //= unite.length
+      for(var i=0; i < taille; i++)
+      {
+        var id = unite[i].id;
+        //console.log(id)
+        let ex = document.getElementById(id);
+
+        ex.remove();
+      }
+    }
+*/
+    function init_pion()
+    {
+      document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
+      for(var i in unite){
+
+        init_rav();
+        let id = unite[i].id;
+        let power = unite[i].power_id;
+        let type = unite[i].type_unit;
+        let region = unite[i].cur_region_id;
+        let pays = trouver_pays(region);
+        if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
+        {
+              let x = carte["infos"][pays].coords[0];
+              let y = carte["infos"][pays].coords[1];
+
+              if (power == 1){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "black", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "black", id);
+                }
+              }
+              else  if (power == 2){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "orange", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "orange", id);
+                }
+              }
+
+              else if (power == 3){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "blue", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "blue", id);
+                }
+              }
+              else if (power == 4){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "pink", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "pink", id);
+                }
+              }
+              else if (power == 5){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "red", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "red", id);
+                }
+              }
+              else if (power == 6){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "purple", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "purple", id);
+                }
+              }
+              else if (power == 7){
+                if (type == "ARMY"){
+                  color_armee(x, y, pays, "green", id);
+                }
+                if (type == "FLEET"){
+                  color_flotte(x, y, pays, "green", id);
+                }
+              }
+
+        }
+      }
+    }
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////
         // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
@@ -995,6 +1279,10 @@ export default {
         $(document.querySelector("#chat > h1")).toggleClass("bas");
       }
     });
+
+    // Code pour afficher le nombre de tour
+    let nbrTour = 1;
+    document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
   },
 };
 
@@ -1072,6 +1360,12 @@ export default {
     width: 45%;
     line-height: 48px;
   }
+  #tour{
+    text-align: center;
+    font-size: 25px;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
 
 	/* Drapeaux */
 	#drapeaux{
@@ -1100,7 +1394,7 @@ export default {
 	/* Chat */
 	#chat{
 		width: 100%;
-		height: calc(70% - 92px);
+		height: calc(70% - 132px);
 		background-color: unset;
     margin: 0;
 	}
@@ -1299,6 +1593,9 @@ export default {
   #minuteur > button{
     width: 70%;
   }
+  #tour{
+    font-size: 28px;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
@@ -1307,7 +1604,7 @@ export default {
 
   /* Chat */
 	#chat{
-    height: calc(70% - 146px);
+    height: calc(70% - 186px);
 	}
 
   /* Colonnes */
@@ -1416,6 +1713,9 @@ export default {
 	#minuteur:first-child:after{
 		width: 36px;
 	}
+  #tour{
+    font-size: 28px;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
