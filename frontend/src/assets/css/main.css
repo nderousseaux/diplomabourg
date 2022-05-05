@@ -9,7 +9,7 @@
 	color: #ffffff;
 }
 body{
-	background: url("../img/map.jpeg");
+	background-image: url("../img/map.jpeg");
 	background-repeat: no-repeat;
 	background-color: #000000;
 	margin: 0;
@@ -41,7 +41,7 @@ p{
 }
 
 /* Barre de séparation */
-#minuteur,
+#colonneInfos > div:first-child,
 #colonneOrdres > h1,
 #telecharger > form > div > h2{
 	border-style: solid;

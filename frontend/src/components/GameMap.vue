@@ -1,17 +1,20 @@
 <template>
   <div>
     <div id="colonneInfos">
-      <div id="minuteur">
-        <img
-          id="quit"
-          alt="Quitter la partie"
-          title="Quitter la partie"
-          src="../assets/img/quitter.png"
-        />
-        <!-- <p>5:30</p> -->
-        <button value="valider" @click="ready()">Prêt</button>
+      <div>
+        <div id="minuteur">
+          <img
+            id="quit"
+            alt="Quitter la partie"
+            title="Quitter la partie"
+            src="../assets/img/quitter.png"
+          />
+          <!-- <p>5:30</p> -->
+          <button value="valider" @click="ready()">Prêt</button>
+        </div>
+        <div id="tour">
+        </div>
       </div>
-      <div></div>
       <div id="drapeaux">
         <h1>Pays</h1>
         <div>
@@ -123,7 +126,7 @@
 		<h1>Partie inaccessible</h1>
 		<form method="dialog">
 			<div>
-        Cette partie est en cours.... mais vous pouvez en créer une nouvelle !
+        Cette partie est inaccessible.... mais vous pouvez en créer une nouvelle !
 			</div>
 			<div>
 				<button>Accueil</button>
@@ -175,6 +178,7 @@ export default {
   methods: {
 	// si le joueur clique sur valider tous les ordres
     ready() {
+      document.querySelector("#minuteur > button").classList.add("bloqueBtn");
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
@@ -270,7 +274,8 @@ export default {
       })
       .catch(function(error) {
         console.log(error);
-        if (error.response.status == 401) {
+        if ((error.response.status == 401) ||
+            (error.response.status == 404)) {
           // Partie non accessible
           let inaccDialog = document.getElementById("inaccessible");
           let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
@@ -324,6 +329,10 @@ export default {
       // Couleur et changement du curseur lors du passage de souris
       armee.addEventListener("mouseover", function () {
         this.style.cursor = "pointer";
+        this.style.fill = "lightgreen";
+      });
+      armee.addEventListener("mouseout", function () {
+        this.style.fill = couleur;
       });
       armee.addEventListener("click", function () {
         console.log("Clic armee : ", p);
@@ -361,7 +370,11 @@ export default {
       // Couleur et changement du curseur lors du passage de souris
       flotte.addEventListener("mouseover", function () {
         this.style.cursor = "pointer";
-      })
+        this.style.fill = "lightseagreen";
+      });
+      flotte.addEventListener("mouseout", function () {
+        this.style.fill = couleur;
+      });
       flotte.addEventListener("click", function () {
         console.log("Clic flotte : ", p);
         console.log("Id de la flotte: ", id);
@@ -497,6 +510,7 @@ export default {
 */
     function init_pion()
     {
+      document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
       for(var i in unite){
 
         init_rav();
@@ -995,6 +1009,10 @@ export default {
         $(document.querySelector("#chat > h1")).toggleClass("bas");
       }
     });
+
+    // Code pour afficher le nombre de tour
+    let nbrTour = 1;
+    document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
   },
 };
 
@@ -1072,6 +1090,12 @@ export default {
     width: 45%;
     line-height: 48px;
   }
+  #tour{
+    text-align: center;
+    font-size: 25px;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
 
 	/* Drapeaux */
 	#drapeaux{
@@ -1100,7 +1124,7 @@ export default {
 	/* Chat */
 	#chat{
 		width: 100%;
-		height: calc(70% - 92px);
+		height: calc(70% - 132px);
 		background-color: unset;
     margin: 0;
 	}
@@ -1299,6 +1323,9 @@ export default {
   #minuteur > button{
     width: 70%;
   }
+  #tour{
+    font-size: 28px;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
@@ -1307,7 +1334,7 @@ export default {
 
   /* Chat */
 	#chat{
-    height: calc(70% - 146px);
+    height: calc(70% - 186px);
 	}
 
   /* Colonnes */
@@ -1416,6 +1443,9 @@ export default {
 	#minuteur:first-child:after{
 		width: 36px;
 	}
+  #tour{
+    font-size: 28px;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
