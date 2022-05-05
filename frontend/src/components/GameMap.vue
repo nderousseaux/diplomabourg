@@ -229,6 +229,10 @@ function color_armee(x,y, p,couleur, id){
   // Couleur et changement du curseur lors du passage de souris
   armee.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
+    this.style.fill = "lightgreen";
+  });
+  armee.addEventListener("mouseout", function () {
+    this.style.fill = couleur;
   });
   armee.addEventListener("click", function () {
     console.log("Clic armee : ", p);
@@ -264,7 +268,11 @@ function color_flotte(x,y, p,couleur, id){
   // Couleur et changement du curseur lors du passage de souris
   flotte.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
-  })
+    this.style.fill = "lightseagreen";
+  });
+  flotte.addEventListener("mouseout", function () {
+    this.style.fill = couleur;
+  });
   flotte.addEventListener("click", function () {
     console.log("Clic flotte : ", p);
     console.log("Id de la flotte: ", id);
