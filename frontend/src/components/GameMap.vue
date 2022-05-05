@@ -143,7 +143,7 @@ const game_num = window.location.pathname.split('/')[2];
 let ns;
 let svg;
 
-var unite; 
+var unite;
 
 const order = {
   type_order: "",
@@ -182,7 +182,7 @@ function ravitaillement(carte, pays, couleur){
   if (typeof carte["infos"][k].coordsRav != "undefined") {
     let circleIn = document.createElementNS(ns, "circle");
     let circleOut = document.createElementNS(ns, "circle");
-  
+
     circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
     circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
     circleIn.setAttribute("r", 2);
@@ -210,11 +210,11 @@ function ravitaillement(carte, pays, couleur){
 
     svg.appendChild(circleIn);
     svg.appendChild(circleOut);
-  } 
+  }
 }
 
 // import ns et svg
-function color_armee(x,y, p,couleur, id){ 
+function color_armee(x,y, p,couleur, id){
   let armee = document.createElementNS(ns, "rect");
 
   armee.setAttribute("x", x - 7.5);
@@ -225,25 +225,30 @@ function color_armee(x,y, p,couleur, id){
   armee.setAttribute("stroke", couleur);
   armee.setAttribute("id",id);
   svg.appendChild(armee);
-      
+
   // Couleur et changement du curseur lors du passage de souris
   armee.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
+    this.style.fill = "lightgreen";
   });
-  armee.addEventListener("click", function () {
-    console.log("Clic armee : ", p);
-    console.log("Id de l'armée: ", id);
-    order.unit_id = id;
+  armee.addEventListener("mouseout", function () {
+    this.style.fill = couleur;
   });
   // Ordre
   armee.addEventListener("click", function () {
-    let convoyer = document.getElementById("CONVOY");
-    if (convoyer) {
-      convoyer.remove();
-    }
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
+
+    
+    console.log("Clic armee : ", p);
+    console.log("Id de l'armée: ", id);
+    order.unit_id = id;
+
+    let $ = require("jquery");
+    $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
+    document.getElementById("cible_attaque").innerText = ""
+
     console.log("Clic zone terrestre : ", p);
   });
 }
@@ -264,31 +269,27 @@ function color_flotte(x,y, p,couleur, id){
   // Couleur et changement du curseur lors du passage de souris
   flotte.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
-  })
-  flotte.addEventListener("click", function () {
-    console.log("Clic flotte : ", p);
-    console.log("Id de la flotte: ", id);
-    order.unit_id = id;
-  })
+    this.style.fill = "lightseagreen";
+  });
+  flotte.addEventListener("mouseout", function () {
+    this.style.fill = couleur;
+  });
   // Ordre
   flotte.addEventListener("click", function () {
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
 
-    let btn_convoyer = document.getElementById("CONVOY");
-    if (!btn_convoyer) {
-      const conv = document.createElement("p");
-      conv.innerText = "Convoyer";
-      conv.setAttribute("id", "CONVOY");
 
-      var btn_valider = document.querySelector("#SUPPORT");
-      btn_valider.after(conv);
+    console.log("Clic flotte : ", p);
+    console.log("Id de la flotte: ", id);
+    order.unit_id = id;
 
-      conv.addEventListener("click", function convoyer_ordre() {
-        order.type_order = conv.id;
-      });
-    }
+    let $ = require("jquery");
+    $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
+    document.getElementById("cible_convoyer").innerText = ""
+    document.getElementById("cible_attaque").innerText = ""
+
     console.log("Clic zone maritime : ", p);
   });
 }
@@ -303,17 +304,17 @@ function trouver_pays(carte, src_region){
 }
 
 function init_rav(carte){
-  for(var k in carte["infos"]){         
+  for(var k in carte["infos"]){
     //France
     if ((k=="Par")||(k=="Bre")||(k=="Mar")){
       ravitaillement(carte, k,"blue");
     }
-          
+
     //Allemagne
     else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
       ravitaillement(carte, k,"black");
     }
-          
+
     //Italie
     else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
       ravitaillement(carte, k,"red");
@@ -341,7 +342,7 @@ function init_rav(carte){
 }
 
 function init_pion(carte, unite){
-  for(var i in unite){  
+  for(var i in unite){
     init_rav(carte);
     let id = unite[i].id;
     let power = unite[i].power_id;
@@ -351,7 +352,7 @@ function init_pion(carte, unite){
     if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea")){
       let x = carte["infos"][pays].coords[0];
       let y = carte["infos"][pays].coords[1];
-            
+
       if (power == 1){
         if (type == "ARMY"){
           color_armee(x, y, pays, "black", id);
@@ -359,7 +360,7 @@ function init_pion(carte, unite){
         if (type == "FLEET"){
           color_flotte(x, y, pays, "black", id);
         }
-      } 
+      }
       else  if (power == 2){
         if (type == "ARMY"){
           color_armee(x, y, pays, "orange", id);
@@ -367,7 +368,7 @@ function init_pion(carte, unite){
         if (type == "FLEET"){
           color_flotte(x, y, pays, "orange", id);
         }
-      } 
+      }
       else if (power == 3){
         if (type == "ARMY"){
           color_armee(x, y, pays, "blue", id);
@@ -375,7 +376,7 @@ function init_pion(carte, unite){
         if (type == "FLEET"){
           color_flotte(x, y, pays, "blue", id);
         }
-      } 
+      }
       else if (power == 4){
         if (type == "ARMY"){
           color_armee(x, y, pays, "pink", id);
@@ -410,7 +411,7 @@ function init_pion(carte, unite){
       }
     }
   }
-}  
+}
 
 
 export default {
@@ -450,7 +451,7 @@ export default {
 					console.log(err);
 				})
     },
-    changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour 
+    changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour
       // on prends les infos de la game
       api.games.get_game(game_id,config)
       .then(response => {
@@ -460,17 +461,17 @@ export default {
         // si le tour s'est incrémenté
         if(response.data.state == "END"){
           console.log("FIN")
-          // Annoncer le vainqueur 
-        }else if(response.data.num_tour == (this.num_tour+1)){ // si on passe au prochain tour 
-            delete_pion(unite) 
+          // Annoncer le vainqueur
+        }else if(response.data.num_tour == (this.num_tour+1)){ // si on passe au prochain tour
+            delete_pion(unite)
 
             api.units.get_all(config)
             .then(response => {
               var test = response.data; // response contient ce qu'à normalement exallunits.json
               // update le plateau
               init_pion(carte,test);
-              // maj le num tour de notre côté 
-              
+              // maj le num tour de notre côté
+
               this.num_tour = response.data.num_tour;
               console.log(this.num_tour)
             })
@@ -489,7 +490,7 @@ export default {
     ns = "http://www.w3.org/2000/svg";
     var cookie = getTokenCookie();
     var is_refreshed = getRefresh();
-    
+
     const carte = require("../assets/json/map.json");
 
     if(cookie == null)
@@ -506,7 +507,7 @@ export default {
         headers: {Authorization: `Bearer ${cookie}`}
     };
     var game_id = game_num;
-    
+
     api.games
       .get_game(game_id, config)
       .then(response => {
@@ -604,24 +605,22 @@ export default {
       armee.addEventListener("mouseout", function () {
         this.style.fill = couleur;
       });
+      // Ordre
       armee.addEventListener("click", function () {
+        document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
+        document.querySelector("#infos").style.display = "none";
+        document.querySelector("#ordres").style.display = "flex";
+
+        
         console.log("Clic armee : ", p);
         console.log("Id de l'armée: ", id);
         order.unit_id = id;
+
+        $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
+        document.getElementById("cible_attaque").innerText = ""
+
+        console.log("Clic zone terrestre : ", p);
       });
-      // Ordre
-      armee.addEventListener("click", function () {
-          let convoyer = document.getElementById("convoyer");
-          if (convoyer) {
-            convoyer.remove();
-          }
-
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
-          console.log("Clic zone terrestre : ", p);
-
-        });
     }
 
     function color_flotte(x,y, p,couleur, id)
@@ -645,31 +644,21 @@ export default {
       flotte.addEventListener("mouseout", function () {
         this.style.fill = couleur;
       });
-      flotte.addEventListener("click", function () {
-        console.log("Clic flotte : ", p);
-        console.log("Id de la flotte: ", id);
-        order.unit_id = id;
-      })
       // Ordre
       flotte.addEventListener("click", function () {
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
 
-          let btn_convoyer = document.getElementById("convoyer");
-          if (!btn_convoyer) {
-            const conv = document.createElement("p");
-            conv.innerText = "Convoyer";
-            conv.setAttribute("id", "convoyer");
 
-            var btn_valider = document.querySelector("#soutenir");
+          console.log("Clic flotte : ", p);
+          console.log("Id de la flotte: ", id);
+          order.unit_id = id;
 
-            btn_valider.after(conv);
 
-            conv.addEventListener("click", function convoyer_ordre() {
-              order.type_order = conv.id;
-            });
-          }
+          $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
+          document.getElementById("cible_convoyer").innerText = ""
+          document.getElementById("cible_attaque").innerText = ""
 
           console.log("Clic zone maritime : ", p);
       });
@@ -929,13 +918,7 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          // reinitOrdres()  /////////////////////////////////////////////////
-          /////////////////////////////////////////////////$(document.getElementById("convoyer")).hide();
-          $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
-
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
+          // reinitOrdres()
           console.log("Clic zone terrestre : ", nomZone);
           console.log("ID zone terrestre : ", id_zone);
 
@@ -973,18 +956,12 @@ export default {
 
         path.addEventListener("click", function () {
           // reinitOrdres() /////////////////////////////////////////////////
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
-
-          $(document.querySelector("#ordres > div:first-child > div:last-child")).show();
-          $(document.getElementById("CONVOY")).show();
 
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
           order.dst_region_id = id_zone;
           console.log(etiquette);
-          document.getElementById("cible_convoyer").innerText = etiquette;
+          document.getElementById("cible_attaque").innerText = etiquette;
         });
       }
 
@@ -1051,9 +1028,9 @@ export default {
 
 
 /////////////////////// DEBUT ALGO
-    //init plateau de jeu 
+    //init plateau de jeu
     api.games.get_game(game_id,config)
-    .then(response => 
+    .then(response =>
     {
         for(var p in response.data.players)
         {
@@ -1063,28 +1040,28 @@ export default {
             {
               this.player_id = response.data.players[p].id ;
               this.username = response.data.players[p].username ;
-              
+
               //console.log(response.data.players[p].power[i].id)
-              this.power_id = response.data.players[p].power[i].id; 
+              this.power_id = response.data.players[p].power[i].id;
             }
           }
         }
 
         //console.log(response.data.players)
         // si on est bien à l'init du plateau
-        if(response.data.num_tour == 0) 
+        if(response.data.num_tour == 0)
         {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
             .then(response => {
-              unite = response.data; 
-              init_pion(carte, unite); 
+              unite = response.data;
+              init_pion(carte, unite);
               setInterval(this.changeTour,5000,carte, unite,game_id, config);
             })
             .catch((erreur) => {
               console.log(erreur);
             })
-        } 
+        }
 
     })
     .catch((err) => {
@@ -1093,7 +1070,7 @@ export default {
 
     //var win = 15;
     //while(num_tour < 15){
-      // vérifier si on passe au prochain 
+      // vérifier si on passe au prochain
 
     //}
 
@@ -1115,7 +1092,7 @@ export default {
     });
       // Bouton validation
     let btn_ok_att = document.querySelector("#att > div > button:first-child");
-    btn_ok_att.addEventListener("click", function convoyer_ordre() {
+    btn_ok_att.addEventListener("click", function attaque_ordre() {
       btn_attaque.classList.remove("enCours");
       $(document.getElementById("att")).hide()
 
@@ -1124,7 +1101,7 @@ export default {
     });
       // Bouton annulation
     let btn_notok_att = document.querySelector("#att > div > button:last-child");
-    btn_notok_att.addEventListener("click", function convoyer_ordre() {
+    btn_notok_att.addEventListener("click", function attaque_ordre() {
       btn_attaque.classList.remove("enCours");
       $(document.getElementById("att")).hide()
 
@@ -1271,7 +1248,7 @@ export default {
     };
 
     // Affiche ou masque l'historique et l'input
-    var $ = require("jquery");
+    let $ = require("jquery");
     document.querySelector("#chat > h1").addEventListener("click", () => {
       if (window.innerWidth < 769) {
         $(document.getElementById("historique")).slideToggle(100);
