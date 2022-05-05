@@ -78,7 +78,7 @@
           <div>
             <p id="ATTACK">Attaquer</p>
             <div class="ciblage" id="att">
-              <label id="cible_attaque"></label>
+              <label id="cible_attaque">oke</label>
               <div>
                 <button>✔️</button>
                 <button id="annulation_attaque">✖️</button>
@@ -225,7 +225,7 @@ function color_armee(x,y, p,couleur, id){
   armee.setAttribute("stroke", couleur);
   armee.setAttribute("id",id);
   svg.appendChild(armee);
-      
+
   // Couleur et changement du curseur lors du passage de souris
   armee.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
@@ -241,13 +241,13 @@ function color_armee(x,y, p,couleur, id){
   });
   // Ordre
   armee.addEventListener("click", function () {
-    let convoyer = document.getElementById("CONVOY");
-    if (convoyer) {
-      convoyer.remove();
-    }
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
+
+    let $ = require("jquery");
+    $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
+
     console.log("Clic zone terrestre : ", p);
   });
 }
@@ -284,19 +284,9 @@ function color_flotte(x,y, p,couleur, id){
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
 
-    let btn_convoyer = document.getElementById("CONVOY");
-    if (!btn_convoyer) {
-      const conv = document.createElement("p");
-      conv.innerText = "Convoyer";
-      conv.setAttribute("id", "CONVOY");
+    let $ = require("jquery");
+    $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
 
-      var btn_valider = document.querySelector("#SUPPORT");
-      btn_valider.after(conv);
-
-      conv.addEventListener("click", function convoyer_ordre() {
-        order.type_order = conv.id;
-      });
-    }
     console.log("Clic zone maritime : ", p);
   });
 }
@@ -619,16 +609,12 @@ export default {
       });
       // Ordre
       armee.addEventListener("click", function () {
-          let convoyer = document.getElementById("convoyer");
-          if (convoyer) {
-            convoyer.remove();
-          }
-
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
-          console.log("Clic zone terrestre : ", p);
 
+          $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
+          console.log("Clic zone terrestre : ", p);
         });
     }
 
@@ -664,21 +650,8 @@ export default {
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
 
-          let btn_convoyer = document.getElementById("convoyer");
-          if (!btn_convoyer) {
-            const conv = document.createElement("p");
-            conv.innerText = "Convoyer";
-            conv.setAttribute("id", "convoyer");
-
-            var btn_valider = document.querySelector("#soutenir");
-
-            btn_valider.after(conv);
-
-            conv.addEventListener("click", function convoyer_ordre() {
-              order.type_order = conv.id;
-            });
-          }
-
+          
+          $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
           console.log("Clic zone maritime : ", p);
       });
     }
@@ -1123,7 +1096,7 @@ export default {
     });
       // Bouton validation
     let btn_ok_att = document.querySelector("#att > div > button:first-child");
-    btn_ok_att.addEventListener("click", function convoyer_ordre() {
+    btn_ok_att.addEventListener("click", function attaque_ordre() {
       btn_attaque.classList.remove("enCours");
       $(document.getElementById("att")).hide()
 
@@ -1132,7 +1105,7 @@ export default {
     });
       // Bouton annulation
     let btn_notok_att = document.querySelector("#att > div > button:last-child");
-    btn_notok_att.addEventListener("click", function convoyer_ordre() {
+    btn_notok_att.addEventListener("click", function attaque_ordre() {
       btn_attaque.classList.remove("enCours");
       $(document.getElementById("att")).hide()
 
@@ -1279,7 +1252,7 @@ export default {
     };
 
     // Affiche ou masque l'historique et l'input
-    var $ = require("jquery");
+    let $ = require("jquery");
     document.querySelector("#chat > h1").addEventListener("click", () => {
       if (window.innerWidth < 769) {
         $(document.getElementById("historique")).slideToggle(100);
