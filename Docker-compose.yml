@@ -1,0 +1,37 @@
+version: "3"
+services:
+  db:
+    container_name: hapi-db
+    image: mysql:latest
+    restart: always
+    env_file:
+      - ./backend/prod.env
+    volumes:
+      - ./backend/bd_folder:/var/lib/mysql
+
+  backend:
+    image: hapi-backend
+    container_name: hapi-backend
+    env_file:
+      - ./backend/prod.env
+    environment:
+      - MYSQL_HOST=hapi-db
+    build: 
+      context: ./backend
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - 10005:10005
+    volumes:
+      - ./backend/prod.log:/code/prod.log
+    links:
+      - db
+
+  frontend:
+    container_name: diplomabourg-front
+    build: 
+      context: ./frontend
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - 10006:10006
+    links:
+      - backend

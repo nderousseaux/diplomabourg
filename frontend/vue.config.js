@@ -3,11 +3,11 @@ module.exports =
 	transpileDependencies: true,
 	devServer: {
 		proxy: {
-			'backend': {
+			'dev_url': {
 				target: "http://localhost:10005",
 				changeOrigin: true,
 				pathRewrite: {
-					"^/backend": ""
+					"^/dev_url": ""
 				}
 			}
 		}
