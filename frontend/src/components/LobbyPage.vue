@@ -561,6 +561,9 @@ export default
 		text-align: center;
 		-webkit-appearance: none;
 	}
+	#lienCopie > h1{
+		margin: 10px 20px 30px;
+	}
 
 	/* Régler bug de Safari 11 */
 	@media not all and (min-resolution:.001dpcm) {
@@ -610,6 +613,11 @@ export default
 	}
 	#actions > button{
 		width: 40%;
+	}
+
+	/* Boîte de dialogue */
+	#lienCopie > h1{
+		margin: 10px 30px 30px;
 	}
 }
 
