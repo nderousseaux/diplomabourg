@@ -9,11 +9,10 @@
       />
       <button>Télécharger</button>
     </div>
-
     <div id="pays">
       <img
-        alt="Drapeau français"
-        title="Drapeau français"
+        alt="Drapeau de la France"
+        title="France"
         src="../assets/img/flags/france.png"
       />
       <p>France</p>
@@ -38,7 +37,7 @@
         <label for="mdp">Mot de passe</label>
         <input type="password" maxlength="15" id="mdp" name="mdp" />
       </div>
-      <p>Les champs ne sont pas complétés correctement</p>
+      <p></p>
       <div>
         <button>Annuler</button>
         <input type="submit" value="Créer" />
@@ -70,14 +69,11 @@
       <div>
         <h2>Windows</h2>
         <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x64</a>
-        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x86</a>
       </div>
       <div>
         <h2>Linux</h2>
         <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
-        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x86</a>
       </div>
-
       <button>Fermer</button>
     </form>
   </dialog>
@@ -121,7 +117,6 @@ export default {
     if (userAgent.indexOf("electron/") > -1) {
       teleBtn.style.visibility = "hidden";
     }
-
 
     let lancerTele = document.getElementById("telecharger")
     teleBtn.addEventListener("click", function onOpen() {
@@ -207,12 +202,17 @@ export default {
         event.preventDefault();
         let erreurForm = false;
 
-        // Regex
-        const regexInput = /^[\S\s]{5,15}$/;
-
         // Valeurs de tests
         let minJoueurs = 2;
         let maxJoueurs = 7;
+        let minCara = 5;
+        let maxCara = 15;
+
+        // Regex
+        const regex = "^[\\S\\s]" + "{" + minCara + "," + maxCara + "}" + "$";
+        const regexInput = new RegExp(regex);
+
+        console.log(regexInput);
 
         // Fonction de vérification
         const inputPostVerif = function () {
@@ -220,6 +220,7 @@ export default {
             this.classList.add("erreur");
             this.previousElementSibling.classList.add("erreur");
             erreurForm = true;
+            erreurCreer.innerText = "Les nom de la partie et le mot de passe doivent être composés de " + minCara + " à " + maxCara + " caractères";
             erreurCreer.style.display = "block";
           } else {
             this.classList.remove("erreur");
@@ -234,6 +235,7 @@ export default {
             this.classList.add("erreur");
             this.previousElementSibling.classList.add("erreur");
             erreurForm = true;
+            erreurCreer.innerText = "Le nombre de joueurs doit être compris entre " + minJoueurs + " et " + maxJoueurs;
             erreurCreer.style.display = "block";
           } else {
             this.classList.remove("erreur");
@@ -249,6 +251,7 @@ export default {
             donnee.classList.add("erreur");
             donnee.previousElementSibling.classList.add("erreur");
             erreurForm = true;
+            erreurCreer.innerText = "Les nom de la partie et le mot de passe doivent être composés de " + minCara + " à " + maxCara + " caractères";
             erreurCreer.style.display = "block";
           }
         }
@@ -257,6 +260,7 @@ export default {
             donnee.classList.add("erreur");
             donnee.previousElementSibling.classList.add("erreur");
             erreurForm = true;
+            erreurCreer.innerText = "Le nombre de joueurs doit être compris entre " + minJoueurs + " et " + maxJoueurs;
             erreurCreer.style.display = "block";
           }
         }
@@ -278,7 +282,7 @@ export default {
 
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
-          document.querySelector("form").submit();
+          // document.querySelector("form").submit();
           const player = { username: "France" };
 
           const game = {
@@ -307,24 +311,13 @@ export default {
 							this.$router.push({ path: `/lobby/${response.data.game.id}` });
             })
             .catch((err) => {
-              console.log(err);
-              if (err.status == 400) {
-                var err_name;
-                var err_pwd;
-                console.log(err.response.data);
-
-                if (err.response.data.error.message[0].game.name) {
-                  err_name = err.response.data.error.message[0].game.name[0];
-                  console.log(err_name);
-                }
-                if (err.response.data.error.message[0].game.password) {
-                  err_pwd = err.response.data.error.message[0].game.password[0];
-                  console.log(err_pwd);
-                }
-              } else if (err.status == 500) {
+              if (err.response.status == 400) {
+                erreurCreer.innerText = "Le nom de la partie existe déjà"
+                erreurCreer.style.display = "block"
+              } else if (err.response.status == 500) {
                 console.log(err.response.data);
               } else {
-                console.log("ERREUR INCONNUE");
+                console.log("Erreur inconnue");
               }
             });
         }
@@ -365,6 +358,7 @@ export default {
 
 #telecharger{
   min-width: 25vw;
+  width: fit-content;
 }
 #telecharger > form > div{
   display: flex;

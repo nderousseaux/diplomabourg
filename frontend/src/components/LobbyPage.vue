@@ -3,6 +3,14 @@
 		<img id="logo" alt="Logo Diplomabourg" title="Logo Diplomabourg"
 			src="../assets/img/logo.png"/>
 		<div>
+			<div id="chat">
+				<h1>Chat</h1>
+				<div id="historique"></div>
+				<form name="message">
+					<input type="text" name="msg" id="msg"
+						placeholder="Entrez votre message"/>
+				</form>
+			</div>
 			<div id="lobby">
 				<div id="joueurs">
 					<div>
@@ -45,14 +53,6 @@
 					<button id="test" @click="copyLink()">Générer le lien</button>
 					<button v-if="this.username == 'France'" id="beginGame" @click="beginGame()">Commencer la partie</button>
 				</div>
-			</div>
-			<div id="chat">
-				<h1>Chat</h1>
-				<div id="historique"></div>
-				<form name="message">
-					<input type="text" name="msg" id="msg"
-						placeholder="Entrez votre message"/>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -145,8 +145,9 @@ export default
 					if (response.data.state == "GAME")
 					{
 						clearInterval(interId)
-						//router.push({ name: "Jeu"});
-						router.push({ path: `/jeu/${response.data.id}` })
+						document.getElementById("app").style.cursor = "default";
+						router.push({ name: "Jeu"});
+						// router.push({ path: `/jeu/${response.data.id}` })
 					}
 				})
 				.catch(function(error) {
@@ -155,6 +156,7 @@ export default
 		},
 
 		beginGame() {
+			document.getElementById("app").style.cursor = "progress";
 			const config = {
 				headers: {Authorization: `Bearer ${this.token}`}
 			}
@@ -197,7 +199,7 @@ export default
 					location.reload();
 				})
 				.catch(function(error) {
-					let erreur = document.querySelector("form > p")
+					let erreur = document.querySelector("#joindre > form > p")
 					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
 						erreur.innerText = "Le pays est déjà sélectionné"
@@ -378,7 +380,7 @@ export default
 					erreur.style.display = "block"
 					if (donnee.value == mdpInput.value)
 					{
-						erreur.innerText = "Les champs ne sont pas complétés correctement"
+						erreur.innerText = "Les champs ne sont pas correctement complétés"
 					}
 				}
 			}
@@ -485,6 +487,7 @@ export default
 	#chat{
 		width: calc(25vw - 10px);
 		height: calc(100vh - 221px);
+		margin: 0 0 0 10px;
 	}
 	#chat > h1{
 		line-height: 64px;
@@ -582,7 +585,7 @@ export default
 @media only screen and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
-		flex-direction: column-reverse;
+		flex-direction: column;
 		align-items: center;
 		justify-content: space-evenly;
 	}
