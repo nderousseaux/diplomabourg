@@ -192,7 +192,7 @@ input.erreur{
 }
 
 /* Version ordinateur portable */
-@media only screen and (min-width: 1371px) and (max-width: 1441px){
+@media only screen and (min-width: 1371px) and (max-width: 1440px){
 	/* Boîtes de dialogue */
 	dialog{
 		width: 35vw;

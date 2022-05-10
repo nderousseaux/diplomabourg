@@ -358,6 +358,7 @@ export default {
 
 #telecharger{
   min-width: 25vw;
+  width: fit-content;
 }
 #telecharger > form > div{
   display: flex;
