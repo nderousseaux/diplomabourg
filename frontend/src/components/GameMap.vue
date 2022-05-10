@@ -336,7 +336,7 @@ function init_rav(carte){
       ravitaillement(carte, k,"orange");
     }
     else{
-      ravitaillement(carte, k,"white");
+      ravitaillement(carte, k,"beige");
     }
   }
 }
@@ -746,7 +746,7 @@ export default {
             ravitaillement(k,"orange");
           }
           else{
-            ravitaillement(k,"white");
+            ravitaillement(k,"silver");
           }
         }
     }
