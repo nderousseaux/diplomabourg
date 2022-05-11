@@ -137,7 +137,7 @@
 
 <script>
 import api from "../api";
-import router from "../router/index.js"; // ATTENTION
+import router from "../router/index.js";
 
 const game_num = window.location.pathname.split('/')[2];
 let ns;
@@ -197,14 +197,14 @@ function ravitaillement(carte, pays, couleur){
     circleOut.setAttribute("stroke", "black");
 
     // Couleur et changement du curseur lors du passage de souris
-    circleOut.addEventListener("mouseover", function () {
+    circleOut.addEventListener("mouseover", () => {
       this.style.cursor = "pointer";
       this.style.fill = "lightcoral";
     });
-    circleOut.addEventListener("mouseout", function () {
+    circleOut.addEventListener("mouseout", () => {
       this.style.fill = "none";
     });
-    circleOut.addEventListener("click", function () {
+    circleOut.addEventListener("click", () => {
       console.log("Clic ravitaillement : ", pays);
     });
 
@@ -227,15 +227,15 @@ function color_armee(x,y, p,couleur, id){
   svg.appendChild(armee);
 
   // Couleur et changement du curseur lors du passage de souris
-  armee.addEventListener("mouseover", function () {
+  armee.addEventListener("mouseover", () => {
     this.style.cursor = "pointer";
     this.style.fill = "lightgreen";
   });
-  armee.addEventListener("mouseout", function () {
+  armee.addEventListener("mouseout", () => {
     this.style.fill = couleur;
   });
   // Ordre
-  armee.addEventListener("click", function () {
+  armee.addEventListener("click", () => {
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
@@ -267,15 +267,15 @@ function color_flotte(x,y, p,couleur, id){
   svg.appendChild(flotte);
 
   // Couleur et changement du curseur lors du passage de souris
-  flotte.addEventListener("mouseover", function () {
+  flotte.addEventListener("mouseover", () => {
     this.style.cursor = "pointer";
     this.style.fill = "lightseagreen";
   });
-  flotte.addEventListener("mouseout", function () {
+  flotte.addEventListener("mouseout", () => {
     this.style.fill = couleur;
   });
   // Ordre
-  flotte.addEventListener("click", function () {
+  flotte.addEventListener("click", () => {
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
@@ -558,9 +558,9 @@ export default {
           inaccDialog.addEventListener('cancel', (event) => {
             event.preventDefault();
           });
-          inaccQuit.addEventListener("click", function () {
+          inaccQuit.addEventListener("click", () => {
             document.querySelector("body").style.filter = "unset";
-            router.push({ path: `/`})
+            router.push({ path: "/"})
           });
         }
       })
@@ -598,15 +598,15 @@ export default {
       svg.appendChild(armee);
 
       // Couleur et changement du curseur lors du passage de souris
-      armee.addEventListener("mouseover", function () {
+      armee.addEventListener("mouseover", () => {
         this.style.cursor = "pointer";
         this.style.fill = "lightgreen";
       });
-      armee.addEventListener("mouseout", function () {
+      armee.addEventListener("mouseout", () => {
         this.style.fill = couleur;
       });
       // Ordre
-      armee.addEventListener("click", function () {
+      armee.addEventListener("click", () => {
         document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
         document.querySelector("#infos").style.display = "none";
         document.querySelector("#ordres").style.display = "flex";
@@ -637,15 +637,15 @@ export default {
       svg.appendChild(flotte);
 
       // Couleur et changement du curseur lors du passage de souris
-      flotte.addEventListener("mouseover", function () {
+      flotte.addEventListener("mouseover", () => {
         this.style.cursor = "pointer";
         this.style.fill = "lightseagreen";
       });
-      flotte.addEventListener("mouseout", function () {
+      flotte.addEventListener("mouseout", () => {
         this.style.fill = couleur;
       });
       // Ordre
-      flotte.addEventListener("click", function () {
+      flotte.addEventListener("click", () => {
           document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
           document.querySelector("#infos").style.display = "none";
           document.querySelector("#ordres").style.display = "flex";
@@ -686,14 +686,14 @@ export default {
           circleOut.setAttribute("stroke", "black");
 
           // Couleur et changement du curseur lors du passage de souris
-          circleOut.addEventListener("mouseover", function () {
+          circleOut.addEventListener("mouseover", () => {
             this.style.cursor = "pointer";
             this.style.fill = "lightcoral";
           });
-          circleOut.addEventListener("mouseout", function () {
+          circleOut.addEventListener("mouseout", () => {
             this.style.fill = "none";
           });
-          circleOut.addEventListener("click", function () {
+          circleOut.addEventListener("click", () => {
             console.log("Clic ravitaillement : ", pays);
           });
 
@@ -907,17 +907,17 @@ export default {
         path.setAttribute("fill", "#fcf2d4");
 
         // Couleur et changement du curseur lors du passage de souris
-        path.addEventListener("mouseover", function () {
+        path.addEventListener("mouseover", () => {
           this.style.cursor = "pointer";
           this.style.fill = "lightgreen";
           this.style.transition = "0.2s";
         });
 
-        path.addEventListener("mouseout", function () {
+        path.addEventListener("mouseout", () => {
           this.style.fill = "#fcf2d4";
         });
 
-        path.addEventListener("click", function () {
+        path.addEventListener("click", () => {
           // reinitOrdres()
           console.log("Clic zone terrestre : ", nomZone);
           console.log("ID zone terrestre : ", id_zone);
@@ -934,7 +934,7 @@ export default {
         path.setAttribute("fill", "#808080");
 
         // Changement du curseur
-        path.addEventListener("mouseover", function () {
+        path.addEventListener("mouseover", () => {
           this.style.cursor = "not-allowed";
         });
       }
@@ -944,17 +944,17 @@ export default {
         path.setAttribute("fill", "#b4b6cc");
 
         // Couleur et changement du curseur lors du passage de souris
-        path.addEventListener("mouseover", function () {
+        path.addEventListener("mouseover", () => {
           this.style.cursor = "pointer";
           this.style.fill = "lightblue";
           this.style.transition = "0.2s";
         });
 
-        path.addEventListener("mouseout", function () {
+        path.addEventListener("mouseout", () => {
           this.style.fill = "#b4b6cc";
         });
 
-        path.addEventListener("click", function () {
+        path.addEventListener("click", () => {
           // reinitOrdres() /////////////////////////////////////////////////
 
           console.log("Clic zone maritime : ", nomZone);
@@ -981,7 +981,7 @@ export default {
       point.appendChild(text);
 
       // Empêche la selection du label
-      point.addEventListener("mouseover", function () {
+      point.addEventListener("mouseover", () => {
         this.style.pointerEvents = "none";
       });
       svg.appendChild(point);
@@ -1007,14 +1007,14 @@ export default {
         circleOut.setAttribute("stroke", "black");
 
         // Couleur et changement du curseur lors du passage de souris
-        circleOut.addEventListener("mouseover", function () {
+        circleOut.addEventListener("mouseover", () => {
           this.style.cursor = "pointer";
           this.style.fill = "lightcoral";
         });
-        circleOut.addEventListener("mouseout", function () {
+        circleOut.addEventListener("mouseout", () => {
           this.style.fill = "none";
         });
-        circleOut.addEventListener("click", function () {
+        circleOut.addEventListener("click", () => {
           reinitOrdres()
           console.log("Clic ravitaillement : ", pays);
         });

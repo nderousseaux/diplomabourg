@@ -76,6 +76,7 @@
 			</div>
 			<p></p>
 			<div>
+				<button>Accueil</button>
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
@@ -98,7 +99,7 @@ import router from "../router/index.js";
 /*import { io } from "socket.io-client";
 var socket;
 */
-const game_num = window.location.pathname.split('/')[2];
+const game_num = window.location.pathname.split("/")[2];
 /*
 function getGameId() {
 	const value = `; ${document.cookie}`;
@@ -341,14 +342,19 @@ export default
 		*/
 
 		// Gestion du formulaire
-		document.querySelector("form > div > input[type=submit]")
+		document.querySelector("#joindre > form > div > input[type=submit]")
 		.addEventListener("click", event =>
 		{
 			event.preventDefault()
 			let erreurForm = false
 
+			// Valeurs de tests
+			let minCara = 5;
+			let maxCara = 15;
+			
 			// Regex
-			const regexInput = /^[\S\s]{5,15}$/
+			const regex = "^[\\S\\s]" + "{" + minCara + "," + maxCara + "}" + "$";
+			const regexInput = new RegExp(regex);
 
 			// Fonction de vérification
 			const inputPostVerif = function()
@@ -380,7 +386,7 @@ export default
 					erreur.style.display = "block"
 					if (donnee.value == mdpInput.value)
 					{
-						erreur.innerText = "Les champs ne sont pas correctement complétés"
+						erreur.innerText =  "Les nom de la partie et le mot de passe doivent être composés de " + minCara + " à " + maxCara + " caractères";
 					}
 				}
 			}
@@ -399,6 +405,9 @@ export default
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
 				this.joinGame(mdpInput, usernameInput)
+		})
+		document.querySelector("#joindre > form > div > button").addEventListener("click", () => {
+			router.push({ path: "/"})
 		})
 
 		// Action effectuée quand on appuie sur "Entrer" dans le chat
@@ -445,7 +454,6 @@ export default
 				$(document.querySelector("#chat > h1")).toggleClass("bas")
 			}
 		})
-
 
 		// Créé la liste des div "en attente"
 		let imgAttente = []
@@ -555,9 +563,6 @@ export default
 	}
 
 	/* Boîtes de dialogue */
-	#joindre > form > div:last-child{
-		justify-content: center;
-	}
 	select{
 		width: 50%;
 		border-radius: 0;
