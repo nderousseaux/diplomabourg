@@ -145,7 +145,7 @@ export default {
         let erreurForm = false;
 
         // Regex
-        const regexInputRjd = /^\d+$/;
+        const regexInputRjd = /^[1-9][0-9]*$/;
 
         const inputPostVerifNbrJr = function () {
           if (this.value.match(regexInputRjd) == null) {
