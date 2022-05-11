@@ -1,6 +1,6 @@
 export DOCKER="sudo docker-compose"
 ${DOCKER} down
-sudo rm -rf backend/bd_folder/
+sudo rm -rf backend/db/
 sudo rm -rf backend/build/
 
 git pull
