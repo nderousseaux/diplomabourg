@@ -26,7 +26,32 @@
 								"exec": [
 									"const r = pm.response.json();",
 									"",
-									"pm.collectionVariables.set(\"map_id\", r[0].id);"
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"//Test de la reponse",
+									"pm.test(\"Response contain all properties\",() => {",
+									"    pm.expect(r).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r.length > 0){",
+									"    pm.test(\"Response contain all properties\", () => {",
+									"        pm.expect(r[0]).to.have.all.keys('id','name','regions','powers')",
+									"    });",
+									"}",
+									"",
+									"if(r[0].powers.length > 0){",
+									"    pm.test(\"Power contain all properties\", () => {",
+									"        pm.expect(r[0].powers[0]).to.have.all.keys('id','name')",
+									"    });",
+									"}",
+									"",
+									"pm.collectionVariables.set(\"map_id\", r[0].id);",
+									"",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -49,6 +74,37 @@
 				},
 				{
 					"name": "ONE MAP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r).to.have.all.keys('id', 'name', 'powers', 'regions')",
+									"});",
+									"",
+									"//Test de power",
+									"pm.test(\"Power contain all properties\", () => {",
+									"    pm.expect(r.powers).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"if(r.powers.length > 0){",
+									"    pm.test(\"Power contain all properties\", () => {",
+									"        pm.expect(r.powers[0]).to.have.all.keys('id', 'name')",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -81,13 +137,56 @@
 					"item": [
 						{
 							"name": "ALL PLAYERS",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//pm.collectionVariables.set(\"player_name\",\"Joueur admin\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const r = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"//Test si la reponse est une liste",
+											"pm.test(\"Response contain all properties\", () => {",
+											"    pm.expect(r).to.be.an('array').but.not.an('object')",
+											"});",
+											"",
+											"",
+											"// test le premier élément de la liste",
+											"if(r.length > 0){",
+											"    pm.test(\"r[0] contain all properties\", () => {",
+											"        pm.expect(r[0]).to.have.any.keys('id', 'name', 'is_admin','is_you','powers_id')",
+											"    });",
+											"}",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{user_token_admin}}",
+											"value": "{{user_token}}",
 											"type": "string"
 										}
 									]
@@ -121,8 +220,41 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"pm.collectionVariables.set(\"player_name\", Date.now());",
-											""
+											"pm.collectionVariables.set(\"player_name\", \"Joueur\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const r = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"//Test la reponse",
+											"pm.test(\"Response contain all properties\", () => {",
+											"    pm.expect(r.game).to.have.any.keys('id', 'name', 'password','map','state','players')",
+											"});",
+											"",
+											"// test si players est une liste",
+											"pm.test(\"players contain  array\", () => {",
+											"    pm.expect(r.game.players).to.be.an('array').but.not.an('object')",
+											"    ",
+											"});",
+											"",
+											"",
+											"// test les proprietés d'un player",
+											"if(r.game.players.length>0){",
+											"   pm.test(\"players contain all properties\", () => {",
+											"        pm.expect(r.game.players[0]).to.have.any.keys('id', 'name', 'is_admin','is_you','ready')",
+											"    });",
+											"}",
+											"",
+											"pm.collectionVariables.set(\"player_id\", r.game.players[0].id);"
 										],
 										"type": "text/javascript"
 									}
@@ -168,6 +300,22 @@
 						},
 						{
 							"name": "UPDATE PLAYER",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const r = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -183,7 +331,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"Joueur admin\",\n  \"power_id\": 1,\n  \"is_ready\": true\n}",
+									"raw": "{\n  \"username\": \"Joeur admin\",\n  \"power_id\": 3,\n  \"is_ready\": true\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -222,6 +370,41 @@
 					"item": [
 						{
 							"name": "ALL ORDERS",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const r = pm.response.json();",
+											"",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"//Test si la reponse envoyée est une liste",
+											"pm.test(\"Response contain all properties\", () => {",
+											"    pm.expect(r).to.be.an('array').but.not.an('object')",
+											"});",
+											"",
+											"/*",
+											"// test les proprietés d'un ordre",
+											"if(r[0].length > 0){",
+											"    pm.test(\"r[0] contain all properties\", () => {",
+											"        pm.expect(r[0]).to.have.all.keys('id','type','unit_id','region_id','is_valid')",
+											"    });",
+											"}",
+											"",
+											"*/",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -257,6 +440,45 @@
 						},
 						{
 							"name": "CREATE ORDER",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"unit_id\",\"1\");",
+											"pm.collectionVariables.set(\"region_id\",\"1\");",
+											"pm.collectionVariables.set(\"type\",\"ATTACK\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const r = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201 or 200\", () => {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+											"});",
+											"",
+											"// test les proprietés de l' ordre",
+											"pm.test(\"Response contain all properties\", () => {",
+											"    pm.expect(r).to.have.any.keys('id','type','unit_id','region_id','is_valid')",
+											"  ",
+											"});",
+											"",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -272,7 +494,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"type_order\": \"ATTACK\",\n  \"dst_region_id\": 1,\n  \"unit_id\": 67\n}",
+									"raw": "{\n  \"type_order\": \"ATTACK\",\n  \"dst_region_id\": 1,\n  \"unit_id\": 375\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -305,25 +527,48 @@
 					"name": "CREATE GAME",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"player_name\", \"Joueur admin\");",
-									"pm.collectionVariables.set(\"game_name\", Date.now());",
-									"pm.collectionVariables.set(\"game_password\", Date.now());"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const r = pm.response.json();",
 									"",
-									"pm.collectionVariables.set(\"user_token_admin\", r.token);",
+									"pm.test(\"Status code is 201 or 200\", () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});",
+									"",
+									"//Test la reponse",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r.game).to.have.any.keys('id', 'name', 'password','map','state','players')",
+									"});",
+									"",
+									"// test si players est une liste",
+									"pm.test(\"players contain  array\", () => {",
+									"    pm.expect(r.game.players).to.be.an('array').but.not.an('object')",
+									"    ",
+									"});",
+									"",
+									"",
+									"// test les proprietés d'un player",
+									"if(r.game.players.length>0){",
+									"   pm.test(\"players contain all properties\", () => {",
+									"        pm.expect(r.game.players[0]).to.have.any.keys('id', 'name', 'is_admin','is_you','ready')",
+									"    });",
+									"}",
+									"",
 									"pm.collectionVariables.set(\"game_id\", r.game.id);",
-									"pm.collectionVariables.set(\"player_id\", r.game.players[0].id);"
+									"pm.collectionVariables.set(\"token\", r.token);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"player_name\", \"Joueur admin\");",
+									"pm.collectionVariables.set(\"game_name\", \"g\"+Date.now());",
+									"pm.collectionVariables.set(\"game_password\",\"p\"+Date.now());",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -360,7 +605,29 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"//Test la reponse",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r).to.have.any.keys('id', 'name', 'password','map','state','players')",
+									"});",
+									"",
+									"// test si players est une liste",
+									"pm.test(\"players contain all properties\", () => {",
+									"    pm.expect(r.players).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"",
+									"// test les proprietés d'un ordre",
+									"if(r.players.length > 0){",
+									"    pm.test(\"players contain all properties\", () => {",
+									"        pm.expect(r.players[0]).to.have.any.keys('id', 'name', 'is_admin','is_you','ready')",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -405,8 +672,23 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.collectionVariables.set(\"game_name\", Date.now());",
-									"pm.collectionVariables.set(\"game_password\", Date.now());"
+									"",
+									"pm.collectionVariables.set(\"game_name\", \"my\"+Date.now());",
+									"pm.collectionVariables.set(\"game_password\",\"ps\"+Date.now());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 201or 200 or 204\", () => {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200,204]);",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -455,6 +737,41 @@
 				},
 				{
 					"name": "GET UNITS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*const r = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"//Test si la reponse est une liste",
+									"pm.test(\"Response contain all properties\", () => {",
+									"    pm.expect(r).to.be.an('array').but.not.an('object')",
+									"});",
+									"",
+									"",
+									"// test le premier élément de la liste",
+									"if(r.length > 0){",
+									"    pm.test(\"r[0] contain all properties\", () => {",
+									"        pm.expect(r[0]).to.have.all.keys('id','type', 'power_id','src_region_id','curr_region_id')",
+									"    });",
+									"}",
+									"",
+									"",
+									"*/",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -538,6 +855,10 @@
 		},
 		{
 			"key": "player_id",
+			"value": ""
+		},
+		{
+			"key": "user_token",
 			"value": ""
 		}
 	]

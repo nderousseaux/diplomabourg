@@ -3,6 +3,7 @@
   "author": "Projet intégrateur - Groupe 1A",
   "description": "La version de Diplomacy la plus Strasbourgeoise !",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
