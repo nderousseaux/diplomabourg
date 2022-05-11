@@ -54,7 +54,7 @@
       <p>Le numéro de partie doit être supérieur à 0 et n'être composé que de chiffres !</p>
 			<div>
         <button>Annuler</button>
-				<button @click='rejoindreGame()'>Rejoindre</button>
+        <input type="submit" value="Rejoindre" />
 			</div>
 		</form>
 	</dialog>
@@ -91,10 +91,6 @@ export default {
     };
   },
   methods: {
-    rejoindreGame() {
-      var id = document.getElementById('numPart')
-      window.location = (window.location.origin + '/lobby/' + id.value)
-    },
     storeGameId(id) {
       store.setGameId(Number(id));
     },
@@ -106,9 +102,14 @@ export default {
     },
     storeJeu(jeu) {
       store.setJeu(jeu);
-    },
+    }
   },
   mounted() {
+    // Rejoindre une partie
+    function rejoindreGame() {
+      var id = document.getElementById('numPart')
+      window.location = (window.location.origin + '/lobby/' + id.value)
+    }
     // Liste des téléchargements
     let teleBtn = document.querySelector("#bandeau > button");
 
@@ -138,13 +139,13 @@ export default {
 
     // Gestion du formulaire pour rejoindre une partie
     document
-      .querySelector("#rejoindre > form > div > input[type=text]")
+      .querySelector("#rejoindre > form > div > input[type=submit]")
       .addEventListener("click", (event) => {
         event.preventDefault();
         let erreurForm = false;
 
         // Regex
-        const regexInputRjd = /^\d+$/;
+        const regexInputRjd = /^[1-9][0-9]*$/;
 
         const inputPostVerifNbrJr = function () {
           if (this.value.match(regexInputRjd) == null) {
@@ -176,7 +177,7 @@ export default {
 
         // Si tous les tests sont validés, on peut envoyer
         if (erreurForm == false) {
-          document.querySelector("form").submit();
+          rejoindreGame()
         }
       });
 
@@ -211,8 +212,6 @@ export default {
         // Regex
         const regex = "^[\\S\\s]" + "{" + minCara + "," + maxCara + "}" + "$";
         const regexInput = new RegExp(regex);
-
-        console.log(regexInput);
 
         // Fonction de vérification
         const inputPostVerif = function () {
