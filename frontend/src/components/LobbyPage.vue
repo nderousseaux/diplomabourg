@@ -146,8 +146,8 @@ export default
 					{
 						clearInterval(interId)
 						document.getElementById("app").style.cursor = "default";
-						router.push({ name: "Jeu"});
-						// router.push({ path: `/jeu/${response.data.id}` })
+						// router.push({ name: "Jeu"});
+						router.push({ path: `/jeu/${response.data.id}` })
 					}
 				})
 				.catch(function(error) {
