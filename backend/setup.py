@@ -28,12 +28,13 @@ setup(
     install_requires=requires,
     entry_points={
         'paste.app_factory': [
-            'main = hapi:main',
+            'main = hapi:main'
         ],
         'console_scripts': [
-            'initialize_db=hapi.db_utils:main',
-            'fill_db=hapi.db_utils:fill',
+            'initialize_db=hapi.utils.db:main',
+            'fill_test_data_db=hapi.utils.db:fill_test_data',
         	'server_start=hapi.server_start:main',
 	    ],
     },
 )
+

@@ -1,6 +1,5 @@
 from . import models
 
-
 def setup(env):
     request = env['request']
 

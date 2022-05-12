@@ -18,9 +18,9 @@ Data*.fs*
 .sw?
 .DS_Store
 coverage
-test
 *.sqlite
 .vscode
 dev.env
 prod.env
 *.log
+bd_folder
