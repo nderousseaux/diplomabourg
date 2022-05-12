@@ -3,6 +3,14 @@
 		<img id="logo" alt="Logo Diplomabourg" title="Logo Diplomabourg"
 			src="../assets/img/logo.png"/>
 		<div>
+			<div id="chat">
+				<h1>Chat</h1>
+				<div id="historique"></div>
+				<form name="message">
+					<input type="text" name="msg" id="msg"
+						placeholder="Entrez votre message"/>
+				</form>
+			</div>
 			<div id="lobby">
 				<div id="joueurs">
 					<div>
@@ -46,14 +54,6 @@
 					<button v-if="this.username == 'France'" id="beginGame" @click="beginGame()">Commencer la partie</button>
 				</div>
 			</div>
-			<div id="chat">
-				<h1>Chat</h1>
-				<div id="historique"></div>
-				<form name="message">
-					<input type="text" name="msg" id="msg"
-						placeholder="Entrez votre message"/>
-				</form>
-			</div>
 		</div>
 	</div>
 	<dialog id="joindre">
@@ -76,6 +76,7 @@
 			</div>
 			<p></p>
 			<div>
+				<button>Accueil</button>
 				<input type="submit" value="Joindre"/>
 			</div>
 		</form>
@@ -98,7 +99,7 @@ import router from "../router/index.js";
 /*import { io } from "socket.io-client";
 var socket;
 */
-const game_num = window.location.pathname.split('/')[2];
+const game_num = window.location.pathname.split("/")[2];
 /*
 function getGameId() {
 	const value = `; ${document.cookie}`;
@@ -145,7 +146,8 @@ export default
 					if (response.data.state == "GAME")
 					{
 						clearInterval(interId)
-						//router.push({ name: "Jeu"});
+						document.getElementById("app").style.cursor = "default";
+						// router.push({ name: "Jeu"});
 						router.push({ path: `/jeu/${response.data.id}` })
 					}
 				})
@@ -155,6 +157,7 @@ export default
 		},
 
 		beginGame() {
+			document.getElementById("app").style.cursor = "progress";
 			const config = {
 				headers: {Authorization: `Bearer ${this.token}`}
 			}
@@ -197,7 +200,7 @@ export default
 					location.reload();
 				})
 				.catch(function(error) {
-					let erreur = document.querySelector("form > p")
+					let erreur = document.querySelector("#joindre > form > p")
 					if (error.response.status == 400) {
 						console.log(error.response.data.error.message[0]);
 						erreur.innerText = "Le pays est déjà sélectionné"
@@ -339,14 +342,19 @@ export default
 		*/
 
 		// Gestion du formulaire
-		document.querySelector("form > div > input[type=submit]")
+		document.querySelector("#joindre > form > div > input[type=submit]")
 		.addEventListener("click", event =>
 		{
 			event.preventDefault()
 			let erreurForm = false
 
+			// Valeurs de tests
+			let minCara = 5;
+			let maxCara = 15;
+			
 			// Regex
-			const regexInput = /^[\S\s]{5,15}$/
+			const regex = "^[\\S\\s]" + "{" + minCara + "," + maxCara + "}" + "$";
+			const regexInput = new RegExp(regex);
 
 			// Fonction de vérification
 			const inputPostVerif = function()
@@ -378,7 +386,7 @@ export default
 					erreur.style.display = "block"
 					if (donnee.value == mdpInput.value)
 					{
-						erreur.innerText = "Les champs ne sont pas complétés correctement"
+						erreur.innerText =  "Les nom de la partie et le mot de passe doivent être composés de " + minCara + " à " + maxCara + " caractères";
 					}
 				}
 			}
@@ -397,6 +405,9 @@ export default
 			// Si tous les tests sont validés, on peut envoyer
 			if (erreurForm == false)
 				this.joinGame(mdpInput, usernameInput)
+		})
+		document.querySelector("#joindre > form > div > button").addEventListener("click", () => {
+			router.push({ path: "/"})
 		})
 
 		// Action effectuée quand on appuie sur "Entrer" dans le chat
@@ -444,7 +455,6 @@ export default
 			}
 		})
 
-
 		// Créé la liste des div "en attente"
 		let imgAttente = []
 		document.querySelectorAll("#joueurs > div > img").forEach(element =>
@@ -485,6 +495,7 @@ export default
 	#chat{
 		width: calc(25vw - 10px);
 		height: calc(100vh - 221px);
+		margin: 0 0 0 10px;
 	}
 	#chat > h1{
 		line-height: 64px;
@@ -552,14 +563,14 @@ export default
 	}
 
 	/* Boîtes de dialogue */
-	#joindre > form > div:last-child{
-		justify-content: center;
-	}
 	select{
 		width: 50%;
 		border-radius: 0;
 		text-align: center;
 		-webkit-appearance: none;
+	}
+	#lienCopie > h1{
+		margin: 10px 20px 30px;
 	}
 
 	/* Régler bug de Safari 11 */
@@ -579,7 +590,7 @@ export default
 @media only screen and (max-width: 1370px){
 	/* Div principale */
 	#app > div > div{
-		flex-direction: column-reverse;
+		flex-direction: column;
 		align-items: center;
 		justify-content: space-evenly;
 	}
@@ -610,6 +621,11 @@ export default
 	}
 	#actions > button{
 		width: 40%;
+	}
+
+	/* Boîte de dialogue */
+	#lienCopie > h1{
+		margin: 10px 30px 30px;
 	}
 }
 
