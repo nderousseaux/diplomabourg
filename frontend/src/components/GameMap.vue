@@ -137,9 +137,9 @@
 
 <script>
 import api from "../api";
-import router from "../router/index.js"; // ATTENTION
+import router from "../router/index.js";
 
-const game_num = window.location.pathname.split('/')[2];
+const game_num = window.location.pathname.split("/")[2];
 let ns;
 let svg;
 
@@ -336,7 +336,7 @@ function init_rav(carte){
       ravitaillement(carte, k,"orange");
     }
     else{
-      ravitaillement(carte, k,"white");
+      ravitaillement(carte, k,"beige");
     }
   }
 }
@@ -746,7 +746,7 @@ export default {
             ravitaillement(k,"orange");
           }
           else{
-            ravitaillement(k,"white");
+            ravitaillement(k,"silver");
           }
         }
     }

@@ -44,4 +44,4 @@ Lancer le projet
 - Pour remplir la base de données de données de tests
     env/bin/fill_db development.ini
 
-Note : J'ai fais un docker-compose pour initialiser une base de données rapidement, mais attention, mettez un autre port que 3307 afin d'éviter d'éventuels conflits avec une instance déjà installée sur votre machine.
+Note : J'ai fais un docker-compose pour initialiser une base de données rapidement, mais attention, mettez un autre port que 3306 afin d'éviter d'éventuels conflits avec une instance déjà installée sur votre machine.
