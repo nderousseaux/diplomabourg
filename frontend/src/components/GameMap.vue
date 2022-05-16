@@ -9,7 +9,6 @@
             title="Quitter la partie"
             src="../assets/img/quitter.png"
           />
-          <!-- <p>5:30</p> -->
           <button value="valider" @click="ready()">Prêt</button>
         </div>
         <div id="tour">
@@ -21,36 +20,43 @@
           <img v-if="this.fr == true"
             alt="Drapeau de la France"
             title="France"
+            id="france"
             src="../assets/img/flags/france.png"
           />
           <img v-if="this.ge"
             alt="Drapeau de l'Allemagne"
             title="Allemagne"
+            id="allemagne"
             src="../assets/img/flags/germany.png"
           />
           <img v-if="this.it"
             alt="Drapeau d'Italie"
             title="Italie"
+            id="italie"
             src="../assets/img/flags/italy.png"
           />
           <img v-if="this.ru"
             alt="Drapeau de Russie"
             title="Russie"
+            id="russie"
             src="../assets/img/flags/russia.png"
           />
           <img v-if="this.tu"
             alt="Drapeau de Turquie"
             title="Turquie"
+            id="turquie"
             src="../assets/img/flags/turkey.png"
           />
           <img v-if="this.en"
             alt="Drapeau du Royaume-Uni"
             title="Royaume-Uni"
+            id="royaume-uni"
             src="../assets/img/flags/great-britain.png"
           />
           <img v-if="this.au"
             alt="Drapeau d'Autriche"
             title="Autriche"
+            id="autriche"
             src="../assets/img/flags/austria-hungary.png"
           />
         </div>
@@ -516,8 +522,8 @@ export default {
           console.log("aaa");
           switch (response.data.players[p].username.toLowerCase()) {
             case 'france':
+
               this.fr = true;
-              console.log("dshfkdkusf");
               break;
             case 'germany':
               this.ge = true;
@@ -778,67 +784,94 @@ export default {
         let type = unite[i].type_unit;
         let region = unite[i].cur_region_id;
         let pays = trouver_pays(region);
+        var couleur = "grey";
         if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
         {
               let x = carte["infos"][pays].coords[0];
               let y = carte["infos"][pays].coords[1];
-
               if (power == 1){
+                couleur = "black";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "black", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "black", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let allemagne = document.getElementById("allemagne");
+                if (allemagne != null)
+                  allemagne.style.borderColor = couleur;
               }
               else  if (power == 2){
+                couleur = "orange";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "orange", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "orange", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let autriche = document.getElementById("autriche");
+                if (autriche != null)
+                  autriche.style.borderColor = couleur;
               }
-
               else if (power == 3){
+                couleur = "blue";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "blue", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "blue", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let france = document.getElementById("france");
+                if (france != null)
+                  france.style.borderColor = couleur;
               }
               else if (power == 4){
+                couleur = "pink";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "pink", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "pink", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let royaumeUni = document.getElementById("royaume-uni");
+                if (royaumeUni != null)
+                  royaumeUni.style.borderColor = couleur;
               }
               else if (power == 5){
+                couleur = "red";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "red", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "red", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let italie = document.getElementById("italie");
+                if (italie != null)
+                  italie.style.borderColor = couleur;
               }
               else if (power == 6){
+                couleur = "purple";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "purple", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "purple", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let russie = document.getElementById("russie");
+                if (russie != null)
+                  russie.style.borderColor = couleur;
               }
               else if (power == 7){
+                couleur = "green";
                 if (type == "ARMY"){
-                  color_armee(x, y, pays, "green", id);
+                  color_armee(x, y, pays, couleur, id);
                 }
                 if (type == "FLEET"){
-                  color_flotte(x, y, pays, "green", id);
+                  color_flotte(x, y, pays, couleur, id);
                 }
+                let turquie = document.getElementById("turquie");
+                if (turquie != null)
+                  turquie.style.borderColor = couleur;
               }
 
         }
@@ -1260,6 +1293,9 @@ export default {
     // Code pour afficher le nombre de tour
     let nbrTour = 1;
     document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
+
+
+    
   },
 };
 
@@ -1366,6 +1402,8 @@ export default {
 		width: 17%;
 		margin: 10px;
 		user-select: none;
+    border-radius: 6px;
+    border: 2px solid red;
 	}
 
 	/* Chat */
