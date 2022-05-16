@@ -2,14 +2,14 @@
 @font-face{
 	font-family: "Iceland";
 	font-display: swap;
-	src: url("../font/iceland.ttf") format("truetype")
+	src: url("~@/assets/font/iceland.ttf") format("truetype")
 }
 *{
 	font-family: "Iceland", cursive;
 	color: #ffffff;
 }
 body{
-	background: url("../img/map.jpeg");
+	background-image: url("../img/map.jpeg");
 	background-repeat: no-repeat;
 	background-color: #000000;
 	margin: 0;
@@ -41,7 +41,7 @@ p{
 }
 
 /* Barre de séparation */
-#minuteur,
+#colonneInfos > div:first-child,
 #colonneOrdres > h1,
 #telecharger > form > div > h2{
 	border-style: solid;
@@ -121,6 +121,7 @@ dialog{
 	border-radius: 10px;
 	border-style: none;
 	box-shadow: 0px 0px 15px 5px #002843;
+	width: 30vw;
 }
 dialog > h1{
 	font-size: 40px;
@@ -150,6 +151,7 @@ dialog > form > p{
 	color: rgb(238, 34, 34);
 	margin-bottom: 0;
 	text-align: center;
+	width: 100%;
 }
 dialog > form > div > label{
 	font-size: 25px;
@@ -189,9 +191,20 @@ input.erreur{
 	font-size: 18px;
 }
 
+/* Version ordinateur portable */
+@media only screen and (min-width: 1371px) and (max-width: 1440px){
+	/* Boîtes de dialogue */
+	dialog{
+		width: 35vw;
+	}
+}
+
 /* Version tablette */
 @media only screen and (min-width: 770px) and (max-width: 1370px){
 	/* Boîtes de dialogue */
+	dialog{
+		width: 55vw;
+	}
 	dialog > h1{
 		font-size: 32px;
 	}

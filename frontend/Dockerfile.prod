@@ -3,25 +3,21 @@ FROM node as builder
 
 WORKDIR /vue-ui
 
-# Copy the package.json and install dependencies
+# Copy the package.jso
 COPY package*.json ./
-RUN npm install
 
 # Copy rest of the files
 COPY . .
 
 # Build the project
+RUN npm install
 RUN npm run build
 
 
 FROM nginx:alpine as production-build
-COPY ./nginx.conf /etc/nginx/nginx.conf
-
-## Remove default nginx index page
-RUN rm -rf /usr/share/nginx/html/*
-
 # Copy from the stahg 1
 COPY --from=builder /vue-ui/dist /usr/share/nginx/html
+COPY ./nginx.config /etc/nginx/conf.d/default.conf
 
 EXPOSE 10006
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

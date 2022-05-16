@@ -1,17 +1,19 @@
 <template>
   <div>
     <div id="colonneInfos">
-      <div id="minuteur">
-        <img
-          id="quit"
-          alt="Quitter la partie"
-          title="Quitter la partie"
-          src="../assets/img/quitter.png"
-        />
-        <!-- <p>5:30</p> -->
-        <button value="valider" @click="ready()">Prêt</button>
+      <div>
+        <div id="minuteur">
+          <img
+            id="quit"
+            alt="Quitter la partie"
+            title="Quitter la partie"
+            src="../assets/img/quitter.png"
+          />
+          <button value="valider" @click="ready()">Prêt</button>
+        </div>
+        <div id="tour">
+        </div>
       </div>
-      <div></div>
       <div id="drapeaux">
         <h1>Pays</h1>
         <div>
@@ -109,7 +111,7 @@
       </div>
 
       <div id="infos">
-        <p>Sélectionnez une région pour choisir les ordres</p>
+        <p>Sélectionnez un pion pour choisir les ordres</p>
         <div>
           <button>Réinitialiser</button>
           <button class="bloqueBtn">Valider</button>
@@ -130,7 +132,7 @@
 		<h1>Partie inaccessible</h1>
 		<form method="dialog">
 			<div>
-        Cette partie est en cours.... mais vous pouvez en créer une !
+        Cette partie est inaccessible.... mais vous pouvez en créer une nouvelle !
 			</div>
 			<div>
 				<button>Accueil</button>
@@ -141,19 +143,23 @@
 
 <script>
 import api from "../api";
-import router from "../router/index.js"; // ATTENTION
+import router from "../router/index.js";
 
-const game_num = window.location.pathname.split('/')[2];
+const game_num = window.location.pathname.split("/")[2];
 let ns;
 let svg;
 
-var unite; 
+var unite;
 
 const order = {
   type_order: "",
-  dst_region_id: 0,
-  unit_id: 0,
+  dst_region_id: '',
+  unit_id: '',
 };
+
+const ordres =  [];
+
+var num_tour= 0;
 
 function getTokenCookie() {
 	const value = `; ${document.cookie}`;
@@ -171,14 +177,6 @@ function getRefresh()  {
 }
 
 
-function delete_pion(unite){
-  var taille = Object.keys(unite).length
-  for(var i=0; i < taille; i++){
-    var id = unite[i].id;
-    let ex = document.getElementById(id);
-    ex.remove();
-  }
-}
 
 // import ns et svg
 function ravitaillement(carte, pays, couleur){
@@ -186,7 +184,7 @@ function ravitaillement(carte, pays, couleur){
   if (typeof carte["infos"][k].coordsRav != "undefined") {
     let circleIn = document.createElementNS(ns, "circle");
     let circleOut = document.createElementNS(ns, "circle");
-  
+
     circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
     circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
     circleIn.setAttribute("r", 2);
@@ -214,11 +212,27 @@ function ravitaillement(carte, pays, couleur){
 
     svg.appendChild(circleIn);
     svg.appendChild(circleOut);
-  } 
+  }
 }
 
+
+function  delete_pion(unite,carte){
+  var taille = Object.keys(unite).length
+  for(var i=0; i < taille; i++){
+    var id = unite[i].id;
+    let ex = document.getElementById(id);
+    ex.remove();
+  }
+  
+  for(var j in unite)
+  {
+    var p = trouver_pays(carte, unite[j].cur_region_id);
+    ravitaillement(carte, p,"lightgrey");
+  }
+
+}
 // import ns et svg
-function color_armee(x,y, p,couleur, id){ 
+function color_armee(x,y, p,couleur, id){
   let armee = document.createElementNS(ns, "rect");
 
   armee.setAttribute("x", x - 7.5);
@@ -229,25 +243,30 @@ function color_armee(x,y, p,couleur, id){
   armee.setAttribute("stroke", couleur);
   armee.setAttribute("id",id);
   svg.appendChild(armee);
-      
+
   // Couleur et changement du curseur lors du passage de souris
   armee.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
+    this.style.fill = "lightgreen";
   });
-  armee.addEventListener("click", function () {
-    console.log("Clic armee : ", p);
-    console.log("Id de l'armée: ", id);
-    order.unit_id = id;
+  armee.addEventListener("mouseout", function () {
+    this.style.fill = couleur;
   });
   // Ordre
   armee.addEventListener("click", function () {
-    let convoyer = document.getElementById("CONVOY");
-    if (convoyer) {
-      convoyer.remove();
-    }
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
+
+    
+    console.log("Clic armee : ", p);
+    console.log("Id de l'armée: ", id);
+    order.unit_id = id;
+
+    let $ = require("jquery");
+    $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
+    document.getElementById("cible_attaque").innerText = ""
+
     console.log("Clic zone terrestre : ", p);
   });
 }
@@ -268,31 +287,27 @@ function color_flotte(x,y, p,couleur, id){
   // Couleur et changement du curseur lors du passage de souris
   flotte.addEventListener("mouseover", function () {
     this.style.cursor = "pointer";
-  })
-  flotte.addEventListener("click", function () {
-    console.log("Clic flotte : ", p);
-    console.log("Id de la flotte: ", id);
-    order.unit_id = id;
-  })
+    this.style.fill = "lightseagreen";
+  });
+  flotte.addEventListener("mouseout", function () {
+    this.style.fill = couleur;
+  });
   // Ordre
   flotte.addEventListener("click", function () {
     document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
 
-    let btn_convoyer = document.getElementById("CONVOY");
-    if (!btn_convoyer) {
-      const conv = document.createElement("p");
-      conv.innerText = "Convoyer";
-      conv.setAttribute("id", "CONVOY");
 
-      var btn_valider = document.querySelector("#SUPPORT");
-      btn_valider.after(conv);
+    console.log("Clic flotte : ", p);
+    console.log("Id de la flotte: ", id);
+    order.unit_id = id;
 
-      conv.addEventListener("click", function convoyer_ordre() {
-        order.type_order = conv.id;
-      });
-    }
+    let $ = require("jquery");
+    $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
+    document.getElementById("cible_convoyer").innerText = ""
+    document.getElementById("cible_attaque").innerText = ""
+
     console.log("Clic zone maritime : ", p);
   });
 }
@@ -306,47 +321,46 @@ function trouver_pays(carte, src_region){
   }
 }
 
-function init_rav(carte){
-  for(var k in carte["infos"]){         
-    //France
-    if ((k=="Par")||(k=="Bre")||(k=="Mar")){
-      ravitaillement(carte, k,"blue");
-    }
-          
-    //Allemagne
-    else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
-      ravitaillement(carte, k,"black");
-    }
-          
-    //Italie
-    else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
-      ravitaillement(carte, k,"red");
-    }
-    //Russie
-    else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
-      ravitaillement(carte, k,"purple");
-    }
-    //Turquie
-    else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
-      ravitaillement(carte, k,"green");
-    }
-    //Angleterre
-    else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
-      ravitaillement(carte, k,"pink");
-    }
-    //Autriche
-    else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
-      ravitaillement(carte, k,"orange");
-    }
-    else{
-      ravitaillement(carte, k,"lightgrey");
+function init_rav(carte,unite){
+  if(num_tour > 0)
+  {
+    // console.log("INIT RAV NUM TOUR > 0");
+    for(var i in unite)
+    {
+      
+      var p = trouver_pays(carte, unite[i].cur_region_id);
+      //console.log(unite[i].type_unit);
+      if(unite[i].power.id == 1) // ALLEMAGNE
+      {
+        ravitaillement(carte, p,"black");
+      }else if(unite[i].power.id == 2) // Autriche-Hongrie
+      {
+        ravitaillement(carte, p,"orange");
+      }else if(unite[i].power.id == 3)// FRANCE
+      {
+        ravitaillement(carte, p,"blue");
+      }else if(unite[i].power.id == 4) // GB
+      {
+        ravitaillement(carte, p,"pink");
+      }else if(unite[i].power.id == 5) // ITALIE
+      {
+        ravitaillement(carte, p,"red");
+      }else if(unite[i].power.id == 6) // RUSSIA
+      {
+        ravitaillement(carte, p,"purple");
+      }else if(unite[i].power.id == 7)// TURKEY
+      {
+        ravitaillement(carte, p,"green");
+      }else{
+        ravitaillement(carte, p,"lightgrey");
+      }
     }
   }
 }
 
-function init_pion(carte, unite){
-  for(var i in unite){  
-    init_rav(carte);
+function  init_pion(carte, unite){
+  for(var i in unite){
+    init_rav(carte,unite);
     let id = unite[i].id;
     let power = unite[i].power_id;
     let type = unite[i].type_unit;
@@ -443,7 +457,7 @@ function init_pion(carte, unite){
           }
     }
   }
-}  
+}
 
 
 export default {
@@ -454,7 +468,7 @@ export default {
       power_id: '',
       username: '',
       dst: '',
-      num_tour: 0,
+      //num_tour: 0,
       fr: '',
       en: '',
       it: '',
@@ -466,45 +480,72 @@ export default {
   },
   methods: {
 	// si le joueur clique sur valider tous les ordres
-    ready() {
+    ready() 
+    {
+      document.querySelector("#minuteur > button").classList.add("bloqueBtn");
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
 
 			api.players
 				.update(game_num, this.player_id, this.username, this.power_id, true, config)
-				.then(response =>
+				.then(() =>
 				{
-					console.log(response);
+          //console.log(ordres)
+          for(let i = 0 ; i < ordres.length; i++)
+          {
+            console.log(ordres[i])
+            api.orders
+            .create(game_num, ordres[i].type_order, ordres[i].dst_region_id, ordres[i].unit_id,config)
+            .then((response) => console.log(response.data))
+            .catch((err) => {
+                if (err.status == 400) {
+                  console.log(err.message);
+                }
+                if (err.status == 401) {
+                  console.log(err.message);
+                }
+                if (err.status == 404) {
+                  console.log(err.message);
+                }
+                if (err.status == 500) {
+                  console.log(err.message);
+                }
+            });
+          }
+          
 					// désactiver tous les boutons
 				})
 				.catch((err) => {
 					console.log(err);
 				})
     },
-    changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour 
+      changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour
       // on prends les infos de la game
       api.games.get_game(game_id,config)
       .then(response => {
-        console.log(this.num_tour)
-        console.log(response.data.num_tour)
-
         // si le tour s'est incrémenté
         if(response.data.state == "END"){
           console.log("FIN")
-          // Annoncer le vainqueur 
-        }else if(response.data.num_tour == (this.num_tour+1)){ // si on passe au prochain tour 
-            delete_pion(unite) 
+          // Annoncer le vainqueur
+        }else if(response.data.num_tour == (num_tour+1)){ // si on passe au prochain tour
+            
 
             api.units.get_all(config)
             .then(response => {
-              var test = response.data; // response contient ce qu'à normalement exallunits.json
+              var test = response.data; 
+              console.log(test)
               // update le plateau
+                            // maj le num tour de notre côté
+              num_tour +=1;
+              delete_pion(unite,carte);
+              ordres.length = 0;
               init_pion(carte,test);
-              // maj le num tour de notre côté 
+
+              //console.log("ORDRES normalement vide : " + ordres);
+              document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
+              document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
               
-              this.num_tour = response.data.num_tour;
-              console.log(this.num_tour)
             })
             .catch((erreur) => {
               console.log(erreur);
@@ -514,14 +555,14 @@ export default {
       .catch(err => {
         console.log(err);
       })
-    }
+    },
   },
   mounted() {
     svg = document.querySelector("svg");
     ns = "http://www.w3.org/2000/svg";
     var cookie = getTokenCookie();
     var is_refreshed = getRefresh();
-    
+
     const carte = require("../assets/json/map.json");
 
     if(cookie == null)
@@ -538,17 +579,17 @@ export default {
         headers: {Authorization: `Bearer ${cookie}`}
     };
     var game_id = game_num;
-    
+
     api.games
       .get_game(game_id, config)
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         for (var p in response.data.players) {
-          console.log("aaa");
+          //console.log("aaa");
           switch (response.data.players[p].username.toLowerCase()) {
             case 'france':
+
               this.fr = true;
-              console.log("dshfkdkusf");
               break;
             case 'germany':
               this.ge = true;
@@ -572,11 +613,12 @@ export default {
               break;
           }
         }
-        console.log(this.fr);
+        //console.log(this.fr);
       })
       .catch(function(error) {
         console.log(error);
-        if (error.response.status == 401) {
+        if ((error.response.status == 401) ||
+            (error.response.status == 404)) {
           // Partie non accessible
           let inaccDialog = document.getElementById("inaccessible");
           let inaccQuit = document.querySelector("#inaccessible > form > div:last-child > button");
@@ -595,8 +637,6 @@ export default {
         }
       })
 
-
-
 ////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
     // function reinitOrdres() {
@@ -609,8 +649,6 @@ export default {
     //     $(document.getElementById("conv")).hide();
     //   }
     // }
-
-////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
         // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
@@ -647,11 +685,10 @@ export default {
     //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
     //     btnValider.classList.toggle("bloqueBtn")
     //     btnBloque = true;
+
     //   }
     // })
     ////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -681,19 +718,13 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          // reinitOrdres()  /////////////////////////////////////////////////
-          /////////////////////////////////////////////////$(document.getElementById("convoyer")).hide();
-          $(document.querySelector("#ordres > div:first-child > div:last-child")).hide();
-
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
+          // reinitOrdres()
           console.log("Clic zone terrestre : ", nomZone);
           console.log("ID zone terrestre : ", id_zone);
 
           this.dst = nomZone;
           order.dst_region_id = id_zone;
-          console.log(etiquette)
+          //console.log(etiquette)
           document.getElementById("cible_attaque").innerText = etiquette;
         });
       }
@@ -725,18 +756,12 @@ export default {
 
         path.addEventListener("click", function () {
           // reinitOrdres() /////////////////////////////////////////////////
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
-
-          $(document.querySelector("#ordres > div:first-child > div:last-child")).show();
-          $(document.getElementById("CONVOY")).show();
 
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
           order.dst_region_id = id_zone;
           console.log(etiquette);
-          document.getElementById("cible_convoyer").innerText = etiquette;
+          document.getElementById("cible_attaque").innerText = etiquette;
         });
       }
 
@@ -760,52 +785,13 @@ export default {
         this.style.pointerEvents = "none";
       });
       svg.appendChild(point);
-
-/////////////////////////////////////////////////////////////////////
-/*
-      // Points de ravitaillement
-      if (typeof carte["infos"][k].coordsRav != "undefined") {
-        let circleIn = document.createElementNS(ns, "circle");
-        let circleOut = document.createElementNS(ns, "circle");
-
-        circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-        circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-        circleIn.setAttribute("r", 2);
-        circleIn.setAttribute("fill", "black");
-        circleIn.setAttribute("stroke", "none");
-        circleIn.setAttribute("stroke-width", 0);
-
-        circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-        circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-        circleOut.setAttribute("r", 4);
-        circleOut.setAttribute("fill", "none");
-        circleOut.setAttribute("stroke", "black");
-
-        // Couleur et changement du curseur lors du passage de souris
-        circleOut.addEventListener("mouseover", function () {
-          this.style.cursor = "pointer";
-          this.style.fill = "lightcoral";
-        });
-        circleOut.addEventListener("mouseout", function () {
-          this.style.fill = "none";
-        });
-        circleOut.addEventListener("click", function () {
-          reinitOrdres()
-          console.log("Clic ravitaillement : ", pays);
-        });
-
-        svg.appendChild(circleIn);
-        svg.appendChild(circleOut);
-      }
-    */
-///////////////////////////////////////////////////////////////////////////////
     }
 
 
-/////////////////////// DEBUT ALGO
-    //init plateau de jeu 
+    ////////////////// DEBUT ALGO
+    //init plateau de jeu
     api.games.get_game(game_id,config)
-    .then(response => 
+    .then(response =>
     {
         for(var p in response.data.players)
         {
@@ -815,41 +801,53 @@ export default {
             {
               this.player_id = response.data.players[p].id ;
               this.username = response.data.players[p].username ;
-              
+
               //console.log(response.data.players[p].power[i].id)
-              this.power_id = response.data.players[p].power[i].id; 
+              this.power_id = response.data.players[p].power[i].id;
             }
           }
         }
 
         //console.log(response.data.players)
         // si on est bien à l'init du plateau
-        if(response.data.num_tour == 0) 
+        
+        // Code pour afficher le nombre de tour
+        document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
+        if(response.data.num_tour == 0)
         {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
             .then(response => {
-              unite = response.data; 
-              init_pion(carte, unite); 
+              // console.log("INIT");
+              //console.log(response.data)
+              unite = response.data;
+              init_pion(carte, unite);
               setInterval(this.changeTour,5000,carte, unite,game_id, config);
             })
             .catch((erreur) => {
               console.log(erreur);
             })
-        } 
+        }
 
     })
     .catch((err) => {
       console.log(err);
     })
+    
 
     //var win = 15;
     //while(num_tour < 15){
-      // vérifier si on passe au prochain 
+      // vérifier si on passe au prochain
 
     //}
 
 ////////////////////////////////////////////////////
+    // Validation d'un ordre
+    let valider_ordres = document.getElementById("valider_ordres");
+    valider_ordres.addEventListener("click", function valider() {
+      //console.log(order);
+      ordres.push(order);
+    });
 
 
     // Attaquer
@@ -867,7 +865,7 @@ export default {
     });
       // Bouton validation
     let btn_ok_att = document.querySelector("#att > div > button:first-child");
-    btn_ok_att.addEventListener("click", function convoyer_ordre() {
+    btn_ok_att.addEventListener("click", function attaque_ordre() {
       btn_attaque.classList.remove("enCours");
       $(document.getElementById("att")).hide()
 
@@ -876,20 +874,18 @@ export default {
     });
       // Bouton annulation
     let btn_notok_att = document.querySelector("#att > div > button:last-child");
-    btn_notok_att.addEventListener("click", function convoyer_ordre() {
+    btn_notok_att.addEventListener("click", function attaque_ordre() {
       btn_attaque.classList.remove("enCours");
       $(document.getElementById("att")).hide()
 
       console.log("Mission annulée !");
     });
 
-
     // Tenir
     let btn_tenir = document.getElementById("HOLD");
     btn_tenir.addEventListener("click", function tenir_ordre() {
       order.type_order = btn_tenir.id;
     });
-
 
     // Soutenir
     let btn_soutenir = document.getElementById("SUPPORT");
@@ -938,32 +934,6 @@ export default {
       $(document.getElementById("conv")).hide()
 
       console.log("Mission annulée !");
-    });
-
-
-    // Validation d'un ordre//////////VOIR LE VALIDER8ORDRESSSS ///////////////////////////////////////
-    let valider_ordres = document.getElementById("valider_ordres");
-    valider_ordres.addEventListener("click", function valider() {
-      var id_game = game_id;
-      console.log(order);
-
-      api.orders
-        .create(id_game, order.type_order, order.dst_region_id, order.unit_id,config)
-        .then((response) => console.log(response.data))
-        .catch((err) => {
-          if (err.status == 400) {
-            console.log(err.message);
-          }
-          if (err.status == 401) {
-            console.log(err.message);
-          }
-          if (err.status == 404) {
-            console.log(err.message);
-          }
-          if (err.status == 500) {
-            console.log(err.message);
-          }
-        });
     });
 
     // Quitter les ordres
@@ -1023,7 +993,7 @@ export default {
     };
 
     // Affiche ou masque l'historique et l'input
-    var $ = require("jquery");
+    let $ = require("jquery");
     document.querySelector("#chat > h1").addEventListener("click", () => {
       if (window.innerWidth < 769) {
         $(document.getElementById("historique")).slideToggle(100);
@@ -1031,9 +1001,12 @@ export default {
         $(document.querySelector("#chat > h1")).toggleClass("bas");
       }
     });
+
+    // Code pour afficher le nombre de tour
+    let nbrTour = 1;
+    document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
   },
 };
-
 </script>
 
 <style scoped>
@@ -1108,6 +1081,12 @@ export default {
     width: 45%;
     line-height: 48px;
   }
+  #tour{
+    text-align: center;
+    font-size: 25px;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
 
 	/* Drapeaux */
 	#drapeaux{
@@ -1138,7 +1117,7 @@ export default {
 	/* Chat */
 	#chat{
 		width: 100%;
-		height: calc(70% - 92px);
+		height: calc(70% - 132px);
 		background-color: unset;
     margin: 0;
 	}
@@ -1337,6 +1316,9 @@ export default {
   #minuteur > button{
     width: 70%;
   }
+  #tour{
+    font-size: 28px;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
@@ -1345,7 +1327,7 @@ export default {
 
   /* Chat */
 	#chat{
-    height: calc(70% - 146px);
+    height: calc(70% - 186px);
 	}
 
   /* Colonnes */
@@ -1454,6 +1436,9 @@ export default {
 	#minuteur:first-child:after{
 		width: 36px;
 	}
+  #tour{
+    font-size: 28px;
+  }
 
 	/* Drapeaux */
 	#drapeaux > div > img{
