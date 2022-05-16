@@ -227,8 +227,7 @@ function  delete_pion(unite,carte){
   for(var j in unite)
   {
     var p = trouver_pays(carte, unite[j].cur_region_id);
-    ravitaillement(carte, p,"beige");
-    //console.log("JE SUIS LAAAAA");
+    ravitaillement(carte, p,"lightgrey");
   }
 
 }
@@ -353,46 +352,7 @@ function init_rav(carte,unite){
       {
         ravitaillement(carte, p,"green");
       }else{
-        ravitaillement(carte, p,"beige");
-      }
-    }
-
-  }else{
-    //console.log("INIT RAV NUM TOUR 00");
-    for(var k in carte["infos"]){
-      
-      //France
-      if ((k=="Par")||(k=="Bre")||(k=="Mar")){
-        ravitaillement(carte, k,"blue");
-      }
-
-      //Allemagne
-      else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
-        ravitaillement(carte, k,"black");
-      }
-
-      //Italie
-      else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
-        ravitaillement(carte, k,"red");
-      }
-      //Russie
-      else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
-        ravitaillement(carte, k,"purple");
-      }
-      //Turquie
-      else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
-        ravitaillement(carte, k,"green");
-      }
-      //Angleterre
-      else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
-        ravitaillement(carte, k,"pink");
-      }
-      //Autriche
-      else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
-        ravitaillement(carte, k,"orange");
-      }
-      else{
-        ravitaillement(carte, k,"beige");
+        ravitaillement(carte, p,"lightgrey");
       }
     }
   }
@@ -406,66 +366,95 @@ function  init_pion(carte, unite){
     let type = unite[i].type_unit;
     let region = unite[i].cur_region_id;
     let pays = trouver_pays(carte, region);
-    if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea")){
-      let x = carte["infos"][pays].coords[0];
-      let y = carte["infos"][pays].coords[1];
-
-      if (power == 1){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "black", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "black", id);
-        }
-      }
-      else  if (power == 2){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "orange", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "orange", id);
-        }
-      }
-      else if (power == 3){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "blue", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "blue", id);
-        }
-      }
-      else if (power == 4){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "pink", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "pink", id);
-        }
-      }
-      else if (power == 5){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "red", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "red", id);
-        }
-      }
-      else if (power == 6){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "purple", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "purple", id);
-        }
-      }
-      else if (power == 7){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "green", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "green", id);
-        }
-      }
+    var couleur = "grey";
+    if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
+    {
+          let x = carte["infos"][pays].coords[0];
+          let y = carte["infos"][pays].coords[1];
+          if (power == 1){
+            couleur = "black";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let allemagne = document.getElementById("allemagne");
+            if (allemagne != null)
+              allemagne.style.borderColor = couleur;
+          }
+          else  if (power == 2){
+            couleur = "orange";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let autriche = document.getElementById("autriche");
+            if (autriche != null)
+              autriche.style.borderColor = couleur;
+          }
+          else if (power == 3){
+            couleur = "blue";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let france = document.getElementById("france");
+            if (france != null)
+              france.style.borderColor = couleur;
+          }
+          else if (power == 4){
+            couleur = "pink";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let royaumeUni = document.getElementById("royaume-uni");
+            if (royaumeUni != null)
+              royaumeUni.style.borderColor = couleur;
+          }
+          else if (power == 5){
+            couleur = "red";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let italie = document.getElementById("italie");
+            if (italie != null)
+              italie.style.borderColor = couleur;
+          }
+          else if (power == 6){
+            couleur = "purple";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let russie = document.getElementById("russie");
+            if (russie != null)
+              russie.style.borderColor = couleur;
+          }
+          else if (power == 7){
+            couleur = "green";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let turquie = document.getElementById("turquie");
+            if (turquie != null)
+              turquie.style.borderColor = couleur;
+          }
     }
   }
 }
@@ -648,8 +637,6 @@ export default {
         }
       })
 
-
-
 ////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
     // function reinitOrdres() {
@@ -662,302 +649,6 @@ export default {
     //     $(document.getElementById("conv")).hide();
     //   }
     // }
-
-////////////////////////
-
-
-
-    function color_armee(x,y, p,couleur, id)
-    {
-      let armee = document.createElementNS(ns, "rect");
-
-      armee.setAttribute("x", x - 7.5);
-      armee.setAttribute("y", y);
-      armee.setAttribute("width", 5);
-      armee.setAttribute("height", 5);
-      armee.setAttribute("fill", couleur);
-      armee.setAttribute("stroke", couleur);
-      armee.setAttribute("id",id);
-      svg.appendChild(armee);
-
-      // Couleur et changement du curseur lors du passage de souris
-      armee.addEventListener("mouseover", function () {
-        this.style.cursor = "pointer";
-        this.style.fill = "lightgreen";
-      });
-      armee.addEventListener("mouseout", function () {
-        this.style.fill = couleur;
-      });
-      // Ordre
-      armee.addEventListener("click", function () {
-        document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-        document.querySelector("#infos").style.display = "none";
-        document.querySelector("#ordres").style.display = "flex";
-
-        
-        console.log("Clic armee : ", p);
-        console.log("Id de l'armée: ", id);
-        order.unit_id = id;
-
-        $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
-        document.getElementById("cible_attaque").innerText = ""
-
-        console.log("Clic zone terrestre : ", p);
-      });
-    }
-
-    function color_flotte(x,y, p,couleur, id)
-    {
-      let flotte = document.createElementNS(ns, "ellipse");
-
-      flotte.setAttribute("cx", x - 7.5);
-      flotte.setAttribute("cy", y);
-      flotte.setAttribute("rx", 5);
-      flotte.setAttribute("ry", 2);
-      flotte.setAttribute("fill", couleur);
-      flotte.setAttribute("stroke", couleur);
-      flotte.setAttribute("id",id);
-      svg.appendChild(flotte);
-
-      // Couleur et changement du curseur lors du passage de souris
-      flotte.addEventListener("mouseover", function () {
-        this.style.cursor = "pointer";
-        this.style.fill = "lightseagreen";
-      });
-      flotte.addEventListener("mouseout", function () {
-        this.style.fill = couleur;
-      });
-      // Ordre
-      flotte.addEventListener("click", function () {
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
-
-
-          console.log("Clic flotte : ", p);
-          console.log("Id de la flotte: ", id);
-          order.unit_id = id;
-
-
-          $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
-          document.getElementById("cible_convoyer").innerText = ""
-          document.getElementById("cible_attaque").innerText = ""
-
-          console.log("Clic zone maritime : ", p);
-      });
-    }
-
-
-    function ravitaillement(pays, couleur)
-    {
-      let k = pays;
-        if (typeof carte["infos"][k].coordsRav != "undefined") {
-          let circleIn = document.createElementNS(ns, "circle");
-          let circleOut = document.createElementNS(ns, "circle");
-
-          circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-          circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-          circleIn.setAttribute("r", 2);
-          circleIn.setAttribute("fill", couleur);
-          circleIn.setAttribute("stroke", "none");
-          circleIn.setAttribute("stroke-width", 0);
-
-          circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-          circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-          circleOut.setAttribute("r", 4);
-          circleOut.setAttribute("fill", "none");
-          circleOut.setAttribute("stroke", "black");
-
-          // Couleur et changement du curseur lors du passage de souris
-          circleOut.addEventListener("mouseover", function () {
-            this.style.cursor = "pointer";
-            this.style.fill = "lightcoral";
-          });
-          circleOut.addEventListener("mouseout", function () {
-            this.style.fill = "none";
-          });
-          circleOut.addEventListener("click", function () {
-            console.log("Clic ravitaillement : ", pays);
-          });
-
-          svg.appendChild(circleIn);
-          svg.appendChild(circleOut);
-        }
-    }
-
-
-    function trouver_pays(src_region){
-      for (var j in carte["areas"]){
-        if (src_region == carte["areas"][j].id){
-          let pays = j;
-          return pays;
-        }
-      }
-    }
-
-    function init_rav(){
-        for(var k in carte["infos"]){
-          //France
-          if ((k=="Par")||(k=="Bre")||(k=="Mar")){
-            ravitaillement(k,"blue");
-          }
-
-          //Allemagne
-          else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
-            ravitaillement(k,"black");
-          }
-
-          //Italie
-          else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
-            ravitaillement(k,"red");
-          }
-          //Russie
-          else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
-            ravitaillement(k,"purple");
-          }
-          //Turquie
-          else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
-            ravitaillement(k,"green");
-          }
-
-          //Angleterre
-          else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
-            ravitaillement(k,"pink");
-          }
-          //Autriche
-          else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
-            ravitaillement(k,"orange");
-          }
-          else{
-            ravitaillement(k,"silver");
-          }
-        }
-    }
-/*
-    function delete_pion()
-    {
-      //console.log(unite)
-      var taille = Object.keys(unite).length
-      console.log(taille)
-      //= unite.length
-      for(var i=0; i < taille; i++)
-      {
-        var id = unite[i].id;
-        //console.log(id)
-        let ex = document.getElementById(id);
-
-        ex.remove();
-      }
-    }
-*/
-    function init_pion()
-    {
-      document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
-      for(var i in unite){
-
-        init_rav();
-        let id = unite[i].id;
-        let power = unite[i].power_id;
-        let type = unite[i].type_unit;
-        let region = unite[i].cur_region_id;
-        let pays = trouver_pays(region);
-        var couleur = "grey";
-        if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
-        {
-              let x = carte["infos"][pays].coords[0];
-              let y = carte["infos"][pays].coords[1];
-              if (power == 1){
-                couleur = "black";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let allemagne = document.getElementById("allemagne");
-                if (allemagne != null)
-                  allemagne.style.borderColor = couleur;
-              }
-              else  if (power == 2){
-                couleur = "orange";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let autriche = document.getElementById("autriche");
-                if (autriche != null)
-                  autriche.style.borderColor = couleur;
-              }
-              else if (power == 3){
-                couleur = "blue";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let france = document.getElementById("france");
-                if (france != null)
-                  france.style.borderColor = couleur;
-              }
-              else if (power == 4){
-                couleur = "pink";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let royaumeUni = document.getElementById("royaume-uni");
-                if (royaumeUni != null)
-                  royaumeUni.style.borderColor = couleur;
-              }
-              else if (power == 5){
-                couleur = "red";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let italie = document.getElementById("italie");
-                if (italie != null)
-                  italie.style.borderColor = couleur;
-              }
-              else if (power == 6){
-                couleur = "purple";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let russie = document.getElementById("russie");
-                if (russie != null)
-                  russie.style.borderColor = couleur;
-              }
-              else if (power == 7){
-                couleur = "green";
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, couleur, id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, couleur, id);
-                }
-                let turquie = document.getElementById("turquie");
-                if (turquie != null)
-                  turquie.style.borderColor = couleur;
-              }
-
-        }
-      }
-    }
-
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
         // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
@@ -995,13 +686,9 @@ export default {
     //     btnValider.classList.toggle("bloqueBtn")
     //     btnBloque = true;
 
-
-
     //   }
     // })
     ////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -1155,7 +842,6 @@ export default {
     //}
 
 ////////////////////////////////////////////////////
-   
     // Validation d'un ordre
     let valider_ordres = document.getElementById("valider_ordres");
     valider_ordres.addEventListener("click", function valider() {
@@ -1195,13 +881,11 @@ export default {
       console.log("Mission annulée !");
     });
 
-
     // Tenir
     let btn_tenir = document.getElementById("HOLD");
     btn_tenir.addEventListener("click", function tenir_ordre() {
       order.type_order = btn_tenir.id;
     });
-
 
     // Soutenir
     let btn_soutenir = document.getElementById("SUPPORT");
@@ -1251,9 +935,6 @@ export default {
 
       console.log("Mission annulée !");
     });
-
-
-  
 
     // Quitter les ordres
     let quitterOrdres = document.getElementById("annuler_ordres");
@@ -1324,12 +1005,8 @@ export default {
     // Code pour afficher le nombre de tour
     let nbrTour = 1;
     document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
-
-
-    
   },
 };
-
 </script>
 
 <style scoped>
@@ -1433,8 +1110,8 @@ export default {
 		width: 17%;
 		margin: 10px;
 		user-select: none;
+    border: 2px solid grey;
     border-radius: 6px;
-    border: 2px solid red;
 	}
 
 	/* Chat */
