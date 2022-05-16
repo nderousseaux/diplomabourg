@@ -48,7 +48,7 @@ class PlayerModel(Base):
         if self.nb_center() >= 18:
             return True
         
-        if self.nb_center() in [p.nb_centers for p in self.game.players]:
+        if self.nb_center() in [p.nb_centers() for p in self.game.players]:
             return True
 
         return False
