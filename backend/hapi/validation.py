@@ -129,7 +129,7 @@ def updateOrder(order,DBSession,transaction):
     
     
 
-def valideAttaque(order,DBSession,transaction): #already tested
+def valideAttaque(order,DBSession,transaction, bouge): #already tested
     joueur=order.unit.player()
     idJoueur=joueur.id
     print("hello")
@@ -142,12 +142,13 @@ def valideAttaque(order,DBSession,transaction): #already tested
                     #modifié le champ isvalide de l'ordre
                     order.is_valid = True
 
-                    units = order.dst_region.units(order.unit.game)
-                    for u in units:
-                        if u.order() == None:
-                            u.life=False
-                            DBSession.delete(u)
-                    order.unit.cur_region_id=order.dst_region_id
+                    if bouge:
+                        units = order.dst_region.units(order.unit.game)
+                        for u in units:
+                            if u.order() == None:
+                                u.life=False
+                                DBSession.delete(u)
+                        order.unit.cur_region_id=order.dst_region_id
                     return True  
                     
                 elif (ExisteConvoy(order.unit.id,order.src_region_id,order.dst_region_id,DBSession)):
@@ -254,15 +255,15 @@ def Validation(DBSession,nbtour,gameid,transaction):
 
     print("validation ordre")
     for o in orders :
-        Validation_one_order(o, DBSession, transaction)
+        Validation_one_order(o, DBSession, transaction, move)
                 
     # transaction.commit()
     print("fin validation")
 
-def Validation_one_order(o, DBSession, transaction):
+def Validation_one_order(o, DBSession, transaction, move=True):
     print("idOrder:",o.id)
     if (o.type_order.name=="ATTACK"):  
-        valideAttaque(o, DBSession, transaction) # Attaquer une zone
+        valideAttaque(o, DBSession, transaction, move) # Attaquer une zone
         
     elif (o.type_order.name  == "CONVOY"):
         ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée

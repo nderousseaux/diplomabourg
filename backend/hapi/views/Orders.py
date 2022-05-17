@@ -68,7 +68,7 @@ class Order():
 
         order.src_region = order.unit.cur_region
 
-        Validation_one_order(order, DBSession, 0)
+        Validation_one_order(order, DBSession, 0, False)
 
         DBSession().flush()
 
