@@ -92,7 +92,16 @@
             </div>
           </div>
           <p id="HOLD">Tenir</p>
-          <p id="SUPPORT">Soutenir</p>
+          <div>
+            <p id="SUPPORT">Soutenir</p>
+            <div class="ciblage" id="supp">
+              <label id="cible_supporter"></label>
+              <div>
+                <button>✔️</button>
+                <button id="annulation_support">✖️</button>
+              </div>
+            </div>
+          </div>
           <div>
             <p id="CONVOY">Convoyer</p>
             <div class="ciblage" id="conv">
@@ -105,8 +114,8 @@
           </div>
         </div>
         <div>
-          <button id="annuler_ordres">✖️</button> <!-- ATTENTION -->
-          <button id="valider_ordres">✔️</button> <!-- ATTENTION -->
+          <button id="annuler_ordres">✖️</button>
+          <button id="valider_ordres">✔️</button>
         </div>
       </div>
 
@@ -157,7 +166,7 @@ const order = {
   unit_id: '',
 };
 
-const ordres =  [];
+const ordres = [];
 
 var num_tour= 0;
 
@@ -264,7 +273,6 @@ function color_armee(x,y, p,couleur, id){
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
 
-    
     console.log("Clic armee : ", p);
     console.log("Id de l'armée: ", id);
     order.unit_id = id;
@@ -272,6 +280,8 @@ function color_armee(x,y, p,couleur, id){
     let $ = require("jquery");
     $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
     document.getElementById("cible_attaque").innerText = ""
+    document.getElementById("cible_convoyer").innerText = ""
+    document.getElementById("cible_supporter").innerText = ""
 
     console.log("Clic zone terrestre : ", p);
   });
@@ -304,15 +314,15 @@ function color_flotte(x,y, p,couleur, id){
     document.querySelector("#infos").style.display = "none";
     document.querySelector("#ordres").style.display = "flex";
 
-
     console.log("Clic flotte : ", p);
     console.log("Id de la flotte: ", id);
     order.unit_id = id;
 
     let $ = require("jquery");
     $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
-    document.getElementById("cible_convoyer").innerText = ""
     document.getElementById("cible_attaque").innerText = ""
+    document.getElementById("cible_convoyer").innerText = ""
+    document.getElementById("cible_support").innerText = ""
 
     console.log("Clic zone maritime : ", p);
   });
@@ -574,7 +584,6 @@ export default {
           console.log("FIN")
           // Annoncer le vainqueur
         }else if(response.data.num_tour == (num_tour+1)){ // si on passe au prochain tour
-            
 
             api.units.get_all(config)
             .then(response => {
@@ -633,7 +642,6 @@ export default {
           //console.log("aaa");
           switch (response.data.players[p].username.toLowerCase()) {
             case 'france':
-
               this.fr = true;
               break;
             case 'germany':
@@ -682,62 +690,6 @@ export default {
         }
       })
 
-////////////////////////
-    // Fonction pour réinitialiser la colonne d'ordres
-    // function reinitOrdres() {
-    //   if (btn_attaque.classList.contains("enCours")) {
-    //     btn_attaque.classList.remove("enCours");
-    //     $(document.getElementById("att")).hide();
-    //   }
-    //   if (btn_convoyer.classList.contains("enCours")) {
-    //     btn_convoyer.classList.remove("enCours");
-    //     $(document.getElementById("conv")).hide();
-    //   }
-    // }
-
-    ////////////////////////////////////////////////////////////////////////////
-        // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
-
-    // Modèle de code pour changer le nombre de pions à poser
-    // var nbrPions = 2;
-    // var btnBloque = true;
-    // let infosPions = document.querySelector("#infos > p")
-    // let btnValider = document.querySelector("#infos > div > button:last-child")
-    // infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
-
-    // document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
-    //   if (nbrPions > 0)
-    //   {
-    //     nbrPions--
-    //   }
-    //   if (nbrPions == 1)
-    //   {
-    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-    //   }
-    //   else if (nbrPions == 0 && btnBloque == true)
-    //   {
-    //     infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
-    //     btnValider.classList.toggle("bloqueBtn")
-    //     btnBloque = false
-    //   }
-    //   else if (nbrPions > 0)
-    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
-    // })
-    // document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
-    //   if (btnBloque == false)
-    //   {
-    //     nbrPions = 2
-    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-    //     btnValider.classList.toggle("bloqueBtn")
-    //     btnBloque = true;
-
-    //   }
-    // })
-    ////////////////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////////////////
     // Création de territoire
     for (var j in carte["areas"]) {
       let nomZone = carte["areas"][j].name;
@@ -763,7 +715,6 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          // reinitOrdres()
           console.log("Clic zone terrestre : ", nomZone);
           console.log("ID zone terrestre : ", id_zone);
 
@@ -771,6 +722,8 @@ export default {
           order.dst_region_id = id_zone;
           //console.log(etiquette)
           document.getElementById("cible_attaque").innerText = etiquette;
+          document.getElementById("cible_convoyer").innerText = etiquette;
+          document.getElementById("cible_supporter").innerText = etiquette;
         });
       }
 
@@ -800,13 +753,13 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          // reinitOrdres() /////////////////////////////////////////////////
-
           console.log("Clic zone maritime : ", nomZone);
           this.dst = nomZone;
           order.dst_region_id = id_zone;
           console.log(etiquette);
           document.getElementById("cible_attaque").innerText = etiquette;
+          document.getElementById("cible_convoyer").innerText = etiquette;
+          document.getElementById("cible_supporter").innerText = etiquette;
         });
       }
 
@@ -934,21 +887,34 @@ export default {
 
     // Soutenir
     let btn_soutenir = document.getElementById("SUPPORT");
-    btn_soutenir.addEventListener("click", function soutenir_ordre() {
+    btn_soutenir.addEventListener("click", function support_ordre() {
       order.type_order = btn_soutenir.id;
+      if (btn_soutenir.classList.contains("enCours")) {
+        btn_soutenir.classList.remove("enCours");
+        $(document.getElementById("supp")).hide()
+      }
+      else {
+        btn_soutenir.classList.add("enCours");
+        $(document.getElementById("supp")).css("display", "flex")
+      }
     });
+      // Bouton validation
+    let btn_ok_supp = document.querySelector("#supp > div > button:first-child");
+    btn_ok_supp.addEventListener("click", function support_ordre() {
+      btn_soutenir.classList.remove("enCours");
+      $(document.getElementById("supp")).hide()
 
-    // Annuler la cible ////////////////////A MOI ADD///////////////////////////////////////////////
-    let btn_annulation_attaque = document.getElementById("annulation_attaque");
-    btn_annulation_attaque.addEventListener("click", () => {
-      this.dst ='';
-      order.dst_region_id = "";
-    })
-    let btn_annulation_convoie = document.getElementById("annulation_convoie");
-    btn_annulation_convoie.addEventListener("click", () => {
-      this.dst = '';
-      order.dst_region_id = "";
-    })
+      let valLab = document.querySelector("#att > label").textContent;
+      console.log(valLab);
+    });
+      // Bouton annulation
+    let btn_notok_supp = document.querySelector("#supp > div > button:last-child");
+    btn_notok_supp.addEventListener("click", function support_ordre() {
+      btn_soutenir.classList.remove("enCours");
+      $(document.getElementById("supp")).hide()
+
+      console.log("Mission annulée !");
+    });
 
     // Convoyer
     let btn_convoyer = document.getElementById("CONVOY");
@@ -981,18 +947,34 @@ export default {
       console.log("Mission annulée !");
     });
 
+    let btn_annulation_attaque = document.getElementById("annulation_attaque");
+    btn_annulation_attaque.addEventListener("click", () => {
+      this.dst ='';
+      order.dst_region_id = "";
+    })
+    let btn_annulation_convoie = document.getElementById("annulation_convoie");
+    btn_annulation_convoie.addEventListener("click", () => {
+      this.dst = '';
+      order.dst_region_id = "";
+    })
+    let btn_annulation_support = document.getElementById("annulation_support");
+    btn_annulation_support.addEventListener("click", () => {
+      this.dst = '';
+      order.dst_region_id = "";
+    })
+
     // Quitter les ordres
     let quitterOrdres = document.getElementById("annuler_ordres");
     quitterOrdres.addEventListener("click", () => {
       document.querySelector("#colonneOrdres > h1").innerHTML = "Informations";
       document.querySelector("#infos").style.display = "flex";
       document.querySelector("#ordres").style.display = "none";
-      // reinitOrdres();
+      reinitOrdres();
     })
     let validerOrdres = document.getElementById("valider_ordres");
     validerOrdres.addEventListener("click", () => {
       console.log("Ordres validés");
-      // reinitOrdres();
+      reinitOrdres();
     })
 
     // Pour quitter la partie
@@ -1050,6 +1032,22 @@ export default {
     // Code pour afficher le nombre de tour
     let nbrTour = 1;
     document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
+
+    // Fonction pour réinitialiser la colonne d'ordres
+    function reinitOrdres() {
+      if (btn_attaque.classList.contains("enCours")) {
+        btn_attaque.classList.remove("enCours");
+        $(document.getElementById("att")).hide();
+      }
+      if (btn_convoyer.classList.contains("enCours")) {
+        btn_convoyer.classList.remove("enCours");
+        $(document.getElementById("conv")).hide();
+      }
+      if (btn_soutenir.classList.contains("enCours")) {
+        btn_soutenir.classList.remove("enCours");
+        $(document.getElementById("supp")).hide();
+      }
+    }
   },
 };
 </script>
@@ -1156,7 +1154,7 @@ export default {
 		margin: 10px;
 		user-select: none;
     border: 2px solid grey;
-    border-radius: 6px;
+    border-radius: 7px;
 	}
 
 	/* Chat */
@@ -1306,7 +1304,8 @@ export default {
     background-color: #a00000;
   }
   #ATTACK,
-  #CONVOY{
+  #CONVOY,
+  #SUPPORT{
     width: 100% !important;
   }
 
@@ -1413,8 +1412,9 @@ export default {
   #ordres > div:first-child > div{
     margin: 0;
   }
+  #SUPPORT,
   #ordres > div:first-child > div:last-child > p{
-    margin-top: 10px;
+    margin-top: 10px !important;
   }
   #ordres > div:first-child > p:nth-child(2){
     margin-bottom: 20px;
@@ -1516,7 +1516,8 @@ export default {
 	}
   #ordres > div:first-child > p,
   #ATTACK,
-  #CONVOY{
+  #CONVOY,
+  #SUPPORT{
 		margin: 10px 0 !important;
   }
 	#ordres > div:first-child > div:first-child > p,
