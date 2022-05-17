@@ -74,4 +74,4 @@ class RegionModel(Base):
     def nb_units(self, game):
         """Renvoie le nombre d'unité sur la région
         """
-        return len(self.units())
+        return len(self.units(game))
