@@ -247,22 +247,22 @@ def Validation(DBSession,nbtour,gameid,transaction):
 
     print("validation ordre")
     for o in orders :
-        print("idOrder:",o.id)
-        if (o.type_order.name=="ATTACK"):  
-            valideAttaque(o, DBSession, transaction) # Attaquer une zone
-            
-            
-        elif (o.type_order.name  == "CONVOY"):
-            ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée
-            
-
-        elif (o.type_order.name  == "SUPPORT"):
-         valideSoutien(o, DBSession, transaction)
-
-            
-    
+        Validation_one_order(o, DBSession, transaction)
+                
     # transaction.commit()
     print("fin validation")
+
+def Validation_one_order(o, DBSession, transaction):
+    print("idOrder:",o.id)
+    if (o.type_order.name=="ATTACK"):  
+        valideAttaque(o, DBSession, transaction) # Attaquer une zone
+        
+    elif (o.type_order.name  == "CONVOY"):
+        ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée
+
+    elif (o.type_order.name  == "SUPPORT"):
+        valideSoutien(o, DBSession, transaction)
+
 
 def testValidationOrders(idGame, DBSession,transaction):
     game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()
@@ -617,9 +617,9 @@ def create_units(DBSession, game):
         nb_units = len(p.units()) - len(centers)
         #Si le nombre de centres est supérieur au nombre d'unités
         if len(centers) > nb_units:
-            nb_units_a_creer = nb_center-nb_units
+            nb_units_a_creer = len(centers)-nb_units
 
-            centers_libre = [c for c in centers if centers.cur_region.nb_units(game) == 1]
+            centers_libre = [c for c in centers if c.cur_region.nb_units(game) == 1]
             random.shuffle(centers_libre)
 
             nb_units_cree = 0

@@ -42,7 +42,7 @@ voisinages=[
     {"src_region_id": 36, "dst_region_id": [72,75,44]},
     {"src_region_id": 37, "dst_region_id": [41,61,73,51]},
     {"src_region_id": 38, "dst_region_id": [72,75]},
-    {"src_region_id": 39, "dst_region_id": [49]},
+    {"src_region_id": 39, "dst_region_id": [49, 60]},
     {"src_region_id": 40, "dst_region_id": [44,50,60,74,45]},
     {"src_region_id": 41, "dst_region_id": [61,56,69,73]},
     {"src_region_id": 42, "dst_region_id": [53,57,67]},

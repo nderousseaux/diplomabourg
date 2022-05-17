@@ -11,12 +11,15 @@ def change_state(DBSession, game, forced = False):
             for pui in game.map.powers:
                 for disp in pui.disposition_unit:
                     unit = UnitModel(
-                        type_unit_id=disp.type_unit_id,
-                        cur_region_id=disp.region_id,
+                        type_unit=disp.type_unit,
+                        cur_region=disp.region,
                         power=pui,
                         game=game,
-                        src_region_id=disp.region_id #FIXME: Reste à null ?
+                        src_region=disp.region
                     )
+
+                #On place les centres
+                create_centers(DBSession, game)
 
             game.state = DBSession().query(StateModel).filter_by(name="GAME").one()
 
