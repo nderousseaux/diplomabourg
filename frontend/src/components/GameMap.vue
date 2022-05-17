@@ -9,7 +9,6 @@
             title="Quitter la partie"
             src="../assets/img/quitter.png"
           />
-          <!-- <p>5:30</p> -->
           <button value="valider" @click="ready()">Prêt</button>
         </div>
         <div id="tour">
@@ -21,36 +20,43 @@
           <img v-if="this.fr == true"
             alt="Drapeau de la France"
             title="France"
+            id="france"
             src="../assets/img/flags/france.png"
           />
           <img v-if="this.ge"
             alt="Drapeau de l'Allemagne"
             title="Allemagne"
+            id="allemagne"
             src="../assets/img/flags/germany.png"
           />
           <img v-if="this.it"
             alt="Drapeau d'Italie"
             title="Italie"
+            id="italie"
             src="../assets/img/flags/italy.png"
           />
           <img v-if="this.ru"
             alt="Drapeau de Russie"
             title="Russie"
+            id="russie"
             src="../assets/img/flags/russia.png"
           />
           <img v-if="this.tu"
             alt="Drapeau de Turquie"
             title="Turquie"
+            id="turquie"
             src="../assets/img/flags/turkey.png"
           />
           <img v-if="this.en"
             alt="Drapeau du Royaume-Uni"
             title="Royaume-Uni"
+            id="royaume-uni"
             src="../assets/img/flags/great-britain.png"
           />
           <img v-if="this.au"
             alt="Drapeau d'Autriche"
             title="Autriche"
+            id="autriche"
             src="../assets/img/flags/austria-hungary.png"
           />
         </div>
@@ -147,9 +153,13 @@ var unite;
 
 const order = {
   type_order: "",
-  dst_region_id: 0,
-  unit_id: 0,
+  dst_region_id: '',
+  unit_id: '',
 };
+
+const ordres =  [];
+
+var num_tour= 0;
 
 function getTokenCookie() {
 	const value = `; ${document.cookie}`;
@@ -167,14 +177,6 @@ function getRefresh()  {
 }
 
 
-function delete_pion(unite){
-  var taille = Object.keys(unite).length
-  for(var i=0; i < taille; i++){
-    var id = unite[i].id;
-    let ex = document.getElementById(id);
-    ex.remove();
-  }
-}
 
 // import ns et svg
 function ravitaillement(carte, pays, couleur){
@@ -213,6 +215,22 @@ function ravitaillement(carte, pays, couleur){
   }
 }
 
+
+function  delete_pion(unite,carte){
+  var taille = Object.keys(unite).length
+  for(var i=0; i < taille; i++){
+    var id = unite[i].id;
+    let ex = document.getElementById(id);
+    ex.remove();
+  }
+  
+  for(var j in unite)
+  {
+    var p = trouver_pays(carte, unite[j].cur_region_id);
+    ravitaillement(carte, p,"lightgrey");
+  }
+
+}
 // import ns et svg
 function color_armee(x,y, p,couleur, id){
   let armee = document.createElementNS(ns, "rect");
@@ -303,112 +321,140 @@ function trouver_pays(carte, src_region){
   }
 }
 
-function init_rav(carte){
-  for(var k in carte["infos"]){
-    //France
-    if ((k=="Par")||(k=="Bre")||(k=="Mar")){
-      ravitaillement(carte, k,"blue");
-    }
-
-    //Allemagne
-    else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
-      ravitaillement(carte, k,"black");
-    }
-
-    //Italie
-    else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
-      ravitaillement(carte, k,"red");
-    }
-    //Russie
-    else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
-      ravitaillement(carte, k,"purple");
-    }
-    //Turquie
-    else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
-      ravitaillement(carte, k,"green");
-    }
-    //Angleterre
-    else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
-      ravitaillement(carte, k,"pink");
-    }
-    //Autriche
-    else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
-      ravitaillement(carte, k,"orange");
-    }
-    else{
-      ravitaillement(carte, k,"beige");
+function init_rav(carte,unite){
+  if(num_tour > 0)
+  {
+    // console.log("INIT RAV NUM TOUR > 0");
+    for(var i in unite)
+    {
+      
+      var p = trouver_pays(carte, unite[i].cur_region_id);
+      //console.log(unite[i].type_unit);
+      if(unite[i].power.id == 1) // ALLEMAGNE
+      {
+        ravitaillement(carte, p,"black");
+      }else if(unite[i].power.id == 2) // Autriche-Hongrie
+      {
+        ravitaillement(carte, p,"orange");
+      }else if(unite[i].power.id == 3)// FRANCE
+      {
+        ravitaillement(carte, p,"blue");
+      }else if(unite[i].power.id == 4) // GB
+      {
+        ravitaillement(carte, p,"pink");
+      }else if(unite[i].power.id == 5) // ITALIE
+      {
+        ravitaillement(carte, p,"red");
+      }else if(unite[i].power.id == 6) // RUSSIA
+      {
+        ravitaillement(carte, p,"purple");
+      }else if(unite[i].power.id == 7)// TURKEY
+      {
+        ravitaillement(carte, p,"green");
+      }else{
+        ravitaillement(carte, p,"lightgrey");
+      }
     }
   }
 }
 
-function init_pion(carte, unite){
+function  init_pion(carte, unite){
   for(var i in unite){
-    init_rav(carte);
+    init_rav(carte,unite);
     let id = unite[i].id;
     let power = unite[i].power_id;
     let type = unite[i].type_unit;
     let region = unite[i].cur_region_id;
     let pays = trouver_pays(carte, region);
-    if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea")){
-      let x = carte["infos"][pays].coords[0];
-      let y = carte["infos"][pays].coords[1];
-
-      if (power == 1){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "black", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "black", id);
-        }
-      }
-      else  if (power == 2){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "orange", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "orange", id);
-        }
-      }
-      else if (power == 3){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "blue", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "blue", id);
-        }
-      }
-      else if (power == 4){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "pink", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "pink", id);
-        }
-      }
-      else if (power == 5){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "red", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "red", id);
-        }
-      }
-      else if (power == 6){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "purple", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "purple", id);
-        }
-      }
-      else if (power == 7){
-        if (type == "ARMY"){
-          color_armee(x, y, pays, "green", id);
-        }
-        if (type == "FLEET"){
-          color_flotte(x, y, pays, "green", id);
-        }
-      }
+    var couleur = "grey";
+    if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
+    {
+          let x = carte["infos"][pays].coords[0];
+          let y = carte["infos"][pays].coords[1];
+          if (power == 1){
+            couleur = "black";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let allemagne = document.getElementById("allemagne");
+            if (allemagne != null)
+              allemagne.style.borderColor = couleur;
+          }
+          else  if (power == 2){
+            couleur = "orange";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let autriche = document.getElementById("autriche");
+            if (autriche != null)
+              autriche.style.borderColor = couleur;
+          }
+          else if (power == 3){
+            couleur = "blue";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let france = document.getElementById("france");
+            if (france != null)
+              france.style.borderColor = couleur;
+          }
+          else if (power == 4){
+            couleur = "pink";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let royaumeUni = document.getElementById("royaume-uni");
+            if (royaumeUni != null)
+              royaumeUni.style.borderColor = couleur;
+          }
+          else if (power == 5){
+            couleur = "red";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let italie = document.getElementById("italie");
+            if (italie != null)
+              italie.style.borderColor = couleur;
+          }
+          else if (power == 6){
+            couleur = "purple";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let russie = document.getElementById("russie");
+            if (russie != null)
+              russie.style.borderColor = couleur;
+          }
+          else if (power == 7){
+            couleur = "green";
+            if (type == "ARMY"){
+              color_armee(x, y, pays, couleur, id);
+            }
+            if (type == "FLEET"){
+              color_flotte(x, y, pays, couleur, id);
+            }
+            let turquie = document.getElementById("turquie");
+            if (turquie != null)
+              turquie.style.borderColor = couleur;
+          }
     }
   }
 }
@@ -422,7 +468,7 @@ export default {
       power_id: '',
       username: '',
       dst: '',
-      num_tour: 0,
+      //num_tour: 0,
       fr: '',
       en: '',
       it: '',
@@ -434,7 +480,8 @@ export default {
   },
   methods: {
 	// si le joueur clique sur valider tous les ordres
-    ready() {
+    ready() 
+    {
       document.querySelector("#minuteur > button").classList.add("bloqueBtn");
 			const config = {
 				headers: { Authorization: `Bearer ${this.token}`}
@@ -442,38 +489,63 @@ export default {
 
 			api.players
 				.update(game_num, this.player_id, this.username, this.power_id, true, config)
-				.then(response =>
+				.then(() =>
 				{
-					console.log(response);
+          //console.log(ordres)
+          for(let i = 0 ; i < ordres.length; i++)
+          {
+            console.log(ordres[i])
+            api.orders
+            .create(game_num, ordres[i].type_order, ordres[i].dst_region_id, ordres[i].unit_id,config)
+            .then((response) => console.log(response.data))
+            .catch((err) => {
+                if (err.status == 400) {
+                  console.log(err.message);
+                }
+                if (err.status == 401) {
+                  console.log(err.message);
+                }
+                if (err.status == 404) {
+                  console.log(err.message);
+                }
+                if (err.status == 500) {
+                  console.log(err.message);
+                }
+            });
+          }
+          
 					// désactiver tous les boutons
 				})
 				.catch((err) => {
 					console.log(err);
 				})
     },
-    changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour
+      changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour
       // on prends les infos de la game
       api.games.get_game(game_id,config)
       .then(response => {
-        console.log(this.num_tour)
-        console.log(response.data.num_tour)
-
         // si le tour s'est incrémenté
         if(response.data.state == "END"){
           console.log("FIN")
           // Annoncer le vainqueur
-        }else if(response.data.num_tour == (this.num_tour+1)){ // si on passe au prochain tour
-            delete_pion(unite)
+        }else if(response.data.num_tour == (num_tour+1)){ // si on passe au prochain tour
+            
 
             api.units.get_all(config)
             .then(response => {
-              var test = response.data; // response contient ce qu'à normalement exallunits.json
+              var test = response.data; 
+              console.log(test)
               // update le plateau
+                            // maj le num tour de notre côté
+              num_tour +=1;
+              delete_pion(unite,carte);
+              ordres.length = 0;
               init_pion(carte,test);
-              // maj le num tour de notre côté
 
-              this.num_tour = response.data.num_tour;
-              console.log(this.num_tour)
+              //console.log("ORDRES normalement vide : " + ordres);
+              document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
+              document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
+              
             })
             .catch((erreur) => {
               console.log(erreur);
@@ -483,7 +555,7 @@ export default {
       .catch(err => {
         console.log(err);
       })
-    }
+    },
   },
   mounted() {
     svg = document.querySelector("svg");
@@ -511,13 +583,13 @@ export default {
     api.games
       .get_game(game_id, config)
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         for (var p in response.data.players) {
-          console.log("aaa");
+          //console.log("aaa");
           switch (response.data.players[p].username.toLowerCase()) {
             case 'france':
+
               this.fr = true;
-              console.log("dshfkdkusf");
               break;
             case 'germany':
               this.ge = true;
@@ -541,7 +613,7 @@ export default {
               break;
           }
         }
-        console.log(this.fr);
+        //console.log(this.fr);
       })
       .catch(function(error) {
         console.log(error);
@@ -565,8 +637,6 @@ export default {
         }
       })
 
-
-
 ////////////////////////
     // Fonction pour réinitialiser la colonne d'ordres
     // function reinitOrdres() {
@@ -579,275 +649,6 @@ export default {
     //     $(document.getElementById("conv")).hide();
     //   }
     // }
-
-////////////////////////
-
-
-
-    function color_armee(x,y, p,couleur, id)
-    {
-      let armee = document.createElementNS(ns, "rect");
-
-      armee.setAttribute("x", x - 7.5);
-      armee.setAttribute("y", y);
-      armee.setAttribute("width", 5);
-      armee.setAttribute("height", 5);
-      armee.setAttribute("fill", couleur);
-      armee.setAttribute("stroke", couleur);
-      armee.setAttribute("id",id);
-      svg.appendChild(armee);
-
-      // Couleur et changement du curseur lors du passage de souris
-      armee.addEventListener("mouseover", function () {
-        this.style.cursor = "pointer";
-        this.style.fill = "lightgreen";
-      });
-      armee.addEventListener("mouseout", function () {
-        this.style.fill = couleur;
-      });
-      // Ordre
-      armee.addEventListener("click", function () {
-        document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-        document.querySelector("#infos").style.display = "none";
-        document.querySelector("#ordres").style.display = "flex";
-
-        
-        console.log("Clic armee : ", p);
-        console.log("Id de l'armée: ", id);
-        order.unit_id = id;
-
-        $(document.querySelector("#ordres > div > div:nth-child(4)")).hide()
-        document.getElementById("cible_attaque").innerText = ""
-
-        console.log("Clic zone terrestre : ", p);
-      });
-    }
-
-    function color_flotte(x,y, p,couleur, id)
-    {
-      let flotte = document.createElementNS(ns, "ellipse");
-
-      flotte.setAttribute("cx", x - 7.5);
-      flotte.setAttribute("cy", y);
-      flotte.setAttribute("rx", 5);
-      flotte.setAttribute("ry", 2);
-      flotte.setAttribute("fill", couleur);
-      flotte.setAttribute("stroke", couleur);
-      flotte.setAttribute("id",id);
-      svg.appendChild(flotte);
-
-      // Couleur et changement du curseur lors du passage de souris
-      flotte.addEventListener("mouseover", function () {
-        this.style.cursor = "pointer";
-        this.style.fill = "lightseagreen";
-      });
-      flotte.addEventListener("mouseout", function () {
-        this.style.fill = couleur;
-      });
-      // Ordre
-      flotte.addEventListener("click", function () {
-          document.querySelector("#colonneOrdres > h1").innerHTML = "Ordres";
-          document.querySelector("#infos").style.display = "none";
-          document.querySelector("#ordres").style.display = "flex";
-
-
-          console.log("Clic flotte : ", p);
-          console.log("Id de la flotte: ", id);
-          order.unit_id = id;
-
-
-          $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
-          document.getElementById("cible_convoyer").innerText = ""
-          document.getElementById("cible_attaque").innerText = ""
-
-          console.log("Clic zone maritime : ", p);
-      });
-    }
-
-
-    function ravitaillement(pays, couleur)
-    {
-      let k = pays;
-        if (typeof carte["infos"][k].coordsRav != "undefined") {
-          let circleIn = document.createElementNS(ns, "circle");
-          let circleOut = document.createElementNS(ns, "circle");
-
-          circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-          circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-          circleIn.setAttribute("r", 2);
-          circleIn.setAttribute("fill", couleur);
-          circleIn.setAttribute("stroke", "none");
-          circleIn.setAttribute("stroke-width", 0);
-
-          circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-          circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-          circleOut.setAttribute("r", 4);
-          circleOut.setAttribute("fill", "none");
-          circleOut.setAttribute("stroke", "black");
-
-          // Couleur et changement du curseur lors du passage de souris
-          circleOut.addEventListener("mouseover", function () {
-            this.style.cursor = "pointer";
-            this.style.fill = "lightcoral";
-          });
-          circleOut.addEventListener("mouseout", function () {
-            this.style.fill = "none";
-          });
-          circleOut.addEventListener("click", function () {
-            console.log("Clic ravitaillement : ", pays);
-          });
-
-          svg.appendChild(circleIn);
-          svg.appendChild(circleOut);
-        }
-    }
-
-
-    function trouver_pays(src_region){
-      for (var j in carte["areas"]){
-        if (src_region == carte["areas"][j].id){
-          let pays = j;
-          return pays;
-        }
-      }
-    }
-
-    function init_rav(){
-        for(var k in carte["infos"]){
-          //France
-          if ((k=="Par")||(k=="Bre")||(k=="Mar")){
-            ravitaillement(k,"blue");
-          }
-
-          //Allemagne
-          else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
-            ravitaillement(k,"black");
-          }
-
-          //Italie
-          else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
-            ravitaillement(k,"red");
-          }
-          //Russie
-          else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
-            ravitaillement(k,"purple");
-          }
-          //Turquie
-          else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
-            ravitaillement(k,"green");
-          }
-
-          //Angleterre
-          else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
-            ravitaillement(k,"pink");
-          }
-          //Autriche
-          else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
-            ravitaillement(k,"orange");
-          }
-          else{
-            ravitaillement(k,"silver");
-          }
-        }
-    }
-/*
-    function delete_pion()
-    {
-      //console.log(unite)
-      var taille = Object.keys(unite).length
-      console.log(taille)
-      //= unite.length
-      for(var i=0; i < taille; i++)
-      {
-        var id = unite[i].id;
-        //console.log(id)
-        let ex = document.getElementById(id);
-
-        ex.remove();
-      }
-    }
-*/
-    function init_pion()
-    {
-      document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
-      for(var i in unite){
-
-        init_rav();
-        let id = unite[i].id;
-        let power = unite[i].power_id;
-        let type = unite[i].type_unit;
-        let region = unite[i].cur_region_id;
-        let pays = trouver_pays(region);
-        if(!(pays == "Con_sea" || pays == "Den_sea" || pays == "Kie_sea"))
-        {
-              let x = carte["infos"][pays].coords[0];
-              let y = carte["infos"][pays].coords[1];
-
-              if (power == 1){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "black", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "black", id);
-                }
-              }
-              else  if (power == 2){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "orange", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "orange", id);
-                }
-              }
-
-              else if (power == 3){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "blue", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "blue", id);
-                }
-              }
-              else if (power == 4){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "pink", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "pink", id);
-                }
-              }
-              else if (power == 5){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "red", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "red", id);
-                }
-              }
-              else if (power == 6){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "purple", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "purple", id);
-                }
-              }
-              else if (power == 7){
-                if (type == "ARMY"){
-                  color_armee(x, y, pays, "green", id);
-                }
-                if (type == "FLEET"){
-                  color_flotte(x, y, pays, "green", id);
-                }
-              }
-
-        }
-      }
-    }
-
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
         // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
@@ -884,11 +685,10 @@ export default {
     //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
     //     btnValider.classList.toggle("bloqueBtn")
     //     btnBloque = true;
+
     //   }
     // })
     ////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -924,7 +724,7 @@ export default {
 
           this.dst = nomZone;
           order.dst_region_id = id_zone;
-          console.log(etiquette)
+          //console.log(etiquette)
           document.getElementById("cible_attaque").innerText = etiquette;
         });
       }
@@ -985,49 +785,10 @@ export default {
         this.style.pointerEvents = "none";
       });
       svg.appendChild(point);
-
-/////////////////////////////////////////////////////////////////////
-/*
-      // Points de ravitaillement
-      if (typeof carte["infos"][k].coordsRav != "undefined") {
-        let circleIn = document.createElementNS(ns, "circle");
-        let circleOut = document.createElementNS(ns, "circle");
-
-        circleIn.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-        circleIn.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-        circleIn.setAttribute("r", 2);
-        circleIn.setAttribute("fill", "black");
-        circleIn.setAttribute("stroke", "none");
-        circleIn.setAttribute("stroke-width", 0);
-
-        circleOut.setAttribute("cx", carte["infos"][k].coordsRav[0]);
-        circleOut.setAttribute("cy", carte["infos"][k].coordsRav[1]);
-        circleOut.setAttribute("r", 4);
-        circleOut.setAttribute("fill", "none");
-        circleOut.setAttribute("stroke", "black");
-
-        // Couleur et changement du curseur lors du passage de souris
-        circleOut.addEventListener("mouseover", function () {
-          this.style.cursor = "pointer";
-          this.style.fill = "lightcoral";
-        });
-        circleOut.addEventListener("mouseout", function () {
-          this.style.fill = "none";
-        });
-        circleOut.addEventListener("click", function () {
-          reinitOrdres()
-          console.log("Clic ravitaillement : ", pays);
-        });
-
-        svg.appendChild(circleIn);
-        svg.appendChild(circleOut);
-      }
-    */
-///////////////////////////////////////////////////////////////////////////////
     }
 
 
-/////////////////////// DEBUT ALGO
+    ////////////////// DEBUT ALGO
     //init plateau de jeu
     api.games.get_game(game_id,config)
     .then(response =>
@@ -1049,11 +810,16 @@ export default {
 
         //console.log(response.data.players)
         // si on est bien à l'init du plateau
+        
+        // Code pour afficher le nombre de tour
+        document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
         if(response.data.num_tour == 0)
         {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
             .then(response => {
+              // console.log("INIT");
+              //console.log(response.data)
               unite = response.data;
               init_pion(carte, unite);
               setInterval(this.changeTour,5000,carte, unite,game_id, config);
@@ -1067,6 +833,7 @@ export default {
     .catch((err) => {
       console.log(err);
     })
+    
 
     //var win = 15;
     //while(num_tour < 15){
@@ -1075,6 +842,12 @@ export default {
     //}
 
 ////////////////////////////////////////////////////
+    // Validation d'un ordre
+    let valider_ordres = document.getElementById("valider_ordres");
+    valider_ordres.addEventListener("click", function valider() {
+      //console.log(order);
+      ordres.push(order);
+    });
 
 
     // Attaquer
@@ -1108,13 +881,11 @@ export default {
       console.log("Mission annulée !");
     });
 
-
     // Tenir
     let btn_tenir = document.getElementById("HOLD");
     btn_tenir.addEventListener("click", function tenir_ordre() {
       order.type_order = btn_tenir.id;
     });
-
 
     // Soutenir
     let btn_soutenir = document.getElementById("SUPPORT");
@@ -1163,32 +934,6 @@ export default {
       $(document.getElementById("conv")).hide()
 
       console.log("Mission annulée !");
-    });
-
-
-    // Validation d'un ordre//////////VOIR LE VALIDER8ORDRESSSS ///////////////////////////////////////
-    let valider_ordres = document.getElementById("valider_ordres");
-    valider_ordres.addEventListener("click", function valider() {
-      var id_game = game_id;
-      console.log(order);
-
-      api.orders
-        .create(id_game, order.type_order, order.dst_region_id, order.unit_id,config)
-        .then((response) => console.log(response.data))
-        .catch((err) => {
-          if (err.status == 400) {
-            console.log(err.message);
-          }
-          if (err.status == 401) {
-            console.log(err.message);
-          }
-          if (err.status == 404) {
-            console.log(err.message);
-          }
-          if (err.status == 500) {
-            console.log(err.message);
-          }
-        });
     });
 
     // Quitter les ordres
@@ -1262,7 +1007,6 @@ export default {
     document.getElementById("tour").innerHTML = "Tour n°" + nbrTour;
   },
 };
-
 </script>
 
 <style scoped>
@@ -1366,6 +1110,8 @@ export default {
 		width: 17%;
 		margin: 10px;
 		user-select: none;
+    border: 2px solid grey;
+    border-radius: 6px;
 	}
 
 	/* Chat */
