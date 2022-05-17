@@ -1,5 +1,4 @@
 from this import d
-import transaction
 import random
 
 from hapi.models import *
@@ -161,6 +160,8 @@ def valideAttaque(order,DBSession,transaction): #already tested
                      #modifié le champ isvalide de l'order  
                      order.is_valid = True
                      print("Fleet attack valid")
+
+    order.is_valid = False
     return False
 
 def moveUnits(DBSession,nbtour,game,transaction):
@@ -254,7 +255,7 @@ def Validation(DBSession,nbtour,gameid,transaction):
 
     print("validation ordre")
     for o in orders :
-        Validation_one_order(o, DBSession, transaction, move)
+        Validation_one_order(o, DBSession, transaction)
                 
     # transaction.commit()
     print("fin validation")
@@ -418,8 +419,8 @@ def removeUnitsLost(DBSession,nbtour,gameid ,transaction):
     orders= DBSession.query(OrderModel).filter(OrderModel.num_tour.like(nbtour),OrderModel.state==False)
     orders = [o for o in orders if o.unit.game.id == gameid]
 
-    for o in orders:
-        isRetraitPossible(o, DBSession, transaction)
+    # for o in orders:
+    #     isRetraitPossible(o, DBSession, transaction)
     # transaction.commit()
     print("fin retrait")
 #prend tous les ordres de la partie 
@@ -650,7 +651,7 @@ def OrderResolutions(DBSession,game):
     transaction = 0
     #je valide d'abord les ordres
     Validation(DBSession,game.num_tour,game.id,transaction)
-    
+
     #j'annule les attaques mutuelles 
     AnnuleAllAttMutuelle(DBSession, game.num_tour,game.id ,transaction)
     
@@ -665,7 +666,6 @@ def OrderResolutions(DBSession,game):
     
     #je déplace les unités 
     moveUnits(DBSession,game.num_tour,game,transaction)
-    
     
     #je résous les conflits
     ResolveAllConflicts(DBSession,game.num_tour,game.id,transaction)

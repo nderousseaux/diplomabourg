@@ -538,7 +538,25 @@ export default {
         console.log(ordres[i])
         api.orders
         .create(game_num, ordres[i].type_order, ordres[i].dst_region_id, ordres[i].unit_id,config)
-        .then((response) => console.log(response.data))
+        .then((response) => {
+          console.log(response.data)
+
+          if(i == ordres.length-1){
+              api.players
+              .update(game_num, this.player_id, this.username, this.power_id, true, config)
+              .then(() =>
+              {
+                //console.log(ordres)
+                
+                // désactiver tous les boutons
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+
+          }
+          }
+          )
         .catch((err) => {
           if (err.status == 400) {
             console.log(err.message);
@@ -555,17 +573,7 @@ export default {
         });
       }
 
-			api.players
-				.update(game_num, this.player_id, this.username, this.power_id, true, config)
-				.then(() =>
-				{
-          //console.log(ordres)
-          
-					// désactiver tous les boutons
-				})
-				.catch((err) => {
-					console.log(err);
-				})
+		
     },
       changeTour(carte,game_id,config) { // attendre qu'on passe au prochain tour
       // on prends les infos de la game
@@ -588,6 +596,7 @@ export default {
               ordres.length = 0;
               unite = test
               init_pion(carte,unite);
+              console.log(test)
               
               document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
               document.querySelector("#minuteur > button").classList.remove("bloqueBtn");

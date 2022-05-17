@@ -68,7 +68,7 @@ class Order():
 
         order.src_region = order.unit.cur_region
 
-        order.is_valid=True
+        order.is_valid=False
         # Validation_one_order(order, DBSession, 0, False)
 
         DBSession().flush()
