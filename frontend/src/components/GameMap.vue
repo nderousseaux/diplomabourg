@@ -322,7 +322,7 @@ function color_flotte(x,y, p,couleur, id){
     $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
     document.getElementById("cible_attaque").innerText = ""
     document.getElementById("cible_convoyer").innerText = ""
-    document.getElementById("cible_support").innerText = ""
+    document.getElementById("cible_supporter").innerText = ""
 
     console.log("Clic zone maritime : ", p);
   });

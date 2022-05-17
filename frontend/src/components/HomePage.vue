@@ -63,16 +63,16 @@
     <form method="dialog">
       <div>
         <h2>MacOS</h2>
-        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
-        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
       </div>
       <div>
         <h2>Windows</h2>
-        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Windows x64</a>
+        <a href="/installers/Diplomabourg-00-arm64.dmg" download>Windows x64</a>
       </div>
       <div>
         <h2>Linux</h2>
-        <a href="../installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
+        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>Linux x64</a>
       </div>
       <button>Fermer</button>
     </form>
