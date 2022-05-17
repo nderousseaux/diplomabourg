@@ -90,7 +90,7 @@ def isAttaqueMyself(idJoueur,idRegionDest): #already tested
     region = DBSession.query(RegionModel).filter(RegionModel.id == idRegionDest).first()
     for u in region.units_cur_region:
         j=u.player()
-        if(j.id==idJoueur):
+        if j != None and j.id==idJoueur:
             print("isAttaqueMyself")
             return True
     return False
