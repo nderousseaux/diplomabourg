@@ -92,7 +92,7 @@
             </div>
           </div>
           <p id="HOLD">Tenir</p>
-          <div>
+            <div>
             <p id="SUPPORT">Soutenir</p>
             <div class="ciblage" id="supp">
               <label id="cible_supporter"></label>
@@ -160,13 +160,13 @@ let svg;
 
 var unite;
 
-const order = {
+let order = {
   type_order: "",
   dst_region_id: '',
   unit_id: '',
 };
 
-const ordres = [];
+let ordres = [];
 
 var num_tour= 0;
 
@@ -313,7 +313,7 @@ function color_flotte(x,y, p,couleur, id){
     $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
     document.getElementById("cible_attaque").innerText = ""
     document.getElementById("cible_convoyer").innerText = ""
-    document.getElementById("cible_support").innerText = ""
+    document.getElementById("cible_supporter").innerText = ""
 
     console.log("Clic zone maritime : ", p);
   });
@@ -534,6 +534,7 @@ export default {
 
       for(let i = 0 ; i < ordres.length; i++)
       {
+        console.log("LISTE ORDRES num i : " + i);
         console.log(ordres[i])
         api.orders
         .create(game_num, ordres[i].type_order, ordres[i].dst_region_id, ordres[i].unit_id,config)
@@ -745,6 +746,8 @@ export default {
 
         path.addEventListener("click", function () {
           console.log("Clic zone maritime : ", nomZone);
+          
+          console.log("ID zone maritime : ", id_zone);
           this.dst = nomZone;
           order.dst_region_id = id_zone;
           console.log(etiquette);
@@ -825,12 +828,13 @@ export default {
 
     //}
 
-////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
     // Validation d'un ordre
     let valider_ordres = document.getElementById("valider_ordres");
     valider_ordres.addEventListener("click", function valider() {
-      //console.log(order);
-      ordres.push(order);
+      console.log(order);
+      ordres.push({...order});
+      console.log(ordres)
     });
 
 
