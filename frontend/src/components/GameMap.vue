@@ -105,8 +105,8 @@
           </div>
         </div>
         <div>
-          <button id="annuler_ordres">✖️</button> <!-- ATTENTION -->
-          <button id="valider_ordres">✔️</button> <!-- ATTENTION -->
+          <button id="annuler_ordres">✖️</button>
+          <button id="valider_ordres">✔️</button>
         </div>
       </div>
 
@@ -157,7 +157,7 @@ const order = {
   unit_id: '',
 };
 
-const ordres =  [];
+const ordres = [];
 
 var num_tour= 0;
 
@@ -637,62 +637,6 @@ export default {
         }
       })
 
-////////////////////////
-    // Fonction pour réinitialiser la colonne d'ordres
-    // function reinitOrdres() {
-    //   if (btn_attaque.classList.contains("enCours")) {
-    //     btn_attaque.classList.remove("enCours");
-    //     $(document.getElementById("att")).hide();
-    //   }
-    //   if (btn_convoyer.classList.contains("enCours")) {
-    //     btn_convoyer.classList.remove("enCours");
-    //     $(document.getElementById("conv")).hide();
-    //   }
-    // }
-
-    ////////////////////////////////////////////////////////////////////////////
-        // !!!!!!!!!!!!!!!!!!!!! NE PAS SUPPRIMER !!!!!!!!!!!!!!!!!!! //
-
-    // Modèle de code pour changer le nombre de pions à poser
-    // var nbrPions = 2;
-    // var btnBloque = true;
-    // let infosPions = document.querySelector("#infos > p")
-    // let btnValider = document.querySelector("#infos > div > button:last-child")
-    // infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
-
-    // document.querySelector("#colonneOrdres > h1").addEventListener("click", () => {
-    //   if (nbrPions > 0)
-    //   {
-    //     nbrPions--
-    //   }
-    //   if (nbrPions == 1)
-    //   {
-    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-    //   }
-    //   else if (nbrPions == 0 && btnBloque == true)
-    //   {
-    //     infosPions.innerHTML = "Vous avez placé tous vos pions sur la carte, vous pouvez valider leur positon";
-    //     btnValider.classList.toggle("bloqueBtn")
-    //     btnBloque = false
-    //   }
-    //   else if (nbrPions > 0)
-    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pions à placer sur la carte";
-    // })
-    // document.querySelector("#infos > div > button:first-child").addEventListener("click", () => {
-    //   if (btnBloque == false)
-    //   {
-    //     nbrPions = 2
-    //     infosPions.innerHTML = "Vous avez " + nbrPions + " pion à placer sur la carte";
-    //     btnValider.classList.toggle("bloqueBtn")
-    //     btnBloque = true;
-
-    //   }
-    // })
-    ////////////////////////////////////////////////////////////////////////////
-
-
-
-///////////////////////////////////////////////////////////////////////////////
     // Création de territoire
     for (var j in carte["areas"]) {
       let nomZone = carte["areas"][j].name;
