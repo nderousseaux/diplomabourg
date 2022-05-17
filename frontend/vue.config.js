@@ -4,7 +4,7 @@ module.exports =
 	devServer: {
 		proxy: {
 			'dev_url': {
-				target: "http://localhost:6543",
+				target: "http://localhost:10005",
 				changeOrigin: true,
 				pathRewrite: {
 					"^/dev_url": ""
