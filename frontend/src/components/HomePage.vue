@@ -310,6 +310,7 @@ export default {
 							this.$router.push({ path: `/lobby/${response.data.game.id}` });
             })
             .catch((err) => {
+              console.log(err)
               if (err.response.status == 400) {
                 erreurCreer.innerText = "Le nom de la partie existe déjà"
                 erreurCreer.style.display = "block"
