@@ -322,7 +322,7 @@ function color_flotte(x,y, p,couleur, id){
     $(document.querySelector("#ordres > div > div:nth-child(4)")).show()
     document.getElementById("cible_attaque").innerText = ""
     document.getElementById("cible_convoyer").innerText = ""
-    document.getElementById("cible_support").innerText = ""
+    document.getElementById("cible_supporter").innerText = ""
 
     console.log("Clic zone maritime : ", p);
   });
@@ -567,10 +567,7 @@ export default {
 			api.players
 				.update(game_num, this.player_id, this.username, this.power_id, true, config)
 				.then(() =>
-				{
-          //console.log(ordres)
-
-          
+				{          
 					// désactiver tous les boutons
 				})
 				.catch((err) => {
@@ -601,7 +598,6 @@ export default {
               
               document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
               document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
-              
             })
             .catch((erreur) => {
               console.log(erreur);
@@ -639,9 +635,7 @@ export default {
     api.games
       .get_game(game_id, config)
       .then(response => {
-        //console.log(response.data);
         for (var p in response.data.players) {
-          //console.log("aaa");
           switch (response.data.players[p].username.toLowerCase()) {
             case 'france':
               this.fr = true;
@@ -668,7 +662,6 @@ export default {
               break;
           }
         }
-        //console.log(this.fr);
       })
       .catch(function(error) {
         console.log(error);
@@ -699,9 +692,11 @@ export default {
 
       // Zone de terre
       let path = document.createElementNS(ns, "path");
+
       // ID POUR CHAQUE TERROIRE
       let id_zone = carte["areas"][j].id;
       path.setAttribute("id",id_zone);
+
       if (carte["areas"][j].type == "land") {
         path.setAttribute("fill", "#fcf2d4");
 
@@ -755,9 +750,12 @@ export default {
         });
 
         path.addEventListener("click", function () {
-          console.log("Clic zone maritime : ", nomZone);
+          
           this.dst = nomZone;
           order.dst_region_id = id_zone;
+          
+          console.log("Clic zone maritime : ", nomZone);
+          console.log("ID zone maritime : ", id_zone);
           console.log(etiquette);
           document.getElementById("cible_attaque").innerText = etiquette;
           document.getElementById("cible_convoyer").innerText = etiquette;
