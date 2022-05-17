@@ -43,3 +43,14 @@ class UnitModel(Base):
         if len(players)>0:
             return players[0]
         return None
+
+    def order(self):
+        """Renvoie l'ordre donnée à cet unité durant le tour courrant
+        """
+
+        order= [o for o in self.orders if o.num_tour == self.game.num_tour]
+
+        if len(order)>0:
+            return order[0]
+        else:
+            return None

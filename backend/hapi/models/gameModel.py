@@ -43,8 +43,10 @@ class GameModel(Base):
     def orders(self):
         orders=[]
         for p in self.units:
-            orders+=p.orders
-        return [o for o in orders if o.num_tour == self.num_tour]
+            os = p.order()
+            if os != None:
+                orders+=p.order()
+        return orders
 
     def orders_valid(self):
         return [o for o in self.orders() if o.is_valid]

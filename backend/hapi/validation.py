@@ -139,10 +139,16 @@ def valideAttaque(order,DBSession,transaction): #already tested
             print("Army")
             if(isLandRegion(order.dst_region_id,DBSession)==True or isCostaleRegion(order.dst_region_id,DBSession)==True):
                 if (isTwoRegionsConnex(order.src_region_id,order.dst_region_id,DBSession)):
-                     #modifié le champ isvalide de l'ordre
-                     order.is_valid = True
-                     order.unit.cur_region_id=order.dst_region_id
-                     return True  
+                    #modifié le champ isvalide de l'ordre
+                    order.is_valid = True
+
+                    units = order.dst_region.units(order.unit.game)
+                    for u in units:
+                        if u.order() == None:
+                            u.life=False
+                            DBSession.delete(u)
+                    order.unit.cur_region_id=order.dst_region_id
+                    return True  
                     
                 elif (ExisteConvoy(order.unit.id,order.src_region_id,order.dst_region_id,DBSession)):
                     #modifié le champ isvalide de l'order
@@ -157,13 +163,14 @@ def valideAttaque(order,DBSession,transaction): #already tested
                      print("Fleet attack valid")
     return False
 
-def moveUnits(DBSession,nbtour,gameid,transaction):
+def moveUnits(DBSession,nbtour,game,transaction):
     #toute les ordres d'attaques valide
     orders= DBSession.query(OrderModel).filter(OrderModel.num_tour.like(nbtour),OrderModel.type_order_id.like(1),OrderModel.is_valid==True,OrderModel.state!=False)
-    orders = [o for o in orders if o.unit.game.id == gameid]
+    orders = [o for o in orders if o.unit.game.id == game.id]
 
     print("déplacement des unités")
     for o in orders:
+
         o.unit.cur_region_id=o.dst_region_id
     # transaction.commit()
     print("fin déplacement")
@@ -657,7 +664,7 @@ def OrderResolutions(DBSession,game):
     removeAttaqueByConvoy(DBSession,game.num_tour,game.id,transaction)
     
     #je déplace les unités 
-    moveUnits(DBSession,game.num_tour,game.id,transaction)
+    moveUnits(DBSession,game.num_tour,game,transaction)
     
     
     #je résous les conflits
