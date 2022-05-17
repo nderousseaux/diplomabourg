@@ -247,22 +247,22 @@ def Validation(DBSession,nbtour,gameid,transaction):
 
     print("validation ordre")
     for o in orders :
-        print("idOrder:",o.id)
-        if (o.type_order.name=="ATTACK"):  
-            valideAttaque(o, DBSession, transaction) # Attaquer une zone
-            
-            
-        elif (o.type_order.name  == "CONVOY"):
-            ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée
-            
-
-        elif (o.type_order.name  == "SUPPORT"):
-         valideSoutien(o, DBSession, transaction)
-
-            
-    
+        Validation_one_order(o, DBSession, transaction)
+                
     # transaction.commit()
     print("fin validation")
+
+def Validation_one_order(o, DBSession, transaction):
+    print("idOrder:",o.id)
+    if (o.type_order.name=="ATTACK"):  
+        valideAttaque(o, DBSession, transaction) # Attaquer une zone
+        
+    elif (o.type_order.name  == "CONVOY"):
+        ValideConvoyArmy(o, DBSession, transaction) # Convoyer une armée
+
+    elif (o.type_order.name  == "SUPPORT"):
+        valideSoutien(o, DBSession, transaction)
+
 
 def testValidationOrders(idGame, DBSession,transaction):
     game = DBSession.query(GameModel).filter(GameModel.id == idGame).first()

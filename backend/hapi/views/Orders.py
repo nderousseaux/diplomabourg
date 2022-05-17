@@ -6,6 +6,7 @@ from hapi.models import DBSession, OrderModel, GameModel, PlayerModel, UnitModel
 from hapi.utils.auth import *
 from hapi.utils.cors import cors_policy
 from hapi.utils.service_informations import ServiceInformations
+from hapi.validation import Validation_one_order
 
 
 @resource(collection_path='/games/{game_id:\d+}/orders',path='/games/{game_id:\d+}/orders/{order_id:\d+}', cors_policy=cors_policy)
@@ -66,8 +67,10 @@ class Order():
         DBSession().flush()
 
         order.src_region = order.unit.cur_region
-        order.validation()
+
+        Validation_one_order(order, DBSession, 0)
 
         DBSession().flush()
+
         return self.request.si.build_response(exception.HTTPOk, OrderSchema().dump(order))
         
