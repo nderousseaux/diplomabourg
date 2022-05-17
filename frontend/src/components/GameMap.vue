@@ -542,32 +542,34 @@ export default {
 				headers: { Authorization: `Bearer ${this.token}`}
 			};
 
+      for(let i = 0 ; i < ordres.length; i++)
+      {
+        console.log(ordres[i])
+        api.orders
+        .create(game_num, ordres[i].type_order, ordres[i].dst_region_id, ordres[i].unit_id,config)
+        .then((response) => console.log(response.data))
+        .catch((err) => {
+          if (err.status == 400) {
+            console.log(err.message);
+          }
+          if (err.status == 401) {
+            console.log(err.message);
+          }
+          if (err.status == 404) {
+            console.log(err.message);
+          }
+          if (err.status == 500) {
+            console.log(err.message);
+          }
+        });
+      }
+
 			api.players
 				.update(game_num, this.player_id, this.username, this.power_id, true, config)
 				.then(() =>
 				{
           //console.log(ordres)
-          for(let i = 0 ; i < ordres.length; i++)
-          {
-            console.log(ordres[i])
-            api.orders
-            .create(game_num, ordres[i].type_order, ordres[i].dst_region_id, ordres[i].unit_id,config)
-            .then((response) => console.log(response.data))
-            .catch((err) => {
-                if (err.status == 400) {
-                  console.log(err.message);
-                }
-                if (err.status == 401) {
-                  console.log(err.message);
-                }
-                if (err.status == 404) {
-                  console.log(err.message);
-                }
-                if (err.status == 500) {
-                  console.log(err.message);
-                }
-            });
-          }
+
           
 					// désactiver tous les boutons
 				})
