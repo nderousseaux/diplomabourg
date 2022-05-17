@@ -617,7 +617,7 @@ def create_units(DBSession, game):
         nb_units = len(p.units()) - len(centers)
         #Si le nombre de centres est supérieur au nombre d'unités
         if len(centers) > nb_units:
-            nb_units_a_creer = nb_center-nb_units
+            nb_units_a_creer = len(centers)-nb_units
 
             centers_libre = [c for c in centers if centers.cur_region.nb_units(game) == 1]
             random.shuffle(centers_libre)
