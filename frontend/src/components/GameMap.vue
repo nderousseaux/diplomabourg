@@ -225,26 +225,17 @@ function ravitaillement(carte, pays, couleur){
 }
 
 
-function  delete_pion(unite){
-
-  var taille = Object.keys(unite).length
+function  delete_pion(unite_supp){
+  var taille = Object.keys(unite_supp).length
   for(var i=0; i < taille; i++){
-    if(unite[i].type_unit != 'CENTER' )
+    if(unite_supp[i].type_unit != 'CENTER' )
     {
-      //console.log(unite[i].id)
-      var id = unite[i].id;
+      var id = unite_supp[i].id;
       let ex = document.getElementById(id);
       ex.remove();
     }
 
   }
-  /*
-  for(var j in unite)
-  {
-    var p = trouver_pays(carte, unite[j].cur_region_id);
-    ravitaillement(carte, p,"lightgrey");
-  }
-*/
 }
 // import ns et svg
 function color_armee(x,y, p,couleur, id){
@@ -340,7 +331,6 @@ function trouver_pays(carte, src_region){
 function init_rav(carte,unite){
  if(num_tour > 0)
   {
-    // console.log("INIT RAV NUM TOUR > 0");
     for(var i in unite)
     {
       
@@ -569,7 +559,6 @@ export default {
 				.then(() =>
 				{
           //console.log(ordres)
-
           
 					// désactiver tous les boutons
 				})
@@ -577,7 +566,7 @@ export default {
 					console.log(err);
 				})
     },
-      changeTour(carte,unite,game_id,config) { // attendre qu'on passe au prochain tour
+      changeTour(carte,game_id,config) { // attendre qu'on passe au prochain tour
       // on prends les infos de la game
       api.games.get_game(game_id,config)
       .then(response => {
@@ -590,14 +579,14 @@ export default {
             api.units.get_all(config)
             .then(response => {
               var test = response.data; 
-              console.log("ALL NEW UNITS");
-              console.log(test)
               // update le plateau
               // maj le num tour de notre côté
               num_tour +=1;
+        
               delete_pion(unite);
               ordres.length = 0;
-              init_pion(carte,test);
+              unite = test
+              init_pion(carte,unite);
               
               document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
               document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
@@ -807,8 +796,6 @@ export default {
             }
           }
         }
-
-        //console.log(response.data.players)
         // si on est bien à l'init du plateau
         
         // Code pour afficher le nombre de tour
@@ -818,11 +805,9 @@ export default {
           // get toutes les unités pour les placer initialement
             api.units.get_all(config)
             .then(response => {
-              // console.log("INIT");
-              //console.log(response.data)
               unite = response.data;
               init_pion(carte, unite);
-              setInterval(this.changeTour,5000,carte, unite,game_id, config);
+              setInterval(this.changeTour,5000,carte,game_id, config);
             })
             .catch((erreur) => {
               console.log(erreur);
@@ -834,7 +819,6 @@ export default {
       console.log(err);
     })
     
-
     //var win = 15;
     //while(num_tour < 15){
       // vérifier si on passe au prochain
