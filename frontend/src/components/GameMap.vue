@@ -216,20 +216,26 @@ function ravitaillement(carte, pays, couleur){
 }
 
 
-function  delete_pion(unite,carte){
+function  delete_pion(unite){
+
   var taille = Object.keys(unite).length
   for(var i=0; i < taille; i++){
-    var id = unite[i].id;
-    let ex = document.getElementById(id);
-    ex.remove();
+    if(unite[i].type_unit != 'CENTER' )
+    {
+      //console.log(unite[i].id)
+      var id = unite[i].id;
+      let ex = document.getElementById(id);
+      ex.remove();
+    }
+
   }
-  
+  /*
   for(var j in unite)
   {
     var p = trouver_pays(carte, unite[j].cur_region_id);
     ravitaillement(carte, p,"lightgrey");
   }
-
+*/
 }
 // import ns et svg
 function color_armee(x,y, p,couleur, id){
@@ -322,7 +328,7 @@ function trouver_pays(carte, src_region){
 }
 
 function init_rav(carte,unite){
-  if(num_tour > 0)
+ if(num_tour > 0)
   {
     // console.log("INIT RAV NUM TOUR > 0");
     for(var i in unite)
@@ -355,6 +361,45 @@ function init_rav(carte,unite){
         ravitaillement(carte, p,"lightgrey");
       }
     }
+    
+  }else{
+    for(var k in carte["infos"]){         
+          //France
+          if ((k=="Par")||(k=="Bre")||(k=="Mar")){
+            ravitaillement(carte, k,"blue");
+          }
+          
+          //Allemagne
+          else if ((k=="Ber")||(k=="Mun")||(k=="Kie")){
+            ravitaillement(carte, k,"black");
+          }
+          
+          //Italie
+          else if ((k=="Ven")||(k=="Rom")||(k=="Nap")){
+            ravitaillement(carte,k,"red");
+          }
+          //Russie
+          else if ((k=="War")||(k=="StP")||(k=="Mos")||(k=="Sev")){
+            ravitaillement(carte, k,"purple");
+          }
+          //Turquie
+          else if ((k=="Ank")||(k=="Smy")||(k=="Con")){
+            ravitaillement(carte,k,"green");
+          }
+
+          //Angleterre
+          else if ((k=="Liv")||(k=="Lon")||(k=="Edi")){
+            ravitaillement(carte,k,"pink");
+          }
+          //Autriche
+          else if ((k=="Vie")||(k=="Bud")||(k=="Tri")){
+            ravitaillement(carte,k,"orange");
+          }
+          else{
+            ravitaillement(carte,k,"white");
+          }
+        }
+
   }
 }
 
@@ -534,15 +579,15 @@ export default {
             api.units.get_all(config)
             .then(response => {
               var test = response.data; 
+              console.log("ALL NEW UNITS");
               console.log(test)
               // update le plateau
-                            // maj le num tour de notre côté
+              // maj le num tour de notre côté
               num_tour +=1;
-              delete_pion(unite,carte);
+              delete_pion(unite);
               ordres.length = 0;
               init_pion(carte,test);
-
-              //console.log("ORDRES normalement vide : " + ordres);
+              
               document.getElementById("tour").innerHTML = "Tour n°" + num_tour;
               document.querySelector("#minuteur > button").classList.remove("bloqueBtn");
               
