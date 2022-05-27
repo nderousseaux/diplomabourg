@@ -1,0 +1,51 @@
+https://local/carte/1
+
+1: {
+    regions : [
+        1 :{
+            nomRegion: "BLABLA",
+            typeRegion: "martime"
+        },
+        ...
+    ],
+    voisins : [
+        1: [2, 4, 6...];
+        2: ...
+    ]
+}
+
+
+https://local/dispositionInitialle/3
+
+[   
+    //1 : russie, 2: grande bretagne, france allemagne, 3 autriche, italie, turquie
+    [
+        [ //Joueur 1
+            1:{} //Objet russie
+        ],
+        [ //Joueur 2
+            2:{} //Objet grande bretagnr
+            5:{} //Allemagne
+            3:{} //France
+        ],
+        [ //Joueur 3
+            6:{} //Turquie
+            4:{} //Italie
+            7:{} //Autriche
+        ]
+    ],
+
+    //1 : grande bretagne, allemagne, autriche, 2: russie italie, 3: france turquie
+    [
+        //?? Faire les deux ou pas ??
+    ]
+]
+
+
+
+https://local/ordre
+{
+    ordre
+}
+
+Valide/pasValide
