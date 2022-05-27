@@ -63,8 +63,8 @@
     <form method="dialog">
       <div>
         <h2>MacOS</h2>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS ARM</a>
-        <a href="/installers/Diplomabourg-0.1.0-arm64.dmg" download>MacOS x64</a>
+        <a href="../installers/Diplomabourg-1.0.0-arm.dmg" download>MacOS ARM</a>
+        <a href="../installers/Diplomabourg-0.1.0.dmg" download>MacOS x64</a>
       </div>
       <div>
         <h2>Windows</h2>
